@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import './App.css';
 
@@ -20,9 +20,11 @@ function App() {
             </li>
           </ul>
           <hr />
-          <Route exact path="/" component={Home} />
-          <Route path="/create-ballot" component={CreateBallot} />
-          <Route component={UnknownView} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/create-ballot" component={CreateBallot} />
+            <Route component={UnknownView} />
+          </Switch>
         </div>
       </Router>
   );
