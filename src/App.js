@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import Routes from "./Routes.js";
 import './App.css';
 
 import Home from "./components/views/Home.js";
@@ -20,11 +20,7 @@ function App() {
             </li>
           </ul>
           <hr />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/create-ballot" component={CreateBallot} />
-            <Route component={UnknownView} />
-          </Switch>
+	  <Routes />
         </div>
       </Router>
   );
