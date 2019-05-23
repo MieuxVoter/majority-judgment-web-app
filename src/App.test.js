@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route,MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 import App from './App';
 import Adapter from 'enzyme-adapter-react-16';
-import { shallow,mount,configure } from 'enzyme';
+import { mount,configure } from 'enzyme';
 
 import Home from "./components/views/Home.js";
 import CreateBallot from "./components/views/CreateBallot.js";
@@ -58,7 +58,7 @@ describe('open good View component for each route', () => {
 
 
   it('should show CreateBallot component for `/create-ballot`', () => {
-    const wrapper = mount( <MemoryRouter initialEntries = {['/create-ballot']} initialIndex={1} >
+    const wrapper = mount( <MemoryRouter initialEntries = {['/create-ballot']} initialIndex={0} >
           <App/>
         </MemoryRouter>
     );
