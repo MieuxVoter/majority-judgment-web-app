@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 
+import Routes from './Routes';
 import App from './App';
 import Adapter from 'enzyme-adapter-react-16';
 import { mount,configure } from 'enzyme';
@@ -41,25 +42,13 @@ describe('open good View component for each route', () => {
     expect(pathMap['/create-ballot']).toBe(CreateBallot);
   });
 
-
 });*/
 
 describe('open good View component for each route', () => {
 
-
-  it('should show Home component for `/`', () => {
-    const wrapper = mount( <MemoryRouter initialEntries = {['/']} initialIndex={0} >
-          <App/>
-        </MemoryRouter>
-    );
-    expect(wrapper.find(Home)).toHaveLength(1);
-    expect(wrapper.find(UnknownView)).toHaveLength(0);
-  });
-
-
   it('should show CreateBallot component for `/create-ballot`', () => {
-    const wrapper = mount( <MemoryRouter initialEntries = {['/create-ballot']} initialIndex={0} >
-          <App/>
+    const wrapper = mount( <MemoryRouter initialEntries = {['/create-ballot']} >
+          <Routes />
         </MemoryRouter>
     );
     expect(wrapper.find(CreateBallot)).toHaveLength(1);
@@ -67,9 +56,20 @@ describe('open good View component for each route', () => {
   });
 
 
+  it('should show Home component for `/`', () => {
+    const wrapper = mount( <MemoryRouter initialEntries = {['/']}  >
+          <Routes />
+        </MemoryRouter>
+    );
+    expect(wrapper.find(Home)).toHaveLength(1);
+    expect(wrapper.find(UnknownView)).toHaveLength(0);
+  });
+
+
+
  /* it('should show UnknownView component for `/aaabbbcccddd`', () => {
     const wrapper = mount( <MemoryRouter initialEntries = {['/aaabbbcccddd']} initialIndex={0} >
-          <App/>
+          <Routes />
         </MemoryRouter>
     );
     console.log(wrapper.debug());
