@@ -18,13 +18,11 @@ class Home extends Component {
                     <Col className="text-center"><h3>Simple, gratuit : organisez un vote à l'aide du Jugement Majoritaire.</h3></Col>
                 </Row>
                 <Row className="mt-2">
-
                     <Col xs="12" md="9" xl="6" className="offset-xl-2">
                             <Input placeholder="Question de votre vote" className="mt-2" />
                     </Col>
-
                     <Col xs="12" md="3" xl="2">
-                        <Button addonType="append" className="btn btn-block btn-secondary mt-2"><FontAwesomeIcon icon={faRocket} className="mr-2"/>Lancer</Button>
+                        <Button className="btn btn-block btn-secondary mt-2"><FontAwesomeIcon icon={faRocket} className="mr-2"/>Lancer</Button>
                     </Col>
                 </Row>
                 <Row className="mt-4">
