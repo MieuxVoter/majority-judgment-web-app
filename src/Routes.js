@@ -8,7 +8,7 @@ import Result from "./components/views/Result";
 import UnknownView from "./components/views/UnknownView";
 
 function Routes() {
-  return (<main>
+  return (<main className="d-flex flex-column justify-content-center" >
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/create-ballot" component={CreateBallot} />
