@@ -1,5 +1,24 @@
 // Override default variables before the import
-$body-bg: #2943a0;
+$mv-color: #2943a0;
+$body-bg: #000000;
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
+
+
+main{
+ background-color:$mv-color;
+}
+
+footer {
+  background-color:$body-bg;
+  color:#999;
+}
+
+footer a{
+  color:#999;
+}
+
+footer a:hover{
+  color:#fff;
+}
