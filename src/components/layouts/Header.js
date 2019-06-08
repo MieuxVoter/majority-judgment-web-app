@@ -7,9 +7,11 @@ import {
     Nav,
     NavItem,
     NavLink,
-    } from 'reactstrap';
+} from 'reactstrap'
 
 import logo from '../../logos/logo-color.svg';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faRocket} from "@fortawesome/free-solid-svg-icons";
 
 class Header extends Component {
 
@@ -51,7 +53,7 @@ class Header extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink href="/create-ballot/">Démarrer un vote</NavLink>
+                                <NavLink className="text-primary" href="/create-ballot/"><FontAwesomeIcon icon={faRocket} className="mr-2"/> Démarrer un vote</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
