@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import { Container, Row, Col, Input  } from 'reactstrap';
+
 
 class CreateBallot extends Component {
 
@@ -10,9 +12,16 @@ class CreateBallot extends Component {
 
     render(){
         return(
-            <div >
-               <h1>View : CREATE BALLOT</h1>
-            </div>
+            <Container>
+                <Row>
+                    <Col ><h3>Formulaire :</h3></Col>
+                </Row>
+                <Row className="mt-2">
+                    <Col xs="12" >
+                        <Input placeholder="Saisissez ici la question de votre vote" name="title" />
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 }
