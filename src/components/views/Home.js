@@ -13,7 +13,7 @@ class Home extends Component {
 
     render(){
         return(
-            <Container className="" >
+            <Container>
                 <Row>
                     <Col className="text-center"><h3>Simple et gratuit : organisez un vote à l'aide du Jugement Majoritaire.</h3></Col>
                 </Row>
