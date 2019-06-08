@@ -1,24 +1,42 @@
-// Override default variables before the import
-$mv-color: #2943a0;
+// mieux voter vars
+$mv-blue-color: #2A43A0;
+$mv-red-color: #EE455B;
+$mv-light-color: #efefff;
+
+// Override default variables before the import bootstrap
 $body-bg: #000000;
+$body-color: $mv-light-color;
+
+$theme-colors: (
+        "primary": $mv-blue-color,
+        "secondary": $mv-red-color,
+        "light": $mv-light-color,
+        "danger": #990000,
+        "success": #009900,
+        "info": #2B8299,
+        "warning": #FF6E11,
+
+);
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
 
 
 main{
- background-color:$mv-color;
+ background-color:$mv-blue-color;
 }
 
 footer {
   background-color:$body-bg;
-  color:#999;
+  color:$mv-light-color;
 }
 
 footer a{
-  color:#999;
+  color:$mv-light-color;
 }
 
 footer a:hover{
   color:#fff;
 }
+
+
