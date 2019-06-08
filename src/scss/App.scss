@@ -9,10 +9,15 @@
   display:block;
   letter-spacing: 0.09em;
 }
+html, body, #root, #root > div{
+  height:100%;
+}
 
 main{
-  padding:80px 0;
-  min-height:500px;
+  min-height: calc(100% - 106px);
+  overflow: auto;
+  padding-top:72px;
+  padding-bottom:36px;
 }
 
 header{

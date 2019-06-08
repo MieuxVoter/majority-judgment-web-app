@@ -13,9 +13,9 @@ class Home extends Component {
 
     render(){
         return(
-            <Container>
+            <Container className="" >
                 <Row>
-                    <Col className="text-center"><h3>Simple, gratuit : organisez un vote à l'aide du Jugement Majoritaire.</h3></Col>
+                    <Col className="text-center"><h3>Simple et gratuit : organisez un vote à l'aide du Jugement Majoritaire.</h3></Col>
                 </Row>
                 <Row className="mt-2">
                     <Col xs="12" md="9" xl="6" className="offset-xl-2">
