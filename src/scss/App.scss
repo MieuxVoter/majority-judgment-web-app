@@ -1,0 +1,25 @@
+.logo-text > h1{
+  font-size:16px;
+  font-weight:bold;
+  margin:0;
+  line-height:1;
+}
+
+.logo-text > h1 > small{
+  display:block;
+  letter-spacing: 0.09em;
+}
+
+main{
+  padding:80px 0;
+  min-height:500px;
+}
+
+header{
+  position:fixed;
+  width:100%;
+}
+
+footer{
+  padding:25px;
+}
