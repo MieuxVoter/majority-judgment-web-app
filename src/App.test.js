@@ -44,15 +44,13 @@ describe('open good View component for each route', () => {
         expect(wrapper.find(UnknownView)).toHaveLength(0);
     });
 
-    it('should show CreateBallot view component with title for `/create-ballot/?title=test`', () => {
-        const wrapper = mount(<MemoryRouter initialEntries={['/create-ballot/?title=test']}>
+    it('should show CreateBallot view component with title for `/create-ballot/?title=test%20with%20title`', () => {
+        const wrapper = mount(<MemoryRouter initialEntries={['/create-ballot/?title=test%20with%20title']}>
                 <Routes/>
             </MemoryRouter>
         );
         expect(wrapper.find(CreateBallot)).toHaveLength(1);
-       // expect(wrapper.html().find('input[name="title"]').value).toBe("test");
-       // expect(wrapper.find('input[name="title"]')[0].value).toBe("test");
-       // expect(wrapper.find('input[name="title"]').value).toBe("test");
+        expect(wrapper.find('input[name="title"]').props().defaultValue).toBe("test with title");
         expect(wrapper.find(UnknownView)).toHaveLength(0);
     });
 
