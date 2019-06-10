@@ -3,6 +3,7 @@ import { Container, Row, Col,Button, Input  } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRocket } from '@fortawesome/free-solid-svg-icons';
 import { Redirect } from 'react-router-dom';
+import logoLine from "../../logos/logo-line-white.svg";
 
 class Home extends Component {
 
@@ -32,6 +33,9 @@ class Home extends Component {
         return(
             <Container>
                 <form ref="form" onSubmit={this.handleSubmit}>
+                    <Row>
+                        <img src={logoLine} alt="logo" height="128" className="d-block ml-auto mr-auto mb-4"/>
+                    </Row>
                 <Row>
                     <Col className="text-center"><h3>Simple et gratuit : organisez un vote à l'aide du Jugement Majoritaire.</h3></Col>
                 </Row>
