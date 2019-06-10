@@ -205,7 +205,7 @@ class CreateElection extends Component {
                                                     if(candidate.label!==""){
                                                        return <li key={i}>{candidate.label}</li>
                                                     }else{
-                                                        return <li className="d-none" />
+                                                        return <li key={i} className="d-none" />
                                                     }
 
                                                 })
