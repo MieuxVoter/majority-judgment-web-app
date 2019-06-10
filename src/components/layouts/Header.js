@@ -5,9 +5,9 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
-    NavItem,
-    NavLink,
+    NavItem
 } from 'reactstrap'
+import {Link} from "react-router-dom";
 
 import logo from '../../logos/logo-color.svg';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -34,7 +34,7 @@ class Header extends Component {
         return (
             <header>
                 <Navbar color="light" light expand="md">
-                    <NavbarBrand href="/">
+                    <Link to="/" className="navbar-brand">
                     <div className="d-flex flex-row">
                         <div className="align-self-center">
                             <img src={logo} alt="logo" height="32"/>
@@ -48,12 +48,12 @@ class Header extends Component {
                             </div>
                         </div>
                     </div>
-                    </NavbarBrand>
+                    </Link>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink className="text-primary" href="/create-ballot/"><FontAwesomeIcon icon={faRocket} className="mr-2"/> Démarrer un vote</NavLink>
+                                <Link className="text-primary nav-link" to="/create-ballot/"><FontAwesomeIcon icon={faRocket} className="mr-2"/> Démarrer un vote</Link>
                             </NavItem>
                         </Nav>
                     </Collapse>
