@@ -42,7 +42,7 @@ const SortableCandidatesContainer = sortableContainer(({items, form}) => {
     ))}</ul>;
 });
 
-class CreateBallot extends Component {
+class CreateElection extends Component {
 
     constructor(props) {
         super(props);
@@ -216,4 +216,4 @@ class CreateBallot extends Component {
         )
     }
 }
-export default CreateBallot;
+export default CreateElection;

@@ -8,7 +8,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import {mount, configure} from 'enzyme';
 
 import Home from "./components/views/Home.js";
-import CreateBallot from "./components/views/CreateBallot.js";
+import CreateElection from "./components/views/CreateElection.js";
 import Result from "./components/views/Result.js";
 import Vote from "./components/views/Vote.js";
 import UnknownView from "./components/views/UnknownView";
@@ -35,21 +35,21 @@ describe('open good View component for each route', () => {
     });
 
 
-    it('should show CreateBallot view component for `/create-ballot`', () => {
-        const wrapper = mount(<MemoryRouter initialEntries={['/create-ballot']}>
+    it('should show CreateElection view component for `/create-election`', () => {
+        const wrapper = mount(<MemoryRouter initialEntries={['/create-election']}>
                 <Routes/>
             </MemoryRouter>
         );
-        expect(wrapper.find(CreateBallot)).toHaveLength(1);
+        expect(wrapper.find(CreateElection)).toHaveLength(1);
         expect(wrapper.find(UnknownView)).toHaveLength(0);
     });
 
-    it('should show CreateBallot view component with title for `/create-ballot/?title=test%20with%20title`', () => {
-        const wrapper = mount(<MemoryRouter initialEntries={['/create-ballot/?title=test%20with%20title']}>
+    it('should show CreateElection view component with title for `/create-election/?title=test%20with%20title`', () => {
+        const wrapper = mount(<MemoryRouter initialEntries={['/create-election/?title=test%20with%20title']}>
                 <Routes/>
             </MemoryRouter>
         );
-        expect(wrapper.find(CreateBallot)).toHaveLength(1);
+        expect(wrapper.find(CreateElection)).toHaveLength(1);
         expect(wrapper.find('input[name="title"]').props().defaultValue).toBe("test with title");
         expect(wrapper.find(UnknownView)).toHaveLength(0);
     });

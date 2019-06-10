@@ -52,7 +52,7 @@ class Header extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <Link className="text-primary nav-link" to="/create-ballot/"><FontAwesomeIcon icon={faRocket} className="mr-2"/> Démarrer un vote</Link>
+                                <Link className="text-primary nav-link" to="/create-election/"><FontAwesomeIcon icon={faRocket} className="mr-2"/> Démarrer un vote</Link>
                             </NavItem>
                         </Nav>
                     </Collapse>
