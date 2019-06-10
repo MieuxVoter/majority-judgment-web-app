@@ -12,7 +12,7 @@ class Home extends Component {
         this.state = {
             title:null,
             redirect:false,
-        }
+        };
     }
 
     handleSubmit = (event) => {
@@ -21,7 +21,7 @@ class Home extends Component {
     };
 
     handleChangeTitle= (event) => {
-        this.setState({title: event.target.value});
+            this.setState({title: event.target.value});
     };
 
     render(){
@@ -41,7 +41,7 @@ class Home extends Component {
                 </Row>
                 <Row className="mt-2">
                     <Col xs="12" md="9" xl="6" className="offset-xl-2">
-                            <Input placeholder="Saisissez ici la question de votre vote" className="mt-2" name="title" value={this.state.title} onChange={this.handleChangeTitle} />
+                            <Input placeholder="Saisissez ici la question de votre vote" autoFocus required className="mt-2" name="title" value={this.state.title?this.state.title:""} onChange={this.handleChangeTitle} />
                     </Col>
                     <Col xs="12" md="3" xl="2">
                         <Button type="submit" className="btn btn-block btn-secondary mt-2" ><FontAwesomeIcon icon={faRocket} className="mr-2"/>Lancer</Button>

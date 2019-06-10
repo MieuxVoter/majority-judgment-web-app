@@ -11,6 +11,9 @@ class CreateBallot extends Component {
     }
 
     render(){
+        const params = new URLSearchParams(this.props.location.search);
+
+
         return(
             <Container>
                 <Row>
@@ -18,7 +21,7 @@ class CreateBallot extends Component {
                 </Row>
                 <Row className="mt-2">
                     <Col xs="12" >
-                        <Input placeholder="Saisissez ici la question de votre vote" name="title" />
+                        <Input placeholder="Saisissez ici la question de votre vote" name="title" autoFocus defaultValue={params.get("title")?params.get("title"):""} />
                     </Col>
                 </Row>
             </Container>
