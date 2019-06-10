@@ -29,7 +29,7 @@ class Home extends Component {
         const redirect = this.state.redirect;
 
         if (redirect) {
-            return <Redirect to={ '/create-ballot/?title='+encodeURIComponent(this.state.title)} />;
+            return <Redirect to={ '/create-election/?title='+encodeURIComponent(this.state.title)} />;
         }
         return(
             <Container>
