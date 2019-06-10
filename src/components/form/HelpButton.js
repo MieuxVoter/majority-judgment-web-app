@@ -21,13 +21,19 @@ class HelpButton extends Component {
     }
 
 
-    render() {
+    render(){
+        return (<div>
+            <FontAwesomeIcon icon={faQuestionCircle} id={this.props.id+"_"} />
+        </div>);
+    }
+
+    badrender() {
         return (
-            <div>
-                <FontAwesomeIcon icon={faQuestionCircle} id={this.props.id} />
-                <Tooltip placement="right" isOpen={this.state.tooltipOpen} target={this.props.id} toggle={this.toggle}>
+            <div >
+                <Tooltip placement="right" isOpen={this.state.tooltipOpen} target={this.props.id+"_"} toggle={this.toggle}>
                     {this.props.children}
                 </Tooltip>
+                <FontAwesomeIcon icon={faQuestionCircle} id={this.props.id+"_"} />
             </div>
         );
     }
