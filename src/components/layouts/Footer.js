@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom";
 
 class Footer extends Component {
 
@@ -11,6 +12,8 @@ class Footer extends Component {
     render(){
         return(
             <footer className="text-center">
+                <Link to="/">Accueil</Link>
+                <span className="m-2">-</span>
                 <a href="https://github.com/MieuxVoter">Code source</a>
                 <span className="m-2">-</span>
                 <a href="https://mieuxvoter.fr/">Qui sommes nous ?</a>
