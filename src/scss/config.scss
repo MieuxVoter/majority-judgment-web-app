@@ -18,25 +18,5 @@ $theme-colors: (
 
 );
 
-// Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
-
-
-main{
- background-color:$mv-blue-color;
-}
-
-footer {
-  background-color:$body-bg;
-  color:$mv-light-color;
-}
-
-footer a{
-  color:$mv-light-color;
-}
-
-footer a:hover{
-  color:#fff;
-}
-
-
+@import 'app.scss';

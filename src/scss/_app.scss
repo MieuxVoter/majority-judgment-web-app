@@ -1,0 +1,68 @@
+// mieux voter vars
+$mv-blue-color: #009900 !default;
+$mv-red-color: #000099 !default;
+$mv-light-color: #efefff !default;
+
+// Override default variables before the import bootstrap
+$body-bg: #000000 !default;
+$body-color: $mv-light-color !default;
+
+$theme-colors: (
+        "primary": $mv-blue-color,
+        "secondary": $mv-red-color,
+        "light": $mv-light-color,
+        "danger": #990000,
+        "success": #009900,
+        "info": #2B8299,
+        "warning": #FF6E11,
+
+) !default;
+
+.logo-text > h1{
+  font-size:16px;
+  font-weight:bold;
+  margin:0;
+  line-height:1;
+}
+
+.logo-text > h1 > small{
+  display:block;
+  letter-spacing: 0.09em;
+}
+html, body, #root, #root > div{
+  height:100%;
+}
+
+main{
+  background-color:$mv-blue-color;
+  min-height: calc(100% - 106px);
+  overflow: auto;
+  padding-top:72px;
+  padding-bottom:36px;
+}
+
+header{
+  position:fixed;
+  z-index:10;
+  width:100%;
+}
+
+footer{
+  background-color:$body-bg;
+  color:$mv-light-color;
+  padding:25px;
+}
+
+footer a{
+  color:$mv-light-color;
+}
+
+footer a:hover{
+  color:#fff;
+}
+
+hr{
+  border:none;
+  border-top:1px solid $mv-light-color;
+  width:100%;
+}
