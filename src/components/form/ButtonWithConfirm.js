@@ -35,6 +35,7 @@ class ButtonWithConfirm extends Component {
         return (
             <div className={classNameForDiv}>
                 <button
+                    type="button"
                     className={classNameForButton}
                     onClick={() => { this._modalConfirm.current.toggle() }}
                     >{this.getComponent("button")}

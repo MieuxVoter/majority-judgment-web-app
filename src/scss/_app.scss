@@ -2,6 +2,7 @@
 $mv-blue-color: #009900 !default;
 $mv-red-color: #000099 !default;
 $mv-light-color: #efefff !default;
+$mv-dark-color: #333 !default;
 
 // Override default variables before the import bootstrap
 $body-bg: #000000 !default;
@@ -11,6 +12,7 @@ $theme-colors: (
         "primary": $mv-blue-color,
         "secondary": $mv-red-color,
         "light": $mv-light-color,
+        "dark": $mv-dark-color,
         "danger": #990000,
         "success": #009900,
         "info": #2B8299,
@@ -68,3 +70,21 @@ hr{
   margin:auto;
 }
 
+
+ul.sortable,li.sortable{
+  padding:0;
+  margin:0 0 0 0;
+  list-style-type: none;
+}
+li.sortable{
+  margin:0 0 15px 0;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+
+.modal{
+  color:$mv-dark-color;
+}
