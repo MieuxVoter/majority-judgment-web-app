@@ -2,6 +2,7 @@
 $mv-blue-color: #2A43A0;
 $mv-red-color: #EE455B;
 $mv-light-color: #efefff;
+$mv-dark-color: #333;
 
 // Override default variables before the import bootstrap
 $body-bg: #000000;
@@ -11,6 +12,7 @@ $theme-colors: (
         "primary": $mv-blue-color,
         "secondary": $mv-red-color,
         "light": $mv-light-color,
+        "dark": $mv-dark-color,
         "danger": #990000,
         "success": #009900,
         "info": #2B8299,
@@ -18,5 +20,5 @@ $theme-colors: (
 
 );
 
-@import '~bootstrap/scss/bootstrap.scss';
+@import '_bootstrap.scss';
 @import 'app.scss';

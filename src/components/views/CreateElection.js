@@ -1,39 +1,62 @@
 import React, {Component} from "react";
-import { Container, Row, Col, Input, Label, Card, CardHeader, CardBody, Collapse  } from 'reactstrap';
+
+import {
+    Container,
+    Row,
+    Col,
+    Input,
+    Label,
+    InputGroup,
+    InputGroupAddon,
+    Button
+} from 'reactstrap';
+
 import {toast, ToastContainer} from 'react-toastify';
 import HelpButton from "../form/HelpButton";
 import {arrayMove, sortableContainer, sortableElement, sortableHandle} from 'react-sortable-hoc';
 import ButtonWithConfirm from "../form/ButtonWithConfirm";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faPlus, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
+
+
 
 const DragHandle = sortableHandle(({children}) => <span className="input-group-text indexNumber">{children}</span>);
 
 const SortableCandidate = sortableElement(({candidate, sortIndex, form}) => <li className="sortable">
-    <div key={"rowCandidate" + sortIndex}>
-        <div className="row">
-            <div className="col-12">
-                <div className="input-group ">
-                    <div className="input-group-prepend">
-                        <DragHandle>
-                            <span>{sortIndex + 1}</span>
+
+        <Row key={"rowCandidate" + sortIndex}>
+            <Col>
+                <InputGroup >
+                    <InputGroupAddon addonType="prepend"  >
+                        <DragHandle  >
+                            <span >{sortIndex + 1}</span>
                         </DragHandle>
-                    </div>
-                    <input type="text" className="form-control" value={candidate.label}
+                    </InputGroupAddon>
+                    <Input type="text" value={candidate.label}
                            onChange={(event) => form.editCandidateLabel(event, sortIndex)}
+                           onKeyPress={(event) => form.handleKeypressOnCandidateLabel(event, sortIndex)}
+                           placeholder="Nom du candidat ou de la proposition ..."
+                           tabIndex={ sortIndex + 1}
+                           innerRef={(ref) => form.candidateInputs[sortIndex] = ref}
                            maxLength="250"/>
-                    <ButtonWithConfirm className="btn btn-outline-danger input-group-append">
-                        <div key="button"><i className="fas fa-trash-alt"/></div>
+                    <ButtonWithConfirm className="btn btn-primary input-group-append border-light">
+                        <div key="button"><FontAwesomeIcon icon={faTrashAlt} /></div>
                         <div key="modal-title">Suppression ?</div>
-                        <div key="modal-body">Êtes-vous sûr de vouloir supprimer la
-                            proposition <b>"{candidate.label}"</b> ?
+                        <div key="modal-body">Êtes-vous sûr de vouloir supprimer {(candidate.label!=="")?<b>"{candidate.label}"</b>:<span>la ligne {sortIndex+1}</span>} ?
                         </div>
                         <div key="modal-confirm" onClick={() => form.removeCandidate(sortIndex)}>Oui</div>
                         <div key="modal-cancel">Non</div>
                     </ButtonWithConfirm>
-                </div>
-            </div>
-        </div>
-    </div>
+                </InputGroup>
+            </Col>
+            <Col xs="auto" className="align-self-center pl-0">
+                <HelpButton id={"helpCandidate"+sortIndex}>
+                    Saisissez ici le nom de votre candidat ou de votre proposition (250 caractères max.)
+                </HelpButton>
+            </Col>
+        </Row>
+
 </li>);
 
 const SortableCandidatesContainer = sortableContainer(({items, form}) => {
@@ -47,24 +70,29 @@ class CreateElection extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            candidates:[]
-        };
-        this._candidateLabelInput = React.createRef();
-        this._addCandidateButton = React.createRef();
+            candidates:[{label:""},{label:""}],
+            title:null,
+            isVisibleTipsDragAndDropCandidate:true
 
+        };
+        this.candidateInputs = [];
         this.focusInput= React.createRef();
     }
 
-    addCandidate = (evt) => {
-        if (evt.type === "click" || (evt.type === "keydown" && evt.keyCode === 13)) {
-            const candidateFieldLabel = this._candidateLabelInput.current.value;
-            let candidates = this.state.candidates;
-            if (candidates.length < 100) {
-                candidates.push({label: candidateFieldLabel});
-                this._candidateLabelInput.current.value = '';
-                this.setState({isAddCandidateOpen: false, candidates: candidates});
-            }
 
+    handleChangeTitle= (event) => {
+        this.setState({title: event.target.value});
+    };
+
+    addCandidate = (event) => {
+
+        let candidates = this.state.candidates;
+        if (candidates.length < 100) {
+            candidates.push({label:""});
+            this.setState({ candidates: candidates});
+        }
+        if(event.type === 'keypress'){
+            setTimeout(()=>{ this.candidateInputs[this.state.candidates.length-1].focus()},250);
         }
 
     };
@@ -72,6 +100,10 @@ class CreateElection extends Component {
     removeCandidate = (index) => {
         let candidates = this.state.candidates;
         candidates.splice(index, 1);
+        console.log(candidates.length);
+        if(candidates.length===0){
+            candidates=[{label:""}];
+        }
         this.setState({candidates: candidates});
     };
 
@@ -79,43 +111,55 @@ class CreateElection extends Component {
         let candidates = this.state.candidates;
         candidates[index].label = event.currentTarget.value;
         this.setState({candidates: candidates});
+
     };
 
-    toggleAddCandidate = () => {
-        if (this.state.candidates.length >= 100) {
-            toast.error("Vous ne pouvez plus ajouter de proposition ! (100 max.)", {
-                position: toast.POSITION.TOP_CENTER
-            });
-        } else {
-            this._candidateLabelInput.current.value = "";
-            this.setState({
-                isAddCandidateOpen: !this.state.isAddCandidateOpen
-            });
+    handleKeypressOnCandidateLabel = (event, index) => {
+        if(event.key === 'Enter'){
+            event.preventDefault();
+            if(index+1===this.state.candidates.length){
+                this.addCandidate(event);
+            }else{
+               this.candidateInputs[index+1].focus();
+            }
+
         }
 
-
     };
 
-    render(){
+    onCandidatesSortEnd = ({oldIndex, newIndex}) => {
+        let candidates = this.state.candidates;
+        candidates = arrayMove(candidates, oldIndex, newIndex);
+        this.setState({candidates: candidates});
+    };
+
+    handleSubmit= (event) => {
+        event.preventDefault();
+    };
+
+    componentWillMount() {
         const params = new URLSearchParams(this.props.location.search);
+        this.setState({title:params.get("title")?params.get("title"):""});
 
+    }
 
+    render(){
+
+        const params = new URLSearchParams(this.props.location.search);
         return(
             <Container>
                 <ToastContainer/>
-                <form onSubmit={this.handleSubmit} autoComplete="off">
+                <form onSubmit={this.handleSubmit} autoComplete="off" >
                     <Row>
                         <Col ><h3>Démarrer un vote</h3></Col>
                     </Row>
-                    <Row>
-                        <hr />
-                    </Row>
+                    <hr />
                     <Row className="mt-4">
                         <Col xs="12" >
                             <Label for="title">Question du vote :</Label>
                         </Col>
                         <Col>
-                            <Input placeholder="Saisissez ici la question de votre vote" name="title" id="title" innerRef={this.focusInput} autoFocus defaultValue={params.get("title")?params.get("title"):""} maxlength="250" />
+                            <Input placeholder="Saisissez ici la question de votre vote" tabIndex="1" name="title" id="title" innerRef={this.focusInput} autoFocus  defaultValue={params.get("title")?params.get("title"):""} onChange={this.handleChangeTitle} maxLength="250" />
                         </Col>
                         <Col xs="auto" className="align-self-center pl-0">
                             <HelpButton id="helpTitle">
@@ -124,93 +168,60 @@ class CreateElection extends Component {
                             </HelpButton>
                         </Col>
                     </Row>
-
-
-                    <div className="row mt-5">
-                        <div className="col-12">
-                            <b>{this.state.candidates.length}
-                                {(this.state.candidates.length < 2) ? <span> Proposition soumise </span> :
-                                    <span> Propositions soumises </span>}
-                                au vote</b>
-                        </div>
-                    </div>
-
-
-                    <div className="row mt-2">
-                        <div className="col-12">
+                    <Row className="mt-4">
+                        <Col xs="12" >
+                            <Label for="title">Candidats / Propositions :</Label>
+                        </Col>
+                        <Col xs="12" >
                             <SortableCandidatesContainer items={this.state.candidates} onSortEnd={this.onCandidatesSortEnd}
                                                          form={this} useDragHandle/>
-                        </div>
-                    </div>
-                    {(this.state.candidates.length > 2 && this.state.isVisibleTipsDragndropCandidate === true) ?
-                        <div className="row alert alert-info">
-                            <div className="col pl-0 ">
+                        </Col>
+                    </Row>
+                    <Row className="mb-4" >
+                        <Col className="text-right" >
+                        <Button className="btn-secondary"
+                                tabIndex={this.state.candidates.length+2}
+                                type="button"
+                                onClick={(event)=>this.addCandidate(event)}>
+                            <FontAwesomeIcon icon={faPlus} className="mr-2" />Ajouter une proposition</Button>
+                        </Col>
+                        <Col xs="auto" />
+                    </Row>
+                    <hr />
+                    <Row className="mt-4 justify-content-md-center">
+                        <Col xs="12"  md="3"   >
 
-                                <i className="fas fa-lightbulb mr-2"/><b>Astuce :</b> Vous pouvez changer l'ordre des
-                                propositions par glisser-déposer du numéro !
-                            </div>
-                            <div className="col-auto">
-                                <a className="text-info pointer" onClick={this.hideTipsDragndropCandidate}><i
-                                    className="fas fa-window-close"/></a>
-                            </div>
-                        </div> : <div/>}
-                    <div className="row mt-2">
-                        <div className="col-12">
-                            <Collapse isOpen={this.state.isAddCandidateOpen}
-                                      onEntered={() => {
-                                          this._candidateLabelInput.current.focus()
-                                      }}
-                                      onExited={() => {
-                                          this._addCandidateButton.current.focus()
-                                      }}>
+                            <ButtonWithConfirm className="btn btn-success float-right btn-block ">
+                                <div key="button"><FontAwesomeIcon icon={faCheck} className="mr-2" />Valider</div>
+                                <div key="modal-title">Confirmation</div>
+                                <div key="modal-body">
+                                    <div>Voici votre vote :</div>
+                                    <div className="border border-primary p-2 mt-4 mb-4">
+                                        <h4 className="m-0">{this.state.title}</h4>
+                                        <ul className="m-0">
+                                            {
 
+                                                this.state.candidates.map((candidate,i) => {
+                                                    if(candidate.label!==""){
+                                                       return <li key={i}>{candidate.label}</li>
+                                                    }else{
+                                                        return <li className="d-none" />
+                                                    }
 
-                                <Card>
-                                    <CardHeader>Ajout d'une proposition
-                                        (100 max.) </CardHeader>
-                                    <CardBody>
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <label htmlFor="candidate_label"><b>Libellé</b> <span
-                                                    className="text-muted">(obligatoire)</span></label>
-                                                <input type="text" className="form-control" name="candidate_label"
-                                                       id="candidate_label" onKeyDown={evt => this.addCandidate(evt)}
-                                                       ref={this._candidateLabelInput}
-                                                       placeholder="Nom de la proposition, nom du candidat, etc..."
-                                                       maxLength="250"/>
-                                            </div>
-                                        </div>
-                                        <div className="row mt-4">
-                                            <div className="col-md-12 text-right">
-                                                <button type="button" className="btn btn-secondary mr-2"
-                                                        onClick={this.toggleAddCandidate}>
-                                                    <i className="fas fa-times mr-2"/>Annuler
-                                                </button>
-                                                <button type="button" className="btn btn-success "
-                                                        onClick={evt => this.addCandidate(evt)}>
-                                                    <i className="fas fa-plus mr-2"/>Ajouter
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </CardBody>
-                                </Card>
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
+                                    <p>Une fois validé, vous ne pourrez plus le modifier, souhaitez-vous continuer ?</p>
+
+                                </div>
+                                <div key="modal-confirm" onClick={() => {}}>Oui</div>
+                                <div key="modal-cancel">Non</div>
+                            </ButtonWithConfirm>
 
 
-                            </Collapse>
-                        </div>
-
-                        <div className="col-12">
-                            {this.state.isAddCandidateOpen ? null :
-                                <button className="btn btn-secondary" tabIndex="3" ref={this._addCandidateButton}
-                                        name="collapseAddCandidate"
-                                        id="collapseAddCandidate" onClick={this.toggleAddCandidate}>
-                                    <i className="fas fa-plus-square mr-2"/>Ajouter une proposition</button>}
-
-                        </div>
-
-                    </div>
-
-
+                        </Col>
+                    </Row>
                 </form>
             </Container>
         )

@@ -29,8 +29,8 @@ class ModalConfirm extends Component {
                         {this.getComponent("body")}
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.toggle}>{this.getComponent("confirm")}</Button>{' '}
-                        <Button color="secondary" onClick={this.toggle}>{this.getComponent("cancel")}</Button>
+                        <Button color="primary-outline" className="text-primary border-primary" onClick={this.toggle}>{this.getComponent("cancel")}</Button>
+                        <Button color="primary" onClick={this.toggle}>{this.getComponent("confirm")}</Button>
                     </ModalFooter>
                 </Modal>
         );
