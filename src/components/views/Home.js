@@ -42,7 +42,7 @@ class Home extends Component {
                     </Row>
                     <Row className="mt-2">
                         <Col xs="12" md="9" xl="6" className="offset-xl-2">
-                                <Input placeholder="Saisissez ici la question de votre vote"  innerRef={this.focusInput} autoFocus required className="mt-2" name="title" value={this.state.title?this.state.title:""} onChange={this.handleChangeTitle} maxlength="250" />
+                                <Input placeholder="Saisissez ici la question de votre vote"  innerRef={this.focusInput} autoFocus required className="mt-2" name="title" value={this.state.title?this.state.title:""} onChange={this.handleChangeTitle} maxLength="250" />
                         </Col>
                         <Col xs="12" md="3" xl="2">
                             <Button type="submit" className="btn btn-block btn-secondary mt-2" ><FontAwesomeIcon icon={faRocket} className="mr-2"/>Lancer</Button>
