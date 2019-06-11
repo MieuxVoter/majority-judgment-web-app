@@ -51,7 +51,7 @@ const SortableCandidate = sortableElement(({candidate, sortIndex, form}) => <li 
                 </InputGroup>
             </Col>
             <Col xs="auto" className="align-self-center pl-0">
-                <HelpButton id={"helpCandidate"+sortIndex}>
+                <HelpButton>
                     Saisissez ici le nom de votre candidat ou de votre proposition (250 caractères max.)
                 </HelpButton>
             </Col>
@@ -162,7 +162,7 @@ class CreateElection extends Component {
                             <Input placeholder="Saisissez ici la question de votre vote" tabIndex="1" name="title" id="title" innerRef={this.focusInput} autoFocus  defaultValue={params.get("title")?params.get("title"):""} onChange={this.handleChangeTitle} maxLength="250" />
                         </Col>
                         <Col xs="auto" className="align-self-center pl-0">
-                            <HelpButton id="helpTitle">
+                            <HelpButton>
                                 Posez ici votre question ou introduisez simplement votre vote (250 caractères max.)
                                 <br /><u>Par exemple :</u> <em>Pour être mon représentant, je juge ce candidat ...</em>
                             </HelpButton>
@@ -190,7 +190,6 @@ class CreateElection extends Component {
                     <hr />
                     <Row className="mt-4 justify-content-md-center">
                         <Col xs="12"  md="3"   >
-
                             <ButtonWithConfirm className="btn btn-success float-right btn-block ">
                                 <div key="button"><FontAwesomeIcon icon={faCheck} className="mr-2" />Valider</div>
                                 <div key="modal-title">Confirmation</div>
@@ -213,13 +212,10 @@ class CreateElection extends Component {
                                         </ul>
                                     </div>
                                     <p>Une fois validé, vous ne pourrez plus le modifier, souhaitez-vous continuer ?</p>
-
                                 </div>
                                 <div key="modal-confirm" onClick={() => {}}>Oui</div>
                                 <div key="modal-cancel">Non</div>
                             </ButtonWithConfirm>
-
-
                         </Col>
                     </Row>
                 </form>
