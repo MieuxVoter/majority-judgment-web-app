@@ -11,7 +11,8 @@ import {
     Button
 } from 'reactstrap';
 
-import {ToastContainer} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import HelpButton from "../form/HelpButton";
 import {arrayMove, sortableContainer, sortableElement, sortableHandle} from 'react-sortable-hoc';
 import ButtonWithConfirm from "../form/ButtonWithConfirm";
@@ -19,6 +20,10 @@ import ButtonWithConfirm from "../form/ButtonWithConfirm";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faPlus, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
 
+
+
+//TOOD : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
+const mentions = ["Excellent","Trés Bien","Bien","Assez Bien","Passable","Insuffisant","A Rejeter"];
 
 
 const DragHandle = sortableHandle(({children}) => <span className="input-group-text indexNumber">{children}</span>);
@@ -71,8 +76,11 @@ class CreateElection extends Component {
         super(props);
         this.state = {
             candidates:[{label:""},{label:""}],
+            nbCandidatesWithLabel:0,
             title:null,
-            isVisibleTipsDragAndDropCandidate:true
+            isVisibleTipsDragAndDropCandidate:true,
+            nbMentions:7
+
 
         };
         this.candidateInputs = [];
@@ -109,8 +117,14 @@ class CreateElection extends Component {
 
     editCandidateLabel = (event, index) => {
         let candidates = this.state.candidates;
+        let nbLabels = 0;
         candidates[index].label = event.currentTarget.value;
-        this.setState({candidates: candidates});
+        candidates.map((candidate,i)=>{
+            if(candidate.label!==""){
+                nbLabels++;
+            }
+        });
+        this.setState({candidates: candidates, nbCandidatesWithLabel:nbLabels});
 
     };
 
@@ -137,14 +151,23 @@ class CreateElection extends Component {
         event.preventDefault();
     };
 
+    handleChangeNbMentions= (event) => {
+        this.setState({nbMentions: event.target.value});
+    };
+
     componentWillMount() {
         const params = new URLSearchParams(this.props.location.search);
         this.setState({title:params.get("title")?params.get("title"):""});
 
-    }
+    };
+
+    handleSendWithoutCandidate = () => {
+        toast.error("Vous devez saisir au moins deux candidats !", {
+            position: toast.POSITION.TOP_CENTER
+        });
+    };
 
     render(){
-
         const params = new URLSearchParams(this.props.location.search);
         return(
             <Container>
@@ -187,35 +210,64 @@ class CreateElection extends Component {
                         </Col>
                         <Col xs="auto" />
                     </Row>
+                    <Row className="mt-4 mb-4">
+                        <Col xs="12" >
+                            <Label for="title">Nombre de mentions :</Label>
+                        </Col>
+                        <Col  xs="" md="2" >
+                            <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNbMentions}>
+                                <option selected={this.state.nbMentions===5}>5</option>
+                                <option selected={this.state.nbMentions===6}>6</option>
+                                <option selected={this.state.nbMentions===7}>7</option>
+                            </select>
+                        </Col>
+                        <Col xs="auto" className="align-self-center pl-0">
+                            <HelpButton>
+                                Vous pouvez choisir ici le nombre de mentions pour votre vote
+                                <br /><u>Par exemple : </u> <em> 5 = Excellent, Très bien, bien, assez bien, passable</em>
+                            </HelpButton>
+                        </Col>
+                        <Col xs="12" md="" >
+                            { mentions.map((mention,i) => {
+                                return <span className="badge badge-light mr-2 mt-2" style={{opacity:(i<this.state.nbMentions)?1:0.3}}>{mention}</span>
+                            })
+                            }
+                        </Col>
+
+                    </Row>
                     <hr />
                     <Row className="mt-4 justify-content-md-center">
                         <Col xs="12"  md="3"   >
-                            <ButtonWithConfirm className="btn btn-success float-right btn-block ">
+                            {this.state.nbCandidatesWithLabel>=2?<ButtonWithConfirm className="btn btn-success float-right btn-block" tabIndex={this.state.candidates.length+4}>
                                 <div key="button"><FontAwesomeIcon icon={faCheck} className="mr-2" />Valider</div>
-                                <div key="modal-title">Confirmation</div>
+                                <div key="modal-title">Confirmez votre vote</div>
                                 <div key="modal-body">
-                                    <div>Voici votre vote :</div>
-                                    <div className="border border-primary p-2 mt-4 mb-4">
-                                        <h4 className="m-0">{this.state.title}</h4>
-                                        <ul className="m-0">
+                                    <div className="mt-1 mb-1">
+                                        <div className="text-white bg-primary p-1">Question du vote :</div>
+                                        <div className="p-1 pl-3"><em>{this.state.title}</em></div>
+                                        <div className="text-white bg-primary p-1">Candidats/Propositions :</div>
+                                        <div className="p-1 pl-0"><ul className="m-0 pl-4">
                                             {
-
                                                 this.state.candidates.map((candidate,i) => {
                                                     if(candidate.label!==""){
-                                                       return <li key={i}>{candidate.label}</li>
+                                                       return <li key={i} className="m-0">{candidate.label}</li>
                                                     }else{
                                                         return <li key={i} className="d-none" />
                                                     }
 
                                                 })
                                             }
-                                        </ul>
+                                        </ul></div>
+                                        <div className="text-white bg-primary p-1">Mentions :</div>
+                                        <div className="p-1 pl-3">{ mentions.map((mention,i) => {
+                                            return (i<this.state.nbMentions)?<span className="badge badge-light mr-2 mt-2">{mention}</span>:<span/>
+                                        })
+                                        }</div>
                                     </div>
-                                    <p>Une fois validé, vous ne pourrez plus le modifier, souhaitez-vous continuer ?</p>
                                 </div>
-                                <div key="modal-confirm" onClick={() => {}}>Oui</div>
-                                <div key="modal-cancel">Non</div>
-                            </ButtonWithConfirm>
+                                <div key="modal-confirm" onClick={() => {}}>Lancer le vote</div>
+                                <div key="modal-cancel">Annuler</div>
+                            </ButtonWithConfirm>:<Button type="button" className="btn btn-dark float-right btn-block" onClick={this.handleSendWithoutCandidate}><FontAwesomeIcon icon={faCheck} className="mr-2" />Valider</Button>}
                         </Col>
                     </Row>
                 </form>
