@@ -88,3 +88,20 @@ li.sortable{
 .modal{
   color:$mv-dark-color;
 }
+
+/* card Vote */
+.cardVote{
+  background-color:$mv-light-color;
+  margin:1em 0;
+  color:$mv-dark-color;
+  border-radius:0.15em;
+  padding:1em 0;
+}
+.cardVote .nowrap{
+  white-space: nowrap;;
+}
+.cardVote hr{
+  border-top:1px solid $mv-dark-color;
+  margin:10px 0;
+}
+
