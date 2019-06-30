@@ -23,7 +23,15 @@ import {faPlus, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 
 //TODO : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
-const mentions = ["Excellent","Trés Bien","Bien","Assez Bien","Passable","Insuffisant","A Rejeter"];
+const mentions = [
+    {label:"Excellent", color:"#015411"},
+    {label:"Trés Bien", color:"#019812"},
+    {label:"Bien", color:"#6bca24"},
+    {label:"Assez Bien", color:"#ffb200"},
+    {label:"Passable", color:"#ff5d00"},
+    {label:"Insuffisant", color:"#b20616"},
+    {label:"A Rejeter", color:"#6f0214"},
+];
 
 
 const DragHandle = sortableHandle(({children}) => <span className="input-group-text indexNumber">{children}</span>);
@@ -230,7 +238,7 @@ class CreateElection extends Component {
                         </Col>
                         <Col xs="12" md="" >
                             { mentions.map((mention,i) => {
-                                return <span className="badge badge-light mr-2 mt-2" style={{opacity:(i<this.state.nbMentions)?1:0.3}}>{mention}</span>
+                                return <span className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.nbMentions)?1:0.3}} >{mention.label}</span>
                             })
                             }
                         </Col>
@@ -261,7 +269,7 @@ class CreateElection extends Component {
                                         </ul></div>
                                         <div className="text-white bg-primary p-1">Mentions :</div>
                                         <div className="p-1 pl-3">{ mentions.map((mention,i) => {
-                                            return (i<this.state.nbMentions)?<span key={i} className="badge badge-light mr-2 mt-2">{mention}</span>:<span key={i}/>
+                                            return (i<this.state.nbMentions)?<span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff"}}>{mention.label}</span>:<span key={i}/>
                                         })
                                         }</div>
                                     </div>
