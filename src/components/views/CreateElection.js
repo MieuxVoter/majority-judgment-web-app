@@ -261,7 +261,7 @@ class CreateElection extends Component {
                                         </ul></div>
                                         <div className="text-white bg-primary p-1">Mentions :</div>
                                         <div className="p-1 pl-3">{ mentions.map((mention,i) => {
-                                            return (i<this.state.nbMentions)?<span className="badge badge-light mr-2 mt-2">{mention}</span>:<span/>
+                                            return (i<this.state.nbMentions)?<span key={i} className="badge badge-light mr-2 mt-2">{mention}</span>:<span key={i}/>
                                         })
                                         }</div>
                                     </div>
