@@ -107,7 +107,7 @@ class Vote extends Component {
                     <Row className="cardVote d-none d-lg-flex" >
                         <Col xs={this.state.colSizeCandidateXs} md={this.state.colSizeCandidateMd} lg={this.state.colSizeCandidateLg}  ><h5 >&nbsp;</h5></Col>
                         { mentions.map((mention,j) => {
-                            return (j<this.state.nbMentions)?<Col xs={this.state.colSizeMentionXs} md={this.state.colSizeMentionMd} lg={this.state.colSizeMentionLg} key={j} className="text-center" style={{lineHeight:2}}><small className="nowrap bold badge" style={{backgroundColor:mention.color,color:"#fff"}}>{mention.label}</small></Col>:null
+                            return (j<this.state.nbMentions)?<Col xs={this.state.colSizeMentionXs} md={this.state.colSizeMentionMd} lg={this.state.colSizeMentionLg} key={j} className="text-center p-0" style={{lineHeight:2}}><small className="nowrap bold badge" style={{backgroundColor:mention.color,color:"#fff"}}>{mention.label}</small></Col>:null
                         })
                         }
                     </Row>
