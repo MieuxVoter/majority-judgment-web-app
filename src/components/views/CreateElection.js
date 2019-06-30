@@ -22,7 +22,7 @@ import {faPlus, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 
 
-//TOOD : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
+//TODO : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
 const mentions = ["Excellent","Trés Bien","Bien","Assez Bien","Passable","Insuffisant","A Rejeter"];
 
 
