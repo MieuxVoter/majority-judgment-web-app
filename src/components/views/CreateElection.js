@@ -123,6 +123,7 @@ class CreateElection extends Component {
             if(candidate.label!==""){
                 nbLabels++;
             }
+            return candidate.label;
         });
         this.setState({candidates: candidates, nbCandidatesWithLabel:nbLabels});
 
