@@ -21,7 +21,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faPlus, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 
-
 //TODO : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
 const mentions = [
     {label:"Excellent", color:"#015411"},
@@ -33,6 +32,8 @@ const mentions = [
     {label:"A Rejeter", color:"#6f0214"},
 ];
 
+const PATH_API = '/api/';
+const PATH_CREATE_ELECTION = 'create';
 
 const DragHandle = sortableHandle(({children}) => <span className="input-group-text indexNumber">{children}</span>);
 
@@ -88,11 +89,10 @@ class CreateElection extends Component {
             title:null,
             isVisibleTipsDragAndDropCandidate:true,
             nbMentions:7
-
-
         };
         this.candidateInputs = [];
         this.focusInput= React.createRef();
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
 
@@ -156,10 +156,6 @@ class CreateElection extends Component {
         this.setState({candidates: candidates});
     };
 
-    handleSubmit= (event) => {
-        event.preventDefault();
-    };
-
     handleChangeNbMentions= (event) => {
         this.setState({nbMentions: event.target.value});
     };
@@ -168,6 +164,32 @@ class CreateElection extends Component {
         const params = new URLSearchParams(this.props.location.search);
         this.setState({title:params.get("title")?params.get("title"):""});
 
+    };
+
+    handleSubmit () {
+        const {
+          candidates, 
+          nbCandidatesWithLabel, 
+          title, 
+          isVisibleTipsDragAndDropCandidate, 
+          nbMentions 
+        } = this.state;
+        fetch(`${PATH_API}${PATH_CREATE_ELECTION}`, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: title,
+                candidates: candidates,
+                on_invitation_only: false,
+                num_grades: nbMentions,
+                elector_emails: []
+              })
+          }
+        ).then(response => response.json())
+         .then(result => alert(result))
+         .catch(error => error);
     };
 
     handleSendWithoutCandidate = () => {
@@ -274,7 +296,7 @@ class CreateElection extends Component {
                                         }</div>
                                     </div>
                                 </div>
-                                <div key="modal-confirm" onClick={() => {}}>Lancer le vote</div>
+                                <div key="modal-confirm" onClick={this.handleSubmit}>Lancer le vote</div>
                                 <div key="modal-cancel">Annuler</div>
                             </ButtonWithConfirm>:<Button type="button" className="btn btn-dark float-right btn-block" onClick={this.handleSendWithoutCandidate}><FontAwesomeIcon icon={faCheck} className="mr-2" />Valider</Button>}
                         </Col>
