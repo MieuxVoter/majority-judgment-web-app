@@ -278,7 +278,7 @@ li.sortable{
 
 
 
-/** collapse chevron **/
+/** collapse  **/
 .panel-title:after {
   content:'+';
   float:right;
@@ -288,3 +288,10 @@ li.sortable{
 .panel-title.collapsed:after {
   content:'-';
 }
+
+/** table profiles **/
+.profiles thead,.profiles tbody,.profiles tr,.profiles th, .profiles td,.profiles thead th{
+  border-color:$mv-blue-color;
+  color:$mv-blue-color;
+}
+
