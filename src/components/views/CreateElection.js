@@ -169,10 +169,8 @@ class CreateElection extends Component {
     handleSubmit () {
         const {
           candidates, 
-          nbCandidatesWithLabel, 
-          title, 
-          isVisibleTipsDragAndDropCandidate, 
-          nbMentions 
+          title,
+          nbMentions
         } = this.state;
         fetch(`${PATH_API}${PATH_CREATE_ELECTION}`, { 
             method: 'POST',
