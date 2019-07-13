@@ -244,10 +244,10 @@ class CreateElection extends Component {
                             <Label for="title">Nombre de mentions :</Label>
                         </Col>
                         <Col  xs="" md="2" >
-                            <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNbMentions}>
-                                <option selected={this.state.nbMentions===5}>5</option>
-                                <option selected={this.state.nbMentions===6}>6</option>
-                                <option selected={this.state.nbMentions===7}>7</option>
+                            <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNbMentions}  defaultValue="7">
+                                <option value="5">5</option>
+                                <option value="6" >6</option>
+                                <option value="7">7</option>
                             </select>
                         </Col>
                         <Col xs="auto" className="align-self-center pl-0">
@@ -258,7 +258,7 @@ class CreateElection extends Component {
                         </Col>
                         <Col xs="12" md="" >
                             { mentions.map((mention,i) => {
-                                return <span className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.nbMentions)?1:0.3}} >{mention.label}</span>
+                                return <span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.nbMentions)?1:0.3}} >{mention.label}</span>
                             })
                             }
                         </Col>
