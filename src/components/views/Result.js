@@ -1,6 +1,18 @@
 import React, {Component} from "react";
 import {Container,Row,Col,Collapse,  Card, CardHeader, CardBody} from "reactstrap";
 
+//TODO : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
+const mentions = [
+    {label:"Excellent", color:"#015411"},
+    {label:"Trés Bien", color:"#019812"},
+    {label:"Bien", color:"#6bca24"},
+    {label:"Assez Bien", color:"#ffb200"},
+    {label:"Passable", color:"#ff5d00"},
+    {label:"Insuffisant", color:"#b20616"},
+    {label:"A Rejeter", color:"#6f0214"},
+];
+
+
 class Result extends Component {
 
     constructor(props) {
@@ -69,7 +81,11 @@ class Result extends Component {
 
                 <Row className="mt-5">
                     <Col><h1>Résultat du vote :</h1>
-                    <div>TODO CLASSEMENT </div>
+                    <ol>
+                        { this.state.candidates.map((candidate,i) => {
+                            return (<li key={i} className="mt-2">{candidate.label} <span  className="badge badge-light mr-2 mt-2" style={{backgroundColor:mentions[candidate.mention].color,color:"#fff"}}>{mentions[candidate.mention].label} </span></li>);
+                        })}
+                    </ol>
                     </Col>
                 </Row>
 
