@@ -39,7 +39,13 @@ html, body, #root, #root > div{
   height:100%;
 }
 
+
+
 main{
+  background-image:url("/background-mv.jpg");
+  background-size:100%;
+  background-attachment: fixed;
+  background-repeat:no-repeat;
   background-color:$mv-blue-color;
   min-height: calc(100% - 106px);
   overflow: auto;
