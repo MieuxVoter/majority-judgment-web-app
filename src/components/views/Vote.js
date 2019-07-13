@@ -40,7 +40,7 @@ class Vote extends Component {
     componentDidMount() {
         //todo fetch data from API
         let fetchedData={
-            title:"Merci d'évaluer les candidats suivants : ",
+            title:"Merci d'évaluer les candidats suivants",
             candidates:[ {id:0, label:"Mme ABCD"}, {id:2, label:"M. EFGH"}, {id:3, label:"M. IJKL"}, {id:4, label:"M. MNOP"} ],
             nbMentions:7,
         };
