@@ -275,3 +275,16 @@ li.sortable{
 
 }
 
+
+
+
+/** collapse chevron **/
+.panel-title:after {
+  content:'+';
+  float:right;
+  font-size:28px;
+  font-weight:900;
+}
+.panel-title.collapsed:after {
+  content:'-';
+}
