@@ -295,3 +295,13 @@ li.sortable{
   color:$mv-blue-color;
 }
 
+.median{
+  border-width:0 3px 0 0;
+  border-style:dashed;
+  border-color:$mv-blue-color;
+  min-height:30px;
+  width: 1px;
+  position: absolute;
+  margin-left: 50%;
+  margin-top: -15px;
+}

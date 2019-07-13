@@ -39,10 +39,10 @@ class Result extends Component {
         let fetchedData={
             title:"Merci d'évaluer les candidats suivants",
             candidates:[
-                {id:0, label:"Mme ABCD", mention: 2, profile: [20,20,20,10,10,20,0]},
-                {id:2, label:"M. EFGH",  mention: 3, profile: [0,20,20,10,10,30,10]},
-                {id:3, label:"M. IJKL",  mention: 4, profile: [0,0,20,25,15,20,20]},
-                {id:4, label:"M. MNOP",  mention: 4, profile: [0,0,15,15,30,10,30]}
+                {id:0, label:"Mme ABCD", mention: 2, profile: [20,20,20,10,10,20,0], score: "55.28"},
+                {id:2, label:"M. EFGH",  mention: 3, profile: [0,20,20,10,10,30,10], score: "43.10"},
+                {id:3, label:"M. IJKL",  mention: 4, profile: [0,0,20,25,15,20,20], score: "22.82"},
+                {id:4, label:"M. MNOP",  mention: 4, profile: [0,0,15,15,30,10,30], score: "12.72"}
                 ],//ordered by result
             nbMentions:7,
         };
@@ -83,7 +83,7 @@ class Result extends Component {
                     <Col><h1>Résultat du vote :</h1>
                     <ol>
                         { this.state.candidates.map((candidate,i) => {
-                            return (<li key={i} className="mt-2">{candidate.label} <span  className="badge badge-light mr-2 mt-2" style={{backgroundColor:mentions[candidate.mention].color,color:"#fff"}}>{mentions[candidate.mention].label} </span></li>);
+                            return (<li key={i} className="mt-2">{candidate.label} <span className="badge badge-dark mr-2 mt-2">{candidate.score}%</span><span  className="badge badge-light mr-2 mt-2" style={{backgroundColor:mentions[candidate.mention].color,color:"#fff"}}>{mentions[candidate.mention].label} </span></li>);
                         })}
                     </ol>
                     </Col>
@@ -93,15 +93,52 @@ class Result extends Component {
                     <Col>
                         <Card className="bg-light text-primary">
                             <CardHeader className="pointer" onClick={this.toggleGraphics}>
-                                <h4 className={"m-0 panel-title "+(this.state.collapseGraphics?"collapsed":"")}>Graphiques</h4>
+                                <h4 className={"m-0 panel-title "+(this.state.collapseGraphics?"collapsed":"")}>Graphique</h4>
                             </CardHeader>
                             <Collapse isOpen={this.state.collapseGraphics}>
-                                <CardBody> TODO GRAPHIQUE </CardBody>
+                                <CardBody className="pt-5">
+                                    <div >
+                                        <div className="median" style={{height:(this.state.candidates.length*28)+30}} />
+                                    <table style={{width:"100%"}}>
+                                    { this.state.candidates.map((candidate,i) => {
+                                        return ( <tr key={i}><td style={{width:"30px"}}>{i+1}</td> {/*candidate.label*/}
+                                           <td> <table style={{width:"100%"}}><tr>
+                                            { candidate.profile.map((value,i) => {
+                                                if(value>0){
+                                                    let percent=value+"%";
+                                                    if(i===0){
+                                                        percent="auto";
+                                                    }
+                                                    return (<td key={i} style={{width:percent,backgroundColor:mentions[i].color}} >&nbsp;</td>);
+                                                }
+
+                                            })}</tr></table>
+                                           </td>
+                                        </tr>)
+                                    })}</table>
+
+                                    </div>
+                                    <div className="mt-4">
+                                        <small >
+                                            { this.state.candidates.map((candidate,i) => {
+                                                return (<span key={i}>{(i>0)?", ":""}<b>{i+1}</b>: {candidate.label}</span>);
+                                            })}
+                                        </small>
+                                    </div>
+                                    <div className="mt-2">
+                                        <small >
+                                            { mentions.map((mention,i) => {
+                                                return (i<this.state.nbMentions)?<span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff"}}>{mention.label}</span>:<span key={i}/>
+                                            })
+                                            }
+                                        </small>
+                                    </div>
+                                </CardBody>
                             </Collapse>
                         </Card>
                     </Col>
                 </Row>
-                <Row className="mt-1">
+                <Row className="mt-3">
                     <Col>
                         <Card className="bg-light text-primary">
                             <CardHeader className="pointer" onClick={this.toggleProfiles}>
@@ -123,7 +160,7 @@ class Result extends Component {
                                         <tbody>
                                         { this.state.candidates.map((candidate,i) => {
                                             return ( <tr key={i}>
-                                                    <th scope="row" style={{whiteSpace:"nowrap"}}>{i+1}</th> {/*candidate.label*/}
+                                                    <td>{i+1}</td> {/*candidate.label*/}
                                                     { candidate.profile.map((value,i) => {
                                                         return (<td key={i} >{value}%</td>);
                                                     })}
