@@ -32,8 +32,10 @@ const mentions = [
     {label:"A Rejeter", color:"#6f0214"},
 ];
 
-const PATH_API = '/api/';
-const PATH_CREATE_ELECTION = 'create';
+const PATH_API_ROOT = 'https://cooper.hopto.org';
+//const PATH_API_ROOT = 'http://127.0.0.1:8000';
+const PATH_API = `${PATH_API_ROOT}/api/`;
+const PATH_CREATE_ELECTION = 'election/';
 
 const DragHandle = sortableHandle(({children}) => <span className="input-group-text indexNumber">{children}</span>);
 
@@ -172,6 +174,7 @@ class CreateElection extends Component {
           title,
           nbMentions
         } = this.state;
+        console.log(this.state);
         fetch(`${PATH_API}${PATH_CREATE_ELECTION}`, { 
             method: 'POST',
             headers: {
@@ -188,6 +191,7 @@ class CreateElection extends Component {
         ).then(response => response.json())
          .then(result => alert(result))
          .catch(error => error);
+        console.log("heelloo");
     };
 
     handleSendWithoutCandidate = () => {
