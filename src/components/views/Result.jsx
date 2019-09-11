@@ -1,16 +1,6 @@
 import React, {Component} from "react";
 import {Container, Row, Col, Collapse, Card, CardHeader, CardBody, Table} from "reactstrap";
-
-//TODO : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
-const mentions = [
-    {label: "Excellent", color: "#015411"},
-    {label: "Trés Bien", color: "#019812"},
-    {label: "Bien", color: "#6bca24"},
-    {label: "Assez Bien", color: "#ffb200"},
-    {label: "Passable", color: "#ff5d00"},
-    {label: "Insuffisant", color: "#b20616"},
-    {label: "A Rejeter", color: "#6f0214"},
-];
+import { grades } from '../../Util';
 
 
 class Result extends Component {
@@ -20,13 +10,13 @@ class Result extends Component {
         this.state = {
             candidates: [],
             title: null,
-            nbMentions: 0,
+            nbGrades: 0,
             colSizeCandidateLg: 4,
             colSizeCandidateMd: 6,
             colSizeCandidateXs: 12,
-            colSizeMentionLg: 1,
-            colSizeMentionMd: 1,
-            colSizeMentionXs: 1,
+            colSizeGradeLg: 1,
+            colSizeGradeMd: 1,
+            colSizeGradeXs: 1,
             collapseGraphics: false,
             collapseProfiles: false
 
@@ -39,27 +29,27 @@ class Result extends Component {
         let fetchedData = {
             title: "Merci d'évaluer les candidats suivants",
             candidates: [
-                {id: 0, label: "Mme ABCD", mention: 2, profile: [20, 20, 20, 10, 10, 20, 0], score: "55.28"},
-                {id: 2, label: "M. EFGH", mention: 3, profile: [0, 20, 20, 10, 10, 30, 10], score: "43.10"},
-                {id: 3, label: "M. IJKL", mention: 4, profile: [0, 0, 20, 25, 15, 20, 20], score: "22.82"},
-                {id: 4, label: "M. MNOP", mention: 4, profile: [0, 0, 15, 15, 30, 10, 30], score: "12.72"}
+                {id: 0, label: "Mme ABCD", grade: 2, profile: [20, 20, 20, 10, 10, 20, 0], score: "55.28"},
+                {id: 2, label: "M. EFGH", grade: 3, profile: [0, 20, 20, 10, 10, 30, 10], score: "43.10"},
+                {id: 3, label: "M. IJKL", grade: 4, profile: [0, 0, 20, 25, 15, 20, 20], score: "22.82"},
+                {id: 4, label: "M. MNOP", grade: 4, profile: [0, 0, 15, 15, 30, 10, 30], score: "12.72"}
             ],//ordered by result
-            nbMentions: 7,
+            nbGrades: 7,
         };
         let data = {
             title: fetchedData.title,
             candidates: fetchedData.candidates,
-            nbMentions: fetchedData.nbMentions,
+            nbGrades: fetchedData.nbGrades,
             colSizeCandidateLg: 0,
             colSizeCandidateMd: 0,
             colSizeCandidateXs: 0,
-            colSizeMentionLg: Math.floor((12 - this.state.colSizeCandidateLg) / fetchedData.nbMentions),
-            colSizeMentionMd: Math.floor((12 - this.state.colSizeCandidateMd) / fetchedData.nbMentions),
-            colSizeMentionXs: Math.floor((12 - this.state.colSizeCandidateXs) / fetchedData.nbMentions),
+            colSizeGradeLg: Math.floor((12 - this.state.colSizeCandidateLg) / fetchedData.nbGrades),
+            colSizeGradeMd: Math.floor((12 - this.state.colSizeCandidateMd) / fetchedData.nbGrades),
+            colSizeGradeXs: Math.floor((12 - this.state.colSizeCandidateXs) / fetchedData.nbGrades),
         };
-        data.colSizeCandidateLg = ((12 - data.colSizeMentionLg * data.nbMentions) > 0) ? (12 - data.colSizeMentionLg * data.nbMentions) : 12;
-        data.colSizeCandidateMd = ((12 - data.colSizeMentionMd * data.nbMentions) > 0) ? (12 - data.colSizeMentionMd * data.nbMentions) : 12;
-        data.colSizeCandidateXs = ((12 - data.colSizeMentionXs * data.nbMentions) > 0) ? (12 - data.colSizeMentionXs * data.nbMentions) : 12;
+        data.colSizeCandidateLg = ((12 - data.colSizeGradeLg * data.nbGrades) > 0) ? (12 - data.colSizeGradeLg * data.nbGrades) : 12;
+        data.colSizeCandidateMd = ((12 - data.colSizeGradeMd * data.nbGrades) > 0) ? (12 - data.colSizeGradeMd * data.nbGrades) : 12;
+        data.colSizeCandidateXs = ((12 - data.colSizeGradeXs * data.nbGrades) > 0) ? (12 - data.colSizeGradeXs * data.nbGrades) : 12;
         this.setState(data);
     }
 
@@ -85,9 +75,9 @@ class Result extends Component {
                             return (<li key={i} className="mt-2">{candidate.label}<span
                                 className="badge badge-dark mr-2 mt-2">{candidate.score}%</span><span
                                 className="badge badge-light mr-2 mt-2" style={{
-                                backgroundColor: mentions[candidate.mention].color,
+                                backgroundColor: grades[candidate.grade].color,
                                 color: "#fff"
-                            }}>{mentions[candidate.mention].label}</span></li>);
+                            }}>{grades[candidate.grade].label}</span></li>);
                         })}</ol>
                     </Col>
                 </Row>
@@ -120,7 +110,7 @@ class Result extends Component {
                                                                         }
                                                                         return (<td key={i} style={{
                                                                             width: percent,
-                                                                            backgroundColor: mentions[i].color
+                                                                            backgroundColor: grades[i].color
                                                                         }}>&nbsp;</td>);
                                                                     }else{
                                                                         return null
@@ -144,12 +134,12 @@ class Result extends Component {
                                     </div>
                                     <div className="mt-2">
                                         <small>
-                                            {mentions.map((mention, i) => {
-                                                return (i < this.state.nbMentions) ?
+                                            {grades.map((grade, i) => {
+                                                return (i < this.state.nbGrades) ?
                                                     <span key={i} className="badge badge-light mr-2 mt-2" style={{
-                                                        backgroundColor: mention.color,
+                                                        backgroundColor: grade.color,
                                                         color: "#fff"
-                                                    }}>{mention.label}</span> : <span key={i}/>
+                                                    }}>{grade.label}</span> : <span key={i}/>
                                             })
                                             }
                                         </small>
@@ -173,11 +163,11 @@ class Result extends Component {
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                {mentions.map((mention, i) => {
+                                                {grades.map((grade, i) => {
                                                     return (<th key={i}><span className="badge badge-light" style={{
-                                                        backgroundColor: mention.color,
+                                                        backgroundColor: grade.color,
                                                         color: "#fff"
-                                                    }}>{mention.label} </span></th>);
+                                                    }}>{grade.label} </span></th>);
                                                 })}</tr>
                                             </thead>
                                             <tbody>{this.state.candidates.map((candidate, i) => {

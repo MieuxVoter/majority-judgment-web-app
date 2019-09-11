@@ -1,7 +1,7 @@
 import React from 'react';
 import {Switch, Route } from "react-router-dom";
 
-import Home from "./components/views/Home.js";
+import Home from "./components/views/Home";
 import CreateElection from "./components/views/CreateElection";
 import Vote from "./components/views/Vote";
 import Result from "./components/views/Result";

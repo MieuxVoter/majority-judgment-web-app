@@ -17,13 +17,11 @@ import HelpButton from "../form/HelpButton";
 import {arrayMove, sortableContainer, sortableElement, sortableHandle} from 'react-sortable-hoc';
 import ButtonWithConfirm from "../form/ButtonWithConfirm";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlus, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
 
+import { grades } from '../../Util';
 
-const colors = ["#015411", "#019812", "#6bca24", "#ffb200", "#ff5d00", "#b20616", "#6f0214"]
-const grades = process.env.REACT_APP_GRADES.split(', ').map(
-    (e, i) => ({label: e, color:colors[i]}));
 
 const DragHandle = sortableHandle(({children}) => <span className="input-group-text indexNumber">{children}</span>);
 
