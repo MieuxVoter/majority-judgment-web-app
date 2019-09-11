@@ -174,24 +174,25 @@ class CreateElection extends Component {
           title,
           nbMentions
         } = this.state;
-        console.log(this.state);
+        const candidateNames = candidates.map(c => c.label);
+        const body = JSON.stringify({
+                title: title,
+                candidates: candidateNames,
+                on_invitation_only: false,
+                num_grades: nbMentions,
+                elector_emails: []
+              });
+
         fetch(`${PATH_API}${PATH_CREATE_ELECTION}`, { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                title: title,
-                candidates: candidates,
-                on_invitation_only: false,
-                num_grades: nbMentions,
-                elector_emails: []
-              })
-          }
+            body: body 
+        }
         ).then(response => response.json())
-         .then(result => alert(result))
+         .then(result => console.log(result))
          .catch(error => error);
-        console.log("heelloo");
     };
 
     handleSendWithoutCandidate = () => {
