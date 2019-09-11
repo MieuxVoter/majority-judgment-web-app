@@ -2,7 +2,7 @@ import React from 'react';
 import {Switch, Route } from "react-router-dom";
 
 import Home from "./components/views/Home.js";
-import CreateElection from "./components/views/CreateElection.js";
+import CreateElection from "./components/views/CreateElection";
 import Vote from "./components/views/Vote";
 import Result from "./components/views/Result";
 import UnknownView from "./components/views/UnknownView";
