@@ -6,6 +6,7 @@ import CreateElection from "./components/views/CreateElection.js";
 import Vote from "./components/views/Vote";
 import Result from "./components/views/Result";
 import UnknownView from "./components/views/UnknownView";
+import UnknownElection from "./components/views/UnknownElection";
 
 function Routes() {
   return (<main className="d-flex flex-column justify-content-center" >
@@ -14,6 +15,7 @@ function Routes() {
                 <Route path="/create-election" component={CreateElection} />
                 <Route path="/vote" component={Vote} />
                 <Route path="/result" component={Result} />
+                <Route path="/unknown-election" component={UnknownElection} />
                 <Route component={UnknownView} />
               </Switch>
         </main>
