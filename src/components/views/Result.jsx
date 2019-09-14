@@ -1,8 +1,8 @@
 import React, {Component} from "react";
+import { Redirect } from 'react-router-dom';
 import { resolve } from 'url';
 import {Container, Row, Col, Collapse, Card, CardHeader, CardBody, Table} from "reactstrap";
 import { grades } from '../../Util';
-import { Redirect } from 'react-router-dom';
 
 class Result extends Component {
 
@@ -27,16 +27,18 @@ class Result extends Component {
 
     handleErrors = (response) => {
       if (!response.ok) {
-          this.setState(state => ({redirectLost: true}))
-          console.log(response);
-          throw Error(response.statusText);
+          response.json().then( response => {
+              this.setState(state => ({
+                  redirectLost: '/error/' + encodeURIComponent(response)}));
+          })
+          throw Error(response);
       }
       return response;
     }
 
     resultsToState = (response) => {
         const candidates = response.map(c => ({
-            id: c.id, label: c.name, profile: c.scores, grade:1, score: 50
+            id: c.id, label: c.name, profile: c.profile, grade:c.grade, score: c.score
         }));
        this.setState(state => ({candidates: candidates}));
        return response;
@@ -98,12 +100,15 @@ class Result extends Component {
 
     render() {
 
-        console.log(this.state);
-        if (this.state.redirectLost) {
-          return (
-              <Redirect to="/error" />
-          )
+        const { redirectLost,
+                candidates,
+                electionGrades
+              } = this.state;
+
+        if (redirectLost) {
+          return (<Redirect to={redirectLost}/>)
         }
+
         return (
             <Container>
                 <Row>
@@ -112,11 +117,11 @@ class Result extends Component {
 
                 <Row className="mt-5">
                     <Col><h1>Résultat du vote :</h1>
-                        <ol>{this.state.candidates.map((candidate, i) => {
+                        <ol>{candidates.map((candidate, i) => {
                             return (<li key={i} className="mt-2">{candidate.label}<span
                                 className="badge badge-dark mr-2 mt-2">{candidate.score}%</span><span
                                 className="badge badge-light mr-2 mt-2" style={{
-                                backgroundColor: this.state.electionGrades[candidate.grade].color,
+                                backgroundColor: electionGrades[candidate.grade].color,
                                 color: "#fff"
                             }}>{grades[candidate.grade].label}</span></li>);
                         })}</ol>
@@ -133,9 +138,9 @@ class Result extends Component {
                                 <CardBody className="pt-5">
                                     <div>
                                         <div className="median"
-                                             style={{height: (this.state.candidates.length * 28) + 30}}/>
+                                             style={{height: (candidates.length * 28) + 30}}/>
                                         <table style={{width: "100%"}}><tbody>
-                                            {this.state.candidates.map((candidate, i) => {
+                                            {candidates.map((candidate, i) => {
                                                 return (<tr key={i}>
                                                     <td style={{width: "30px"}}>{i + 1}</td>
                                                     {/*candidate.label*/}
@@ -167,7 +172,7 @@ class Result extends Component {
                                     </div>
                                     <div className="mt-4">
                                         <small>
-                                            {this.state.candidates.map((candidate, i) => {
+                                            {candidates.map((candidate, i) => {
                                                 return (
                                                     <span key={i}>{(i > 0) ? ", " : ""}<b>{i + 1}</b>: {candidate.label}</span>);
                                             })}
@@ -175,7 +180,7 @@ class Result extends Component {
                                     </div>
                                     <div className="mt-2">
                                         <small>
-                                          {this.state.electionGrades.map((grade, i) => {
+                                          {electionGrades.map((grade, i) => {
                                               return (
                                                     <span key={i} className="badge badge-light mr-2 mt-2" style={{
                                                         backgroundColor: grade.color,
@@ -203,14 +208,14 @@ class Result extends Component {
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                {this.state.electionGrades.map((grade, i) => {
+                                                {electionGrades.map((grade, i) => {
                                                     return (<th key={i}><span className="badge badge-light" style={{
                                                         backgroundColor: grade.color,
                                                         color: "#fff"
                                                     }}>{grade.label} </span></th>);
                                                 })}</tr>
                                             </thead>
-                                            <tbody>{this.state.candidates.map((candidate, i) => {
+                                            <tbody>{candidates.map((candidate, i) => {
                                                 return (<tr key={i}>
                                                     <td>{i + 1}</td>
                                                     {/*candidate.label*/}
@@ -221,7 +226,7 @@ class Result extends Component {
                                             })}</tbody>
                                         </Table>
                                     </div>
-                                    <small>{this.state.candidates.map((candidate, i) => {
+                                    <small>{candidates.map((candidate, i) => {
                                         return (<span
                                             key={i}>{(i > 0) ? ", " : ""}<b>{i + 1}</b>: {candidate.label}</span>);
                                     })}</small>

@@ -12,7 +12,7 @@ function Routes() {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/create-election" component={CreateElection} />
-                <Route path="/vote" component={Vote} />
+                <Route path="/vote/:handle" component={Vote} />
                 <Route path="/result/:handle" component={Result} />
                 <Route component={UnknownView} />
               </Switch>

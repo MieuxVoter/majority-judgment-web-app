@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-
+import { Redirect } from 'react-router-dom';
 import {
     Container,
     Row,
@@ -77,7 +77,9 @@ class CreateElection extends Component {
             numCandidatesWithLabel:0,
             title:null,
             isVisibleTipsDragAndDropCandidate:true,
-            numGrades:7
+            numGrades:7,
+            successCreate: false,
+            redirectTo: null
         };
         this.candidateInputs = [];
         this.focusInput= React.createRef();
@@ -157,7 +159,7 @@ class CreateElection extends Component {
 
     handleSubmit () {
         const {
-          candidates, 
+          candidates,
           title,
           numGrades
         } = this.state;
@@ -179,10 +181,13 @@ class CreateElection extends Component {
                 num_grades: numGrades,
                 elector_emails: []
             })
-        }
-        ).then(response => response.json())
-         .then(result => console.log(result))
-         .catch(error => error);
+        })
+            .then(response => response.json())
+            .then(result => this.setState(state => ({
+                redirectTo: '/create-success/' + result.id,
+                successCreate: true
+            })))
+            .catch(error => error);
     };
 
     handleSendWithoutCandidate = () => {
@@ -192,7 +197,11 @@ class CreateElection extends Component {
     };
 
     render(){
+        const { successCreate, redirectTo } = this.state;
         const params = new URLSearchParams(this.props.location.search);
+
+        if (successCreate) return <Redirect to={redirectTo} />;
+
         return(
             <Container>
                 <ToastContainer/>
