@@ -78,7 +78,7 @@ class UnknownView extends Component {
                     </Row>
                 <Row className="mt-4 mb-4" >
                     <Col >
-                        <div className=" bg-warning text-white p-2 "><p className="m-0 p-0 text-center">Conservez ces liens précieusements !</p>
+                        <div className=" bg-warning text-white p-2 "><p className="m-0 p-0 text-center">Conservez ces liens précieusement !</p>
                         <p className="small m-2 p-0"><b>ATTENTION</b> : Vous ne les retrouverez pas ailleurs et nous ne serons pas capable de vous les communiquer. Vous pouvez par exemple les enregistrer dans les favoris de votre
                             navigateur.</p></div>
                     </Col>
