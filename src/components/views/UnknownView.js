@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Col, Container,  Row} from "reactstrap";
+import {Col, Container,  Row} from "reactstrap";
 import logoLine from "../../logos/logo-line-white.svg";
 import {Link} from 'react-router-dom';
 
@@ -23,7 +23,7 @@ class UnknownView extends Component {
                     </Row>
                     <Row className="mt-4" >
                         <Col className="text-center">
-                            <Button to="/" className="btn btn-primary">Revenir à l'accueil</Button>
+                            <Link to="/" className="btn btn-secondary">Revenir à l'accueil</Link>
                         </Col>
                     </Row>
             </Container>
