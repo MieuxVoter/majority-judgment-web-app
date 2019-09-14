@@ -13,7 +13,7 @@ function Routes() {
                 <Route exact path="/" component={Home} />
                 <Route path="/create-election" component={CreateElection} />
                 <Route path="/vote" component={Vote} />
-                <Route path="/result" component={Result} />
+                <Route path="/result/:handle" component={Result} />
                 <Route component={UnknownView} />
               </Switch>
         </main>

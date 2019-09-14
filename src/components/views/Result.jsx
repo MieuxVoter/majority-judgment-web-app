@@ -1,7 +1,8 @@
 import React, {Component} from "react";
+import { resolve } from 'url';
 import {Container, Row, Col, Collapse, Card, CardHeader, CardBody, Table} from "reactstrap";
 import { grades } from '../../Util';
-
+import { Redirect } from 'react-router-dom';
 
 class Result extends Component {
 
@@ -10,7 +11,7 @@ class Result extends Component {
         this.state = {
             candidates: [],
             title: null,
-            nbGrades: 0,
+            numGrades: 0,
             colSizeCandidateLg: 4,
             colSizeCandidateMd: 6,
             colSizeCandidateXs: 12,
@@ -18,41 +19,74 @@ class Result extends Component {
             colSizeGradeMd: 1,
             colSizeGradeXs: 1,
             collapseGraphics: false,
-            collapseProfiles: false
-
+            collapseProfiles: false,
+            redirectLost: false,
+            electionGrades: grades
         };
+    }
 
+    handleErrors = (response) => {
+      if (!response.ok) {
+          this.setState(state => ({redirectLost: true}))
+          console.log(response);
+          throw Error(response.statusText);
+      }
+      return response;
+    }
+
+    resultsToState = (response) => {
+        const candidates = response.map(c => ({
+            id: c.id, label: c.name, profile: c.scores, grade:1, score: 50
+        }));
+       this.setState(state => ({candidates: candidates}));
+       return response;
+    }
+
+    detailsToState = (response) => {
+        const numGrades = response.num_grades;
+        const colSizeGradeLg = Math.floor((12 - this.state.colSizeCandidateLg) / numGrades);
+        const colSizeGradeMd = Math.floor((12 - this.state.colSizeCandidateMd) / numGrades);
+        const colSizeGradeXs = Math.floor((12 - this.state.colSizeCandidateXs) / numGrades);
+        this.setState(state => ({
+            title: response.title,
+            numGrades: numGrades,
+            colSizeGradeLg: colSizeGradeLg,
+            colSizeGradeMd: colSizeGradeMd,
+            colSizeGradeXs: colSizeGradeXs,
+            colSizeCandidateLg: ((12 - colSizeGradeLg * numGrades) > 0) ? (12 - colSizeGradeLg * numGrades) : 12,
+            colSizeCandidateMd: ((12 - colSizeGradeMd * numGrades) > 0) ? (12 - colSizeGradeMd * numGrades) : 12,
+            colSizeCandidateXs: ((12 - colSizeGradeXs * numGrades) > 0) ? (12 - colSizeGradeXs * numGrades) : 12,
+            electionGrades: grades.slice(0, numGrades)
+        }));
+        return response;
     }
 
     componentDidMount() {
-        //todo fetch data from API
-        let fetchedData = {
-            title: "Merci d'évaluer les candidats suivants",
-            candidates: [
-                {id: 0, label: "Mme ABCD", grade: 2, profile: [20, 20, 20, 10, 10, 20, 0], score: "55.28"},
-                {id: 2, label: "M. EFGH", grade: 3, profile: [0, 20, 20, 10, 10, 30, 10], score: "43.10"},
-                {id: 3, label: "M. IJKL", grade: 4, profile: [0, 0, 20, 25, 15, 20, 20], score: "22.82"},
-                {id: 4, label: "M. MNOP", grade: 4, profile: [0, 0, 15, 15, 30, 10, 30], score: "12.72"}
-            ],//ordered by result
-            nbGrades: 7,
-        };
-        let data = {
-            title: fetchedData.title,
-            candidates: fetchedData.candidates,
-            nbGrades: fetchedData.nbGrades,
-            colSizeCandidateLg: 0,
-            colSizeCandidateMd: 0,
-            colSizeCandidateXs: 0,
-            colSizeGradeLg: Math.floor((12 - this.state.colSizeCandidateLg) / fetchedData.nbGrades),
-            colSizeGradeMd: Math.floor((12 - this.state.colSizeCandidateMd) / fetchedData.nbGrades),
-            colSizeGradeXs: Math.floor((12 - this.state.colSizeCandidateXs) / fetchedData.nbGrades),
-        };
-        data.colSizeCandidateLg = ((12 - data.colSizeGradeLg * data.nbGrades) > 0) ? (12 - data.colSizeGradeLg * data.nbGrades) : 12;
-        data.colSizeCandidateMd = ((12 - data.colSizeGradeMd * data.nbGrades) > 0) ? (12 - data.colSizeGradeMd * data.nbGrades) : 12;
-        data.colSizeCandidateXs = ((12 - data.colSizeGradeXs * data.nbGrades) > 0) ? (12 - data.colSizeGradeXs * data.nbGrades) : 12;
-        this.setState(data);
-    }
+        // FIXME we should better handling logs
 
+        const electionSlug  = this.props.match.params.handle;
+
+        // get details of the election
+        const detailsEndpoint = resolve(process.env.REACT_APP_SERVER_URL,
+                                 'election/get/'.concat(electionSlug));
+
+        fetch(detailsEndpoint)
+              .then(this.handleErrors)
+              .then(response => response.json())
+              .then(this.detailsToState)
+              .catch(error => console.log(error));
+
+        // get results of the election
+        const resultsEndpoint = resolve(process.env.REACT_APP_SERVER_URL,
+                                 'election/results/'.concat(electionSlug));
+
+        fetch(resultsEndpoint)
+              .then(this.handleErrors)
+              .then(response => response.json())
+              .then(this.resultsToState)
+              .catch(error => console.log(error));
+
+    }
 
     toggleGraphics = () => {
         this.setState(state => ({collapseGraphics: !state.collapseGraphics}));
@@ -63,6 +97,13 @@ class Result extends Component {
     };
 
     render() {
+
+        console.log(this.state);
+        if (this.state.redirectLost) {
+          return (
+              <Redirect to="/error" />
+          )
+        }
         return (
             <Container>
                 <Row>
@@ -75,7 +116,7 @@ class Result extends Component {
                             return (<li key={i} className="mt-2">{candidate.label}<span
                                 className="badge badge-dark mr-2 mt-2">{candidate.score}%</span><span
                                 className="badge badge-light mr-2 mt-2" style={{
-                                backgroundColor: grades[candidate.grade].color,
+                                backgroundColor: this.state.electionGrades[candidate.grade].color,
                                 color: "#fff"
                             }}>{grades[candidate.grade].label}</span></li>);
                         })}</ol>
@@ -110,7 +151,7 @@ class Result extends Component {
                                                                         }
                                                                         return (<td key={i} style={{
                                                                             width: percent,
-                                                                            backgroundColor: grades[i].color
+                                                                            backgroundColor: this.state.electionGrades[i].color
                                                                         }}>&nbsp;</td>);
                                                                     }else{
                                                                         return null
@@ -134,14 +175,13 @@ class Result extends Component {
                                     </div>
                                     <div className="mt-2">
                                         <small>
-                                            {grades.map((grade, i) => {
-                                                return (i < this.state.nbGrades) ?
+                                          {this.state.electionGrades.map((grade, i) => {
+                                              return (
                                                     <span key={i} className="badge badge-light mr-2 mt-2" style={{
                                                         backgroundColor: grade.color,
                                                         color: "#fff"
-                                                    }}>{grade.label}</span> : <span key={i}/>
-                                            })
-                                            }
+                                                    }}>{grade.label}</span>
+                                              )})}
                                         </small>
                                     </div>
                                 </CardBody>
@@ -163,7 +203,7 @@ class Result extends Component {
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                {grades.map((grade, i) => {
+                                                {this.state.electionGrades.map((grade, i) => {
                                                     return (<th key={i}><span className="badge badge-light" style={{
                                                         backgroundColor: grade.color,
                                                         color: "#fff"

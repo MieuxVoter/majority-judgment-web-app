@@ -13,6 +13,7 @@ import {
 
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { resolve } from 'url';
 import HelpButton from "../form/HelpButton";
 import {arrayMove, sortableContainer, sortableElement, sortableHandle} from 'react-sortable-hoc';
 import ButtonWithConfirm from "../form/ButtonWithConfirm";
@@ -161,7 +162,12 @@ class CreateElection extends Component {
           numGrades
         } = this.state;
 
-        fetch(process.env.REACT_APP_API_CREATE_ELECTION, {
+        const endpoint = resolve(
+            process.env.REACT_APP_SERVER_URL,
+            'election/'
+        );
+
+        fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -54,6 +54,6 @@ class Home extends Component {
                 </form>
             </Container>
         )
-    }
+    };
 }
 export default Home;
