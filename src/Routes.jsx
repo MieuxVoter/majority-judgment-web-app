@@ -1,8 +1,8 @@
 import React from 'react';
 import {Switch, Route } from "react-router-dom";
 
-import Home from "./components/views/Home.js";
-import CreateElection from "./components/views/CreateElection.js";
+import Home from "./components/views/Home";
+import CreateElection from "./components/views/CreateElection";
 import Vote from "./components/views/Vote";
 import Result from "./components/views/Result";
 import UnknownView from "./components/views/UnknownView";
@@ -15,11 +15,11 @@ function Routes() {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/create-election" component={CreateElection} />
-                <Route path="/create-success" component={CreateSuccess} />
-                <Route path="/vote" component={Vote} />
-                <Route path="/vote-success" component={VoteSuccess} />
-                <Route path="/result" component={Result} />
-                <Route path="/unknown-election" component={UnknownElection} />
+                <Route path="/vote/:handle" component={Vote} />
+                <Route path="/result/:handle" component={Result} />
+                <Route path="/create-success/:handle" component={CreateSuccess} />
+                <Route path="/vote-success/:handle" component={VoteSuccess} />
+                <Route path="/unknown-election/:handle" component={UnknownElection} />
                 <Route component={UnknownView} />
               </Switch>
         </main>
