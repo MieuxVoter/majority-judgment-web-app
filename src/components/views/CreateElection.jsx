@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-
+import { Redirect } from 'react-router-dom';
 import {
     Container,
     Row,
@@ -13,27 +13,16 @@ import {
 
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { resolve } from 'url';
 import HelpButton from "../form/HelpButton";
 import {arrayMove, sortableContainer, sortableElement, sortableHandle} from 'react-sortable-hoc';
 import ButtonWithConfirm from "../form/ButtonWithConfirm";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlus, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
 
+import { grades } from '../../Util';
 
-//TODO : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
-const mentions = [
-    {label:"Excellent", color:"#015411"},
-    {label:"Trés Bien", color:"#019812"},
-    {label:"Bien", color:"#6bca24"},
-    {label:"Assez Bien", color:"#ffb200"},
-    {label:"Passable", color:"#ff5d00"},
-    {label:"Insuffisant", color:"#b20616"},
-    {label:"A Rejeter", color:"#6f0214"},
-];
-
-const PATH_API = '/api/';
-const PATH_CREATE_ELECTION = 'create';
 
 const DragHandle = sortableHandle(({children}) => <span className="input-group-text indexNumber">{children}</span>);
 
@@ -85,10 +74,12 @@ class CreateElection extends Component {
         super(props);
         this.state = {
             candidates:[{label:""},{label:""}],
-            nbCandidatesWithLabel:0,
+            numCandidatesWithLabel:0,
             title:null,
             isVisibleTipsDragAndDropCandidate:true,
-            nbMentions:7
+            numGrades:7,
+            successCreate: false,
+            redirectTo: null
         };
         this.candidateInputs = [];
         this.focusInput= React.createRef();
@@ -108,7 +99,7 @@ class CreateElection extends Component {
             this.setState({ candidates: candidates});
         }
         if(event.type === 'keypress'){
-            setTimeout(()=>{ this.candidateInputs[this.state.candidates.length-1].focus()},250);
+            setTimeout(()=>{ this.candidateInputs[this.state.candidates.length-1].focus();},250);
         }
 
     };
@@ -125,15 +116,15 @@ class CreateElection extends Component {
 
     editCandidateLabel = (event, index) => {
         let candidates = this.state.candidates;
-        let nbLabels = 0;
+        let numLabels = 0;
         candidates[index].label = event.currentTarget.value;
         candidates.map((candidate,i)=>{
             if(candidate.label!==""){
-                nbLabels++;
+                numLabels++;
             }
             return candidate.label;
         });
-        this.setState({candidates: candidates, nbCandidatesWithLabel:nbLabels});
+        this.setState({candidates: candidates, numCandidatesWithLabel:numLabels});
 
     };
 
@@ -156,8 +147,8 @@ class CreateElection extends Component {
         this.setState({candidates: candidates});
     };
 
-    handleChangeNbMentions= (event) => {
-        this.setState({nbMentions: event.target.value});
+    handleChangeNumGrades= (event) => {
+        this.setState({numGrades: event.target.value});
     };
 
     componentWillMount() {
@@ -168,26 +159,35 @@ class CreateElection extends Component {
 
     handleSubmit () {
         const {
-          candidates, 
+          candidates,
           title,
-          nbMentions
+          numGrades
         } = this.state;
-        fetch(`${PATH_API}${PATH_CREATE_ELECTION}`, { 
+
+        const endpoint = resolve(
+            process.env.REACT_APP_SERVER_URL,
+            'election/'
+        );
+
+        fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 title: title,
-                candidates: candidates,
+                candidates: candidates.map(c => c.label),
                 on_invitation_only: false,
-                num_grades: nbMentions,
+                num_grades: numGrades,
                 elector_emails: []
-              })
-          }
-        ).then(response => response.json())
-         .then(result => alert(result))
-         .catch(error => error);
+            })
+        })
+            .then(response => response.json())
+            .then(result => this.setState(state => ({
+                redirectTo: '/create-success/' + result.id,
+                successCreate: true
+            })))
+            .catch(error => error);
     };
 
     handleSendWithoutCandidate = () => {
@@ -197,7 +197,11 @@ class CreateElection extends Component {
     };
 
     render(){
+        const { successCreate, redirectTo } = this.state;
         const params = new URLSearchParams(this.props.location.search);
+
+        if (successCreate) return <Redirect to={redirectTo} />;
+
         return(
             <Container>
                 <ToastContainer/>
@@ -244,7 +248,7 @@ class CreateElection extends Component {
                             <Label for="title">Nombre de mentions :</Label>
                         </Col>
                         <Col  xs="" md="2" >
-                            <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNbMentions}  defaultValue="7">
+                            <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNumGrades}  defaultValue="7">
                                 <option value="5">5</option>
                                 <option value="6" >6</option>
                                 <option value="7">7</option>
@@ -257,8 +261,8 @@ class CreateElection extends Component {
                             </HelpButton>
                         </Col>
                         <Col xs="12" md="" >
-                            { mentions.map((mention,i) => {
-                                return <span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.nbMentions)?1:0.3}} >{mention.label}</span>
+                            { grades.map((mention,i) => {
+                                return <span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.numGrades)?1:0.3}} >{mention.label}</span>
                             })
                             }
                         </Col>
@@ -267,7 +271,7 @@ class CreateElection extends Component {
                     <hr />
                     <Row className="mt-4 justify-content-md-center">
                         <Col xs="12"  md="3"   >
-                            {this.state.nbCandidatesWithLabel>=2?<ButtonWithConfirm className="btn btn-success float-right btn-block" tabIndex={this.state.candidates.length+4}>
+                            {this.state.numCandidatesWithLabel>=2?<ButtonWithConfirm className="btn btn-success float-right btn-block" tabIndex={this.state.candidates.length+4}>
                                 <div key="button"><FontAwesomeIcon icon={faCheck} className="mr-2" />Valider</div>
                                 <div key="modal-title">Confirmez votre vote</div>
                                 <div key="modal-body">
@@ -288,8 +292,8 @@ class CreateElection extends Component {
                                             }
                                         </ul></div>
                                         <div className="text-white bg-primary p-1">Mentions :</div>
-                                        <div className="p-1 pl-3">{ mentions.map((mention,i) => {
-                                            return (i<this.state.nbMentions)?<span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff"}}>{mention.label}</span>:<span key={i}/>
+                                        <div className="p-1 pl-3">{ grades.map((mention,i) => {
+                                            return (i<this.state.numGrades)?<span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff"}}>{mention.label}</span>:<span key={i}/>
                                         })
                                         }</div>
                                     </div>

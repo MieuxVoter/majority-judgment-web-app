@@ -1,18 +1,19 @@
 import React, {Component} from "react";
 import {Button, Col, Container,  Row} from "reactstrap";
-import logoLine from "../../logos/logo-line-white.svg";
 import {Link} from 'react-router-dom';
 import { faCopy, faUsers } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import logoLine from "../../logos/logo-line-white.svg";
 
 
 class UnknownView extends Component {
 
     constructor(props) {
         super(props);
+        const electionSlug  = this.props.match.params.handle;
         this.state = {
-            urlOfVote:"http://localhost/vote",
-            urlOfResult:"http://localhost/result"
+            urlOfVote: "https://" + window.location.hostname + "/vote/" + electionSlug,
+            urlOfResult: "https://" + window.location.hostname + "/result/" + electionSlug
         };
         this.urlVoteField = React.createRef();
         this.urlResultField = React.createRef();
@@ -86,7 +87,7 @@ class UnknownView extends Component {
 
                     <Row className="mt-4 mb-4" >
                         <Col className="text-center">
-                            <Link to={this.state.urlOfVote} className="btn btn-success"><FontAwesomeIcon icon={faUsers} className="mr-2"/>Participer maintenant !</Link>
+                          <Link to={ "/vote/" + this.props.match.params.handle} className="btn btn-success"><FontAwesomeIcon icon={faUsers} className="mr-2"/>Participer maintenant !</Link>
                         </Col>
                     </Row>
             </Container>

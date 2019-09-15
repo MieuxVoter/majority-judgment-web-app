@@ -1,17 +1,8 @@
 import React, {Component} from "react";
+import { Redirect } from 'react-router-dom';
+import { resolve } from 'url';
 import {Container, Row, Col, Collapse, Card, CardHeader, CardBody, Table} from "reactstrap";
-
-//TODO : variable de config dans un fichier à part (avec les mentions, le min/max de mentions, le nombre max de candidats, les maxlength,l'url api, etc ...)
-const mentions = [
-    {label: "Excellent", color: "#015411"},
-    {label: "Trés Bien", color: "#019812"},
-    {label: "Bien", color: "#6bca24"},
-    {label: "Assez Bien", color: "#ffb200"},
-    {label: "Passable", color: "#ff5d00"},
-    {label: "Insuffisant", color: "#b20616"},
-    {label: "A Rejeter", color: "#6f0214"},
-];
-
+import { grades } from '../../Util';
 
 class Result extends Component {
 
@@ -20,49 +11,84 @@ class Result extends Component {
         this.state = {
             candidates: [],
             title: null,
-            nbMentions: 0,
+            numGrades: 0,
             colSizeCandidateLg: 4,
             colSizeCandidateMd: 6,
             colSizeCandidateXs: 12,
-            colSizeMentionLg: 1,
-            colSizeMentionMd: 1,
-            colSizeMentionXs: 1,
+            colSizeGradeLg: 1,
+            colSizeGradeMd: 1,
+            colSizeGradeXs: 1,
             collapseGraphics: false,
-            collapseProfiles: false
-
+            collapseProfiles: false,
+            redirectLost: false,
+            electionGrades: grades
         };
+    }
 
+    handleErrors = (response) => {
+      if (!response.ok) {
+          response.json().then( response => {
+              this.setState(state => ({
+                  redirectLost: '/unknown-election/' + encodeURIComponent(response)}));
+          })
+          throw Error(response);
+      }
+      return response;
+    }
+
+    resultsToState = (response) => {
+        const candidates = response.map(c => ({
+            id: c.id, label: c.name, profile: c.profile, grade:c.grade, score: c.score
+        }));
+       this.setState(state => ({candidates: candidates}));
+       return response;
+    }
+
+    detailsToState = (response) => {
+        const numGrades = response.num_grades;
+        const colSizeGradeLg = Math.floor((12 - this.state.colSizeCandidateLg) / numGrades);
+        const colSizeGradeMd = Math.floor((12 - this.state.colSizeCandidateMd) / numGrades);
+        const colSizeGradeXs = Math.floor((12 - this.state.colSizeCandidateXs) / numGrades);
+        this.setState(state => ({
+            title: response.title,
+            numGrades: numGrades,
+            colSizeGradeLg: colSizeGradeLg,
+            colSizeGradeMd: colSizeGradeMd,
+            colSizeGradeXs: colSizeGradeXs,
+            colSizeCandidateLg: ((12 - colSizeGradeLg * numGrades) > 0) ? (12 - colSizeGradeLg * numGrades) : 12,
+            colSizeCandidateMd: ((12 - colSizeGradeMd * numGrades) > 0) ? (12 - colSizeGradeMd * numGrades) : 12,
+            colSizeCandidateXs: ((12 - colSizeGradeXs * numGrades) > 0) ? (12 - colSizeGradeXs * numGrades) : 12,
+            electionGrades: grades.slice(0, numGrades)
+        }));
+        return response;
     }
 
     componentDidMount() {
-        //todo fetch data from API
-        let fetchedData = {
-            title: "Merci d'évaluer les candidats suivants",
-            candidates: [
-                {id: 0, label: "Mme ABCD", mention: 2, profile: [20, 20, 20, 10, 10, 20, 0], score: "55.28"},
-                {id: 2, label: "M. EFGH", mention: 3, profile: [0, 20, 20, 10, 10, 30, 10], score: "43.10"},
-                {id: 3, label: "M. IJKL", mention: 4, profile: [0, 0, 20, 25, 15, 20, 20], score: "22.82"},
-                {id: 4, label: "M. MNOP", mention: 4, profile: [0, 0, 15, 15, 30, 10, 30], score: "12.72"}
-            ],//ordered by result
-            nbMentions: 7,
-        };
-        let data = {
-            title: fetchedData.title,
-            candidates: fetchedData.candidates,
-            nbMentions: fetchedData.nbMentions,
-            colSizeCandidateLg: 0,
-            colSizeCandidateMd: 0,
-            colSizeCandidateXs: 0,
-            colSizeMentionLg: Math.floor((12 - this.state.colSizeCandidateLg) / fetchedData.nbMentions),
-            colSizeMentionMd: Math.floor((12 - this.state.colSizeCandidateMd) / fetchedData.nbMentions),
-            colSizeMentionXs: Math.floor((12 - this.state.colSizeCandidateXs) / fetchedData.nbMentions),
-        };
-        data.colSizeCandidateLg = ((12 - data.colSizeMentionLg * data.nbMentions) > 0) ? (12 - data.colSizeMentionLg * data.nbMentions) : 12;
-        data.colSizeCandidateMd = ((12 - data.colSizeMentionMd * data.nbMentions) > 0) ? (12 - data.colSizeMentionMd * data.nbMentions) : 12;
-        data.colSizeCandidateXs = ((12 - data.colSizeMentionXs * data.nbMentions) > 0) ? (12 - data.colSizeMentionXs * data.nbMentions) : 12;
-        this.setState(data);
-    }
+        // FIXME we should better handling logs
 
+        const electionSlug  = this.props.match.params.handle;
+
+        // get details of the election
+        const detailsEndpoint = resolve(process.env.REACT_APP_SERVER_URL,
+                                 'election/get/'.concat(electionSlug));
+
+        fetch(detailsEndpoint)
+              .then(this.handleErrors)
+              .then(response => response.json())
+              .then(this.detailsToState)
+              .catch(error => console.log(error));
+
+        // get results of the election
+        const resultsEndpoint = resolve(process.env.REACT_APP_SERVER_URL,
+                                 'election/results/'.concat(electionSlug));
+
+        fetch(resultsEndpoint)
+              .then(this.handleErrors)
+              .then(response => response.json())
+              .then(this.resultsToState)
+              .catch(error => console.log(error));
+
+    }
 
     toggleGraphics = () => {
         this.setState(state => ({collapseGraphics: !state.collapseGraphics}));
@@ -73,6 +99,16 @@ class Result extends Component {
     };
 
     render() {
+
+        const { redirectLost,
+                candidates,
+                electionGrades
+              } = this.state;
+
+        if (redirectLost) {
+          return (<Redirect to={redirectLost}/>)
+        }
+
         return (
             <Container>
                 <Row>
@@ -81,13 +117,13 @@ class Result extends Component {
 
                 <Row className="mt-5">
                     <Col><h1>Résultat du vote :</h1>
-                        <ol>{this.state.candidates.map((candidate, i) => {
+                        <ol>{candidates.map((candidate, i) => {
                             return (<li key={i} className="mt-2">{candidate.label}<span
                                 className="badge badge-dark mr-2 mt-2">{candidate.score}%</span><span
                                 className="badge badge-light mr-2 mt-2" style={{
-                                backgroundColor: mentions[candidate.mention].color,
+                                backgroundColor: electionGrades[candidate.grade].color,
                                 color: "#fff"
-                            }}>{mentions[candidate.mention].label}</span></li>);
+                            }}>{grades[candidate.grade].label}</span></li>);
                         })}</ol>
                     </Col>
                 </Row>
@@ -102,9 +138,9 @@ class Result extends Component {
                                 <CardBody className="pt-5">
                                     <div>
                                         <div className="median"
-                                             style={{height: (this.state.candidates.length * 28) + 30}}/>
+                                             style={{height: (candidates.length * 28) + 30}}/>
                                         <table style={{width: "100%"}}><tbody>
-                                            {this.state.candidates.map((candidate, i) => {
+                                            {candidates.map((candidate, i) => {
                                                 return (<tr key={i}>
                                                     <td style={{width: "30px"}}>{i + 1}</td>
                                                     {/*candidate.label*/}
@@ -120,7 +156,7 @@ class Result extends Component {
                                                                         }
                                                                         return (<td key={i} style={{
                                                                             width: percent,
-                                                                            backgroundColor: mentions[i].color
+                                                                            backgroundColor: this.state.electionGrades[i].color
                                                                         }}>&nbsp;</td>);
                                                                     }else{
                                                                         return null
@@ -136,7 +172,7 @@ class Result extends Component {
                                     </div>
                                     <div className="mt-4">
                                         <small>
-                                            {this.state.candidates.map((candidate, i) => {
+                                            {candidates.map((candidate, i) => {
                                                 return (
                                                     <span key={i}>{(i > 0) ? ", " : ""}<b>{i + 1}</b>: {candidate.label}</span>);
                                             })}
@@ -144,14 +180,13 @@ class Result extends Component {
                                     </div>
                                     <div className="mt-2">
                                         <small>
-                                            {mentions.map((mention, i) => {
-                                                return (i < this.state.nbMentions) ?
+                                          {electionGrades.map((grade, i) => {
+                                              return (
                                                     <span key={i} className="badge badge-light mr-2 mt-2" style={{
-                                                        backgroundColor: mention.color,
+                                                        backgroundColor: grade.color,
                                                         color: "#fff"
-                                                    }}>{mention.label}</span> : <span key={i}/>
-                                            })
-                                            }
+                                                    }}>{grade.label}</span>
+                                              )})}
                                         </small>
                                     </div>
                                 </CardBody>
@@ -173,14 +208,14 @@ class Result extends Component {
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                {mentions.map((mention, i) => {
+                                                {electionGrades.map((grade, i) => {
                                                     return (<th key={i}><span className="badge badge-light" style={{
-                                                        backgroundColor: mention.color,
+                                                        backgroundColor: grade.color,
                                                         color: "#fff"
-                                                    }}>{mention.label} </span></th>);
+                                                    }}>{grade.label} </span></th>);
                                                 })}</tr>
                                             </thead>
-                                            <tbody>{this.state.candidates.map((candidate, i) => {
+                                            <tbody>{candidates.map((candidate, i) => {
                                                 return (<tr key={i}>
                                                     <td>{i + 1}</td>
                                                     {/*candidate.label*/}
@@ -191,7 +226,7 @@ class Result extends Component {
                                             })}</tbody>
                                         </Table>
                                     </div>
-                                    <small>{this.state.candidates.map((candidate, i) => {
+                                    <small>{candidates.map((candidate, i) => {
                                         return (<span
                                             key={i}>{(i > 0) ? ", " : ""}<b>{i + 1}</b>: {candidate.label}</span>);
                                     })}</small>
