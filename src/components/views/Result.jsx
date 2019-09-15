@@ -29,7 +29,7 @@ class Result extends Component {
       if (!response.ok) {
           response.json().then( response => {
               this.setState(state => ({
-                  redirectLost: '/error/' + encodeURIComponent(response)}));
+                  redirectLost: '/unknown-election/' + encodeURIComponent(response)}));
           })
           throw Error(response);
       }

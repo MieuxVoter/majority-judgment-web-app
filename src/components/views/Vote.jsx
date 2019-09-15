@@ -34,7 +34,7 @@ class Vote extends Component {
             response.json().then( response => {
                 console.log(response);
                 this.setState(state => ({
-                    redirectTo: '/error/' + encodeURIComponent(response)}));
+                    redirectTo: '/unknown-election/' + encodeURIComponent(response)}));
             })
             throw Error(response);
         }
@@ -113,13 +113,13 @@ class Vote extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        const { candidates, ratedCandidates } = this.state;
+        const { ratedCandidates } = this.state;
         const electionSlug  = this.props.match.params.handle;
         const endpoint = resolve(process.env.REACT_APP_SERVER_URL,
                                  'election/vote/');
 
         const gradesById = {};
-        ratedCandidates.map(c => { gradesById[c.id] = c.value; });
+        ratedCandidates.forEach(c => { gradesById[c.id] = c.value; });
         const gradesByCandidate = [];
         Object.keys(gradesById)
             .sort()
