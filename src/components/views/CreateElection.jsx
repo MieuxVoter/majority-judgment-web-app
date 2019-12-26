@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { Redirect } from 'react-router-dom';
 import {
+    Collapse,
     Container,
     Row,
     Col,
@@ -19,7 +20,7 @@ import {arrayMove, sortableContainer, sortableElement, sortableHandle} from 'rea
 import ButtonWithConfirm from "../form/ButtonWithConfirm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faPlus, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {faPlus, faTrashAlt, faCheck, faCogs } from '@fortawesome/free-solid-svg-icons';
 
 import { grades } from '../../Util';
 
@@ -79,7 +80,8 @@ class CreateElection extends Component {
             isVisibleTipsDragAndDropCandidate:true,
             numGrades:7,
             successCreate: false,
-            redirectTo: null
+            redirectTo: null,
+            isAdvancedOptionsOpen:false
         };
         this.candidateInputs = [];
         this.focusInput= React.createRef();
@@ -149,6 +151,10 @@ class CreateElection extends Component {
 
     handleChangeNumGrades= (event) => {
         this.setState({numGrades: event.target.value});
+    };
+
+    toggleAdvancedOptions= () => {
+        this.setState({isAdvancedOptionsOpen: !this.state.isAdvancedOptionsOpen});
     };
 
     componentWillMount() {
@@ -233,43 +239,48 @@ class CreateElection extends Component {
                                                          form={this} useDragHandle/>
                         </Col>
                     </Row>
-                    <Row className="mb-4" >
-                        <Col className="text-right" >
-                        <Button className="btn-secondary"
+                    <Row className="justify-content-between">
+                        <Col  xs="12" sm="6" md="5" lg="4" >
+                            <Button color="secondary" className="btn-block mt-2"
                                 tabIndex={this.state.candidates.length+2}
                                 type="button"
                                 onClick={(event)=>this.addCandidate(event)}>
                             <FontAwesomeIcon icon={faPlus} className="mr-2" />Ajouter une proposition</Button>
                         </Col>
-                        <Col xs="auto" />
+                        <Col  xs="12" sm="6"  md="12"className="text-center text-sm-right text-md-left" >
+                            <Button color="link"
+                                    className="text-white mt-3 mb-3"
+                                    onClick={this.toggleAdvancedOptions}
+                            ><FontAwesomeIcon icon={faCogs} className="mr-2" />Options avancées</Button>
+                        </Col>
                     </Row>
-                    <Row className="mt-4 mb-4">
-                        <Col xs="12" >
-                            <Label for="title">Nombre de mentions :</Label>
-                        </Col>
-                        <Col  xs="" md="2" >
-                            <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNumGrades}  defaultValue="7">
-                                <option value="5">5</option>
-                                <option value="6" >6</option>
-                                <option value="7">7</option>
-                            </select>
-                        </Col>
-                        <Col xs="auto" className="align-self-center pl-0">
-                            <HelpButton>
-                                Vous pouvez choisir ici le nombre de mentions pour votre vote
-                                <br /><u>Par exemple : </u> <em> 5 = Excellent, Très bien, bien, assez bien, passable</em>
-                            </HelpButton>
-                        </Col>
-                        <Col xs="12" md="" >
-                            { grades.map((mention,i) => {
-                                return <span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.numGrades)?1:0.3}} >{mention.label}</span>
-                            })
-                            }
-                        </Col>
-
-                    </Row>
-                    <hr />
-                    <Row className="mt-4 justify-content-md-center">
+                    <Collapse isOpen={this.state.isAdvancedOptionsOpen}>
+                           <Row >
+                               <Col xs="12" >
+                                   <Label for="title">Nombre de mentions :</Label>
+                               </Col>
+                               <Col  xs="" md="2" >
+                                   <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNumGrades}  defaultValue="7">
+                                       <option value="5">5</option>
+                                       <option value="6" >6</option>
+                                       <option value="7">7</option>
+                                   </select>
+                               </Col>
+                               <Col xs="auto" className="align-self-center pl-0">
+                                   <HelpButton>
+                                       Vous pouvez choisir ici le nombre de mentions pour votre vote
+                                       <br /><u>Par exemple : </u> <em> 5 = Excellent, Très bien, bien, assez bien, passable</em>
+                                   </HelpButton>
+                               </Col>
+                               <Col xs="12" md="" >
+                                   { grades.map((mention,i) => {
+                                       return <span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.numGrades)?1:0.3}} >{mention.label}</span>
+                                   })
+                                   }
+                               </Col>
+                           </Row>
+                    </Collapse>
+                    <Row className="justify-content-end">
                         <Col xs="12"  md="3"   >
                             {this.state.numCandidatesWithLabel>=2?<ButtonWithConfirm className="btn btn-success float-right btn-block" tabIndex={this.state.candidates.length+4}>
                                 <div key="button"><FontAwesomeIcon icon={faCheck} className="mr-2" />Valider</div>
