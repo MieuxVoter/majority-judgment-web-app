@@ -9,121 +9,118 @@ $body-bg: #000000 !default;
 $body-color: $mv-light-color !default;
 
 $theme-colors: (
-        "primary": $mv-blue-color,
-        "secondary": $mv-red-color,
-        "light": $mv-light-color,
-        "dark": $mv-dark-color,
-        "danger": #990000,
-        "success": #009900,
-        "info": #2B8299,
-        "warning": #FF6E11,
-
+  "primary": $mv-blue-color,
+  "secondary": $mv-red-color,
+  "light": $mv-light-color,
+  "dark": $mv-dark-color,
+  "danger": #990000,
+  "success": #009900,
+  "info": #2b8299,
+  "warning": #ff6e11
 ) !default;
 
-.logo-text > h1{
-  font-size:16px;
-  font-weight:bold;
-  margin:0;
-  line-height:1;
+.logo-text > h1 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1;
 }
 
-.bold{
-  font-weight:bold;
+.bold {
+  font-weight: bold;
 }
 
-.logo-text > h1 > small{
-  display:block;
+.logo-text > h1 > small {
+  display: block;
   letter-spacing: 0.09em;
 }
-html, body, #root, #root > div{
-  height:100%;
+html,
+body,
+#root,
+#root > div {
+  height: 100%;
 }
 
-
-
-main{
-  background-image:url("/background-mv.png");
-  background-size:100%;
+main {
+  background-image: url("/background-mv.png");
+  background-size: 100%;
   background-attachment: fixed;
-  background-repeat:no-repeat;
-  background-color:$mv-blue-color;
+  background-repeat: no-repeat;
+  background-color: $mv-blue-color;
   min-height: calc(100% - 106px);
   overflow: auto;
-  padding-top:72px;
-  padding-bottom:36px;
+  padding-top: 72px;
+  padding-bottom: 36px;
 }
 
-header{
-  position:fixed;
-  z-index:10;
-  width:100%;
+header {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
 }
 
-footer{
-  background-color:$body-bg;
-  color:$mv-light-color;
-  padding:25px;
+footer {
+  background-color: $body-bg;
+  color: $mv-light-color;
+  padding: 25px;
 }
 
-footer a{
-  color:$mv-light-color;
+footer a {
+  color: $mv-light-color;
 }
 
-footer a:hover{
-  color:#fff;
+footer a:hover {
+  color: #fff;
 }
 
-hr{
-  border:none;
-  border-top:1px solid $mv-light-color;
-  width:100%;
-  margin:auto;
+hr {
+  border: none;
+  border-top: 1px solid $mv-light-color;
+  width: 100%;
+  margin: auto;
 }
 
-
-ul.sortable,li.sortable{
-  padding:0;
-  margin:0 0 0 0;
+ul.sortable,
+li.sortable {
+  padding: 0;
+  margin: 0 0 0 0;
   list-style-type: none;
 }
-li.sortable{
-  margin:0 0 15px 0;
+li.sortable {
+  margin: 0 0 15px 0;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-
-.modal{
-  color:$mv-dark-color;
+.modal {
+  color: $mv-dark-color;
 }
 
 /* card Vote */
-.cardVote{
-  background-color:$mv-light-color;
-  margin:1em 0;
-  color:$mv-dark-color;
-  border-radius:0.15em;
-  padding:1em 0;
+.cardVote {
+  background-color: $mv-light-color;
+  margin: 1em 0;
+  color: $mv-dark-color;
+  border-radius: 0.15em;
+  padding: 1em 0;
 }
-.cardVote .nowrap{
-  white-space: nowrap;;
+.cardVote .nowrap {
+  white-space: nowrap;
 }
-.cardVote hr{
-  border-top:1px solid $mv-dark-color;
-  margin:10px 0;
-}
-
-.cardVote.row:hover{
-  background-color:$mv-light-color-hover;
+.cardVote hr {
+  border-top: 1px solid $mv-dark-color;
+  margin: 10px 0;
 }
 
+.cardVote.row:hover {
+  background-color: $mv-light-color-hover;
+}
 
 /* checkbox  */
 /* The radio */
 .radio {
-
   display: block;
   position: relative;
   padding-left: 30px;
@@ -133,7 +130,7 @@ li.sortable{
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none
+  user-select: none;
 }
 
 /* Hide the browser's default radio button */
@@ -145,19 +142,17 @@ li.sortable{
 
 /* Create a custom radio button */
 .checkround {
-
   position: absolute;
   top: 6px;
   left: 0;
   height: 20px;
   width: 20px;
-  background-color: #fff ;
-  border-color:$mv-blue-color;
-  border-style:solid;
-  border-width:2px;
+  background-color: #fff;
+  border-color: $mv-blue-color;
+  border-style: solid;
+  border-width: 2px;
   border-radius: 50%;
 }
-
 
 /* When the radio button is checked, add a blue background */
 .radio input:checked ~ .checkround {
@@ -183,9 +178,7 @@ li.sortable{
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background:$mv-blue-color;
-
-
+  background: $mv-blue-color;
 }
 
 /* The check */
@@ -213,15 +206,15 @@ li.sortable{
 /* Create a custom checkbox */
 .checkmark {
   position: absolute;
-  margin-left: calc( 50% - 12px);
+  margin-left: calc(50% - 12px);
   top: 0;
   left: 0;
   height: 24px;
   width: 24px;
-  background-color: #fff ;
-  border-color:$mv-blue-color;
-  border-style:solid;
-  border-width:2px;
+  background-color: #fff;
+  border-color: $mv-blue-color;
+  border-style: solid;
+  border-width: 2px;
 }
 
 @include media-breakpoint-down(md) {
@@ -234,7 +227,7 @@ li.sortable{
 
 /* When the checkbox is checked, add a blue background */
 .check input:checked ~ .checkmark {
-  background-color: #fff  ;
+  background-color: #fff;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -255,63 +248,62 @@ li.sortable{
   top: 1px;
   width: 10px;
   height: 15px;
-  border: solid ;
-  border-color:#fff;
+  border: solid;
+  border-color: #fff;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-  cursor:pointer;
+  cursor: pointer;
 }
 
-.cust-btn{
+.cust-btn {
   margin-bottom: 10px;
   background-color: $mv-blue-color;
   border-width: 2px;
   border-color: $mv-blue-color;
   color: #fff;
 }
-.cust-btn:hover{
-
+.cust-btn:hover {
   border-color: $mv-blue-color;
   background-color: #fff;
   color: $mv-blue-color;
   border-radius: 20px;
   transform-style: 2s;
-
 }
-
-
-
 
 /** collapse  **/
 .panel-title:after {
-  content:'+';
-  float:right;
-  font-size:28px;
-  font-weight:900;
+  content: "+";
+  float: right;
+  font-size: 28px;
+  font-weight: 900;
 }
 .panel-title.collapsed:after {
-  content:'-';
+  content: "-";
 }
 
 /** table profiles **/
-.profiles thead,.profiles tbody,.profiles tr,.profiles th, .profiles td,.profiles thead th{
-  border-color:$mv-blue-color;
-  color:$mv-blue-color;
+.profiles thead,
+.profiles tbody,
+.profiles tr,
+.profiles th,
+.profiles td,
+.profiles thead th {
+  border-color: $mv-blue-color;
+  color: $mv-blue-color;
 }
 
-.median{
-  border-width:0 3px 0 0;
-  border-style:dashed;
-  border-color:$mv-blue-color;
-  min-height:30px;
+.median {
+  border-width: 0 3px 0 0;
+  border-style: dashed;
+  border-color: $mv-blue-color;
+  min-height: 30px;
   width: 1px;
   position: absolute;
   margin-left: 50%;
   margin-top: -15px;
 }
-
 
 /** react multi email **/
 .react-multi-email > span[data-placeholder] {
