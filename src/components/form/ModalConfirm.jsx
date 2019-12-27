@@ -1,40 +1,52 @@
-import React, {Component} from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import React, { Component } from "react";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 class ModalConfirm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            modal: false
-        };
-    }
-
-    toggle = () => {
-        this.setState({
-            modal: !this.state.modal
-        });
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false
     };
+  }
 
-    getComponent= (key) => {
-        return this.props.children.filter( (comp) => {
-            return comp.key === key;
-        });
-    };
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  };
 
-    render() {
-        return (
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className+" modal-dialog-centered"} >
-                    <ModalHeader toggle={this.toggle}>{this.getComponent("title")}</ModalHeader>
-                    <ModalBody>
-                        {this.getComponent("body")}
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary-outline" className="text-primary border-primary" onClick={this.toggle}>{this.getComponent("cancel")}</Button>
-                        <Button color="primary" onClick={this.toggle}>{this.getComponent("confirm")}</Button>
-                    </ModalFooter>
-                </Modal>
-        );
-    }
+  getComponent = key => {
+    return this.props.children.filter(comp => {
+      return comp.key === key;
+    });
+  };
+
+  render() {
+    return (
+      <Modal
+        isOpen={this.state.modal}
+        toggle={this.toggle}
+        className={this.props.className + " modal-dialog-centered"}
+      >
+        <ModalHeader toggle={this.toggle}>
+          {this.getComponent("title")}
+        </ModalHeader>
+        <ModalBody>{this.getComponent("body")}</ModalBody>
+        <ModalFooter>
+          <Button
+            color="primary-outline"
+            className="text-primary border-primary"
+            onClick={this.toggle}
+          >
+            {this.getComponent("cancel")}
+          </Button>
+          <Button color="primary" onClick={this.toggle}>
+            {this.getComponent("confirm")}
+          </Button>
+        </ModalFooter>
+      </Modal>
+    );
+  }
 }
 
 export default ModalConfirm;
