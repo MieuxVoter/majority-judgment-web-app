@@ -9,7 +9,7 @@ import {
     Label,
     InputGroup,
     InputGroupAddon,
-    Button
+    Button, Card, CardBody
 } from 'reactstrap';
 
 import {toast, ToastContainer} from 'react-toastify';
@@ -249,38 +249,70 @@ class CreateElection extends Component {
                         </Col>
                         <Col  xs="12" sm="6"  md="12"className="text-center text-sm-right text-md-left" >
                             <Button color="link"
-                                    className="text-white mt-3 mb-3"
+                                    className="text-white mt-3 mb-1"
                                     onClick={this.toggleAdvancedOptions}
                             ><FontAwesomeIcon icon={faCogs} className="mr-2" />Options avancées</Button>
                         </Col>
                     </Row>
                     <Collapse isOpen={this.state.isAdvancedOptionsOpen}>
-                           <Row >
-                               <Col xs="12" >
-                                   <Label for="title">Nombre de mentions :</Label>
-                               </Col>
-                               <Col  xs="" md="2" >
-                                   <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNumGrades}  defaultValue="7">
-                                       <option value="5">5</option>
-                                       <option value="6" >6</option>
-                                       <option value="7">7</option>
-                                   </select>
-                               </Col>
-                               <Col xs="auto" className="align-self-center pl-0">
-                                   <HelpButton>
-                                       Vous pouvez choisir ici le nombre de mentions pour votre vote
-                                       <br /><u>Par exemple : </u> <em> 5 = Excellent, Très bien, bien, assez bien, passable</em>
-                                   </HelpButton>
-                               </Col>
-                               <Col xs="12" md="" >
-                                   { grades.map((mention,i) => {
-                                       return <span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.numGrades)?1:0.3}} >{mention.label}</span>
-                                   })
-                                   }
-                               </Col>
-                           </Row>
+                        <Card>
+                            <CardBody className="text-primary">
+                                <Row >
+                                    <Col xs="12" md="3" lg="2">
+                                        <Label for="title">Date de début :</Label>
+                                    </Col>
+                                    <Col xs="12" md="9" lg="10" >
+                                       <input className="form-control" />
+                                    </Col>
+                                </Row>
+                                <hr className="mt-2 mb-2"/>
+                                <Row >
+                                    <Col xs="12" md="3" lg="2">
+                                        <Label for="title">Date de fin :</Label>
+                                    </Col>
+                                    <Col xs="12" md="9" lg="10" >
+                                        <input className="form-control" />
+                                    </Col>
+                                </Row>
+                                <hr className="mt-2 mb-2"/>
+                               <Row >
+                                   <Col xs="12"  md="3" lg="2">
+                                       <Label for="title">Mentions :</Label>
+                                   </Col>
+                                   <Col xs="10" sm="11" md="4" lg="3" >
+                                       <select  className="form-control" tabIndex={this.state.candidates.length+3} onChange={this.handleChangeNumGrades}  defaultValue="7">
+                                           <option value="5">5</option>
+                                           <option value="6">6</option>
+                                           <option value="7">7</option>
+                                       </select>
+                                   </Col>
+                                   <Col xs="auto" className="align-self-center pl-0 ">
+                                       <HelpButton>
+                                           Vous pouvez choisir ici le nombre de mentions pour votre vote
+                                           <br /><u>Par exemple : </u> <em> 5 = Excellent, Très bien, bien, assez bien, passable</em>
+                                       </HelpButton>
+                                   </Col>
+                                   <Col xs="12" md="9" lg="10" className="offset-xs-0 offset-md-3 offset-lg-2" >
+                                       { grades.map((mention,i) => {
+                                           return <span key={i} className="badge badge-light mr-2 mt-2 " style={{backgroundColor:mention.color,color:"#fff",opacity:(i<this.state.numGrades)?1:0.3}} >{mention.label}</span>
+                                       })
+                                       }
+                                   </Col>
+                               </Row>
+                                <hr className="mt-2 mb-2"/>
+                                <Row >
+                                    <Col xs="12" md="3" lg="2">
+                                        <Label for="title">Participants :</Label>
+                                    </Col>
+                                    <Col xs="12" md="9" lg="10" >
+                                        <input className="form-control" />
+                                    </Col>
+                                </Row>
+                                <hr className="mt-2 mb-2"/>
+                            </CardBody>
+                        </Card>
                     </Collapse>
-                    <Row className="justify-content-end">
+                    <Row className="justify-content-end mt-2">
                         <Col xs="12"  md="3"   >
                             {this.state.numCandidatesWithLabel>=2?<ButtonWithConfirm className="btn btn-success float-right btn-block" tabIndex={this.state.candidates.length+4}>
                                 <div key="button"><FontAwesomeIcon icon={faCheck} className="mr-2" />Valider</div>
