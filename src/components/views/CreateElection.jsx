@@ -23,6 +23,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlus, faTrashAlt, faCheck, faCogs } from '@fortawesome/free-solid-svg-icons';
 
 import { grades } from '../../Util';
+import { ReactMultiEmail, isEmail } from 'react-multi-email';
+import 'react-multi-email/style.css';
 
 
 const DragHandle = sortableHandle(({children}) => <span className="input-group-text indexNumber">{children}</span>);
@@ -73,6 +75,12 @@ class CreateElection extends Component {
 
     constructor(props) {
         super(props);
+        //default value : start now
+        const startedAt = new Date();
+        const startedHour= startedAt.getHours();
+        //default value : finish in one week
+        const finishedAt =  new Date(startedAt.getTime() + 7 * 24 * 60 * 60 * 1000);
+
         this.state = {
             candidates:[{label:""},{label:""}],
             numCandidatesWithLabel:0,
@@ -81,7 +89,12 @@ class CreateElection extends Component {
             numGrades:7,
             successCreate: false,
             redirectTo: null,
-            isAdvancedOptionsOpen:false
+            isAdvancedOptionsOpen:false,
+            startedDayAt:startedAt.toISOString().substring(0, 10),
+            finishedDayAt:finishedAt.toISOString().substring(0, 10),
+            startedTimeAt:(Math.floor(startedHour/2)*2)+":00:00",
+            finishedTimeAt:"23:59:59",
+            electorEmails:[]
         };
         this.candidateInputs = [];
         this.focusInput= React.createRef();
@@ -183,9 +196,12 @@ class CreateElection extends Component {
             body: JSON.stringify({
                 title: title,
                 candidates: candidates.map(c => c.label),
-                on_invitation_only: false,
+                on_invitation_only: (this.state.electorEmails.length>0),
                 num_grades: numGrades,
-                elector_emails: []
+                elector_emails: this.state.electorEmails,
+                started_at:this.state.startedDayAt+" "+this.state.startedTimeAt,
+                finished_at:this.state.finishedDayAt+" "+this.state.finishedTimeAt,
+                time_offset:new Date().getTimezoneOffset()
             })
         })
             .then(response => response.json())
@@ -202,9 +218,40 @@ class CreateElection extends Component {
         });
     };
 
+    formatDate = (dateIsoStr,timeIsoStr) => {
+        let date= new Date(dateIsoStr+"T"+timeIsoStr);
+        let day = date.getDate();
+        let month = date.getMonth() + 1; //Months are zero based
+        let year = date.getFullYear();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+
+        if(month<10){
+            month="0"+month;
+        }
+        if(day<10){
+            day="0"+day;
+        }
+        if(hours<10){
+            hours="0"+hours;
+        }
+        if(minutes<10){
+            minutes="0"+minutes;
+        }
+        let hoursString=hours+"h"+minutes;
+        if(hoursString==="23h59"){
+            hoursString="minuit";
+        }
+
+        return day+"/"+month+"/"+year+" à "+hoursString;
+    };
+
     render(){
         const { successCreate, redirectTo } = this.state;
+        const { electorEmails } = this.state;
         const params = new URLSearchParams(this.props.location.search);
+
+
 
         if (successCreate) return <Redirect to={redirectTo} />;
 
@@ -261,8 +308,27 @@ class CreateElection extends Component {
                                     <Col xs="12" md="3" lg="2">
                                         <Label for="title">Date de début :</Label>
                                     </Col>
-                                    <Col xs="12" md="9" lg="10" >
-                                       <input className="form-control" />
+                                    <Col xs="6" md="4" lg="3" >
+                                       <input className="form-control"
+                                              type="date"
+                                              value={this.state.startedDayAt}
+                                              onChange={e => this.setState({ startedDayAt: e.target.value })} />
+                                    </Col>
+                                    <Col xs="6" md="5" lg="3" >
+                                        <select className="form-control" value={this.state.startedTimeAt} onChange={e => this.setState({ startedTimeAt: e.target.value })} >
+                                            <option value="2:00:00">02h00</option>
+                                            <option value="3:00:00">03h00</option>
+                                            <option value="4:00:00">04h00</option>
+                                            <option value="6:00:00">06h00</option>
+                                            <option value="8:00:00">08h00</option>
+                                            <option value="10:00:00">10h00</option>
+                                            <option value="12:00:00">12h00</option>
+                                            <option value="16:00:00">16h00</option>
+                                            <option value="18:00:00">18h00</option>
+                                            <option value="20:00:00">20h00</option>
+                                            <option value="22:00:00">22h00</option>
+                                            <option value="23:59:59">Minuit</option>
+                                        </select>
                                     </Col>
                                 </Row>
                                 <hr className="mt-2 mb-2"/>
@@ -270,8 +336,28 @@ class CreateElection extends Component {
                                     <Col xs="12" md="3" lg="2">
                                         <Label for="title">Date de fin :</Label>
                                     </Col>
-                                    <Col xs="12" md="9" lg="10" >
-                                        <input className="form-control" />
+                                    <Col xs="6" md="4" lg="3" >
+                                        <input className="form-control"
+                                               type="date"
+                                               value={this.state.finishedDayAt}
+                                               min={this.state.startedDayAt}
+                                               onChange={e => this.setState({ finishedDayAt: e.target.value })} />
+                                    </Col>
+                                    <Col xs="6" md="5" lg="3" >
+                                        <select className="form-control" value={this.state.finishedTimeAt} onChange={e => this.setState({ finishedTimeAt: e.target.value })} >
+                                            <option value="2:00:00">02h00</option>
+                                            <option value="3:00:00">03h00</option>
+                                            <option value="4:00:00">04h00</option>
+                                            <option value="6:00:00">06h00</option>
+                                            <option value="8:00:00">08h00</option>
+                                            <option value="10:00:00">10h00</option>
+                                            <option value="12:00:00">12h00</option>
+                                            <option value="16:00:00">16h00</option>
+                                            <option value="18:00:00">18h00</option>
+                                            <option value="20:00:00">20h00</option>
+                                            <option value="22:00:00">22h00</option>
+                                            <option value="23:59:59">Minuit</option>
+                                        </select>
                                     </Col>
                                 </Row>
                                 <hr className="mt-2 mb-2"/>
@@ -305,7 +391,29 @@ class CreateElection extends Component {
                                         <Label for="title">Participants :</Label>
                                     </Col>
                                     <Col xs="12" md="9" lg="10" >
-                                        <input className="form-control" />
+                                        <ReactMultiEmail
+                                            placeholder="Saisissez ici les e-mails des participants"
+                                            emails={electorEmails}
+                                            onChange={(_emails: string[]) => {
+                                                this.setState({ electorEmails: _emails });
+                                            }}
+                                            validateEmail={email => {
+                                                return isEmail(email); // return boolean
+                                            }}
+                                            getLabel={(
+                                                email: string,
+                                                index: number,
+                                                removeEmail: (index: number) => void,
+                                            ) => {
+                                                return (
+                                                    <div data-tag key={index}>
+                                                        {email}
+                                                        <span data-tag-handle onClick={() => removeEmail(index)}>×</span>
+                                                    </div>
+                                                );
+                                            }}
+                                        />
+                                        <div><small className="text-muted">Liste des e-mails à préciser si vous désirez réaliser un vote fermé.</small></div>
                                     </Col>
                                 </Row>
                                 <hr className="mt-2 mb-2"/>
@@ -319,9 +427,9 @@ class CreateElection extends Component {
                                 <div key="modal-title">Confirmez votre vote</div>
                                 <div key="modal-body">
                                     <div className="mt-1 mb-1">
-                                        <div className="text-white bg-primary p-1">Question du vote :</div>
+                                        <div className="text-white bg-primary p-1">Question du vote</div>
                                         <div className="p-1 pl-3"><em>{this.state.title}</em></div>
-                                        <div className="text-white bg-primary p-1">Candidats/Propositions :</div>
+                                        <div className="text-white bg-primary p-1">Candidats/Propositions</div>
                                         <div className="p-1 pl-0"><ul className="m-0 pl-4">
                                             {
                                                 this.state.candidates.map((candidate,i) => {
@@ -334,11 +442,18 @@ class CreateElection extends Component {
                                                 })
                                             }
                                         </ul></div>
-                                        <div className="text-white bg-primary p-1">Mentions :</div>
+                                        <div className="text-white bg-primary p-1 mt-1">Dates</div>
+                                        <p className="p-1 pl-3">Le vote se déroulera du <b>{this.formatDate(this.state.startedDayAt,this.state.startedTimeAt)}</b> au  <b>{this.formatDate(this.state.finishedDayAt,this.state.finishedTimeAt)}</b></p>
+                                        <div className="text-white bg-primary p-1">Mentions</div>
                                         <div className="p-1 pl-3">{ grades.map((mention,i) => {
                                             return (i<this.state.numGrades)?<span key={i} className="badge badge-light mr-2 mt-2" style={{backgroundColor:mention.color,color:"#fff"}}>{mention.label}</span>:<span key={i}/>
                                         })
                                         }</div>
+                                        <div className="text-white bg-primary p-1 mt-1">Liste des électeurs</div>
+                                        <div className="p-1 pl-3">
+                                            {(electorEmails.length>0)?electorEmails.join(', '):<p>Aucune adresse e-mail précisée.<br /><em>Le vote sera ouvert à tous les utilisateurs ayant le lien du vote</em></p>}
+
+                                        </div>
                                     </div>
                                 </div>
                                 <div key="modal-confirm" onClick={this.handleSubmit}>Lancer le vote</div>

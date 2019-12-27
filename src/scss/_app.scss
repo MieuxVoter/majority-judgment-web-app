@@ -311,3 +311,9 @@ li.sortable{
   margin-left: 50%;
   margin-top: -15px;
 }
+
+
+/** react multi email **/
+.react-multi-email > span[data-placeholder] {
+  padding: 0.25em !important;
+}
