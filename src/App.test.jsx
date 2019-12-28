@@ -7,10 +7,10 @@ import App from "./App";
 import Adapter from "enzyme-adapter-react-16";
 import { mount, configure } from "enzyme";
 
-import Home from "./components/views/Home.js";
-import CreateElection from "./components/views/CreateElection.js";
-import Result from "./components/views/Result.js";
-import Vote from "./components/views/Vote.js";
+import Home from "./components/views/Home";
+import CreateElection from "./components/views/CreateElection";
+import Result from "./components/views/Result";
+import Vote from "./components/views/Vote";
 import UnknownView from "./components/views/UnknownView";
 
 configure({ adapter: new Adapter() });
@@ -57,24 +57,24 @@ describe("open good View component for each route", () => {
     expect(wrapper.find(UnknownView)).toHaveLength(0);
   });
 
-  it("should show Vote view component for `/vote`", () => {
+  it("should show UnknownView view component for `/vote`", () => {
     const wrapper = mount(
       <MemoryRouter initialEntries={["/vote"]}>
         <Routes />
       </MemoryRouter>
     );
-    expect(wrapper.find(Vote)).toHaveLength(1);
-    expect(wrapper.find(UnknownView)).toHaveLength(0);
+    expect(wrapper.find(Vote)).toHaveLength(0);
+    expect(wrapper.find(UnknownView)).toHaveLength(1);
   });
 
-  it("should show Result view component for `/result`", () => {
+  it("should show UnknownView view component for `/result`", () => {
     const wrapper = mount(
       <MemoryRouter initialEntries={["/result"]}>
         <Routes />
       </MemoryRouter>
     );
-    expect(wrapper.find(Result)).toHaveLength(1);
-    expect(wrapper.find(UnknownView)).toHaveLength(0);
+    expect(wrapper.find(Result)).toHaveLength(0);
+    expect(wrapper.find(UnknownView)).toHaveLength(1);
   });
 
   it("should show UnknownView view component for `/aaabbbcccddd`", () => {
