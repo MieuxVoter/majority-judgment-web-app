@@ -126,7 +126,7 @@ class CreateElection extends Component {
     this.state = {
       candidates: [{ label: "" }, { label: "" }],
       numCandidatesWithLabel: 0,
-      title: null,
+      title: this.props.title,
       isVisibleTipsDragAndDropCandidate: true,
       numGrades: 7,
       successCreate: false,
@@ -211,15 +211,13 @@ class CreateElection extends Component {
     this.setState({ isAdvancedOptionsOpen: !this.state.isAdvancedOptionsOpen });
   };
 
-  componentWillMount() {
-    const params = new URLSearchParams(this.props.location.search);
-    this.setState({ title: params.get("title") ? params.get("title") : "" });
-  }
-
   handleSubmit() {
     const { candidates, title, numGrades } = this.state;
 
-    const endpoint = resolve(process.env.REACT_APP_SERVER_URL, "election/");
+    const endpoint = resolve(
+      this.props.urlServer,
+      this.props.routesServer.setElection
+    );
 
     fetch(endpoint, {
       method: "POST",
@@ -310,7 +308,7 @@ class CreateElection extends Component {
                 id="title"
                 innerRef={this.focusInput}
                 autoFocus
-                defaultValue={params.get("title") ? params.get("title") : ""}
+                defaultValue={this.props.title}
                 onChange={this.handleChangeTitle}
                 maxLength="250"
               />
