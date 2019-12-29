@@ -8,7 +8,7 @@ import logoLine from "../../logos/logo-line-white.svg";
 class UnknownView extends Component {
   constructor(props) {
     super(props);
-    const electionSlug = this.props.match.params.handle;
+    const electionSlug = this.props.slug;
     this.state = {
       urlOfVote:
         "https://" + window.location.hostname + "/vote/" + electionSlug,
@@ -118,10 +118,7 @@ class UnknownView extends Component {
 
         <Row className="mt-4 mb-4">
           <Col className="text-center">
-            <Link
-              to={"/vote/" + this.props.match.params.handle}
-              className="btn btn-success"
-            >
+            <Link to={"/vote/" + this.props.slug} className="btn btn-success">
               <FontAwesomeIcon icon={faUsers} className="mr-2" />
               Participer maintenant !
             </Link>

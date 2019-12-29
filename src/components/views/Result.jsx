@@ -94,12 +94,10 @@ class Result extends Component {
   componentDidMount() {
     // FIXME we should better handling logs
 
-    const electionSlug = this.props.match.params.handle;
-
     // get details of the election
     const detailsEndpoint = resolve(
-      process.env.REACT_APP_SERVER_URL,
-      "election/get/".concat(electionSlug)
+      this.props.urlServer,
+      this.props.routesServer.getElection.replace(new RegExp(":slug","g"),(this.props.slug))
     );
 
     fetch(detailsEndpoint)
@@ -110,8 +108,8 @@ class Result extends Component {
 
     // get results of the election
     const resultsEndpoint = resolve(
-      process.env.REACT_APP_SERVER_URL,
-      "election/results/".concat(electionSlug)
+      this.props.urlServer,
+      this.props.routesServer.getResultsElection.replace(new RegExp(":slug","g"),(this.props.slug))
     );
 
     fetch(resultsEndpoint)
