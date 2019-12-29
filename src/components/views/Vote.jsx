@@ -89,13 +89,10 @@ class Vote extends Component {
 
   componentDidMount() {
     // FIXME we should better handling logs
-
-    const electionSlug = this.props.match.params.handle;
     const detailsEndpoint = resolve(
-      process.env.REACT_APP_SERVER_URL,
-      "election/get/".concat(electionSlug)
+      this.props.urlServer,
+      this.props.routesServer.getElection.replace(new RegExp(":slug","g"),(this.props.slug))
     );
-
     fetch(detailsEndpoint)
       .then(this.handleErrors)
       .then(response => response.json())
@@ -126,10 +123,10 @@ class Vote extends Component {
     event.preventDefault();
 
     const { ratedCandidates } = this.state;
-    const electionSlug = this.props.match.params.handle;
+    const electionSlug = this.props.slug;
     const endpoint = resolve(
-      process.env.REACT_APP_SERVER_URL,
-      "election/vote/"
+      this.props.urlServer,
+      this.props.routesServer.voteElection.replace(new RegExp(":slug","g"),(this.props.slug))
     );
 
     const gradesById = {};
