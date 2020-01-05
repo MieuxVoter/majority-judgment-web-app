@@ -37,6 +37,7 @@ import {
 import { grades } from "../../Util";
 import { ReactMultiEmail, isEmail } from "react-multi-email";
 import "react-multi-email/style.css";
+import { AppContext } from "../../AppContext";
 
 const DragHandle = sortableHandle(({ children }) => (
   <span className="input-group-text indexNumber">{children}</span>
@@ -115,6 +116,7 @@ const SortableCandidatesContainer = sortableContainer(({ items, form }) => {
 });
 
 class CreateElection extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     //default value : start now
@@ -122,11 +124,11 @@ class CreateElection extends Component {
     const startedHour = startedAt.getHours();
     //default value : finish in one week
     const finishedAt = new Date(startedAt.getTime() + 7 * 24 * 60 * 60 * 1000);
-
+    const params = new URLSearchParams(window.location.search);
     this.state = {
       candidates: [{ label: "" }, { label: "" }],
       numCandidatesWithLabel: 0,
-      title: this.props.title,
+      title: params.get("title") ? params.get("title") : "A",
       isVisibleTipsDragAndDropCandidate: true,
       numGrades: 7,
       successCreate: false,
@@ -163,7 +165,6 @@ class CreateElection extends Component {
   removeCandidate = index => {
     let candidates = this.state.candidates;
     candidates.splice(index, 1);
-    console.log(candidates.length);
     if (candidates.length === 0) {
       candidates = [{ label: "" }];
     }
@@ -215,8 +216,8 @@ class CreateElection extends Component {
     const { candidates, title, numGrades } = this.state;
 
     const endpoint = resolve(
-      this.props.urlServer,
-      this.props.routesServer.setElection
+      this.context.urlServer,
+      this.context.routesServer.setElection
     );
 
     fetch(endpoint, {
@@ -282,7 +283,6 @@ class CreateElection extends Component {
   render() {
     const { successCreate, redirectTo } = this.state;
     const { electorEmails } = this.state;
-    const params = new URLSearchParams(this.props.location.search);
 
     if (successCreate) return <Redirect to={redirectTo} />;
 
@@ -308,7 +308,7 @@ class CreateElection extends Component {
                 id="title"
                 innerRef={this.focusInput}
                 autoFocus
-                defaultValue={this.props.title}
+                value={this.state.title}
                 onChange={this.handleChangeTitle}
                 maxLength="250"
               />

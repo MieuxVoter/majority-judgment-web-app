@@ -5,7 +5,9 @@ import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import { Redirect } from "react-router-dom";
 import logoLine from "../../logos/logo-line-white.svg";
 
+
 class Home extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +23,7 @@ class Home extends Component {
   };
 
   handleChangeTitle = event => {
+    //console.log(this.context.routesServer.setElection);
     this.setState({ title: event.target.value });
   };
 

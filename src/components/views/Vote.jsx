@@ -6,8 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { resolve } from "url";
 import { grades } from "../../Util";
+import { AppContext } from "../../AppContext";
 
 class Vote extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -89,9 +91,13 @@ class Vote extends Component {
 
   componentDidMount() {
     // FIXME we should better handling logs
+    const electionSlug = this.props.match.params.slug;
     const detailsEndpoint = resolve(
-      this.props.urlServer,
-      this.props.routesServer.getElection.replace(new RegExp(":slug","g"),(this.props.slug))
+      this.context.urlServer,
+      this.context.routesServer.getElection.replace(
+        new RegExp(":slug", "g"),
+          electionSlug
+      )
     );
     fetch(detailsEndpoint)
       .then(this.handleErrors)
@@ -123,10 +129,13 @@ class Vote extends Component {
     event.preventDefault();
 
     const { ratedCandidates } = this.state;
-    const electionSlug = this.props.slug;
+    const electionSlug = this.props.match.params.slug;
     const endpoint = resolve(
-      this.props.urlServer,
-      this.props.routesServer.voteElection.replace(new RegExp(":slug","g"),(this.props.slug))
+      this.context.urlServer,
+      this.context.routesServer.voteElection.replace(
+        new RegExp(":slug", "g"),
+        electionSlug
+      )
     );
 
     const gradesById = {};

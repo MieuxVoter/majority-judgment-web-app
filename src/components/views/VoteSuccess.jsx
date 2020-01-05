@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
 import logoLine from "../../logos/logo-line-white.svg";
 import { Link } from "react-router-dom";
+import { AppContext } from "../../AppContext";
 
-class UnknownView extends Component {
+class VoteSuccess extends Component {
+  static contextType = AppContext;
   render() {
     return (
       <Container>
@@ -30,4 +32,4 @@ class UnknownView extends Component {
     );
   }
 }
-export default UnknownView;
+export default VoteSuccess;
