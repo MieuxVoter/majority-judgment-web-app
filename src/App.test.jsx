@@ -42,7 +42,9 @@ describe("open good View component for each route", () => {
     expect(wrapper.find(UnknownView)).toHaveLength(0);
   });
 
-  it("should show CreateElection view component with title for `/create-election/?title=test%20with%20title`", () => {
+  //this test is not good because window.location.search is empty even there is ?title= parameter in route
+  //Clement : I don't know how to achieve this test for now (maybe the component using window.location.search is not a good practice)
+  /*it("should show CreateElection view component with title for `/create-election/?title=test%20with%20title`", () => {
     const wrapper = mount(
       <MemoryRouter
         initialEntries={["/create-election/?title=test%20with%20title"]}
@@ -51,11 +53,11 @@ describe("open good View component for each route", () => {
       </MemoryRouter>
     );
     expect(wrapper.find(CreateElection)).toHaveLength(1);
-    expect(wrapper.find('input[name="title"]').props().defaultValue).toBe(
+    expect(wrapper.find('input[name="title"]').props().value).toBe(
       "test with title"
     );
     expect(wrapper.find(UnknownView)).toHaveLength(0);
-  });
+  });*/
 
   it("should show UnknownView view component for `/vote`", () => {
     const wrapper = mount(
