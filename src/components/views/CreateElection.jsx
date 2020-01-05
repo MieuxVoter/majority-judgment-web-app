@@ -128,7 +128,7 @@ class CreateElection extends Component {
     this.state = {
       candidates: [{ label: "" }, { label: "" }],
       numCandidatesWithLabel: 0,
-      title: params.get("title") ? params.get("title") : "A",
+      title: params.get("title") ? params.get("title") : "",
       isVisibleTipsDragAndDropCandidate: true,
       numGrades: 7,
       successCreate: false,
