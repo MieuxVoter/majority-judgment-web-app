@@ -17,11 +17,11 @@ function Routes() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/create-election" component={CreateElection} />
-        <Route path="/vote/:handle" component={Vote} />
-        <Route path="/result/:handle" component={Result} />
-        <Route path="/create-success/:handle" component={CreateSuccess} />
-        <Route path="/vote-success/:handle" component={VoteSuccess} />
-        <Route path="/unknown-election/:handle" component={UnknownElection} />
+        <Route path="/vote/:slug" component={Vote} />
+        <Route path="/result/:slug" component={Result} />
+        <Route path="/create-success/:slug" component={CreateSuccess} />
+        <Route path="/vote-success/:slug" component={VoteSuccess} />
+        <Route path="/unknown-election/:slug" component={UnknownElection} />
         <Route component={UnknownView} />
       </Switch>
     </main>
