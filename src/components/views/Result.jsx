@@ -12,8 +12,10 @@ import {
   Table
 } from "reactstrap";
 import { grades } from "../../Util";
+import { AppContext } from "../../AppContext";
 
 class Result extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -95,9 +97,13 @@ class Result extends Component {
     // FIXME we should better handling logs
 
     // get details of the election
+    const electionSlug = this.props.match.params.slug;
     const detailsEndpoint = resolve(
-      this.props.urlServer,
-      this.props.routesServer.getElection.replace(new RegExp(":slug","g"),(this.props.slug))
+      this.context.urlServer,
+      this.context.routesServer.getElection.replace(
+        new RegExp(":slug", "g"),
+          electionSlug
+      )
     );
 
     fetch(detailsEndpoint)
@@ -108,8 +114,11 @@ class Result extends Component {
 
     // get results of the election
     const resultsEndpoint = resolve(
-      this.props.urlServer,
-      this.props.routesServer.getResultsElection.replace(new RegExp(":slug","g"),(this.props.slug))
+      this.context.urlServer,
+      this.context.routesServer.getResultsElection.replace(
+        new RegExp(":slug", "g"),
+          electionSlug
+      )
     );
 
     fetch(resultsEndpoint)

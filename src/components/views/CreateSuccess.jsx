@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import { faCopy, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logoLine from "../../logos/logo-line-white.svg";
+import { AppContext } from "../../AppContext";
 
-class UnknownView extends Component {
+class CreateSuccess extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
-    const electionSlug = this.props.slug;
+    const electionSlug = this.props.match.params.slug;
     this.state = {
       urlOfVote:
         "https://" + window.location.hostname + "/vote/" + electionSlug,
@@ -118,7 +120,7 @@ class UnknownView extends Component {
 
         <Row className="mt-4 mb-4">
           <Col className="text-center">
-            <Link to={"/vote/" + this.props.slug} className="btn btn-success">
+            <Link to={"/vote/" + this.props.match.params.slug} className="btn btn-success">
               <FontAwesomeIcon icon={faUsers} className="mr-2" />
               Participer maintenant !
             </Link>
@@ -128,4 +130,4 @@ class UnknownView extends Component {
     );
   }
 }
-export default UnknownView;
+export default CreateSuccess;
