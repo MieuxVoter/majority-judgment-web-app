@@ -11,19 +11,21 @@ class Footer extends Component {
   render() {
     return (
       <footer className="text-center">
-        <Link to="/">Accueil</Link>
-        <span className="m-2">-</span>
-        <a href="https://github.com/MieuxVoter">Code source</a>
-        <span className="m-2">-</span>
-        <a href="https://mieuxvoter.fr/">Qui sommes nous ?</a>
-	<a href="https://www.helloasso.com/associations/mieux-voter">
+      	  <Link to="/">Accueil</Link>
+          <span className="m-2">-</span>
+          <a href="https://github.com/MieuxVoter">Code source</a>
+          <span className="m-2">-</span>
+          <a href="https://mieuxvoter.fr/">Qui sommes nous ?</a>
+          <a href="https://www.helloasso.com/associations/mieux-voter" >
             <div className="mt-2">
               <div className="align-self-center">
-                <img src={logo} alt="logo" height="32" />
+              <h5>Faire un don :     <img src={logo} alt="logo" height="28" />
+               </h5> 
               </div>
             </div>
         </a>
-        <div className="mt-2">MieuxVoter &copy;</div>
+          <div className="mt-2">MieuxVoter &copy; </div>
+            
       </footer>
     );
   }
