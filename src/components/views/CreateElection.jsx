@@ -219,6 +219,10 @@ class CreateElection extends Component {
       this.context.urlServer,
       this.context.routesServer.setElection
     );
+    const startedAtAsArray=this.state.startedDayAt.split("-").concat(this.state.startedTimeAt.split(":"));
+    const startedAtAsDate = new Date(startedAtAsArray[0], startedAtAsArray[1], startedAtAsArray[2], startedAtAsArray[3], startedAtAsArray[4], startedAtAsArray[5]);
+    const finishedAtAsArray=this.state.finishedDayAt.split("-").concat(this.state.finishedTimeAt.split(":"));
+    const finishedAtAsDate = new Date(finishedAtAsArray[0], finishedAtAsArray[1], finishedAtAsArray[2], finishedAtAsArray[3], finishedAtAsArray[4], finishedAtAsArray[5]);
 
     fetch(endpoint, {
       method: "POST",
@@ -231,9 +235,8 @@ class CreateElection extends Component {
         on_invitation_only: this.state.electorEmails.length > 0,
         num_grades: numGrades,
         elector_emails: this.state.electorEmails,
-        started_at: this.state.startedDayAt + " " + this.state.startedTimeAt,
-        finished_at: this.state.finishedDayAt + " " + this.state.finishedTimeAt,
-        time_offset: new Date().getTimezoneOffset()
+        started_at: startedAtAsDate.getTime()/1000,
+        finished_at: finishedAtAsDate.getTime()/1000
       })
     })
       .then(response => response.json())
