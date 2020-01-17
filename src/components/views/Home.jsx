@@ -83,7 +83,7 @@ class Home extends Component {
             </Col>
           </Row>
         </form>
-	<a href="https://www.helloasso.com/associations/mieux-voter">
+	<a href="https://www.helloasso.com/associations/mieux-voter" target="_blank">
           <Button
                   type="submit"
                   className="btn btn-block btn-secondary mt-2 "
