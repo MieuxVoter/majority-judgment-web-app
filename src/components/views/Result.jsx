@@ -340,7 +340,7 @@ class Result extends Component {
         </Row>
 	<Row>
           <Col>
-            <h2 className="text-center ml-2"> Cette nouvelle manière de voter vous a plu ? Notre devoir est de rendre les éléctions aux élécteurs. Aidez-nous en adhérant à Mieux Voter ! Plus de détail <a href= "https://www.helloasso.com/associations/mieux-voter">ici</a>.</h2>
+            <h2 className="text-center ml-2"> Cette nouvelle manière de voter vous a plu ? Notre devoir est de rendre les éléctions aux élécteurs. Aidez-nous en adhérant à Mieux Voter ! Plus de détail <a href= "https://www.helloasso.com/associations/mieux-voter" target="_blank">ici</a>.</h2>
             <Link to="/">
               <Button
               type="button"
