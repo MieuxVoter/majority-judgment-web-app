@@ -12,14 +12,12 @@ class HelpButton extends Component {
   }
 
   showTooltip = () => {
-    console.log("show");
     this.setState({
       tooltipOpen: true
     });
   };
 
   hideTooltip = () => {
-    console.log("hide");
     this.setState({
       tooltipOpen: false
     });
