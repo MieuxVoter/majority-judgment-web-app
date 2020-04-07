@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import React, {Component} from 'react';
+import {Redirect, withRouter} from 'react-router-dom';
 import {
   Collapse,
   Container,
@@ -11,41 +11,58 @@ import {
   InputGroupAddon,
   Button,
   Card,
-  CardBody
-} from "reactstrap";
+  CardBody,
+} from 'reactstrap';
 
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { resolve } from "url";
-import HelpButton from "../form/HelpButton";
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {resolve} from 'url';
+import queryString from 'query-string';
+import HelpButton from '../form/HelpButton';
 import {
   arrayMove,
   sortableContainer,
   sortableElement,
-  sortableHandle
-} from "react-sortable-hoc";
-import ButtonWithConfirm from "../form/ButtonWithConfirm";
+  sortableHandle,
+} from 'react-sortable-hoc';
+import ButtonWithConfirm from '../form/ButtonWithConfirm';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faPlus,
   faTrashAlt,
   faCheck,
-  faCogs
-} from "@fortawesome/free-solid-svg-icons";
+  faCogs,
+} from '@fortawesome/free-solid-svg-icons';
 
-import { grades } from "../../Util";
-import { ReactMultiEmail, isEmail } from "react-multi-email";
-import "react-multi-email/style.css";
-import { AppContext } from "../../AppContext";
+import {grades} from '../../Util';
+import {ReactMultiEmail, isEmail} from 'react-multi-email';
+import 'react-multi-email/style.css';
+import {AppContext} from '../../AppContext';
 
-const DragHandle = sortableHandle(({ children }) => (
+// Convert a Date object into YYYY-MM-DD
+const dateToISO = date => date.toISOString().substring(0, 10);
+
+// Retrieve the current hour, minute, sec, ms, time into a timestamp
+const hours = date => date.getHours() * 3600 * 1000;
+const minutes = date => date.getMinutes() * 60 * 1000;
+const seconds = date => date.getSeconds() * 1000;
+const ms = date => date.getMilliseconds() * 1000;
+const time = date => hours(date) + minutes(date) + seconds(date) + ms(date);
+
+// Retrieve the time part from a timestamp and remove the day. Return a int.
+const timeMinusDate = date => time(date);
+
+// Retrieve the day and remove the time. Return a Date
+const dateMinusTime = date => new Date(date.getTime() - time(date));
+
+const DragHandle = sortableHandle(({children}) => (
   <span className="input-group-text indexNumber">{children}</span>
 ));
 
-const SortableCandidate = sortableElement(({ candidate, sortIndex, form }) => (
+const SortableCandidate = sortableElement(({candidate, sortIndex, form}) => (
   <li className="sortable">
-    <Row key={"rowCandidate" + sortIndex}>
+    <Row key={'rowCandidate' + sortIndex}>
       <Col>
         <InputGroup>
           <InputGroupAddon addonType="prepend">
@@ -71,18 +88,17 @@ const SortableCandidate = sortableElement(({ candidate, sortIndex, form }) => (
             </div>
             <div key="modal-title">Suppression ?</div>
             <div key="modal-body">
-              Êtes-vous sûr de vouloir supprimer{" "}
-              {candidate.label !== "" ? (
+              Êtes-vous sûr de vouloir supprimer{' '}
+              {candidate.label !== '' ? (
                 <b>"{candidate.label}"</b>
               ) : (
                 <span>la ligne {sortIndex + 1}</span>
-              )}{" "}
+              )}{' '}
               ?
             </div>
             <div
               key="modal-confirm"
-              onClick={() => form.removeCandidate(sortIndex)}
-            >
+              onClick={() => form.removeCandidate(sortIndex)}>
               Oui
             </div>
             <div key="modal-cancel">Non</div>
@@ -99,7 +115,7 @@ const SortableCandidate = sortableElement(({ candidate, sortIndex, form }) => (
   </li>
 ));
 
-const SortableCandidatesContainer = sortableContainer(({ items, form }) => {
+const SortableCandidatesContainer = sortableContainer(({items, form}) => {
   return (
     <ul className="sortable">
       {items.map((candidate, index) => (
@@ -119,26 +135,24 @@ class CreateElection extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    //default value : start now
-    const startedAt = new Date();
-    const startedHour = startedAt.getHours();
-    //default value : finish in one week
-    const finishedAt = new Date(startedAt.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const params = new URLSearchParams(window.location.search);
+    // default value : start at the last hour
+    const now = new Date();
+    const start = new Date(dateMinusTime(now).getTime() + hours(now));
+    const { title } = queryString.parse(this.props.location.search);
+
     this.state = {
-      candidates: [{ label: "" }, { label: "" }],
+      candidates: [{label: ''}, {label: ''}],
       numCandidatesWithLabel: 0,
-      title: params.get("title") ? params.get("title") : "",
+      title: title || '',
       isVisibleTipsDragAndDropCandidate: true,
       numGrades: 7,
       successCreate: false,
       redirectTo: null,
       isAdvancedOptionsOpen: false,
-      startedDayAt: startedAt.toISOString().substring(0, 10),
-      finishedDayAt: finishedAt.toISOString().substring(0, 10),
-      startedTimeAt: Math.floor(startedHour / 2) * 2 + ":00:00",
-      finishedTimeAt: "23:59:59",
-      electorEmails: []
+      start,
+      // by default, the election ends in a week
+      finish: new Date(start.getTime() + 7 * 24 * 3600 * 1000),
+      electorEmails: [],
     };
     this.candidateInputs = [];
     this.focusInput = React.createRef();
@@ -146,16 +160,16 @@ class CreateElection extends Component {
   }
 
   handleChangeTitle = event => {
-    this.setState({ title: event.target.value });
+    this.setState({title: event.target.value});
   };
 
   addCandidate = event => {
     let candidates = this.state.candidates;
     if (candidates.length < 100) {
-      candidates.push({ label: "" });
-      this.setState({ candidates: candidates });
+      candidates.push({label: ''});
+      this.setState({candidates: candidates});
     }
-    if (event.type === "keypress") {
+    if (event.type === 'keypress') {
       setTimeout(() => {
         this.candidateInputs[this.state.candidates.length - 1].focus();
       }, 250);
@@ -166,9 +180,9 @@ class CreateElection extends Component {
     let candidates = this.state.candidates;
     candidates.splice(index, 1);
     if (candidates.length === 0) {
-      candidates = [{ label: "" }];
+      candidates = [{label: ''}];
     }
-    this.setState({ candidates: candidates });
+    this.setState({candidates: candidates});
   };
 
   editCandidateLabel = (event, index) => {
@@ -176,19 +190,19 @@ class CreateElection extends Component {
     let numLabels = 0;
     candidates[index].label = event.currentTarget.value;
     candidates.map((candidate, i) => {
-      if (candidate.label !== "") {
+      if (candidate.label !== '') {
         numLabels++;
       }
       return candidate.label;
     });
     this.setState({
       candidates: candidates,
-      numCandidatesWithLabel: numLabels
+      numCandidatesWithLabel: numLabels,
     });
   };
 
   handleKeypressOnCandidateLabel = (event, index) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       event.preventDefault();
       if (index + 1 === this.state.candidates.length) {
         this.addCandidate(event);
@@ -198,36 +212,33 @@ class CreateElection extends Component {
     }
   };
 
-  onCandidatesSortEnd = ({ oldIndex, newIndex }) => {
+  onCandidatesSortEnd = ({oldIndex, newIndex}) => {
     let candidates = this.state.candidates;
     candidates = arrayMove(candidates, oldIndex, newIndex);
-    this.setState({ candidates: candidates });
+    this.setState({candidates: candidates});
   };
 
   handleChangeNumGrades = event => {
-    this.setState({ numGrades: event.target.value });
+    this.setState({numGrades: event.target.value});
   };
 
   toggleAdvancedOptions = () => {
-    this.setState({ isAdvancedOptionsOpen: !this.state.isAdvancedOptionsOpen });
+    this.setState({isAdvancedOptionsOpen: !this.state.isAdvancedOptionsOpen});
   };
 
   handleSubmit() {
-    const { candidates, title, numGrades } = this.state;
+    const {candidates, title, numGrades, start, finish} = this.state;
 
+    console.log("dates", start, finish);
     const endpoint = resolve(
       this.context.urlServer,
-      this.context.routesServer.setElection
+      this.context.routesServer.setElection,
     );
-    const startedAtAsArray=this.state.startedDayAt.split("-").concat(this.state.startedTimeAt.split(":"));
-    const startedAtAsDate = new Date(startedAtAsArray[0], startedAtAsArray[1], startedAtAsArray[2], startedAtAsArray[3], startedAtAsArray[4], startedAtAsArray[5]);
-    const finishedAtAsArray=this.state.finishedDayAt.split("-").concat(this.state.finishedTimeAt.split(":"));
-    const finishedAtAsDate = new Date(finishedAtAsArray[0], finishedAtAsArray[1], finishedAtAsArray[2], finishedAtAsArray[3], finishedAtAsArray[4], finishedAtAsArray[5]);
 
     fetch(endpoint, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         title: title,
@@ -235,57 +246,29 @@ class CreateElection extends Component {
         on_invitation_only: this.state.electorEmails.length > 0,
         num_grades: numGrades,
         elector_emails: this.state.electorEmails,
-        started_at: startedAtAsDate.getTime()/1000,
-        finished_at: finishedAtAsDate.getTime()/1000
-      })
+        start_at: start.getTime() / 1000,
+        finish_at: finish.getTime() / 1000,
+      }),
     })
       .then(response => response.json())
       .then(result =>
         this.setState(state => ({
-          redirectTo: "/create-success/" + result.id,
-          successCreate: true
-        }))
+          redirectTo: '/create-success/' + result.id,
+          successCreate: true,
+        })),
       )
       .catch(error => error);
   }
 
   handleSendWithoutCandidate = () => {
-    toast.error("Vous devez saisir au moins deux candidats !", {
-      position: toast.POSITION.TOP_CENTER
+    toast.error('Vous devez saisir au moins deux candidats !', {
+      position: toast.POSITION.TOP_CENTER,
     });
   };
 
-  formatDate = (dateIsoStr, timeIsoStr) => {
-    let date = new Date(dateIsoStr + "T" + timeIsoStr);
-    let day = date.getDate();
-    let month = date.getMonth() + 1; //Months are zero based
-    let year = date.getFullYear();
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-
-    if (month < 10) {
-      month = "0" + month;
-    }
-    if (day < 10) {
-      day = "0" + day;
-    }
-    if (hours < 10) {
-      hours = "0" + hours;
-    }
-    if (minutes < 10) {
-      minutes = "0" + minutes;
-    }
-    let hoursString = hours + "h" + minutes;
-    if (hoursString === "23h59") {
-      hoursString = "minuit";
-    }
-
-    return day + "/" + month + "/" + year + " à " + hoursString;
-  };
-
   render() {
-    const { successCreate, redirectTo } = this.state;
-    const { electorEmails } = this.state;
+    const {successCreate, redirectTo} = this.state;
+    const {electorEmails} = this.state;
 
     if (successCreate) return <Redirect to={redirectTo} />;
 
@@ -321,7 +304,7 @@ class CreateElection extends Component {
                 Posez ici votre question ou introduisez simplement votre vote
                 (250 caractères max.)
                 <br />
-                <u>Par exemple :</u>{" "}
+                <u>Par exemple :</u>{' '}
                 <em>Pour être mon représentant, je juge ce candidat ...</em>
               </HelpButton>
             </Col>
@@ -346,8 +329,7 @@ class CreateElection extends Component {
                 className="btn-block mt-2"
                 tabIndex={this.state.candidates.length + 2}
                 type="button"
-                onClick={event => this.addCandidate(event)}
-              >
+                onClick={event => this.addCandidate(event)}>
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
                 Ajouter une proposition
               </Button>
@@ -356,13 +338,11 @@ class CreateElection extends Component {
               xs="12"
               sm="6"
               md="12"
-              className="text-center text-sm-right text-md-left"
-            >
+              className="text-center text-sm-right text-md-left">
               <Button
                 color="link"
                 className="text-white mt-3 mb-1"
-                onClick={this.toggleAdvancedOptions}
-              >
+                onClick={this.toggleAdvancedOptions}>
                 <FontAwesomeIcon icon={faCogs} className="mr-2" />
                 Options avancées
               </Button>
@@ -379,32 +359,34 @@ class CreateElection extends Component {
                     <input
                       className="form-control"
                       type="date"
-                      value={this.state.startedDayAt}
-                      onChange={e =>
-                        this.setState({ startedDayAt: e.target.value })
-                      }
+                      value={dateToISO(this.state.start)}
+                      onChange={e => {
+                        this.setState({
+                          start:
+                            timeMinusDate(this.state.start) +
+                            new Date(e.target.valueAsNumber),
+                        });
+                      }}
                     />
                   </Col>
                   <Col xs="6" md="5" lg="3">
                     <select
                       className="form-control"
-                      value={this.state.startedTimeAt}
+                      value={this.state.start.getHours()}
                       onChange={e =>
-                        this.setState({ startedTimeAt: e.target.value })
-                      }
-                    >
-                      <option value="2:00:00">02h00</option>
-                      <option value="3:00:00">03h00</option>
-                      <option value="4:00:00">04h00</option>
-                      <option value="6:00:00">06h00</option>
-                      <option value="8:00:00">08h00</option>
-                      <option value="10:00:00">10h00</option>
-                      <option value="12:00:00">12h00</option>
-                      <option value="16:00:00">16h00</option>
-                      <option value="18:00:00">18h00</option>
-                      <option value="20:00:00">20h00</option>
-                      <option value="22:00:00">22h00</option>
-                      <option value="23:59:59">Minuit</option>
+                        this.setState({
+                          start:
+                            dateMinusTime(this.state.start) +
+                            new Date(e.target.value) * 3600000,
+                        })
+                      }>
+                      {Array(22)
+                        .fill(1)
+                        .map((x, i) => (
+                          <option value={i} key={i}>
+                            {i}h00
+                          </option>
+                        ))}
                     </select>
                   </Col>
                 </Row>
@@ -417,33 +399,35 @@ class CreateElection extends Component {
                     <input
                       className="form-control"
                       type="date"
-                      value={this.state.finishedDayAt}
-                      min={this.state.startedDayAt}
-                      onChange={e =>
-                        this.setState({ finishedDayAt: e.target.value })
-                      }
+                      value={dateToISO(this.state.finish)}
+                      min={dateToISO(this.state.start)}
+                      onChange={e => {
+                        this.setState({
+                          start:
+                            timeMinusDate(this.state.start) +
+                            new Date(e.target.valueAsNumber),
+                        });
+                      }}
                     />
                   </Col>
                   <Col xs="6" md="5" lg="3">
                     <select
                       className="form-control"
-                      value={this.state.finishedTimeAt}
+                      value={this.state.finish.getHours()}
                       onChange={e =>
-                        this.setState({ finishedTimeAt: e.target.value })
-                      }
-                    >
-                      <option value="2:00:00">02h00</option>
-                      <option value="3:00:00">03h00</option>
-                      <option value="4:00:00">04h00</option>
-                      <option value="6:00:00">06h00</option>
-                      <option value="8:00:00">08h00</option>
-                      <option value="10:00:00">10h00</option>
-                      <option value="12:00:00">12h00</option>
-                      <option value="16:00:00">16h00</option>
-                      <option value="18:00:00">18h00</option>
-                      <option value="20:00:00">20h00</option>
-                      <option value="22:00:00">22h00</option>
-                      <option value="23:59:59">Minuit</option>
+                        this.setState({
+                          finish:
+                            dateMinusTime(this.state.finish) +
+                            new Date(e.target.value) * 3600000,
+                        })
+                      }>
+                      {Array(22)
+                        .fill(1)
+                        .map((x, i) => (
+                          <option value={i} key={i}>
+                            {i}h00
+                          </option>
+                        ))}
                     </select>
                   </Col>
                 </Row>
@@ -457,8 +441,7 @@ class CreateElection extends Component {
                       className="form-control"
                       tabIndex={this.state.candidates.length + 3}
                       onChange={this.handleChangeNumGrades}
-                      defaultValue="7"
-                    >
+                      defaultValue="7">
                       <option value="5">5</option>
                       <option value="6">6</option>
                       <option value="7">7</option>
@@ -469,9 +452,9 @@ class CreateElection extends Component {
                       Vous pouvez choisir ici le nombre de mentions pour votre
                       vote
                       <br />
-                      <u>Par exemple : </u>{" "}
+                      <u>Par exemple : </u>{' '}
                       <em>
-                        {" "}
+                        {' '}
                         5 = Excellent, Très bien, bien, assez bien, passable
                       </em>
                     </HelpButton>
@@ -480,8 +463,7 @@ class CreateElection extends Component {
                     xs="12"
                     md="9"
                     lg="10"
-                    className="offset-xs-0 offset-md-3 offset-lg-2"
-                  >
+                    className="offset-xs-0 offset-md-3 offset-lg-2">
                     {grades.map((mention, i) => {
                       return (
                         <span
@@ -489,10 +471,9 @@ class CreateElection extends Component {
                           className="badge badge-light mr-2 mt-2 "
                           style={{
                             backgroundColor: mention.color,
-                            color: "#fff",
-                            opacity: i < this.state.numGrades ? 1 : 0.3
-                          }}
-                        >
+                            color: '#fff',
+                            opacity: i < this.state.numGrades ? 1 : 0.3,
+                          }}>
                           {mention.label}
                         </span>
                       );
@@ -509,7 +490,7 @@ class CreateElection extends Component {
                       placeholder="Saisissez ici les e-mails des participants"
                       emails={electorEmails}
                       onChange={(_emails: string[]) => {
-                        this.setState({ electorEmails: _emails });
+                        this.setState({electorEmails: _emails});
                       }}
                       validateEmail={email => {
                         return isEmail(email); // return boolean
@@ -517,15 +498,14 @@ class CreateElection extends Component {
                       getLabel={(
                         email: string,
                         index: number,
-                        removeEmail: (index: number) => void
+                        removeEmail: (index: number) => void,
                       ) => {
                         return (
                           <div data-tag key={index}>
                             {email}
                             <span
                               data-tag-handle
-                              onClick={() => removeEmail(index)}
-                            >
+                              onClick={() => removeEmail(index)}>
                               ×
                             </span>
                           </div>
@@ -549,8 +529,7 @@ class CreateElection extends Component {
               {this.state.numCandidatesWithLabel >= 2 ? (
                 <ButtonWithConfirm
                   className="btn btn-success float-right btn-block"
-                  tabIndex={this.state.candidates.length + 4}
-                >
+                  tabIndex={this.state.candidates.length + 4}>
                   <div key="button">
                     <FontAwesomeIcon icon={faCheck} className="mr-2" />
                     Valider
@@ -570,7 +549,7 @@ class CreateElection extends Component {
                       <div className="p-1 pl-0">
                         <ul className="m-0 pl-4">
                           {this.state.candidates.map((candidate, i) => {
-                            if (candidate.label !== "") {
+                            if (candidate.label !== '') {
                               return (
                                 <li key={i} className="m-0">
                                   {candidate.label}
@@ -586,19 +565,15 @@ class CreateElection extends Component {
                         Dates
                       </div>
                       <p className="p-1 pl-3">
-                        Le vote se déroulera du{" "}
+                        Le vote se déroulera du{' '}
                         <b>
-                          {this.formatDate(
-                            this.state.startedDayAt,
-                            this.state.startedTimeAt
-                          )}
-                        </b>{" "}
-                        au{" "}
+                          {this.state.start.toLocaleDateString()}, à{' '}
+                          {this.state.start.toLocaleTimeString()}
+                        </b>{' '}
+                        au{' '}
                         <b>
-                          {this.formatDate(
-                            this.state.finishedDayAt,
-                            this.state.finishedTimeAt
-                          )}
+                          {this.state.finish.toLocaleDateString()}, à{' '}
+                          {this.state.finish.toLocaleTimeString()}
                         </b>
                       </p>
                       <div className="text-white bg-primary p-1">Mentions</div>
@@ -610,9 +585,8 @@ class CreateElection extends Component {
                               className="badge badge-light mr-2 mt-2"
                               style={{
                                 backgroundColor: mention.color,
-                                color: "#fff"
-                              }}
-                            >
+                                color: '#fff',
+                              }}>
                               {mention.label}
                             </span>
                           ) : (
@@ -625,7 +599,7 @@ class CreateElection extends Component {
                       </div>
                       <div className="p-1 pl-3">
                         {electorEmails.length > 0 ? (
-                          electorEmails.join(", ")
+                          electorEmails.join(', ')
                         ) : (
                           <p>
                             Aucune adresse e-mail précisée.
@@ -648,8 +622,7 @@ class CreateElection extends Component {
                 <Button
                   type="button"
                   className="btn btn-dark float-right btn-block"
-                  onClick={this.handleSendWithoutCandidate}
-                >
+                  onClick={this.handleSendWithoutCandidate}>
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
                   Valider
                 </Button>
@@ -661,4 +634,4 @@ class CreateElection extends Component {
     );
   }
 }
-export default CreateElection;
+export default withRouter(CreateElection);
