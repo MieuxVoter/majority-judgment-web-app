@@ -132,10 +132,7 @@ class Vote extends Component {
     const electionSlug = this.props.match.params.slug;
     const endpoint = resolve(
       this.context.urlServer,
-      this.context.routesServer.voteElection.replace(
-        new RegExp(":slug", "g"),
-        electionSlug
-      )
+      this.context.routesServer.voteElection
     );
 
     const gradesById = {};
