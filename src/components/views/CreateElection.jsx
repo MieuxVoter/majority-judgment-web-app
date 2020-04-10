@@ -47,7 +47,7 @@ const dateToISO = date => date.toISOString().substring(0, 10);
 const hours = date => date.getHours() * 3600 * 1000;
 const minutes = date => date.getMinutes() * 60 * 1000;
 const seconds = date => date.getSeconds() * 1000;
-const ms = date => date.getMilliseconds() * 1000;
+const ms = date => date.getMilliseconds();
 const time = date => hours(date) + minutes(date) + seconds(date) + ms(date);
 
 // Retrieve the time part from a timestamp and remove the day. Return a int.
@@ -137,7 +137,7 @@ class CreateElection extends Component {
     super(props);
     // default value : start at the last hour
     const now = new Date();
-    const start = new Date(dateMinusTime(now).getTime() + hours(now));
+    const start = new Date(now.getTime() - minutes(now) - seconds(now) - ms(now));
     const {title} = queryString.parse(this.props.location.search);
 
     this.state = {
