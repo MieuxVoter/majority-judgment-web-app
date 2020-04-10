@@ -7,9 +7,9 @@ const AppContextProvider = ({ children }) => {
     urlServer: process.env.REACT_APP_SERVER_URL,
     routesServer: {
       setElection: "election/",
-      getElection: "election/get/:slug",
+      getElection: "election/get/:slug/",
       getResultsElection: "election/results/:slug",
-      voteElection: "election/vote/:slug"
+      voteElection: "election/vote/"
     }
   };
   return (
