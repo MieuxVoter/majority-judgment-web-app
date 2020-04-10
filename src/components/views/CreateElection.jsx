@@ -138,7 +138,7 @@ class CreateElection extends Component {
     // default value : start at the last hour
     const now = new Date();
     const start = new Date(dateMinusTime(now).getTime() + hours(now));
-    const { title } = queryString.parse(this.props.location.search);
+    const {title} = queryString.parse(this.props.location.search);
 
     this.state = {
       candidates: [{label: ''}, {label: ''}],
@@ -229,7 +229,7 @@ class CreateElection extends Component {
   handleSubmit() {
     const {candidates, title, numGrades, start, finish} = this.state;
 
-    console.log("dates", start, finish);
+    console.log('dates', start, finish);
     const endpoint = resolve(
       this.context.urlServer,
       this.context.routesServer.setElection,
@@ -362,9 +362,10 @@ class CreateElection extends Component {
                       value={dateToISO(this.state.start)}
                       onChange={e => {
                         this.setState({
-                          start:
+                          start: new Date(
                             timeMinusDate(this.state.start) +
-                            new Date(e.target.valueAsNumber),
+                              new Date(e.target.valueAsNumber).getTime(),
+                          ),
                         });
                       }}
                     />
@@ -375,9 +376,10 @@ class CreateElection extends Component {
                       value={this.state.start.getHours()}
                       onChange={e =>
                         this.setState({
-                          start:
-                            dateMinusTime(this.state.start) +
-                            new Date(e.target.value) * 3600000,
+                          start: new Date(
+                            dateMinusTime(this.state.start).getTime() +
+                              e.target.value * 3600000,
+                          ),
                         })
                       }>
                       {Array(22)
@@ -403,9 +405,10 @@ class CreateElection extends Component {
                       min={dateToISO(this.state.start)}
                       onChange={e => {
                         this.setState({
-                          start:
-                            timeMinusDate(this.state.start) +
-                            new Date(e.target.valueAsNumber),
+                          finish: new Date(
+                            timeMinusDate(this.state.finish) +
+                              new Date(e.target.valueAsNumber).getTime(),
+                          ),
                         });
                       }}
                     />
@@ -416,9 +419,10 @@ class CreateElection extends Component {
                       value={this.state.finish.getHours()}
                       onChange={e =>
                         this.setState({
-                          finish:
-                            dateMinusTime(this.state.finish) +
-                            new Date(e.target.value) * 3600000,
+                          finish: new Date(
+                            dateMinusTime(this.state.finish).getTime() +
+                              e.target.value * 3600000,
+                          ),
                         })
                       }>
                       {Array(22)
