@@ -13,6 +13,7 @@ import {
   Card,
   CardBody,
 } from 'reactstrap';
+import { withTranslation } from 'react-i18next';
 
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -60,7 +61,7 @@ const DragHandle = sortableHandle(({children}) => (
   <span className="input-group-text indexNumber">{children}</span>
 ));
 
-const SortableCandidate = sortableElement(({candidate, sortIndex, form}) => (
+const SortableCandidate = sortableElement(({candidate, sortIndex, form, t}) => (
   <li className="sortable">
     <Row key={'rowCandidate' + sortIndex}>
       <Col>
@@ -77,7 +78,7 @@ const SortableCandidate = sortableElement(({candidate, sortIndex, form}) => (
             onKeyPress={event =>
               form.handleKeypressOnCandidateLabel(event, sortIndex)
             }
-            placeholder="Nom du candidat ou de la proposition ..."
+		  placeholder={t("Candidate/proposal name...")}
             tabIndex={sortIndex + 1}
             innerRef={ref => (form.candidateInputs[sortIndex] = ref)}
             maxLength="250"
@@ -86,13 +87,14 @@ const SortableCandidate = sortableElement(({candidate, sortIndex, form}) => (
             <div key="button">
               <FontAwesomeIcon icon={faTrashAlt} />
             </div>
-            <div key="modal-title">Suppression ?</div>
+            <div key="modal-title">{t("Delete?")}</div>
             <div key="modal-body">
-              Êtes-vous sûr de vouloir supprimer{' '}
+		{t("Are you sure to delete")}
+              {' '}
               {candidate.label !== '' ? (
                 <b>"{candidate.label}"</b>
               ) : (
-                <span>la ligne {sortIndex + 1}</span>
+                <span>{t("the row")} {sortIndex + 1}</span>
               )}{' '}
               ?
             </div>
@@ -107,15 +109,14 @@ const SortableCandidate = sortableElement(({candidate, sortIndex, form}) => (
       </Col>
       <Col xs="auto" className="align-self-center pl-0">
         <HelpButton>
-          Saisissez ici le nom de votre candidat ou de votre proposition (250
-          caractères max.)
+		{t("Write here your question or introduce simple your election (250 characters max.)")}
         </HelpButton>
       </Col>
     </Row>
   </li>
 ));
 
-const SortableCandidatesContainer = sortableContainer(({items, form}) => {
+const SortableCandidatesContainer = sortableContainer(({items, form, t}) => {
   return (
     <ul className="sortable">
       {items.map((candidate, index) => (
@@ -125,6 +126,7 @@ const SortableCandidatesContainer = sortableContainer(({items, form}) => {
           sortIndex={index}
           candidate={candidate}
           form={form}
+	  t={t}
         />
       ))}
     </ul>
@@ -260,7 +262,8 @@ class CreateElection extends Component {
   }
 
   handleSendWithoutCandidate = () => {
-    toast.error('Vous devez saisir au moins deux candidats !', {
+    const {t} = this.props;
+    toast.error(t("Please add at least 2 candidates."), {
       position: toast.POSITION.TOP_CENTER,
     });
   };
@@ -268,6 +271,7 @@ class CreateElection extends Component {
   render() {
     const {successCreate, redirectTo} = this.state;
     const {electorEmails} = this.state;
+    const {t} = this.props;
 
     if (successCreate) return <Redirect to={redirectTo} />;
 
@@ -277,17 +281,17 @@ class CreateElection extends Component {
         <form onSubmit={this.handleSubmit} autoComplete="off">
           <Row>
             <Col>
-              <h3>Démarrer un vote</h3>
+              <h3>{t("Start an election")}</h3>
             </Col>
           </Row>
           <hr />
           <Row className="mt-4">
             <Col xs="12">
-              <Label for="title">Question du vote :</Label>
+              <Label for="title">{t("Question of the election")}</Label>
             </Col>
             <Col>
               <Input
-                placeholder="Saisissez ici la question de votre vote"
+                placeholder={t("Write here the question of your election")}
                 tabIndex="1"
                 name="title"
                 id="title"
@@ -300,23 +304,23 @@ class CreateElection extends Component {
             </Col>
             <Col xs="auto" className="align-self-center pl-0">
               <HelpButton>
-                Posez ici votre question ou introduisez simplement votre vote
-                (250 caractères max.)
+		{t("Write here your question or introduce simple your election (250 characters max.)")}
                 <br />
-                <u>Par exemple :</u>{' '}
-                <em>Pour être mon représentant, je juge ce candidat ...</em>
+			<u>{t("For example:")}</u>{' '}
+                <em>{t("For the role of my representative, I judge this candidate...")}</em>
               </HelpButton>
             </Col>
           </Row>
           <Row className="mt-4">
             <Col xs="12">
-              <Label for="title">Candidats / Propositions :</Label>
+		    <Label for="title">{t("Candidates/Proposals")}</Label>
             </Col>
             <Col xs="12">
               <SortableCandidatesContainer
                 items={this.state.candidates}
                 onSortEnd={this.onCandidatesSortEnd}
                 form={this}
+                t={t}
                 useDragHandle
               />
             </Col>
@@ -330,7 +334,7 @@ class CreateElection extends Component {
                 type="button"
                 onClick={event => this.addCandidate(event)}>
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                Ajouter une proposition
+			{t("Add a proposal")}
               </Button>
             </Col>
             <Col
@@ -343,7 +347,7 @@ class CreateElection extends Component {
                 className="text-white mt-3 mb-1"
                 onClick={this.toggleAdvancedOptions}>
                 <FontAwesomeIcon icon={faCogs} className="mr-2" />
-                Options avancées
+			{t("Advanced options")}
               </Button>
             </Col>
           </Row>
@@ -352,7 +356,7 @@ class CreateElection extends Component {
               <CardBody className="text-primary">
                 <Row>
                   <Col xs="12" md="3" lg="2">
-                    <Label for="title">Date de début :</Label>
+			  <Label for="title">{t("Starting date:")}</Label>
                   </Col>
                   <Col xs="6" md="4" lg="3">
                     <input
@@ -394,7 +398,7 @@ class CreateElection extends Component {
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="2">
-                    <Label for="title">Date de fin :</Label>
+			  <Label for="title">{t("Ending date: ")}</Label>
                   </Col>
                   <Col xs="6" md="4" lg="3">
                     <input
@@ -437,7 +441,7 @@ class CreateElection extends Component {
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="2">
-                    <Label for="title">Mentions :</Label>
+			  <Label for="title">{t("Grades:")}</Label>
                   </Col>
                   <Col xs="10" sm="11" md="4" lg="3">
                     <select
@@ -452,13 +456,12 @@ class CreateElection extends Component {
                   </Col>
                   <Col xs="auto" className="align-self-center pl-0 ">
                     <HelpButton>
-                      Vous pouvez choisir ici le nombre de mentions pour votre
-                      vote
+			{t("You can select here the number of grades for your election")}
                       <br />
-                      <u>Par exemple : </u>{' '}
+			      <u>{t("For example:")}</u>{' '}
                       <em>
                         {' '}
-                        5 = Excellent, Très bien, bien, assez bien, passable
+			{t("5 = Excellent, Very good, Good, Fair, Passable")}
                       </em>
                     </HelpButton>
                   </Col>
@@ -486,22 +489,22 @@ class CreateElection extends Component {
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="2">
-                    <Label for="title">Participants :</Label>
+			  <Label for="title">{t("Participants:")}</Label>
                   </Col>
                   <Col xs="12" md="9" lg="10">
                     <ReactMultiEmail
-                      placeholder="Saisissez ici les e-mails des participants"
+                      placeholder={t("Add here participants' emails")}
                       emails={electorEmails}
-                      onChange={(_emails: string[]) => {
+                      onChange={(_emails) => {
                         this.setState({electorEmails: _emails});
                       }}
                       validateEmail={email => {
                         return isEmail(email); // return boolean
                       }}
                       getLabel={(
-                        email: string,
-                        index: number,
-                        removeEmail: (index: number) => void,
+                        email,
+                        index,
+                        removeEmail,
                       ) => {
                         return (
                           <div data-tag key={index}>
@@ -517,8 +520,7 @@ class CreateElection extends Component {
                     />
                     <div>
                       <small className="text-muted">
-                        Liste des e-mails à préciser si vous désirez réaliser un
-                        vote fermé.
+			      {t("List voters' emails in case the election is not opened")}
                       </small>
                     </div>
                   </Col>
@@ -535,19 +537,19 @@ class CreateElection extends Component {
                   tabIndex={this.state.candidates.length + 4}>
                   <div key="button">
                     <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                    Valider
+			    {t("Validate")}
                   </div>
-                  <div key="modal-title">Confirmez votre vote</div>
+                  <div key="modal-title">{t("Confirm your vote")}</div>
                   <div key="modal-body">
                     <div className="mt-1 mb-1">
                       <div className="text-white bg-primary p-1">
-                        Question du vote
+			      {t("Question of the election")}
                       </div>
                       <div className="p-1 pl-3">
                         <em>{this.state.title}</em>
                       </div>
                       <div className="text-white bg-primary p-1">
-                        Candidats/Propositions
+			      {t("Candidates/Proposals")}
                       </div>
                       <div className="p-1 pl-0">
                         <ul className="m-0 pl-4">
@@ -605,11 +607,10 @@ class CreateElection extends Component {
                           electorEmails.join(', ')
                         ) : (
                           <p>
-                            Aucune adresse e-mail précisée.
+			{t("The form contains no address.")}
                             <br />
                             <em>
-                              Le vote sera ouvert à tous les utilisateurs ayant
-                              le lien du vote
+			    {t("The election will be opened to anyone with the link")}
                             </em>
                           </p>
                         )}
@@ -617,9 +618,9 @@ class CreateElection extends Component {
                     </div>
                   </div>
                   <div key="modal-confirm" onClick={this.handleSubmit}>
-                    Lancer le vote
+			  {t("Start the election")}
                   </div>
-                  <div key="modal-cancel">Annuler</div>
+                  <div key="modal-cancel">{t("Cancel")}</div>
                 </ButtonWithConfirm>
               ) : (
                 <Button
@@ -627,7 +628,7 @@ class CreateElection extends Component {
                   className="btn btn-dark float-right btn-block"
                   onClick={this.handleSendWithoutCandidate}>
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  Valider
+			  {t("Confirm")}
                 </Button>
               )}
             </Col>
@@ -637,4 +638,4 @@ class CreateElection extends Component {
     );
   }
 }
-export default withRouter(CreateElection);
+export default withTranslation()(withRouter(CreateElection));
