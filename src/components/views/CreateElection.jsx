@@ -229,7 +229,6 @@ class CreateElection extends Component {
   handleSubmit() {
     const {candidates, title, numGrades, start, finish} = this.state;
 
-    console.log('dates', start, finish);
     const endpoint = resolve(
       this.context.urlServer,
       this.context.routesServer.setElection,
