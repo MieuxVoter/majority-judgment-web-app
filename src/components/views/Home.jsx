@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withTranslation } from 'react-i18next';
 import { Container, Row, Col, Button, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
@@ -90,4 +91,4 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+export default withTranslation()(Home);

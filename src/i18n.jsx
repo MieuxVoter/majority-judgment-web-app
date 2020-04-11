@@ -13,6 +13,12 @@ i18n
     debug: true,
     saveMissing: true, // send not translated keys to endpoint
 
+	  keySeparator: '>',
+	  nsSeparator: '|',
+   backend: {
+	  loadPath: '/locale/i18n/{{lng}}/resource.json',
+	  // path to post missing resources
+   },
 
     interpolation: {
       escapeValue: false, // not needed for react!!
