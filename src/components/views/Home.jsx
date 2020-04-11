@@ -28,6 +28,7 @@ class Home extends Component {
   };
 
   render() {
+    const {t} = this.props;
     const redirect = this.state.redirect;
 
     if (redirect) {
@@ -51,15 +52,14 @@ class Home extends Component {
           <Row>
             <Col className="text-center">
               <h3>
-                Simple et gratuit : organisez un vote à l'aide du Jugement
-                Majoritaire.
+		{t("Simple and free: organize an election with Majority Judgment.")}
               </h3>
             </Col>
           </Row>
           <Row className="mt-2">
             <Col xs="12" md="9" xl="6" className="offset-xl-2">
               <Input
-                placeholder="Saisissez ici la question de votre vote"
+                placeholder={t("Write here the question of your election")}
                 innerRef={this.focusInput}
                 autoFocus
                 required
@@ -76,13 +76,13 @@ class Home extends Component {
                 className="btn btn-block btn-secondary mt-2"
               >
                 <FontAwesomeIcon icon={faRocket} className="mr-2" />
-                Lancer
+		{t("Start")}
               </Button>
             </Col>
           </Row>
           <Row className="mt-4">
             <Col className="text-center">
-              <p>Pas de publicité et pas de cookie publicitaire.</p>
+              <p>{t("No advertising or ad cookies")}</p>
             </Col>
           </Row>
         </form>

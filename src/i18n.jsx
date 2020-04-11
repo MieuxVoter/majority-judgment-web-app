@@ -11,6 +11,8 @@ i18n
   .init({
     fallbackLng: 'en',
     debug: true,
+    saveMissing: true, // send not translated keys to endpoint
+
 
     interpolation: {
       escapeValue: false, // not needed for react!!

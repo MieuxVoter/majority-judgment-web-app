@@ -120,7 +120,8 @@ class Vote extends Component {
   };
 
   handleSubmitWithoutAllRate = () => {
-    toast.error("Vous devez évaluer l'ensemble des propositions/candidats !", {
+    const {t} = this.props;
+    toast.error(t("You have to judge every candidate/proposal!"), {
       position: toast.POSITION.TOP_CENTER
     });
   };
@@ -162,6 +163,7 @@ class Vote extends Component {
   };
 
   render() {
+    const {t} = this.props;
     const { redirectTo, candidates, electionGrades } = this.state;
 
     if (redirectTo) {
@@ -303,12 +305,12 @@ class Vote extends Component {
                   className="btn btn-dark "
                 >
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  Valider
+			  {t("Validate")}
                 </Button>
               ) : (
                 <Button type="submit" className="btn btn-success ">
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  Valider
+			  {t("Validate")}
                 </Button>
               )}
             </Col>
@@ -318,4 +320,4 @@ class Vote extends Component {
     );
   }
 }
-export default Vote;
+export default withTranslation()(Vote);

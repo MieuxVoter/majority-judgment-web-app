@@ -7,6 +7,7 @@ import { AppContext } from "../../AppContext";
 class VoteSuccess extends Component {
   static contextType = AppContext;
   render() {
+    const {t} = this.props;
     return (
       <Container>
         <Row>
@@ -16,15 +17,15 @@ class VoteSuccess extends Component {
         </Row>
         <Row className="mt-4">
           <Col className="text-center offset-lg-3" lg="6">
-            <h2>Participation enregistrée avec succès !</h2>
-            <p>Merci pour votre participation.</p>
+            <h2>{t("Your participation was recorded with success!")}</h2>
+            <p>{t("Thanks for your participation.")}</p>
           </Col>
         </Row>
 
         <Row className="mt-4">
           <Col className="text-center">
             <Link to="/" className="btn btn-secondary">
-              Revenir à l'accueil
+		    {t("Go back to homepage")}
             </Link>
           </Col>
         </Row>

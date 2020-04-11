@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import { Button, Col, Container, Row } from "reactstrap";
-import { Link } from "react-router-dom";
-import { faCopy, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logoLine from "../../logos/logo-line-white.svg";
-import { AppContext } from "../../AppContext";
+import React, {Component} from 'react';
+import {Button, Col, Container, Row} from 'reactstrap';
+import {Link} from 'react-router-dom';
+import {withTranslation, Trans} from 'react-i18next';
+import {faCopy, faUsers} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import logoLine from '../../logos/logo-line-white.svg';
+import {AppContext} from '../../AppContext';
 
 class CreateSuccess extends Component {
   static contextType = AppContext;
@@ -13,9 +14,9 @@ class CreateSuccess extends Component {
     const electionSlug = this.props.match.params.slug;
     this.state = {
       urlOfVote:
-        "https://" + window.location.hostname + "/vote/" + electionSlug,
+        'https://' + window.location.hostname + '/vote/' + electionSlug,
       urlOfResult:
-        "https://" + window.location.hostname + "/result/" + electionSlug
+        'https://' + window.location.hostname + '/result/' + electionSlug,
     };
     this.urlVoteField = React.createRef();
     this.urlResultField = React.createRef();
@@ -30,17 +31,18 @@ class CreateSuccess extends Component {
     const input = this.urlVoteField.current;
     input.focus();
     input.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
   };
 
   handleClickOnCopyResult = event => {
     const input = this.urlResultField.current;
     input.focus();
     input.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
   };
 
   render() {
+    const {t} = this.props;
     return (
       <Container>
         <Row>
@@ -50,9 +52,9 @@ class CreateSuccess extends Component {
         </Row>
         <Row className="mt-4">
           <Col className="text-center offset-lg-3" lg="6">
-            <h2>Vote créé avec succès !</h2>
+            <h2>{t('Successful election creation!')}</h2>
             <p className="mt-4 mb-1">
-              Vous pouvez maintenant partager le lien du vote aux participants :
+              {t('You can now share the election link to participants:')}
             </p>
 
             <div className="input-group  ">
@@ -69,16 +71,15 @@ class CreateSuccess extends Component {
                 <Button
                   className="btn btn-outline-light"
                   onClick={this.handleClickOnCopyVote}
-                  type="button"
-                >
+                  type="button">
                   <FontAwesomeIcon icon={faCopy} className="mr-2" />
-                  Copier
+                  {t('Copy')}
                 </Button>
               </div>
             </div>
 
             <p className="mt-4 mb-1">
-              Voici le lien vers les résultats du vote en temps réel :
+              {t('Here is the link for the results in real time:')}
             </p>
             <div className="input-group ">
               <input
@@ -94,10 +95,9 @@ class CreateSuccess extends Component {
                 <Button
                   className="btn btn-outline-light"
                   onClick={this.handleClickOnCopyResult}
-                  type="button"
-                >
+                  type="button">
                   <FontAwesomeIcon icon={faCopy} className="mr-2" />
-                  Copier
+                  {t('Copy')}
                 </Button>
               </div>
             </div>
@@ -107,12 +107,14 @@ class CreateSuccess extends Component {
           <Col>
             <div className=" bg-warning text-white p-2 ">
               <p className="m-0 p-0 text-center">
-                Conservez ces liens précieusement !
+                {t('Keep these links carefully')}
               </p>
               <p className="small m-2 p-0">
-                <b>ATTENTION</b> : Vous ne les retrouverez pas ailleurs et nous
-                ne serons pas capable de vous les communiquer. Vous pouvez par
-                exemple les enregistrer dans les favoris de votre navigateur.
+                <Trans i18nKey={t}>
+                  <b>Warning</b>: you will have no other choices to recover the
+                  links, and we will not be able to share them with you. For
+                  example, you can bookmark them in your browser.
+                </Trans>
               </p>
             </div>
           </Col>
@@ -120,9 +122,11 @@ class CreateSuccess extends Component {
 
         <Row className="mt-4 mb-4">
           <Col className="text-center">
-            <Link to={"/vote/" + this.props.match.params.slug} className="btn btn-success">
+            <Link
+              to={'/vote/' + this.props.match.params.slug}
+              className="btn btn-success">
               <FontAwesomeIcon icon={faUsers} className="mr-2" />
-              Participer maintenant !
+		      {t("Participate now!")}
             </Link>
           </Col>
         </Row>
@@ -130,4 +134,4 @@ class CreateSuccess extends Component {
     );
   }
 }
-export default CreateSuccess;
+export default withTranslation()(CreateSuccess);
