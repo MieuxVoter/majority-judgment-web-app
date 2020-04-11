@@ -398,7 +398,7 @@ class CreateElection extends Component {
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="2">
-			  <Label for="title">{t("Ending date: ")}</Label>
+			  <Label for="title">{t("Ending date:")}</Label>
                   </Col>
                   <Col xs="6" md="4" lg="3">
                     <input
