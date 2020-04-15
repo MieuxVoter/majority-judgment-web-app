@@ -1,5 +1,5 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/021c39c6-1018-4e3f-98e2-f808b4ea8f6d/deploy-status)](https://app.netlify.com/sites/epic-nightingale-99f910/deploys)
-
+[![Continuous Integration](https://circleci.com/git/MieuxVoter/mvfront-react.svg?style=svg)](<LINK>)
+[![Continuous Deployment](https://api.netlify.com/api/v1/badges/021c39c6-1018-4e3f-98e2-f808b4ea8f6d/deploy-status)](https://app.netlify.com/sites/epic-nightingale-99f910/deploys)
 
 # Voting application in React
 
