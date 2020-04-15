@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
+import {withTranslation} from 'react-i18next';
 import logoLine from "../../logos/logo-line-white.svg";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../AppContext";
@@ -33,4 +34,4 @@ class VoteSuccess extends Component {
     );
   }
 }
-export default VoteSuccess;
+export default withTranslation()(VoteSuccess);
