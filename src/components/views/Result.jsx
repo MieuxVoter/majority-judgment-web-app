@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { withTranslation } from "react-i18next";
 import { resolve } from "url";
 import {
   Container,
@@ -11,7 +12,7 @@ import {
   CardBody,
   Table
 } from "reactstrap";
-import { grades } from "../../Util";
+import { i18nGrades } from "../../Util";
 import { AppContext } from "../../AppContext";
 
 class Result extends Component {
@@ -32,7 +33,7 @@ class Result extends Component {
       collapseGraphics: false,
       collapseProfiles: false,
       redirectLost: false,
-      electionGrades: grades
+      electionGrades: i18nGrades()
     };
   }
 
@@ -89,7 +90,7 @@ class Result extends Component {
         12 - colSizeGradeXs * numGrades > 0
           ? 12 - colSizeGradeXs * numGrades
           : 12,
-      electionGrades: grades.slice(0, numGrades)
+      electionGrades: i18nGrades().slice(0, numGrades)
     }));
     return response;
   };
@@ -167,6 +168,7 @@ class Result extends Component {
 
   render() {
     const { redirectLost, candidates, electionGrades } = this.state;
+    const { t } = this.props;
 
     if (redirectLost) {
       return <Redirect to={redirectLost} />;
@@ -191,7 +193,7 @@ class Result extends Component {
 
         <Row className="mt-5">
           <Col>
-            <h1>Résultat du vote :</h1>
+		  <h1>{t("Results of the election:")}</h1>
             <ol>
               {candidates.map((candidate, i) => {
                 return (
@@ -207,7 +209,7 @@ class Result extends Component {
                         color: "#fff"
                       }}
                     >
-                      {grades[candidate.grade].label}
+                      {i18nGrades()[candidate.grade].label}
                     </span>
                   </li>
                 );
@@ -226,7 +228,7 @@ class Result extends Component {
                     (this.state.collapseGraphics ? "collapsed" : "")
                   }
                 >
-                  Graphique
+		{t("Graph")}
                 </h4>
               </CardHeader>
               <Collapse isOpen={this.state.collapseGraphics}>
@@ -327,7 +329,7 @@ class Result extends Component {
                     (this.state.collapseProfiles ? "collapsed" : "")
                   }
                 >
-                  Profils de mérites
+		{t("Preference profile")}
                 </h4>
               </CardHeader>
               <Collapse isOpen={this.state.collapseProfiles}>
@@ -393,4 +395,4 @@ class Result extends Component {
   }
 }
 
-export default Result;
+export default withTranslation()(Result);
