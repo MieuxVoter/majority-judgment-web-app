@@ -4,6 +4,7 @@ import {withTranslation} from 'react-i18next';
 import logoLine from "../../logos/logo-line-white.svg";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../AppContext";
+import Helloasso from "../banner/Helloasso";
 
 class VoteSuccess extends Component {
   static contextType = AppContext;
@@ -20,6 +21,9 @@ class VoteSuccess extends Component {
           <Col className="text-center offset-lg-3" lg="6">
             <h2>{t("Your participation was recorded with success!")}</h2>
             <p>{t("Thanks for your participation.")}</p>
+              <div className="mt-3">
+                  <Helloasso width="60%" className="m-auto d-block" />
+              </div>
           </Col>
         </Row>
 
