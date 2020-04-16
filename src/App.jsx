@@ -10,7 +10,7 @@ import AppContextProvider from './AppContext';
 
 function App() {
   return (
-    <Suspense fallback={Loader}>
+    <Suspense fallback={<Loader/>} >
       <AppContextProvider>
         <Router>
           <div>

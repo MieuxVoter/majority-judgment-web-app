@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './loader-pulse-2.gif';
+import logo from './loader-pulse-2-alpha.gif';
 import './style.css';
 
 const Loader = () => {
