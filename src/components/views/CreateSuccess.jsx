@@ -110,7 +110,7 @@ class CreateSuccess extends Component {
                 {t('Keep these links carefully')}
               </p>
               <p className="small m-2 p-0">
-                <Trans i18nKey={t}>
+                <Trans i18nKey="t">
                   <b>Warning</b>: you will have no other choices to recover the
                   links, and we will not be able to share them with you. For
                   example, you can bookmark them in your browser.

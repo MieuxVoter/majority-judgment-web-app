@@ -49,5 +49,22 @@
   "Go back to homepage": "Go back to homepage",
   "You have to judge every candidate/proposal!": "You have to judge every candidate/proposal!",
   "Your participation was recorded with success!": "Your participation was recorded with success!",
-  "Thanks for your participation.": "__STRING_NOT_TRANSLATED__"
+  "Thanks for your participation.": "Thanks for your participation.",
+  "Ending date:": "Ending date:",
+  "Excellent": "Excellent",
+  "Very good": "Very good",
+  "Good": "Good",
+  "Fair": "Fair",
+  "Passable": "Passable",
+  "Insufficient": "Insufficient",
+  "To reject": "To reject",
+  "Dates": "Dates",
+  "The election will take place from": "The election will take place from",
+  "at": "at",
+  "to": "to",
+  "Grades": "Grades",
+  "Voters' list": "Voters' list",
+  "Graph": "Graph",
+  "Preference profile": "Preference profile",
+  "Results of the election:": "Results of the election:"
 }
