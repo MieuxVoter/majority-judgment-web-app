@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { withTranslation } from "react-i18next";
 import { resolve } from "url";
 import {
   Container,
@@ -12,10 +13,13 @@ import {
   Table,
   Button
 } from "reactstrap";
-import { grades } from "../../Util"
 import { Link } from "react-router-dom";;
+import { i18nGrades } from "../../Util";
+import { AppContext } from "../../AppContext";
 
 class Result extends Component {
+  static contextType = AppContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +35,7 @@ class Result extends Component {
       collapseGraphics: false,
       collapseProfiles: false,
       redirectLost: false,
-      electionGrades: grades
+      electionGrades: i18nGrades()
     };
   }
 
@@ -88,7 +92,7 @@ class Result extends Component {
         12 - colSizeGradeXs * numGrades > 0
           ? 12 - colSizeGradeXs * numGrades
           : 12,
-      electionGrades: grades.slice(0, numGrades)
+      electionGrades: i18nGrades().slice(0, numGrades)
     }));
     return response;
   };
@@ -96,31 +100,64 @@ class Result extends Component {
   componentDidMount() {
     // FIXME we should better handling logs
 
-    const electionSlug = this.props.match.params.handle;
-
     // get details of the election
-    const detailsEndpoint = resolve(
-      process.env.REACT_APP_SERVER_URL,
-      "election/get/".concat(electionSlug)
-    );
+    const electionSlug = this.props.match.params.slug;
+    if (electionSlug === "dev") {
+      const dataTest = [
+        {
+          name: "BB",
+          id: 1,
+          score: 1.0,
+          profile: [1, 1, 0, 0, 0, 0, 0],
+          grade: 1
+        },
+        {
+          name: "CC",
+          id: 2,
+          score: 1.0,
+          profile: [0, 0, 2, 0, 0, 0, 0],
+          grade: 2
+        },
+        {
+          name: "AA",
+          id: 0,
+          score: 1.0,
+          profile: [1, 1, 0, 0, 0, 0, 0],
+          grade: 1
+        }
+      ];
+      this.setState({ candidates: dataTest });
+      console.log(this.state.candidates);
+    } else {
+      const detailsEndpoint = resolve(
+        this.context.urlServer,
+        this.context.routesServer.getElection.replace(
+          new RegExp(":slug", "g"),
+          electionSlug
+        )
+      );
 
-    fetch(detailsEndpoint)
-      .then(this.handleErrors)
-      .then(response => response.json())
-      .then(this.detailsToState)
-      .catch(error => console.log(error));
+      fetch(detailsEndpoint)
+        .then(this.handleErrors)
+        .then(response => response.json())
+        .then(this.detailsToState)
+        .catch(error => console.log(error));
 
-    // get results of the election
-    const resultsEndpoint = resolve(
-      process.env.REACT_APP_SERVER_URL,
-      "election/results/".concat(electionSlug)
-    );
+      // get results of the election
+      const resultsEndpoint = resolve(
+        this.context.urlServer,
+        this.context.routesServer.getResultsElection.replace(
+          new RegExp(":slug", "g"),
+          electionSlug
+        )
+      );
 
-    fetch(resultsEndpoint)
-      .then(this.handleErrors)
-      .then(response => response.json())
-      .then(this.resultsToState)
-      .catch(error => console.log(error));
+      fetch(resultsEndpoint)
+        .then(this.handleErrors)
+        .then(response => response.json())
+        .then(this.resultsToState)
+        .catch(error => console.log(error));
+    }
   }
 
   toggleGraphics = () => {
@@ -133,9 +170,19 @@ class Result extends Component {
 
   render() {
     const { redirectLost, candidates, electionGrades } = this.state;
+    const { t } = this.props;
 
     if (redirectLost) {
       return <Redirect to={redirectLost} />;
+    }
+
+    let totalOfVote = 0;
+
+    //based on the first candidate
+    if (candidates.length > 0) {
+      candidates[0].profile.map((value, i) => (totalOfVote += value));
+    } else {
+      totalOfVote = 1;
     }
 
     return (
@@ -148,13 +195,13 @@ class Result extends Component {
 
         <Row className="mt-5">
           <Col>
-            <h1>Résultat du vote :</h1>
+		  <h1>{t("Results of the election:")}</h1>
             <ol>
               {candidates.map((candidate, i) => {
                 return (
                   <li key={i} className="mt-2">
-                    {candidate.label}
-                    <span className="badge badge-dark mr-2 mt-2">
+                      <span className="mt-2 ml-2">{candidate.name}</span>
+                    <span className="badge badge-dark mr-2 mt-2 ml-2">
                       {candidate.score}%
                     </span>
                     <span
@@ -164,7 +211,7 @@ class Result extends Component {
                         color: "#fff"
                       }}
                     >
-                      {grades[candidate.grade].label}
+                      {i18nGrades()[candidate.grade].label}
                     </span>
                   </li>
                 );
@@ -183,7 +230,7 @@ class Result extends Component {
                     (this.state.collapseGraphics ? "collapsed" : "")
                   }
                 >
-                  Graphique
+		{t("Graph")}
                 </h4>
               </CardHeader>
               <Collapse isOpen={this.state.collapseGraphics}>
@@ -206,7 +253,10 @@ class Result extends Component {
                                     <tr>
                                       {candidate.profile.map((value, i) => {
                                         if (value > 0) {
-                                          let percent = value + "%";
+                                          let percent =
+                                            Math.round(
+                                              (value * 100) / totalOfVote
+                                            ) + "%";
                                           if (i === 0) {
                                             percent = "auto";
                                           }
@@ -242,7 +292,7 @@ class Result extends Component {
                         return (
                           <span key={i}>
                             {i > 0 ? ", " : ""}
-                            <b>{i + 1}</b>: {candidate.label}
+                            <b>{i + 1}</b>: {candidate.name}
                           </span>
                         );
                       })}
@@ -281,7 +331,7 @@ class Result extends Component {
                     (this.state.collapseProfiles ? "collapsed" : "")
                   }
                 >
-                  Profils de mérites
+		{t("Preference profile")}
                 </h4>
               </CardHeader>
               <Collapse isOpen={this.state.collapseProfiles}>
@@ -315,7 +365,11 @@ class Result extends Component {
                               <td>{i + 1}</td>
                               {/*candidate.label*/}
                               {candidate.profile.map((value, i) => {
-                                return <td key={i}>{value}%</td>;
+                                let percent =
+                                  Math.round(
+                                    ((value * 100) / totalOfVote) * 100
+                                  ) / 100;
+                                return <td key={i}>{percent}%</td>;
                               })}
                             </tr>
                           );
@@ -328,7 +382,7 @@ class Result extends Component {
                       return (
                         <span key={i}>
                           {i > 0 ? ", " : ""}
-                          <b>{i + 1}</b>: {candidate.label}
+                          <b>{i + 1}</b>: {candidate.name}
                         </span>
                       );
                     })}
@@ -356,4 +410,4 @@ class Result extends Component {
   }
 }
 
-export default Result;
+export default withTranslation()(Result);

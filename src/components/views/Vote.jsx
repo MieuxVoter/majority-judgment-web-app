@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { withTranslation } from 'react-i18next';
 import { Button, Col, Container, Row } from "reactstrap";
 import { toast, ToastContainer } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { resolve } from "url";
-import { grades } from "../../Util";
+import { i18nGrades } from "../../Util";
+import { AppContext } from "../../AppContext";
 
 class Vote extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +25,7 @@ class Vote extends Component {
       colSizeGradeMd: 1,
       colSizeGradeXs: 1,
       redirectTo: null,
-      electionGrades: grades
+      electionGrades: i18nGrades()
     };
   }
 
@@ -82,20 +85,21 @@ class Vote extends Component {
         12 - colSizeGradeXs * numGrades > 0
           ? 12 - colSizeGradeXs * numGrades
           : 12,
-      electionGrades: grades.slice(0, numGrades)
+      electionGrades: i18nGrades().slice(0, numGrades)
     }));
     return response;
   };
 
   componentDidMount() {
     // FIXME we should better handling logs
-
-    const electionSlug = this.props.match.params.handle;
+    const electionSlug = this.props.match.params.slug;
     const detailsEndpoint = resolve(
-      process.env.REACT_APP_SERVER_URL,
-      "election/get/".concat(electionSlug)
+      this.context.urlServer,
+      this.context.routesServer.getElection.replace(
+        new RegExp(":slug", "g"),
+          electionSlug
+      )
     );
-
     fetch(detailsEndpoint)
       .then(this.handleErrors)
       .then(response => response.json())
@@ -117,7 +121,8 @@ class Vote extends Component {
   };
 
   handleSubmitWithoutAllRate = () => {
-    toast.error("Vous devez évaluer l'ensemble des propositions/candidats !", {
+    const {t} = this.props;
+    toast.error(t("You have to judge every candidate/proposal!"), {
       position: toast.POSITION.TOP_CENTER
     });
   };
@@ -126,10 +131,10 @@ class Vote extends Component {
     event.preventDefault();
 
     const { ratedCandidates } = this.state;
-    const electionSlug = this.props.match.params.handle;
+    const electionSlug = this.props.match.params.slug;
     const endpoint = resolve(
-      process.env.REACT_APP_SERVER_URL,
-      "election/vote/"
+      this.context.urlServer,
+      this.context.routesServer.voteElection
     );
 
     const gradesById = {};
@@ -159,6 +164,7 @@ class Vote extends Component {
   };
 
   render() {
+    const {t} = this.props;
     const { redirectTo, candidates, electionGrades } = this.state;
 
     if (redirectTo) {
@@ -300,12 +306,12 @@ class Vote extends Component {
                   className="btn btn-dark "
                 >
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  Valider
+			  {t("Validate")}
                 </Button>
               ) : (
                 <Button type="submit" className="btn btn-success ">
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  Valider
+			  {t("Validate")}
                 </Button>
               )}
             </Col>
@@ -315,4 +321,4 @@ class Vote extends Component {
     );
   }
 }
-export default Vote;
+export default withTranslation()(Vote);

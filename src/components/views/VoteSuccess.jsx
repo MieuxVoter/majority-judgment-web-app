@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
+import {withTranslation} from 'react-i18next';
 import logoLine from "../../logos/logo-line-white.svg";
 import { Link } from "react-router-dom";
+import { AppContext } from "../../AppContext";
 
-class UnknownElection extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+class VoteSuccess extends Component {
+  static contextType = AppContext;
   render() {
+    const {t} = this.props;
     return (
       <Container>
         <Row>
@@ -18,15 +17,16 @@ class UnknownElection extends Component {
           </Link>
         </Row>
         <Row className="mt-4">
-          <Col className="text-center">
-            <h2>Oups ! Ce vote n'existe pas ou n'est plus disponible.</h2>
-            <p>N'hésitez pas à démarrer un nouveau vote</p>
+          <Col className="text-center offset-lg-3" lg="6">
+            <h2>{t("Your participation was recorded with success!")}</h2>
+            <p>{t("Thanks for your participation.")}</p>
           </Col>
         </Row>
+
         <Row className="mt-4">
           <Col className="text-center">
             <Link to="/" className="btn btn-secondary">
-              Revenir à l'accueil
+		    {t("Go back to homepage")}
             </Link>
           </Col>
         </Row>
@@ -34,4 +34,4 @@ class UnknownElection extends Component {
     );
   }
 }
-export default UnknownElection;
+export default withTranslation()(VoteSuccess);
