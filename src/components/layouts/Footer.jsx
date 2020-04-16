@@ -4,23 +4,29 @@ import { Link } from "react-router-dom";
 
 import { FlagIcon } from '../flag'
 import i18n from '../../i18n'
+import Helloasso from "../banner/Helloasso";
 
 class Footer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
+
+
   render() {
-  const buttonStyle = {backgroundColor: "black", padding: "0px", border: "0px"};
+
+  const buttonStyle = {backgroundColor: "black", padding: "0px", border: "0px",};
+  const linkStyle = {whiteSpace: "nowrap"};
   const {t} = this.props;
     return (
       <footer className="text-center">
-        <Link to="/">{t("Homepage")}</Link>
+        <Link to="/" style={linkStyle}>{t("Homepage")}</Link>
         <span className="m-2">-</span>
-        <a href="https://github.com/MieuxVoter">{t("Source code")}</a>
+        <a href="https://github.com/MieuxVoter" style={linkStyle}>{t("Source code")}</a>
         <span className="m-2">-</span>
-        <a href="https://mieuxvoter.fr/">{t("Who are we")}</a>
+        <a href="https://mieuxvoter.fr/" style={linkStyle} >{t("Who are we")}</a>
         <span className="m-2">-</span>
 	<button style={buttonStyle} onClick={() => i18n.changeLanguage('en')}>
 	  <FlagIcon code={"gb"}  />
@@ -33,7 +39,9 @@ class Footer extends Component {
 	<button style={buttonStyle} onClick={() => i18n.changeLanguage('es')}>
 	  <FlagIcon code={"es"}  />
 	</button>
-        <div className="mt-2">{t("BetterVote")} &copy;</div>
+          <div className="mt-3">
+              <Helloasso width="150px" />
+          </div>
       </footer>
     );
   }
