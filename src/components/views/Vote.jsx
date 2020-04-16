@@ -6,7 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { resolve } from "url";
-import { grades } from "../../Util";
+import { i18nGrades } from "../../Util";
 import { AppContext } from "../../AppContext";
 
 class Vote extends Component {
@@ -25,7 +25,7 @@ class Vote extends Component {
       colSizeGradeMd: 1,
       colSizeGradeXs: 1,
       redirectTo: null,
-      electionGrades: grades
+      electionGrades: i18nGrades()
     };
   }
 
@@ -85,7 +85,7 @@ class Vote extends Component {
         12 - colSizeGradeXs * numGrades > 0
           ? 12 - colSizeGradeXs * numGrades
           : 12,
-      electionGrades: grades.slice(0, numGrades)
+      electionGrades: i18nGrades().slice(0, numGrades)
     }));
     return response;
   };

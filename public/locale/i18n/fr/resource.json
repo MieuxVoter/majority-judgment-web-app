@@ -50,5 +50,21 @@
   "Go back to homepage": "Revenir à la page d'accueil",
   "You have to judge every candidate/proposal!": "Vous devez évaluer tous les candidats/propositions !",
   "Your participation was recorded with success!": "Votre participation a été enregistrée avec succès !",
-  "Thanks for your participation.": "Merci de votre participation."
+  "Thanks for your participation.": "Merci de votre participation.",
+  "Excellent": "Excellent",
+  "Very good": "Très bien",
+  "Good": "Bien",
+  "Fair": "Assez bien",
+  "Passable": "Passable",
+  "Insufficient": "Insuffisant",
+  "To reject": "A rejeter",
+  "Dates": "Dates",
+  "The election will take place from": "Le vote se déroulera du",
+  "at": "à",
+  "to": "au",
+  "Grades": "Mentions",
+  "Voters' list": "Listes des électeurs",
+  "Graph": "Grahique",
+  "Preference profile": "Profil de mérites",
+  "Results of the election:": "Résultats de l'élection"
 }

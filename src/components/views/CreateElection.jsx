@@ -36,7 +36,7 @@ import {
   faCogs,
 } from '@fortawesome/free-solid-svg-icons';
 
-import {grades} from '../../Util';
+import {i18nGrades} from '../../Util';
 import {ReactMultiEmail, isEmail} from 'react-multi-email';
 import 'react-multi-email/style.css';
 import {AppContext} from '../../AppContext';
@@ -273,6 +273,8 @@ class CreateElection extends Component {
     const {electorEmails} = this.state;
     const {t} = this.props;
 
+    const grades = i18nGrades();
+
     if (successCreate) return <Redirect to={redirectTo} />;
 
     return (
@@ -385,7 +387,7 @@ class CreateElection extends Component {
                           ),
                         })
                       }>
-                      {Array(22)
+                      {Array(24)
                         .fill(1)
                         .map((x, i) => (
                           <option value={i} key={i}>
@@ -428,7 +430,7 @@ class CreateElection extends Component {
                           ),
                         })
                       }>
-                      {Array(22)
+                      {Array(24)
                         .fill(1)
                         .map((x, i) => (
                           <option value={i} key={i}>
@@ -567,21 +569,20 @@ class CreateElection extends Component {
                         </ul>
                       </div>
                       <div className="text-white bg-primary p-1 mt-1">
-                        Dates
+			      {t("Dates")}
                       </div>
                       <p className="p-1 pl-3">
-                        Le vote se déroulera du{' '}
+		      {t("The election will take place from")}{' '}
                         <b>
-                          {this.state.start.toLocaleDateString()}, à{' '}
+                          {this.state.start.toLocaleDateString()}, {t("at")}{' '}
                           {this.state.start.toLocaleTimeString()}
-                        </b>{' '}
-                        au{' '}
+                        </b>{' '}{t("to")}{' '}
                         <b>
-                          {this.state.finish.toLocaleDateString()}, à{' '}
+                          {this.state.finish.toLocaleDateString()}, {t("at")}{' '}
                           {this.state.finish.toLocaleTimeString()}
                         </b>
                       </p>
-                      <div className="text-white bg-primary p-1">Mentions</div>
+                      <div className="text-white bg-primary p-1">{t("Grades")}</div>
                       <div className="p-1 pl-3">
                         {grades.map((mention, i) => {
                           return i < this.state.numGrades ? (
@@ -600,7 +601,7 @@ class CreateElection extends Component {
                         })}
                       </div>
                       <div className="text-white bg-primary p-1 mt-1">
-                        Liste des électeurs
+			      {t("Voters' list")}
                       </div>
                       <div className="p-1 pl-3">
                         {electorEmails.length > 0 ? (

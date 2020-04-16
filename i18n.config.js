@@ -9,7 +9,7 @@ module.exports = {
         '!app/i18n/**',
         '!**/node_modules/**',
     ],
-    output: './',
+    output: '.',
     options: {
         debug: true,
         func: {
@@ -32,15 +32,15 @@ module.exports = {
         },
         lngs: ['en','fr','es'],
         ns: [
-            'locale',
-            'resource'
+            'resource',
+            'common'
         ],
         defaultLng: 'en',
         defaultNs: 'resource',
         defaultValue: '__STRING_NOT_TRANSLATED__',
         resource: {
-            loadPath: 'i18n/{{lng}}/{{ns}}.json',
-            savePath: 'i18n/{{lng}}/{{ns}}.json',
+            loadPath: './public/locale/i18n/{{lng}}/{{ns}}.json',
+            savePath: './public/locale/i18n/{{lng}}/{{ns}}.json',
             jsonIndent: 2,
             lineEnding: '\n'
         },
