@@ -14,20 +14,18 @@ import {
   CardBody,
 } from 'reactstrap';
 import {withTranslation} from 'react-i18next';
-
+import {ReactMultiEmail, isEmail} from 'react-multi-email';
+import 'react-multi-email/style.css';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {resolve} from 'url';
 import queryString from 'query-string';
-import HelpButton from '../form/HelpButton';
 import {
   arrayMove,
   sortableContainer,
   sortableElement,
   sortableHandle,
 } from 'react-sortable-hoc';
-import ButtonWithConfirm from '../form/ButtonWithConfirm';
-
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faPlus,
@@ -35,11 +33,11 @@ import {
   faCheck,
   faCogs,
 } from '@fortawesome/free-solid-svg-icons';
-
 import {i18nGrades} from '../../Util';
-import {ReactMultiEmail, isEmail} from 'react-multi-email';
-import 'react-multi-email/style.css';
 import {AppContext} from '../../AppContext';
+import HelpButton from '../form/HelpButton';
+import ButtonWithConfirm from '../form/ButtonWithConfirm';
+import Loader from '../wait';
 
 // Convert a Date object into YYYY-MM-DD
 const dateToISO = date => date.toISOString().substring(0, 10);
@@ -162,6 +160,7 @@ class CreateElection extends Component {
       title: title || '',
       isVisibleTipsDragAndDropCandidate: true,
       numGrades: 7,
+      waiting: false,
       successCreate: false,
       redirectTo: null,
       isAdvancedOptionsOpen: false,
@@ -243,12 +242,21 @@ class CreateElection extends Component {
   };
 
   handleSubmit() {
-    const {candidates, title, numGrades, start, finish} = this.state;
+    const {
+      candidates,
+      title,
+      numGrades,
+      start,
+      finish,
+      electorEmails,
+    } = this.state;
 
     const endpoint = resolve(
       this.context.urlServer,
       this.context.routesServer.setElection,
     );
+
+    this.setState({waiting: true});
 
     fetch(endpoint, {
       method: 'POST',
@@ -258,9 +266,9 @@ class CreateElection extends Component {
       body: JSON.stringify({
         title: title,
         candidates: candidates.map(c => c.label),
-        on_invitation_only: this.state.electorEmails.length > 0,
+        on_invitation_only: electorEmails.length > 0,
         num_grades: numGrades,
-        elector_emails: this.state.electorEmails,
+        elector_emails: electorEmails,
         start_at: start.getTime() / 1000,
         finish_at: finish.getTime() / 1000,
       }),
@@ -270,6 +278,7 @@ class CreateElection extends Component {
         this.setState(state => ({
           redirectTo: '/create-success/' + result.id,
           successCreate: true,
+	  waiting: false
         })),
       )
       .catch(error => error);
@@ -283,8 +292,19 @@ class CreateElection extends Component {
   };
 
   render() {
-    const {successCreate, redirectTo} = this.state;
-    const {electorEmails} = this.state;
+    const {
+      successCreate,
+      redirectTo,
+      waiting,
+      title,
+      start,
+      finish,
+      candidates,
+      numGrades,
+      isAdvancedOptionsOpen,
+      numCandidatesWithLabel,
+      electorEmails
+    } = this.state;
     const {t} = this.props;
 
     const grades = i18nGrades();
@@ -294,6 +314,7 @@ class CreateElection extends Component {
     return (
       <Container>
         <ToastContainer />
+        {waiting ? <Loader /> : ''}
         <form onSubmit={this.handleSubmit} autoComplete="off">
           <Row>
             <Col>
@@ -313,7 +334,7 @@ class CreateElection extends Component {
                 id="title"
                 innerRef={this.focusInput}
                 autoFocus
-                value={this.state.title}
+                value={title}
                 onChange={this.handleChangeTitle}
                 maxLength="250"
               />
@@ -339,7 +360,7 @@ class CreateElection extends Component {
             </Col>
             <Col xs="12">
               <SortableCandidatesContainer
-                items={this.state.candidates}
+                items={candidates}
                 onSortEnd={this.onCandidatesSortEnd}
                 form={this}
                 t={t}
@@ -352,7 +373,7 @@ class CreateElection extends Component {
               <Button
                 color="secondary"
                 className="btn-block mt-2"
-                tabIndex={this.state.candidates.length + 2}
+                tabIndex={candidates.length + 2}
                 type="button"
                 onClick={event => this.addCandidate(event)}>
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
@@ -373,7 +394,7 @@ class CreateElection extends Component {
               </Button>
             </Col>
           </Row>
-          <Collapse isOpen={this.state.isAdvancedOptionsOpen}>
+          <Collapse isOpen={isAdvancedOptionsOpen}>
             <Card>
               <CardBody className="text-primary">
                 <Row>
@@ -384,11 +405,11 @@ class CreateElection extends Component {
                     <input
                       className="form-control"
                       type="date"
-                      value={dateToISO(this.state.start)}
+                      value={dateToISO(start)}
                       onChange={e => {
                         this.setState({
                           start: new Date(
-                            timeMinusDate(this.state.start) +
+                            timeMinusDate(start) +
                               new Date(e.target.valueAsNumber).getTime(),
                           ),
                         });
@@ -398,11 +419,11 @@ class CreateElection extends Component {
                   <Col xs="6" md="5" lg="3">
                     <select
                       className="form-control"
-                      value={this.state.start.getHours()}
+                      value={start.getHours()}
                       onChange={e =>
                         this.setState({
                           start: new Date(
-                            dateMinusTime(this.state.start).getTime() +
+                            dateMinusTime(start).getTime() +
                               e.target.value * 3600000,
                           ),
                         })
@@ -420,12 +441,12 @@ class CreateElection extends Component {
                     <input
                       className="form-control"
                       type="date"
-                      value={dateToISO(this.state.finish)}
-                      min={dateToISO(this.state.start)}
+                      value={dateToISO(finish)}
+                      min={dateToISO(start)}
                       onChange={e => {
                         this.setState({
                           finish: new Date(
-                            timeMinusDate(this.state.finish) +
+                            timeMinusDate(finish) +
                               new Date(e.target.valueAsNumber).getTime(),
                           ),
                         });
@@ -435,11 +456,11 @@ class CreateElection extends Component {
                   <Col xs="6" md="5" lg="3">
                     <select
                       className="form-control"
-                      value={this.state.finish.getHours()}
+                      value={finish.getHours()}
                       onChange={e =>
                         this.setState({
                           finish: new Date(
-                            dateMinusTime(this.state.finish).getTime() +
+                            dateMinusTime(finish).getTime() +
                               e.target.value * 3600000,
                           ),
                         })
@@ -456,7 +477,7 @@ class CreateElection extends Component {
                   <Col xs="10" sm="11" md="4" lg="3">
                     <select
                       className="form-control"
-                      tabIndex={this.state.candidates.length + 3}
+                      tabIndex={candidates.length + 3}
                       onChange={this.handleChangeNumGrades}
                       defaultValue="7">
                       <option value="5">5</option>
@@ -490,7 +511,7 @@ class CreateElection extends Component {
                           style={{
                             backgroundColor: mention.color,
                             color: '#fff',
-                            opacity: i < this.state.numGrades ? 1 : 0.3,
+                            opacity: i < numGrades ? 1 : 0.3,
                           }}>
                           {mention.label}
                         </span>
@@ -541,10 +562,10 @@ class CreateElection extends Component {
           </Collapse>
           <Row className="justify-content-end mt-2">
             <Col xs="12" md="3">
-              {this.state.numCandidatesWithLabel >= 2 ? (
+              {numCandidatesWithLabel >= 2 ? (
                 <ButtonWithConfirm
                   className="btn btn-success float-right btn-block"
-                  tabIndex={this.state.candidates.length + 4}>
+                  tabIndex={candidates.length + 4}>
                   <div key="button">
                     <FontAwesomeIcon icon={faCheck} className="mr-2" />
                     {t('Validate')}
@@ -556,14 +577,14 @@ class CreateElection extends Component {
                         {t('Question of the election')}
                       </div>
                       <div className="p-1 pl-3">
-                        <em>{this.state.title}</em>
+                        <em>{title}</em>
                       </div>
                       <div className="text-white bg-primary p-1">
                         {t('Candidates/Proposals')}
                       </div>
                       <div className="p-1 pl-0">
                         <ul className="m-0 pl-4">
-                          {this.state.candidates.map((candidate, i) => {
+                          {candidates.map((candidate, i) => {
                             if (candidate.label !== '') {
                               return (
                                 <li key={i} className="m-0">
@@ -582,13 +603,13 @@ class CreateElection extends Component {
                       <p className="p-1 pl-3">
                         {t('The election will take place from')}{' '}
                         <b>
-                          {this.state.start.toLocaleDateString()}, {t('at')}{' '}
-                          {this.state.start.toLocaleTimeString()}
+                          {start.toLocaleDateString()}, {t('at')}{' '}
+                          {start.toLocaleTimeString()}
                         </b>{' '}
                         {t('to')}{' '}
                         <b>
-                          {this.state.finish.toLocaleDateString()}, {t('at')}{' '}
-                          {this.state.finish.toLocaleTimeString()}
+                          {finish.toLocaleDateString()}, {t('at')}{' '}
+                          {finish.toLocaleTimeString()}
                         </b>
                       </p>
                       <div className="text-white bg-primary p-1">
@@ -596,7 +617,7 @@ class CreateElection extends Component {
                       </div>
                       <div className="p-1 pl-3">
                         {grades.map((mention, i) => {
-                          return i < this.state.numGrades ? (
+                          return i < numGrades ? (
                             <span
                               key={i}
                               className="badge badge-light mr-2 mt-2"

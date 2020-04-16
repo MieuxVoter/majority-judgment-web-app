@@ -1,0 +1,22 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+.waiting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  left: 0px;
+  z-index: 15;
+
+  .loader {
+    @include border-radius(10px);
+    min-width: 200px;
+    background-color: black; 
+  }
+}
