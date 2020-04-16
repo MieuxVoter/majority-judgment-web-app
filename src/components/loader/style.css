@@ -1,9 +1,18 @@
 .loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-	
-  /* Preserve aspet ratio */
-  min-width: 100%;
-  min-height: 100%;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  position:fixed;
+  z-index:15;
+}
+
+.loader > img {
+  width:150px;
+  height:150px;
+  position:absolute;
+  margin:-125px 0 0 -125px;
+  top:50%;
+  left:50%;
+  z-index:16;
 }
