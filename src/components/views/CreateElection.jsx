@@ -13,7 +13,7 @@ import {
   Card,
   CardBody,
 } from 'reactstrap';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -61,6 +61,15 @@ const DragHandle = sortableHandle(({children}) => (
   <span className="input-group-text indexNumber">{children}</span>
 ));
 
+const displayClockOptions = () =>
+  Array(24)
+    .fill(1)
+    .map((x, i) => (
+      <option value={i} key={i}>
+        {i}h00
+      </option>
+    ));
+
 const SortableCandidate = sortableElement(({candidate, sortIndex, form, t}) => (
   <li className="sortable">
     <Row key={'rowCandidate' + sortIndex}>
@@ -78,7 +87,7 @@ const SortableCandidate = sortableElement(({candidate, sortIndex, form, t}) => (
             onKeyPress={event =>
               form.handleKeypressOnCandidateLabel(event, sortIndex)
             }
-		  placeholder={t("Candidate/proposal name...")}
+            placeholder={t('Candidate/proposal name...')}
             tabIndex={sortIndex + 1}
             innerRef={ref => (form.candidateInputs[sortIndex] = ref)}
             maxLength="250"
@@ -87,14 +96,15 @@ const SortableCandidate = sortableElement(({candidate, sortIndex, form, t}) => (
             <div key="button">
               <FontAwesomeIcon icon={faTrashAlt} />
             </div>
-            <div key="modal-title">{t("Delete?")}</div>
+            <div key="modal-title">{t('Delete?')}</div>
             <div key="modal-body">
-		{t("Are you sure to delete")}
-              {' '}
+              {t('Are you sure to delete')}{' '}
               {candidate.label !== '' ? (
                 <b>"{candidate.label}"</b>
               ) : (
-                <span>{t("the row")} {sortIndex + 1}</span>
+                <span>
+                  {t('the row')} {sortIndex + 1}
+                </span>
               )}{' '}
               ?
             </div>
@@ -109,7 +119,9 @@ const SortableCandidate = sortableElement(({candidate, sortIndex, form, t}) => (
       </Col>
       <Col xs="auto" className="align-self-center pl-0">
         <HelpButton>
-		{t("Write here your question or introduce simple your election (250 characters max.)")}
+          {t(
+            'Write here your question or introduce simple your election (250 characters max.)',
+          )}
         </HelpButton>
       </Col>
     </Row>
@@ -126,7 +138,7 @@ const SortableCandidatesContainer = sortableContainer(({items, form, t}) => {
           sortIndex={index}
           candidate={candidate}
           form={form}
-	  t={t}
+          t={t}
         />
       ))}
     </ul>
@@ -139,7 +151,9 @@ class CreateElection extends Component {
     super(props);
     // default value : start at the last hour
     const now = new Date();
-    const start = new Date(now.getTime() - minutes(now) - seconds(now) - ms(now));
+    const start = new Date(
+      now.getTime() - minutes(now) - seconds(now) - ms(now),
+    );
     const {title} = queryString.parse(this.props.location.search);
 
     this.state = {
@@ -263,7 +277,7 @@ class CreateElection extends Component {
 
   handleSendWithoutCandidate = () => {
     const {t} = this.props;
-    toast.error(t("Please add at least 2 candidates."), {
+    toast.error(t('Please add at least 2 candidates.'), {
       position: toast.POSITION.TOP_CENTER,
     });
   };
@@ -283,17 +297,17 @@ class CreateElection extends Component {
         <form onSubmit={this.handleSubmit} autoComplete="off">
           <Row>
             <Col>
-              <h3>{t("Start an election")}</h3>
+              <h3>{t('Start an election')}</h3>
             </Col>
           </Row>
           <hr />
           <Row className="mt-4">
             <Col xs="12">
-              <Label for="title">{t("Question of the election")}</Label>
+              <Label for="title">{t('Question of the election')}</Label>
             </Col>
             <Col>
               <Input
-                placeholder={t("Write here the question of your election")}
+                placeholder={t('Write here the question of your election')}
                 tabIndex="1"
                 name="title"
                 id="title"
@@ -306,16 +320,22 @@ class CreateElection extends Component {
             </Col>
             <Col xs="auto" className="align-self-center pl-0">
               <HelpButton>
-		{t("Write here your question or introduce simple your election (250 characters max.)")}
+                {t(
+                  'Write here your question or introduce simple your election (250 characters max.)',
+                )}
                 <br />
-			<u>{t("For example:")}</u>{' '}
-                <em>{t("For the role of my representative, I judge this candidate...")}</em>
+                <u>{t('For example:')}</u>{' '}
+                <em>
+                  {t(
+                    'For the role of my representative, I judge this candidate...',
+                  )}
+                </em>
               </HelpButton>
             </Col>
           </Row>
           <Row className="mt-4">
             <Col xs="12">
-		    <Label for="title">{t("Candidates/Proposals")}</Label>
+              <Label for="title">{t('Candidates/Proposals')}</Label>
             </Col>
             <Col xs="12">
               <SortableCandidatesContainer
@@ -336,7 +356,7 @@ class CreateElection extends Component {
                 type="button"
                 onClick={event => this.addCandidate(event)}>
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
-			{t("Add a proposal")}
+                {t('Add a proposal')}
               </Button>
             </Col>
             <Col
@@ -349,7 +369,7 @@ class CreateElection extends Component {
                 className="text-white mt-3 mb-1"
                 onClick={this.toggleAdvancedOptions}>
                 <FontAwesomeIcon icon={faCogs} className="mr-2" />
-			{t("Advanced options")}
+                {t('Advanced options')}
               </Button>
             </Col>
           </Row>
@@ -358,7 +378,7 @@ class CreateElection extends Component {
               <CardBody className="text-primary">
                 <Row>
                   <Col xs="12" md="3" lg="2">
-			  <Label for="title">{t("Starting date:")}</Label>
+                    <Label for="title">{t('Starting date:')}</Label>
                   </Col>
                   <Col xs="6" md="4" lg="3">
                     <input
@@ -387,20 +407,14 @@ class CreateElection extends Component {
                           ),
                         })
                       }>
-                      {Array(24)
-                        .fill(1)
-                        .map((x, i) => (
-                          <option value={i} key={i}>
-                            {i}h00
-                          </option>
-                        ))}
+                      {displayClockOptions()}
                     </select>
                   </Col>
                 </Row>
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="2">
-			  <Label for="title">{t("Ending date:")}</Label>
+                    <Label for="title">{t('Ending date:')}</Label>
                   </Col>
                   <Col xs="6" md="4" lg="3">
                     <input
@@ -430,20 +444,14 @@ class CreateElection extends Component {
                           ),
                         })
                       }>
-                      {Array(24)
-                        .fill(1)
-                        .map((x, i) => (
-                          <option value={i} key={i}>
-                            {i}h00
-                          </option>
-                        ))}
+                      {displayClockOptions()}
                     </select>
                   </Col>
                 </Row>
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="2">
-			  <Label for="title">{t("Grades:")}</Label>
+                    <Label for="title">{t('Grades:')}</Label>
                   </Col>
                   <Col xs="10" sm="11" md="4" lg="3">
                     <select
@@ -458,12 +466,14 @@ class CreateElection extends Component {
                   </Col>
                   <Col xs="auto" className="align-self-center pl-0 ">
                     <HelpButton>
-			{t("You can select here the number of grades for your election")}
+                      {t(
+                        'You can select here the number of grades for your election',
+                      )}
                       <br />
-			      <u>{t("For example:")}</u>{' '}
+                      <u>{t('For example:')}</u>{' '}
                       <em>
                         {' '}
-			{t("5 = Excellent, Very good, Good, Fair, Passable")}
+                        {t('5 = Excellent, Very good, Good, Fair, Passable')}
                       </em>
                     </HelpButton>
                   </Col>
@@ -491,23 +501,19 @@ class CreateElection extends Component {
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="2">
-			  <Label for="title">{t("Participants:")}</Label>
+                    <Label for="title">{t('Participants:')}</Label>
                   </Col>
                   <Col xs="12" md="9" lg="10">
                     <ReactMultiEmail
                       placeholder={t("Add here participants' emails")}
                       emails={electorEmails}
-                      onChange={(_emails) => {
+                      onChange={_emails => {
                         this.setState({electorEmails: _emails});
                       }}
                       validateEmail={email => {
                         return isEmail(email); // return boolean
                       }}
-                      getLabel={(
-                        email,
-                        index,
-                        removeEmail,
-                      ) => {
+                      getLabel={(email, index, removeEmail) => {
                         return (
                           <div data-tag key={index}>
                             {email}
@@ -522,7 +528,9 @@ class CreateElection extends Component {
                     />
                     <div>
                       <small className="text-muted">
-			      {t("List voters' emails in case the election is not opened")}
+                        {t(
+                          "List voters' emails in case the election is not opened",
+                        )}
                       </small>
                     </div>
                   </Col>
@@ -539,19 +547,19 @@ class CreateElection extends Component {
                   tabIndex={this.state.candidates.length + 4}>
                   <div key="button">
                     <FontAwesomeIcon icon={faCheck} className="mr-2" />
-			    {t("Validate")}
+                    {t('Validate')}
                   </div>
-                  <div key="modal-title">{t("Confirm your vote")}</div>
+                  <div key="modal-title">{t('Confirm your vote')}</div>
                   <div key="modal-body">
                     <div className="mt-1 mb-1">
                       <div className="text-white bg-primary p-1">
-			      {t("Question of the election")}
+                        {t('Question of the election')}
                       </div>
                       <div className="p-1 pl-3">
                         <em>{this.state.title}</em>
                       </div>
                       <div className="text-white bg-primary p-1">
-			      {t("Candidates/Proposals")}
+                        {t('Candidates/Proposals')}
                       </div>
                       <div className="p-1 pl-0">
                         <ul className="m-0 pl-4">
@@ -569,20 +577,23 @@ class CreateElection extends Component {
                         </ul>
                       </div>
                       <div className="text-white bg-primary p-1 mt-1">
-			      {t("Dates")}
+                        {t('Dates')}
                       </div>
                       <p className="p-1 pl-3">
-		      {t("The election will take place from")}{' '}
+                        {t('The election will take place from')}{' '}
                         <b>
-                          {this.state.start.toLocaleDateString()}, {t("at")}{' '}
+                          {this.state.start.toLocaleDateString()}, {t('at')}{' '}
                           {this.state.start.toLocaleTimeString()}
-                        </b>{' '}{t("to")}{' '}
+                        </b>{' '}
+                        {t('to')}{' '}
                         <b>
-                          {this.state.finish.toLocaleDateString()}, {t("at")}{' '}
+                          {this.state.finish.toLocaleDateString()}, {t('at')}{' '}
                           {this.state.finish.toLocaleTimeString()}
                         </b>
                       </p>
-                      <div className="text-white bg-primary p-1">{t("Grades")}</div>
+                      <div className="text-white bg-primary p-1">
+                        {t('Grades')}
+                      </div>
                       <div className="p-1 pl-3">
                         {grades.map((mention, i) => {
                           return i < this.state.numGrades ? (
@@ -601,17 +612,19 @@ class CreateElection extends Component {
                         })}
                       </div>
                       <div className="text-white bg-primary p-1 mt-1">
-			      {t("Voters' list")}
+                        {t("Voters' list")}
                       </div>
                       <div className="p-1 pl-3">
                         {electorEmails.length > 0 ? (
                           electorEmails.join(', ')
                         ) : (
                           <p>
-			{t("The form contains no address.")}
+                            {t('The form contains no address.')}
                             <br />
                             <em>
-			    {t("The election will be opened to anyone with the link")}
+                              {t(
+                                'The election will be opened to anyone with the link',
+                              )}
                             </em>
                           </p>
                         )}
@@ -619,9 +632,9 @@ class CreateElection extends Component {
                     </div>
                   </div>
                   <div key="modal-confirm" onClick={this.handleSubmit}>
-			  {t("Start the election")}
+                    {t('Start the election')}
                   </div>
-                  <div key="modal-cancel">{t("Cancel")}</div>
+                  <div key="modal-cancel">{t('Cancel')}</div>
                 </ButtonWithConfirm>
               ) : (
                 <Button
@@ -629,7 +642,7 @@ class CreateElection extends Component {
                   className="btn btn-dark float-right btn-block"
                   onClick={this.handleSendWithoutCandidate}>
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-			  {t("Confirm")}
+                  {t('Confirm')}
                 </Button>
               )}
             </Col>
