@@ -199,7 +199,7 @@ class Result extends Component {
                   <li key={i} className="mt-2">
                       <span className="mt-2 ml-2">{candidate.name}</span>
                     <span className="badge badge-dark mr-2 mt-2 ml-2">
-                      {candidate.score.toFixed(3)}%
+                      {(100 * candidate.score).toFixed(3)}%
                     </span>
                     <span
                       className="badge badge-light mr-2 mt-2"
