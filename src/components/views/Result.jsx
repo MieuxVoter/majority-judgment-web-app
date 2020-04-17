@@ -52,7 +52,7 @@ class Result extends Component {
   resultsToState = response => {
     const candidates = response.map(c => ({
       id: c.id,
-      label: c.name,
+      name: c.name,
       profile: c.profile,
       grade: c.grade,
       score: c.score
@@ -96,8 +96,6 @@ class Result extends Component {
   };
 
   componentDidMount() {
-    // FIXME we should better handling logs
-
     // get details of the election
     const electionSlug = this.props.match.params.slug;
     if (electionSlug === "dev") {
@@ -196,11 +194,12 @@ class Result extends Component {
 		  <h1>{t("Results of the election:")}</h1>
             <ol>
               {candidates.map((candidate, i) => {
+              console.log(candidate);
                 return (
                   <li key={i} className="mt-2">
                       <span className="mt-2 ml-2">{candidate.name}</span>
                     <span className="badge badge-dark mr-2 mt-2 ml-2">
-                      {candidate.score}%
+                      {candidate.score.toFixed(3)}%
                     </span>
                     <span
                       className="badge badge-light mr-2 mt-2"
