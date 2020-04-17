@@ -167,7 +167,8 @@ class Result extends Component {
   render() {
     const { redirectLost, candidates, electionGrades } = this.state;
     const { t } = this.props;
-
+    const grades = i18nGrades();
+	  
     if (redirectLost) {
       return <Redirect to={redirectLost} />;
     }
@@ -198,9 +199,6 @@ class Result extends Component {
                 return (
                   <li key={i} className="mt-2">
                       <span className="mt-2 ml-2">{candidate.name}</span>
-                    <span className="badge badge-dark mr-2 mt-2 ml-2">
-                      {(100 * candidate.score).toFixed(3)}%
-                    </span>
                     <span
                       className="badge badge-light mr-2 mt-2"
                       style={{
@@ -208,7 +206,10 @@ class Result extends Component {
                         color: "#fff"
                       }}
                     >
-                      {i18nGrades()[candidate.grade].label}
+                      {grades[candidate.grade].label}
+                    </span>
+		    <span className="badge badge-dark mr-2 mt-2 ml-2">
+                      {(100 * candidate.score).toFixed(1)}%
                     </span>
                   </li>
                 );
