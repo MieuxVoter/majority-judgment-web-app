@@ -256,6 +256,8 @@ class CreateElection extends Component {
       this.context.routesServer.setElection,
     );
 
+    const {t} = this.props;
+
     this.setState({waiting: true});
 
     fetch(endpoint, {
@@ -274,13 +276,22 @@ class CreateElection extends Component {
       }),
     })
       .then(response => response.json())
-      .then(result =>
-        this.setState(state => ({
-          redirectTo: '/create-success/' + result.id,
-          successCreate: true,
-	  waiting: false
-        })),
-      )
+      .then(result => {
+        console.log(result);
+        if (result.id) {
+          this.setState(state => ({
+            redirectTo: '/create-success/' + result.id,
+            successCreate: true,
+            waiting: false
+          }))
+        }
+        else {
+          toast.error(t('Unknown error. Try again please.'), {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          this.setState({waiting: false});
+        }
+      })
       .catch(error => error);
   }
 

@@ -200,7 +200,7 @@ class Result extends Component {
                   <li key={i} className="mt-2">
                       <span className="mt-2 ml-2">{candidate.name}</span>
                     <span
-                      className="badge badge-light mr-2 mt-2"
+                      className="badge badge-light ml-2 mt-2"
                       style={{
                         backgroundColor: electionGrades[candidate.grade].color,
                         color: "#fff"
@@ -208,7 +208,7 @@ class Result extends Component {
                     >
                       {grades[candidate.grade].label}
                     </span>
-		    <span className="badge badge-dark mr-2 mt-2 ml-2">
+		    <span className="badge badge-dark mt-2 ml-2">
                       {(100 * candidate.score).toFixed(1)}%
                     </span>
                   </li>
