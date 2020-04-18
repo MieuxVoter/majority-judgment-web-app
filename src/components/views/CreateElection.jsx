@@ -274,7 +274,8 @@ class CreateElection extends Component {
         elector_emails: electorEmails,
         start_at: start.getTime() / 1000,
         finish_at: finish.getTime() / 1000,
-        select_language: locale
+        select_language: locale,
+        front_url : window.location.origin
       }),
     })
         .then(response => response.json())
