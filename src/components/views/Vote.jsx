@@ -149,14 +149,18 @@ class Vote extends Component {
         gradesByCandidate.push(gradesById[id]);
       });
 
+    const payload = {
+        election: electionSlug,
+        grades_by_candidate: gradesByCandidate,
+      }
+    if (token !== ""){
+      payload["token"] = token;
+    }
+
     fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        election: electionSlug,
-        grades_by_candidate: gradesByCandidate,
-        token: token,
-      })
+      body: JSON.stringify(payload)
     })
       .then(this.handleErrors)
       .then(result =>
