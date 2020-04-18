@@ -132,6 +132,7 @@ class Vote extends Component {
 
     const { ratedCandidates } = this.state;
     const electionSlug = this.props.match.params.slug;
+    const token = this.props.location.search.substr(7);
     const endpoint = resolve(
       this.context.urlServer,
       this.context.routesServer.voteElection
@@ -153,7 +154,8 @@ class Vote extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         election: electionSlug,
-        grades_by_candidate: gradesByCandidate
+        grades_by_candidate: gradesByCandidate,
+        token: token,
       })
     })
       .then(this.handleErrors)

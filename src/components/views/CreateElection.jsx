@@ -561,7 +561,7 @@ class CreateElection extends Component {
                     <div>
                       <small className="text-muted">
                         {t(
-                          "List voters' emails in case the election is not opened",
+                          "If you list voters' emails, only them will be able to access the election",
                         )}
                       </small>
                     </div>
