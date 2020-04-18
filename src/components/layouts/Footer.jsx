@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FlagIcon } from '../flag'
 import i18n from '../../i18n'
 import Helloasso from "../banner/Helloasso";
+import Paypal from "../banner/Paypal";
 
 class Footer extends Component {
   constructor(props) {
@@ -28,19 +29,20 @@ class Footer extends Component {
         <span className="m-2">-</span>
         <a href="https://mieuxvoter.fr/" target="_blank" rel="noopener noreferrer" style={linkStyle} >{t("Who are we")}</a>
         <span className="m-2">-</span>
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('en')}>
+	<button style={buttonStyle} onClick={() => i18n.changeLanguage('en_EN')}>
 	  <FlagIcon code={"gb"}  />
 	</button>
 		{" "}
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('fr')}>
+	<button style={buttonStyle} onClick={() => i18n.changeLanguage('fr_FR')}>
 	  <FlagIcon code={"fr"}  />
 	</button>
 		{" "}
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('es')}>
+	<button style={buttonStyle} onClick={() => i18n.changeLanguage('es_ES')}>
 	  <FlagIcon code={"es"}  />
 	</button>
           <div className="mt-3">
               <Helloasso width="150px" />
+              <Paypal />
           </div>
       </footer>
     );
