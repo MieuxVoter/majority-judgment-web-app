@@ -31,9 +31,9 @@ class Footer extends Component {
       <footer className="text-center">
         <Link to="/" style={linkStyle}>{t("Homepage")}</Link>
         <span className="m-2">-</span>
-        <a href="https://github.com/MieuxVoter" style={linkStyle}>{t("Source code")}</a>
+        <a href="https://github.com/MieuxVoter" target="_blank" rel="noopener noreferrer" style={linkStyle}>{t("Source code")}</a>
         <span className="m-2">-</span>
-        <a href="https://mieuxvoter.fr/" style={linkStyle} >{t("Who are we")}</a>
+        <a href="https://mieuxvoter.fr/" target="_blank" rel="noopener noreferrer" style={linkStyle} >{t("Who are we")}</a>
         <span className="m-2">-</span>
         {
         countries.map(({l, flag}, i) => (
