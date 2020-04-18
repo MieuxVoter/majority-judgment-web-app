@@ -55,8 +55,10 @@ class Result extends Component {
       name: c.name,
       profile: c.profile,
       grade: c.grade,
-      score: c.score
+      score: c.score,
+      numVotes: c.num_votes
     }));
+    console.log(response);
     this.setState(state => ({ candidates: candidates }));
     return response;
   };
