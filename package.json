@@ -62,6 +62,7 @@
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
     "react-flag-icon-css": "^1.0.25",
+    "react-flags-select": "^1.1.12",
     "react-i18next": "^11.3.4",
     "react-loader-spinner": "^3.1.14",
     "react-multi-email": "^0.5.3",
