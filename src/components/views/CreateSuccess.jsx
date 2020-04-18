@@ -12,11 +12,12 @@ class CreateSuccess extends Component {
   constructor(props) {
     super(props);
     const electionSlug = this.props.match.params.slug;
+    console.log(window.location.origin);
     this.state = {
       urlOfVote:
-        'https://' + window.location.hostname + '/vote/' + electionSlug,
+          window.location.origin + '/vote/' + electionSlug,
       urlOfResult:
-        'https://' + window.location.hostname + '/result/' + electionSlug,
+          window.location.origin + '/result/' + electionSlug,
     };
     this.urlVoteField = React.createRef();
     this.urlResultField = React.createRef();
