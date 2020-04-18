@@ -79,10 +79,10 @@ class CreateSuccess extends Component {
         </Row>
         <Row className="mt-4 mb-4">
           <Col>
-            <div className=" bg-warning text-white p-2 ">
-              <p className="m-0 p-0 text-center">
+            <div className=" bg-danger text-white p-2 ">
+              <h4 className="m-0 p-0 text-center">
                 {t('Keep these links carefully')}
-              </p>
+              </h4>
               <p className="small m-2 p-0">
                 <Trans i18nKey="t">
                   <b>Warning</b>: you will have no other choices to recover the
