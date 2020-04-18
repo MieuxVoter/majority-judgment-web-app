@@ -64,6 +64,7 @@ class Result extends Component {
       profile: c.profile,
       grade: c.grade,
     }));
+    console.log(response);
     this.setState(state => ({ candidates: candidates }));
     return response;
   };
