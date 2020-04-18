@@ -12,7 +12,6 @@ class CreateSuccess extends Component {
   constructor(props) {
     super(props);
     const electionSlug = this.props.match.params.slug;
-    console.log(window.location.origin);
     this.state = {
       urlOfVote:
           window.location.origin + '/vote/' + electionSlug,
