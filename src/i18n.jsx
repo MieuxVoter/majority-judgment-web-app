@@ -3,13 +3,13 @@ import XHR from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-console.log("locale="+navigator.language);
+
 i18n
   .use(XHR)
   .use(LanguageDetector)
   .use(initReactI18next) // bind react-i18next to the instance
   .init({
-    fallbackLng: 'en_GB',
+    fallbackLng: 'en',
     debug: true,
     saveMissing: true, // send not translated keys to endpoint
 
