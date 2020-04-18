@@ -27,18 +27,6 @@ class Footer extends Component {
         <a href="https://github.com/MieuxVoter" target="_blank" rel="noopener noreferrer" style={linkStyle}>{t("Source code")}</a>
         <span className="m-2">-</span>
         <a href="https://mieuxvoter.fr/" target="_blank" rel="noopener noreferrer" style={linkStyle} >{t("Who are we")}</a>
-        <span className="m-2">-</span>
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('en')}>
-	  <FlagIcon code={"gb"}  />
-	</button>
-		{" "}
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('fr')}>
-	  <FlagIcon code={"fr"}  />
-	</button>
-		{" "}
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('es')}>
-	  <FlagIcon code={"es"}  />
-	</button>
           <div className="mt-3">
               <Paypal />
           </div>
