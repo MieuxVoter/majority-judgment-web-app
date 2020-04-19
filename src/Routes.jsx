@@ -20,6 +20,8 @@ function Routes() {
         <Route path="/vote/:slug" component={Vote} />
         <Route path="/result/:slug" component={Result} />
         <Route path="/create-success/:slug" component={CreateSuccess} />
+        <Route path="/link/:slug" component={CreateSuccess} closed="true" />
+        <Route path="/links/:slug" component={CreateSuccess} closed="false" />
         <Route path="/vote-success/:slug" component={VoteSuccess} />
         <Route path="/unknown-election/:slug" component={UnknownElection} />
         <Route component={UnknownView} />
