@@ -1,5 +1,8 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
+import { Link } from "react-router-dom";
+import logoLine from "./logos/logo-line-white.svg";
+import { withTranslation } from "react-i18next";
 
 export const UNKNOWN_ELECTION_ERROR = "E1";
 export const ONGOING_ELECTION_ERROR = "E2";
@@ -38,8 +41,20 @@ export const errorMessage = (error, t) => {
 export const Error = props => (
   <Container>
     <Row>
-      <Col xs="12">
-        <h1>{props.value}</h1>
+      <Link to="/" className="d-block ml-auto mr-auto mb-4">
+        <img src={logoLine} alt="logo" height="128" />
+      </Link>
+    </Row>
+    <Row className="mt-4">
+      <Col className="text-center">
+        <h4>{props.value}</h4>
+      </Col>
+    </Row>
+    <Row className="mt-4">
+      <Col className="text-center">
+        <Link to="/" className="btn btn-secondary">
+          Back to home page
+        </Link>
       </Col>
     </Row>
   </Container>
