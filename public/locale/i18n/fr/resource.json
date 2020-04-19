@@ -77,5 +77,7 @@
   "The election is over. You can't vote anymore": "L'élection est terminée. Vous ne pouvez plus voter.",
   "You need a token to vote in this election": "Vous avez besoin d'un jeton pour voter dans cette élection",
   "You seem to have already voted.": "Il semble que vous ayez déjà voté.",
-  "The parameters of the election are incorrect.": "Les paramètres de l'élection sont incorrects."
+  "The parameters of the election are incorrect.": "Les paramètres de l'élection sont incorrects.",
+  "Support us !" : "Soutenez-nous !",
+  "PayPal - The safer, easier way to pay online!" : "PayPal -  Le moyen le plus sûr et le plus simple de payer en ligne !"
 }

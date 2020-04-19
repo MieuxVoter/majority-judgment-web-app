@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import {withTranslation} from 'react-i18next';
 import { Link } from "react-router-dom";
-
-import { FlagIcon } from '../flag'
-import i18n from '../../i18n'
 import Paypal from "../banner/Paypal";
 
 class Footer extends Component {
