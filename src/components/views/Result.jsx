@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 import { i18nGrades } from "../../Util";
 import { AppContext } from "../../AppContext";
+import { errorMessage, Error } from "../../Errors";
 
 class Result extends Component {
   static contextType = AppContext;
@@ -32,8 +33,8 @@ class Result extends Component {
       colSizeGradeXs: 1,
       collapseGraphics: false,
       collapseProfiles: false,
-      redirectLost: false,
-      electionGrades: i18nGrades()
+      electionGrades: i18nGrades(),
+      errorMessage: "",
     };
   }
 
@@ -41,7 +42,7 @@ class Result extends Component {
     if (!response.ok) {
       response.json().then(response => {
         this.setState(state => ({
-          redirectLost: "/unknown-election/" + encodeURIComponent(response)
+          errorMessage: errorMessage(response, this.props.t)
         }));
       });
       throw Error(response);
@@ -165,12 +166,12 @@ class Result extends Component {
   };
 
   render() {
-    const { redirectLost, candidates, electionGrades } = this.state;
+    const { errorMessage, candidates, electionGrades } = this.state;
     const { t } = this.props;
     const grades = i18nGrades();
 	  
-    if (redirectLost) {
-      return <Redirect to={redirectLost} />;
+    if (errorMessage && errorMessage !== "") {
+      return <Error value={errorMessage} />;
     }
 
     let totalOfVote = 0;

@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  Container,
+  Row,
+  Col,
+} from "reactstrap";
 
 export const UNKNOWN_ELECTION_ERROR = 'E1';
 export const ONGOING_ELECTION_ERROR = 'E2';
@@ -33,3 +38,13 @@ export const errorMessage = (error, t) => {
     return t('The parameters of the election are incorrect.');
   }
 };
+
+export const Error = (props) => (
+  <Container>
+    <Row>
+      <Col xs="12">
+        <h1>{props.value}</h1>
+      </Col>
+    </Row>
+  </Container>
+);
