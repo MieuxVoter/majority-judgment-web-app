@@ -267,7 +267,7 @@ class CreateElection extends Component {
       },
       body: JSON.stringify({
         title: title,
-        candidates: candidates.map(c => c.label),
+        candidates: candidates.map(c => c.label).filter( c => c !== ""),
         on_invitation_only: electorEmails.length > 0,
         num_grades: numGrades,
         elector_emails: electorEmails,
@@ -279,13 +279,16 @@ class CreateElection extends Component {
       .then(result => {
         console.log(result);
         if (result.id) {
+          const nextPage =
+            electorEmails && electorEmails.length
+              ? `/link/${result.id}`
+              : `/links/${result.id}`;
           this.setState(state => ({
-            redirectTo: '/create-success/' + result.id,
+            redirectTo: nextPage,
             successCreate: true,
-            waiting: false
-          }))
-        }
-        else {
+            waiting: false,
+          }));
+        } else {
           toast.error(t('Unknown error. Try again please.'), {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -314,7 +317,7 @@ class CreateElection extends Component {
       numGrades,
       isAdvancedOptionsOpen,
       numCandidatesWithLabel,
-      electorEmails
+      electorEmails,
     } = this.state;
     const {t} = this.props;
 
