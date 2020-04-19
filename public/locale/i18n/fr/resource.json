@@ -1,7 +1,7 @@
 {
   "Homepage": "Accueil",
   "Source code": "Code source",
-  "Who are we": "Qui sommes-nous",
+  "Who are we?": "Qui sommes-nous ?",
   "BetterVote": "MieuxVoter",
   "Voting platform": "Plateforme de vote",
   "Majority Judgment": "Jugement Majoritaire",
@@ -79,5 +79,6 @@
   "You seem to have already voted.": "Il semble que vous ayez déjà voté.",
   "The parameters of the election are incorrect.": "Les paramètres de l'élection sont incorrects.",
   "Support us !" : "Soutenez-nous !",
-  "PayPal - The safer, easier way to pay online!" : "PayPal -  Le moyen le plus sûr et le plus simple de payer en ligne !"
+  "PayPal - The safer, easier way to pay online!" : "PayPal -  Le moyen le plus sûr et le plus simple de payer en ligne !",
+  "Number of votes:" : "Nombre de votes :"
 }
