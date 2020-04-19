@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {withTranslation} from 'react-i18next';
 import { Link } from "react-router-dom";
 
@@ -36,13 +36,13 @@ class Footer extends Component {
         <a href="https://mieuxvoter.fr/" style={linkStyle} >{t("Who are we")}</a>
         <span className="m-2">-</span>
         {
-        countries.map(({l, flag}) => (
-        <>
+        countries.map(({l, flag}, i) => (
+        <Fragment key={i} >
           <button style={buttonStyle} onClick={() => i18n.changeLanguage(l)}>
             <FlagIcon code={flag}  />
           </button>
             {" "}
-            </>
+            </Fragment>
         ))
         }
           <div className="mt-3">

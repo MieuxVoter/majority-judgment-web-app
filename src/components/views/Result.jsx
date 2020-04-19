@@ -16,6 +16,13 @@ import { i18nGrades } from "../../Util";
 import { AppContext } from "../../AppContext";
 import { errorMessage, Error } from "../../Errors";
 
+const meritProfileFromVotes = votes => {
+  const numGrades = Math.max( ...votes) - Math.min( ...votes );
+  const profile = Array(numGrades).fill(0);
+  votes.forEach(vote => {profile[vote] += 1 });
+  return profile;
+}
+
 class Result extends Component {
   static contextType = AppContext;
 
@@ -56,7 +63,6 @@ class Result extends Component {
       name: c.name,
       profile: c.profile,
       grade: c.grade,
-      score: c.score
     }));
     this.setState(state => ({ candidates: candidates }));
     return response;
@@ -124,7 +130,6 @@ class Result extends Component {
         }
       ];
       this.setState({ candidates: dataTest });
-      console.log(this.state.candidates);
     } else {
       const detailsEndpoint = resolve(
         this.context.urlServer,
@@ -174,14 +179,10 @@ class Result extends Component {
       return <Error value={errorMessage} />;
     }
 
-    let totalOfVote = 0;
-
-    //based on the first candidate
-    if (candidates.length > 0) {
-      candidates[0].profile.map((value, i) => (totalOfVote += value));
-    } else {
-      totalOfVote = 1;
-    }
+    const sum = seq => Object.values(seq).reduce((a,b) => a + b, 0) 
+    const numVotes = candidates && candidates.length > 0 ? sum(candidates[0].profile) : 1 ;
+    const gradeIds = candidates && candidates.length > 0 ? Object.keys(candidates[0].profile) : [];
+    console.log(gradeIds);
 
     return (
       <Container>
@@ -196,7 +197,6 @@ class Result extends Component {
 		  <h1>{t("Results of the election:")}</h1>
             <ol>
               {candidates.map((candidate, i) => {
-              console.log(candidate);
                 return (
                   <li key={i} className="mt-2">
                       <span className="mt-2 ml-2">{candidate.name}</span>
@@ -209,9 +209,9 @@ class Result extends Component {
                     >
                       {grades[candidate.grade].label}
                     </span>
-		    <span className="badge badge-dark mt-2 ml-2">
+                    { /* <span className="badge badge-dark mt-2 ml-2">
                       {(100 * candidate.score).toFixed(1)}%
-                    </span>
+                    </span> */ }
                   </li>
                 );
               })}
@@ -250,12 +250,10 @@ class Result extends Component {
                                 <table style={{ width: "100%" }}>
                                   <tbody>
                                     <tr>
-                                      {candidate.profile.map((value, i) => {
+                                      {gradeIds.map((id, i) => {
+                                        const value = candidate.profile[id];
                                         if (value > 0) {
-                                          let percent =
-                                            Math.round(
-                                              (value * 100) / totalOfVote
-                                            ) + "%";
+                                          let percent = (value * 100) / numVotes + "%";
                                           if (i === 0) {
                                             percent = "auto";
                                           }
@@ -362,13 +360,10 @@ class Result extends Component {
                           return (
                             <tr key={i}>
                               <td>{i + 1}</td>
-                              {/*candidate.label*/}
-                              {candidate.profile.map((value, i) => {
-                                let percent =
-                                  Math.round(
-                                    ((value * 100) / totalOfVote) * 100
-                                  ) / 100;
-                                return <td key={i}>{percent}%</td>;
+                              {gradeIds.map((id, i) => {
+                                const value = candidate.profile[id];
+                                const percent = (value / numVotes * 100).toFixed(1);
+                                return <td key={i}>{percent} %</td>;
                               })}
                             </tr>
                           );
