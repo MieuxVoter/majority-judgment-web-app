@@ -6,11 +6,16 @@ import {faCopy, faUsers, faExclamationTriangle} from '@fortawesome/free-solid-sv
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import logoLine from '../../logos/logo-line-white.svg';
 import {AppContext} from '../../AppContext';
+import CopyField from '../CopyField';
+
+
+
 
 class CreateSuccess extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
+    console.log(props);
     const electionSlug = this.props.match.params.slug;
     this.state = {
       urlOfVote:
@@ -22,18 +27,6 @@ class CreateSuccess extends Component {
     this.urlResultField = React.createRef();
   }
 
-  handleClickOnField = event => {
-    event.target.focus();
-    event.target.select();
-  };
-
-  handleClickOnCopyVote = event => {
-    const input = this.urlVoteField.current;
-    input.focus();
-    input.select();
-    document.execCommand('copy');
-  };
-
   handleClickOnCopyResult = event => {
     const input = this.urlResultField.current;
     input.focus();
@@ -43,6 +36,26 @@ class CreateSuccess extends Component {
 
   render() {
     const {t} = this.props;
+    console.log(this.props)
+    const electionLink = this.props.invitationOnly ? (
+      <>
+        <p className="mt-4 mb-1">
+          {t('Voters received a link to vote by email. Each link can be used only once!')}
+        </p>
+      </>
+    ) : (
+      <>
+        <p className="mt-4 mb-1">
+          {t('You can now share the election link to participants:')}
+        </p>
+        <CopyField
+          value={this.state.urlOfVote}
+          icon={faCopy}
+          t={t}
+        />
+      </>
+    );
+
     return (
       <Container>
         <Row>
@@ -53,54 +66,17 @@ class CreateSuccess extends Component {
         <Row className="mt-4">
           <Col className="text-center offset-lg-3" lg="6">
             <h2>{t('Successful election creation!')}</h2>
-            <p className="mt-4 mb-1">
-              {t('You can now share the election link to participants:')}
-            </p>
 
-            <div className="input-group  ">
-              <input
-                type="text"
-                className="form-control"
-                ref={this.urlVoteField}
-                value={this.state.urlOfVote}
-                readOnly
-                onClick={this.handleClickOnField}
-              />
-
-              <div className="input-group-append">
-                <Button
-                  className="btn btn-outline-light"
-                  onClick={this.handleClickOnCopyVote}
-                  type="button">
-                  <FontAwesomeIcon icon={faCopy} className="mr-2" />
-                  {t('Copy')}
-                </Button>
-              </div>
-            </div>
+            {electionLink}
 
             <p className="mt-4 mb-1">
               {t('Here is the link for the results in real time:')}
             </p>
-            <div className="input-group ">
-              <input
-                type="text"
-                className="form-control"
-                ref={this.urlResultField}
-                value={this.state.urlOfResult}
-                readOnly
-                onClick={this.handleClickOnField}
-              />
-
-              <div className="input-group-append">
-                <Button
-                  className="btn btn-outline-light"
-                  onClick={this.handleClickOnCopyResult}
-                  type="button">
-                  <FontAwesomeIcon icon={faCopy} className="mr-2" />
-                  {t('Copy')}
-                </Button>
-              </div>
-            </div>
+            <CopyField
+              value={this.state.urlOfResult}
+              icon={faCopy}
+              t={t}
+            />
           </Col>
         </Row>
         <Row className="mt-4 mb-4">
@@ -127,7 +103,7 @@ class CreateSuccess extends Component {
               to={'/vote/' + this.props.match.params.slug}
               className="btn btn-success">
               <FontAwesomeIcon icon={faUsers} className="mr-2" />
-		      {t("Participate now!")}
+              {t('Participate now!')}
             </Link>
           </Col>
         </Row>
