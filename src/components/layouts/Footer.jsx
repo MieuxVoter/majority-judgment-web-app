@@ -24,7 +24,7 @@ class Footer extends Component {
         <span className="m-2">-</span>
         <a href="https://mieuxvoter.fr/" target="_blank" rel="noopener noreferrer" style={linkStyle} >{t("Who are we?")}</a>
           <div className="mt-3">
-              <Paypal />
+              <Paypal btnColor="btn-primary"/>
           </div>
       </footer>
     );

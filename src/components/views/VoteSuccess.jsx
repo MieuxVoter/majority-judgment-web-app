@@ -5,6 +5,7 @@ import logoLine from "../../logos/logo-line-white.svg";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../AppContext";
 import Helloasso from "../banner/Helloasso";
+import Paypal from "../banner/Paypal";
 
 class VoteSuccess extends Component {
   static contextType = AppContext;
@@ -22,7 +23,7 @@ class VoteSuccess extends Component {
             <h2>{t("Your participation was recorded with success!")}</h2>
             <p>{t("Thanks for your participation.")}</p>
               <div className="mt-3">
-                  <Helloasso width="60%" className="m-auto d-block" />
+                  <Paypal btnColor="btn-success"/>
               </div>
           </Col>
         </Row>
