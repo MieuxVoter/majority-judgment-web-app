@@ -47,10 +47,10 @@ main {
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-color: $mv-blue-color;
-  min-height: calc(100% - 106px);
+  min-height: calc(100% - 170px);
   overflow: auto;
   padding-top: 72px;
-  padding-bottom: 36px;
+  padding-bottom: 100px;
 }
 
 header {
@@ -309,4 +309,24 @@ li.sortable {
 /** react multi email **/
 .react-multi-email > span[data-placeholder] {
   padding: 0.25em !important;
+}
+
+
+/** flag selector **/
+.flag-select > button {
+  height:35px;
+}
+
+.flag-select__options{
+  width:65px;
+  text-align:center;
+  background-color: $mv-light-color !important;
+}
+
+.flag-select__options .flag-select__option{
+  padding:0;
+  margin:0;
+}
+.flag-select__options .flag-select__option__icon{
+  top:0;
 }

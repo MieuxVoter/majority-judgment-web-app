@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Col, Container, Row} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {withTranslation, Trans} from 'react-i18next';
-import {faCopy, faUsers} from '@fortawesome/free-solid-svg-icons';
+import {faCopy, faUsers, faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import logoLine from '../../logos/logo-line-white.svg';
 import {AppContext} from '../../AppContext';
@@ -18,8 +18,10 @@ class CreateSuccess extends Component {
     console.log(props);
     const electionSlug = this.props.match.params.slug;
     this.state = {
-      urlOfVote: `https://${window.location.hostname}/vote/${electionSlug}`,
-      urlOfResult: `https://${window.location.hostname}/result/${electionSlug}`,
+      urlOfVote:
+          window.location.origin + '/vote/' + electionSlug,
+      urlOfResult:
+          window.location.origin + '/result/' + electionSlug,
     };
     this.urlVoteField = React.createRef();
     this.urlResultField = React.createRef();
@@ -78,10 +80,12 @@ class CreateSuccess extends Component {
           </Col>
         </Row>
         <Row className="mt-4 mb-4">
-          <Col>
+          <Col className="text-center offset-lg-3" lg="6">
             <div className=" bg-danger text-white p-2 ">
               <h4 className="m-0 p-0 text-center">
-                {t('Keep these links carefully')}
+                <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+                 {t('Keep these links carefully')}
+
               </h4>
               <p className="small m-2 p-0">
                 <Trans i18nKey="t">

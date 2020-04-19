@@ -1,7 +1,7 @@
 {
   "Homepage": "Página de inicio",
   "Source code": "Código fuente",
-  "Who are we": "Quiénes somos",
+  "Who are we?": "¿Quiénes somos?",
   "BetterVote": "VotarMejor",
   "Voting platform": "Plataforma de votación",
   "Majority Judgment": "Juicio Mayoritario",
@@ -78,5 +78,7 @@
   "You need a token to vote in this election": "__STRING_NOT_TRANSLATED__",
   "You seem to have already voted.": "__STRING_NOT_TRANSLATED__",
   "The parameters of the election are incorrect.": "__STRING_NOT_TRANSLATED__",
-  "Number of votes:": "__STRING_NOT_TRANSLATED__"
+  "Support us !" : "¡Apóyanos!",
+  "PayPal - The safer, easier way to pay online!" : "PayPal - ¡La forma más segura y fácil de pagar en línea!",
+  "Number of votes:" : "Número de votos:"
 }

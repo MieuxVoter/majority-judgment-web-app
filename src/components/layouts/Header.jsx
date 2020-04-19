@@ -7,6 +7,7 @@ import { withTranslation } from 'react-i18next';
 import logo from "../../logos/logo-color.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
+import LanguageSelector from "./LanguageSelector";
 
 class Header extends Component {
    state = {
@@ -44,9 +45,12 @@ class Header extends Component {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <Link className="text-primary nav-link" to="/create-election/">
-                  <FontAwesomeIcon icon={faRocket} className="mr-2" /> 
-		   {t("Start an election")}
+                  <FontAwesomeIcon icon={faRocket} className="mr-2" />
+                  {t("Start an election")}
                 </Link>
+              </NavItem>
+              <NavItem style={{width:"150px"}}>
+                <LanguageSelector />
               </NavItem>
             </Nav>
           </Collapse>
