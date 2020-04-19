@@ -8,6 +8,11 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { resolve } from "url";
 import { i18nGrades } from "../../Util";
 import { AppContext } from "../../AppContext";
+import { errorMessage } from "../../Errors";
+
+
+const shuffle = array => array.sort(() => Math.random() - 0.5);
+
 
 class Vote extends Component {
   static contextType = AppContext;
@@ -33,9 +38,11 @@ class Vote extends Component {
     if (!response.ok) {
       response.json().then(response => {
         console.log(response);
-        this.setState(state => ({
-          redirectTo: "/unknown-election/" + encodeURIComponent(response)
-        }));
+        const {t} = this.props;
+        toast.error(errorMessage(response, t));
+        // this.setState(state => ({
+        //   redirectTo: "/unknown-election/" + encodeURIComponent(response)
+        // }));
       });
       throw Error(response);
     }
@@ -48,14 +55,8 @@ class Vote extends Component {
       id: i,
       label: c
     }));
-    //shuffle candidates
-    let i, j, temp;
-    for (i = candidates.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      temp = candidates[i];
-      candidates[i] = candidates[j];
-      candidates[j] = temp;
-    }
+    shuffle(candidates);
+
     const colSizeGradeLg = Math.floor(
       (12 - this.state.colSizeCandidateLg) / numGrades
     );
@@ -144,7 +145,6 @@ class Vote extends Component {
     });
     const gradesByCandidate = [];
     Object.keys(gradesById)
-      .sort()
       .forEach(id => {
         gradesByCandidate.push(gradesById[id]);
       });
