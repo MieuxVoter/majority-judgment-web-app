@@ -268,7 +268,7 @@ class CreateElection extends Component {
       },
       body: JSON.stringify({
         title: title,
-        candidates: candidates.map(c => c.label),
+        candidates: candidates.map(c => c.label).filter( c => c !== ""),
         on_invitation_only: electorEmails.length > 0,
         num_grades: numGrades,
         elector_emails: electorEmails,
@@ -278,24 +278,27 @@ class CreateElection extends Component {
         front_url : window.location.origin
       }),
     })
-        .then(response => response.json())
-        .then(result => {
-          console.log(result);
-          if (result.id) {
-            this.setState(state => ({
-              redirectTo: '/create-success/' + result.id,
-              successCreate: true,
-              waiting: false
-            }))
-          }
-          else {
-            toast.error(t('Unknown error. Try again please.'), {
-              position: toast.POSITION.TOP_CENTER,
-            });
-            this.setState({waiting: false});
-          }
-        })
-        .catch(error => error);
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        if (result.id) {
+          const nextPage =
+            electorEmails && electorEmails.length
+              ? `/link/${result.id}`
+              : `/links/${result.id}`;
+          this.setState(state => ({
+            redirectTo: nextPage,
+            successCreate: true,
+            waiting: false,
+          }));
+        } else {
+          toast.error(t('Unknown error. Try again please.'), {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          this.setState({waiting: false});
+        }
+      })
+      .catch(error => error);
   }
 
   handleSendWithoutCandidate = () => {
@@ -557,88 +560,88 @@ class CreateElection extends Component {
                                       onClick={() => removeEmail(index)}>
                               ×
                             </span>
-                                </div>
-                            );
-                          }}
-                      />
-                      <div>
-                        <small className="text-muted">
-                          {t(
-                              "List voters' emails in case the election is not opened",
-                          )}
-                        </small>
+                          </div>
+                        );
+                      }}
+                    />
+                    <div>
+                      <small className="text-muted">
+                        {t(
+                          "If you list voters' emails, only them will be able to access the election",
+                        )}
+                      </small>
+                    </div>
+                  </Col>
+                </Row>
+                <hr className="mt-2 mb-2" />
+              </CardBody>
+            </Card>
+          </Collapse>
+          <Row className="justify-content-end mt-2">
+            <Col xs="12" md="3">
+              {numCandidatesWithLabel >= 2 ? (
+                <ButtonWithConfirm
+                  className="btn btn-success float-right btn-block"
+                  tabIndex={candidates.length + 4}>
+                  <div key="button">
+                    <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                    {t('Validate')}
+                  </div>
+                  <div key="modal-title">{t('Confirm your vote')}</div>
+                  <div key="modal-body">
+                    <div className="mt-1 mb-1">
+                      <div className="text-white bg-primary p-1">
+                        {t('Question of the election')}
                       </div>
-                    </Col>
-                  </Row>
-                  <hr className="mt-2 mb-2" />
-                </CardBody>
-              </Card>
-            </Collapse>
-            <Row className="justify-content-end mt-2">
-              <Col xs="12" md="3">
-                {numCandidatesWithLabel >= 2 ? (
-                    <ButtonWithConfirm
-                        className="btn btn-success float-right btn-block"
-                        tabIndex={candidates.length + 4}>
-                      <div key="button">
-                        <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                        {t('Validate')}
+                      <div className="p-1 pl-3">
+                        <em>{title}</em>
                       </div>
-                      <div key="modal-title">{t('Confirm your vote')}</div>
-                      <div key="modal-body">
-                        <div className="mt-1 mb-1">
-                          <div className="text-white bg-primary p-1">
-                            {t('Question of the election')}
-                          </div>
-                          <div className="p-1 pl-3">
-                            <em>{title}</em>
-                          </div>
-                          <div className="text-white bg-primary p-1">
-                            {t('Candidates/Proposals')}
-                          </div>
-                          <div className="p-1 pl-0">
-                            <ul className="m-0 pl-4">
-                              {candidates.map((candidate, i) => {
-                                if (candidate.label !== '') {
-                                  return (
-                                      <li key={i} className="m-0">
-                                        {candidate.label}
-                                      </li>
-                                  );
-                                } else {
-                                  return <li key={i} className="d-none" />;
-                                }
-                              })}
-                            </ul>
-                          </div>
-                          <div className="text-white bg-primary p-1 mt-1">
-                            {t('Dates')}
-                          </div>
-                          <p className="p-1 pl-3">
-                            {t('The election will take place from')}{' '}
-                            <b>
-                              {start.toLocaleDateString()}, {t('at')}{' '}
-                              {start.toLocaleTimeString()}
-                            </b>{' '}
-                            {t('to')}{' '}
-                            <b>
-                              {finish.toLocaleDateString()}, {t('at')}{' '}
-                              {finish.toLocaleTimeString()}
-                            </b>
-                          </p>
-                          <div className="text-white bg-primary p-1">
-                            {t('Grades')}
-                          </div>
-                          <div className="p-1 pl-3">
-                            {grades.map((mention, i) => {
-                              return i < numGrades ? (
-                                  <span
-                                      key={i}
-                                      className="badge badge-light mr-2 mt-2"
-                                      style={{
-                                        backgroundColor: mention.color,
-                                        color: '#fff',
-                                      }}>
+                      <div className="text-white bg-primary p-1">
+                        {t('Candidates/Proposals')}
+                      </div>
+                      <div className="p-1 pl-0">
+                        <ul className="m-0 pl-4">
+                          {candidates.map((candidate, i) => {
+                            if (candidate.label !== '') {
+                              return (
+                                <li key={i} className="m-0">
+                                  {candidate.label}
+                                </li>
+                              );
+                            } else {
+                              return <li key={i} className="d-none" />;
+                            }
+                          })}
+                        </ul>
+                      </div>
+                      <div className="text-white bg-primary p-1 mt-1">
+                        {t('Dates')}
+                      </div>
+                      <p className="p-1 pl-3">
+                        {t('The election will take place from')}{' '}
+                        <b>
+                          {start.toLocaleDateString()}, {t('at')}{' '}
+                          {start.toLocaleTimeString()}
+                        </b>{' '}
+                        {t('to')}{' '}
+                        <b>
+                          {finish.toLocaleDateString()}, {t('at')}{' '}
+                          {finish.toLocaleTimeString()}
+                        </b>
+                      </p>
+                      <div className="text-white bg-primary p-1">
+                        {t('Grades')}
+                      </div>
+                      <div className="p-1 pl-3">
+                        {grades.map((mention, i) => {
+                          return i < numGrades ? (
+                            <span
+                              key={i}
+                              className="badge badge-light mr-2 mt-2"
+                              style={{
+                                backgroundColor: mention.color,
+                                color: '#fff',
+                              }}>
                               {mention.label}
                             </span>
                               ) : (

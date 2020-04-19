@@ -17,7 +17,6 @@ class Footer extends Component {
 
   render() {
 
-  const buttonStyle = {backgroundColor: "black", padding: "0px", border: "0px",};
   const linkStyle = {whiteSpace: "nowrap"};
   const {t} = this.props;
     return (

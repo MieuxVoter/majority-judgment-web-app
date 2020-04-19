@@ -66,5 +66,16 @@
   "Voters' list": "Lista de votantes",
   "Graph": "Gráfico",
   "Preference profile": "Perfil de preferencia",
-  "Results of the election:": "Resultados de la elección"
+  "Results of the election:": "Resultados de la elección",
+  "Unknown error. Try again please.": "__STRING_NOT_TRANSLATED__",
+  "If you list voters' emails, only them will be able to access the election": "__STRING_NOT_TRANSLATED__",
+  "Voters received a link to vote by email. Each link can be used only once!": "__STRING_NOT_TRANSLATED__",
+  "Oops... The election is unknown.": "__STRING_NOT_TRANSLATED__",
+  "The election is still going on. You can't access now to the results.": "__STRING_NOT_TRANSLATED__",
+  "No votes have been recorded yet. Come back later.": "__STRING_NOT_TRANSLATED__",
+  "The election has not started yet.": "__STRING_NOT_TRANSLATED__",
+  "The election is over. You can't vote anymore": "__STRING_NOT_TRANSLATED__",
+  "You need a token to vote in this election": "__STRING_NOT_TRANSLATED__",
+  "You seem to have already voted.": "__STRING_NOT_TRANSLATED__",
+  "The parameters of the election are incorrect.": "__STRING_NOT_TRANSLATED__"
 }

@@ -66,5 +66,16 @@
   "Voters' list": "Voters' list",
   "Graph": "Graph",
   "Preference profile": "Merit profile",
-  "Results of the election:": "Results of the election:"
+  "Results of the election:": "Results of the election:",
+  "Unknown error. Try again please.": "Unknown error. Try again please.",
+  "If you list voters' emails, only them will be able to access the election": "If you list voters' emails, only them will be able to access the election",
+  "Voters received a link to vote by email. Each link can be used only once!": "Voters received a link to vote by email. Each link can be used only once!",
+  "Oops... The election is unknown.": "Oops... The election is unknown.",
+  "The election is still going on. You can't access now to the results.": "The election is still going on. You can't access now to the results.",
+  "No votes have been recorded yet. Come back later.": "No votes have been recorded yet. Come back later.",
+  "The election has not started yet.": "The election has not started yet.",
+  "The election is over. You can't vote anymore": "The election is over. You can't vote anymore",
+  "You need a token to vote in this election": "You need a token to vote in this election",
+  "You seem to have already voted.": "You seem to have already voted.",
+  "The parameters of the election are incorrect.": "The parameters of the election are incorrect."
 }
