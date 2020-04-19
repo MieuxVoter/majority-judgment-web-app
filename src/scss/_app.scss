@@ -310,3 +310,23 @@ li.sortable {
 .react-multi-email > span[data-placeholder] {
   padding: 0.25em !important;
 }
+
+
+/** flag selector **/
+.flag-select > button {
+  height:35px;
+}
+
+.flag-select__options{
+  width:65px;
+  text-align:center;
+  background-color: $mv-light-color !important;
+}
+
+.flag-select__options .flag-select__option{
+  padding:0;
+  margin:0;
+}
+.flag-select__options .flag-select__option__icon{
+  top:0;
+}
