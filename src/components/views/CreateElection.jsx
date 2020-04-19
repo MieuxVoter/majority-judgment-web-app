@@ -40,6 +40,11 @@ import ButtonWithConfirm from '../form/ButtonWithConfirm';
 import Loader from '../wait';
 import i18n from '../../i18n'
 
+
+// Error messages
+const AT_LEAST_2_CANDIDATES_ERROR = 'Please add at least 2 candidates.'
+const NO_TITLE_ERROR = 'Please add a title.'
+
 // Convert a Date object into YYYY-MM-DD
 const dateToISO = date => date.toISOString().substring(0, 10);
 
@@ -157,7 +162,6 @@ class CreateElection extends Component {
 
     this.state = {
       candidates: [{label: ''}, {label: ''}],
-      numCandidatesWithLabel: 0,
       title: title || '',
       isVisibleTipsDragAndDropCandidate: true,
       numGrades: 7,
@@ -213,7 +217,6 @@ class CreateElection extends Component {
     });
     this.setState({
       candidates: candidates,
-      numCandidatesWithLabel: numLabels,
     });
   };
 
@@ -242,6 +245,28 @@ class CreateElection extends Component {
     this.setState({isAdvancedOptionsOpen: !this.state.isAdvancedOptionsOpen});
   };
 
+  checkFields() {
+      const { candidates, title } = this.state;
+
+      if (!candidates) {
+        return {ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR};
+      }
+
+      let numCandidates = 0;
+      candidates.forEach(c => {
+        if (c !== "") numCandidates += 1;
+      })
+      if (numCandidates < 2) {
+        return {ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR};
+      }
+
+      if (!title || title === "") {
+        return {ok: false, msg: NO_TITLE_ERROR};
+      }
+  
+      return {ok: true, msg: "OK"};
+  }
+
   handleSubmit() {
     const {
       candidates,
@@ -259,6 +284,15 @@ class CreateElection extends Component {
 
     const {t} = this.props;
     const locale=i18n.language.substring(0,2).toLowerCase()==="fr"?"fr":"en";
+
+    const check = this.checkFields();
+    if (!check.ok) {
+        toast.error(t(check.msg), {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        return
+    }
+
     this.setState({waiting: true});
 
     fetch(endpoint, {
@@ -301,9 +335,9 @@ class CreateElection extends Component {
       .catch(error => error);
   }
 
-  handleSendWithoutCandidate = () => {
+  handleSendNotReady = (msg) => {
     const {t} = this.props;
-    toast.error(t('Please add at least 2 candidates.'), {
+    toast.error(t(msg), {
       position: toast.POSITION.TOP_CENTER,
     });
   };
@@ -319,12 +353,12 @@ class CreateElection extends Component {
       candidates,
       numGrades,
       isAdvancedOptionsOpen,
-      numCandidatesWithLabel,
-      electorEmails
+      electorEmails,
     } = this.state;
     const {t} = this.props;
 
     const grades = i18nGrades();
+    const check = this.checkFields();
 
     if (successCreate) return <Redirect to={redirectTo} />;
 
@@ -579,7 +613,7 @@ class CreateElection extends Component {
           </Collapse>
           <Row className="justify-content-end mt-2">
             <Col xs="12" md="3">
-              {numCandidatesWithLabel >= 2 ? (
+              {check.ok ? (
                 <ButtonWithConfirm
                   className="btn btn-success float-right btn-block"
                   tabIndex={candidates.length + 4}>

@@ -85,6 +85,7 @@ class CreateSuccess extends Component {
               <h4 className="m-0 p-0 text-center">
                 <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
                  {t('Keep these links carefully')}
+
               </h4>
               <p className="small m-2 p-0">
                 <Trans i18nKey="t">
