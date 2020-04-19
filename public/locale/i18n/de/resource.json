@@ -70,5 +70,6 @@
   "The election is over. You can't vote anymore": "__STRING_NOT_TRANSLATED__",
   "You need a token to vote in this election": "__STRING_NOT_TRANSLATED__",
   "You seem to have already voted.": "__STRING_NOT_TRANSLATED__",
-  "The parameters of the election are incorrect.": "__STRING_NOT_TRANSLATED__"
+  "The parameters of the election are incorrect.": "__STRING_NOT_TRANSLATED__",
+  "Number of votes:": "__STRING_NOT_TRANSLATED__"
 }
