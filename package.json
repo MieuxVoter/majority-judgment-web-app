@@ -84,7 +84,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "translate": "i18next-scanner --config i18n.config.js 'src/**/*.{js,jsx}'"
   },
   "eslintConfig": {
     "extends": "react-app"
