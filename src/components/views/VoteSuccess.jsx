@@ -4,7 +4,6 @@ import {withTranslation} from 'react-i18next';
 import logoLine from "../../logos/logo-line-white.svg";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../AppContext";
-import Helloasso from "../banner/Helloasso";
 import Paypal from "../banner/Paypal";
 
 class VoteSuccess extends Component {

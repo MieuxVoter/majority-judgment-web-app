@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
 import {withTranslation} from 'react-i18next';
 import { Link } from "react-router-dom";
+import { FlagIcon } from '../flag';
 import Paypal from "../banner/Paypal";
+import i18n from '../../i18n'
 
 class Footer extends Component {
   constructor(props) {
@@ -16,6 +18,13 @@ class Footer extends Component {
 
   const linkStyle = {whiteSpace: "nowrap"};
   const {t} = this.props;
+  const buttonStyle = {backgroundColor: "black", padding: "0px", border: "0px",};
+  const countries = [
+    {"l": "en", "flag": "gb"},
+    {"l": "es", "flag": "es"},
+    {"l": "fr", "flag": "fr"},
+    {"l": "de", "flag": "de"},
+  ];
     return (
       <footer className="text-center">
         <Link to="/" style={linkStyle}>{t("Homepage")}</Link>

@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import logoLine from "./logos/logo-line-white.svg";
-import { withTranslation } from "react-i18next";
 
 export const UNKNOWN_ELECTION_ERROR = "E1";
 export const ONGOING_ELECTION_ERROR = "E2";

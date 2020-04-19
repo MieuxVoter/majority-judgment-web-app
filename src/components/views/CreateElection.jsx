@@ -207,12 +207,8 @@ class CreateElection extends Component {
 
   editCandidateLabel = (event, index) => {
     let candidates = this.state.candidates;
-    let numLabels = 0;
     candidates[index].label = event.currentTarget.value;
     candidates.map((candidate, i) => {
-      if (candidate.label !== '') {
-        numLabels++;
-      }
       return candidate.label;
     });
     this.setState({
