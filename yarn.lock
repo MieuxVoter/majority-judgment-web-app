@@ -993,6 +993,13 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.28"
 
+"@fortawesome/free-brands-svg-icons@^5.13.0":
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-brands-svg-icons/-/free-brands-svg-icons-5.13.0.tgz#e79de73ba6555055204828dca9c0691e7ce5242b"
+  integrity sha512-/6xXiJFCMEQxqxXbL0FPJpwq5Cv6MRrjsbJEmH/t5vOvB4dILDpnY0f7zZSlA8+TG7jwlt12miF/yZpZkykucA==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.28"
+
 "@fortawesome/free-solid-svg-icons@^5.9.0":
   version "5.13.0"
   resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.13.0.tgz#44d9118668ad96b4fd5c9434a43efc5903525739"
@@ -8920,6 +8927,13 @@ react-flag-icon-css@^1.0.25:
     classnames "^2.2.6"
     flag-icon-css "^3.2.1"
     prop-types "^15.6.2"
+
+react-flags-select@^1.1.12:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/react-flags-select/-/react-flags-select-1.1.12.tgz#428b34f928eab875e8e0296046410d30d75cb818"
+  integrity sha512-icWC8pHdfTQTIqpLTgPcd4tFlfgUdiwzUJaSkPMzP6BEMRrh8yAJC55IkgmJV8PIX8qTUrEETZ6+6115hGjR7g==
+  dependencies:
+    prop-types "^15.5.8"
 
 react-i18next@^11.3.4:
   version "11.3.4"

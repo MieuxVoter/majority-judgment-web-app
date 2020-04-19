@@ -9,7 +9,7 @@ const Helloasso = (props) => {
 
     return (
         <a href={linkHelloAssoBanner} target="_blank" rel="noopener noreferrer">
-            <img src={"/banner/"+locale+"/helloasso.png"}  style={{width:props.width}} />
+            <img src={"/banner/"+locale+"/helloasso.png"}  alt="support us on helloasso" style={{width:props.width}} />
         </a>);
 };
 
