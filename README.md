@@ -15,14 +15,20 @@ $ cd mvfront-react
 $ yarn install
 ```
 
+## Translation
+
+We are welcoming translations of the application in any language.
+To add a new language, copy a [language folder](./public/locale/i18n/en/) into a new folder with your language as a name.
+Then, replace values in the JSON files. 
+
+To compile them, launch: `$ yarn translate`.
 ## Starting
 
-In dev:
 
-`yarn start`
+In development, you might want to copy `.env` into `.env.local` and set the environment variables. Then launch `$ yarn start`
 
 For production, see our [CI/CD configuration](https://github.com/MieuxVoter/continuous-integration).
 
 ## Testing
 
-`yarn test`
+Launch `$ yarn test`

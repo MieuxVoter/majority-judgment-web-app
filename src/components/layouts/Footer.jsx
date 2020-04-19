@@ -20,6 +20,13 @@ class Footer extends Component {
   const buttonStyle = {backgroundColor: "black", padding: "0px", border: "0px",};
   const linkStyle = {whiteSpace: "nowrap"};
   const {t} = this.props;
+  const countries = [
+    {"l": "en", "flag": "gb"},
+    {"l": "es", "flag": "es"},
+    {"l": "fr", "flag": "fr"},
+    {"l": "de", "flag": "de"},
+  ];
+
     return (
       <footer className="text-center">
         <Link to="/" style={linkStyle}>{t("Homepage")}</Link>
@@ -28,17 +35,16 @@ class Footer extends Component {
         <span className="m-2">-</span>
         <a href="https://mieuxvoter.fr/" style={linkStyle} >{t("Who are we")}</a>
         <span className="m-2">-</span>
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('en')}>
-	  <FlagIcon code={"gb"}  />
-	</button>
-		{" "}
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('fr')}>
-	  <FlagIcon code={"fr"}  />
-	</button>
-		{" "}
-	<button style={buttonStyle} onClick={() => i18n.changeLanguage('es')}>
-	  <FlagIcon code={"es"}  />
-	</button>
+        {
+        countries.map(({l, flag}) => (
+        <>
+          <button style={buttonStyle} onClick={() => i18n.changeLanguage(l)}>
+            <FlagIcon code={flag}  />
+          </button>
+            {" "}
+            </>
+        ))
+        }
           <div className="mt-3">
               <Helloasso width="150px" />
           </div>

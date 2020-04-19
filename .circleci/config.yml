@@ -9,8 +9,11 @@ jobs:
           name: update-yarn
           command: 'curl --compressed -o- -L https://yarnpkg.com/install.sh | bash'
       - run:
-          name: install-yarn
+          name: install-dependencies
           command: yarn install
+      - run:
+          name: compile-translations
+          command: yarn translate
       - run:
           name: test
           command: yarn test
