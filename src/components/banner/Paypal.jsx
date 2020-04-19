@@ -14,7 +14,7 @@ const Paypal = (props) => {
     const pixelLink="https://www.paypal.com/"+localeStringComplete+"/i/scr/pixel.gif";
 
     return (
-        <div style={{backgroundColor:'#fff',height:"80px"}} className="d-inline-block m-auto p-2 rounded">
+        <div style={{backgroundColor:'#fff'}} className="d-inline-block m-auto pt-1 pr-1 pl-1 rounded">
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="KB2Z7L9KARS7C" />
