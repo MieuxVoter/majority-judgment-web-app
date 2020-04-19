@@ -190,13 +190,13 @@ class Vote extends Component {
               lg={this.state.colSizeCandidateLg}>
               <h5>&nbsp;</h5>
             </Col>
-            {electionGrades.map((grade, j) => {
-              return j < this.state.numGrades ? (
+            {electionGrades.map((grade, gradeId) => {
+              return gradeId < this.state.numGrades ? (
                 <Col
                   xs={this.state.colSizeGradeXs}
                   md={this.state.colSizeGradeMd}
                   lg={this.state.colSizeGradeLg}
-                  key={j}
+                  key={gradeId}
                   className="text-center p-0"
                   style={{lineHeight: 2}}>
                   <small
@@ -209,9 +209,9 @@ class Vote extends Component {
             })}
           </Row>
 
-          {candidates.map((candidate, i) => {
+          {candidates.map((candidate, candidateId) => {
             return (
-              <Row key={i} className="cardVote">
+              <Row key={candidateId} className="cardVote">
                 <Col
                   xs={this.state.colSizeCandidateXs}
                   md={this.state.colSizeCandidateMd}
@@ -219,16 +219,17 @@ class Vote extends Component {
                   <h5 className="m-0">{candidate.label}</h5>
                   <hr className="d-lg-none" />
                 </Col>
-                {this.state.electionGrades.map((grade, j) => {
-                  return j < this.state.numGrades ? (
+                {this.state.electionGrades.map((grade, gradeId) => {
+                  console.assert(gradeId < this.state.numGrades) 
+                  return (
                     <Col
                       xs={this.state.colSizeGradeXs}
                       md={this.state.colSizeGradeMd}
                       lg={this.state.colSizeGradeLg}
-                      key={j}
+                      key={gradeId}
                       className="text-lg-center">
                       <label
-                        htmlFor={'candidateGrade' + i + '-' + j}
+                        htmlFor={'candidateGrade' + candidateId + '-' + gradeId}
                         className="check">
                         <small
                           className="nowrap d-lg-none ml-2 bold badge"
@@ -238,7 +239,7 @@ class Vote extends Component {
                             ) {
                               return (
                                 JSON.stringify(ratedCandidat) ===
-                                JSON.stringify({id: candidate.id, value: j})
+                                JSON.stringify({id: candidate.id, value: gradeId})
                               );
                             })
                               ? {backgroundColor: grade.color, color: '#fff'}
@@ -251,17 +252,17 @@ class Vote extends Component {
                         </small>
                         <input
                           type="radio"
-                          name={'candidate' + i}
-                          id={'candidateGrade' + i + '-' + j}
-                          data-index={i}
+                          name={'candidate' + candidateId}
+                          id={'candidateGrade' + candidateId + '-' + gradeId}
+                          data-index={candidateId}
                           data-id={candidate.id}
-                          value={j}
+                          value={gradeId}
                           onClick={this.handleGradeClick}
                           defaultChecked={this.state.ratedCandidates.find(
                             function(element) {
                               return (
                                 JSON.stringify(element) ===
-                                JSON.stringify({id: candidate.id, value: j})
+                                JSON.stringify({id: candidate.id, value: gradeId})
                               );
                             },
                           )}
@@ -274,7 +275,7 @@ class Vote extends Component {
                             ) {
                               return (
                                 JSON.stringify(ratedCandidat) ===
-                                JSON.stringify({id: candidate.id, value: j})
+                                JSON.stringify({id: candidate.id, value: gradeId})
                               );
                             })
                               ? {backgroundColor: grade.color, color: '#fff'}
@@ -286,7 +287,8 @@ class Vote extends Component {
                         />
                       </label>
                     </Col>
-                  ) : null;
+                  
+                  )
                 })}
               </Row>
             );
