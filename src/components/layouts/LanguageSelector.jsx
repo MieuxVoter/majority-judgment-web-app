@@ -15,10 +15,11 @@ const LanguageSelector = () => {
     };
 
     let locale=i18n.language.substring(0,2).toUpperCase()
+    console.log(locale);
     if(locale==="EN")locale="GB";
     return (<ReactFlagsSelect onSelect={selectHandler}
         className="text-primary"
-        countries={["GB", "FR", "ES"]}
+        countries={["GB", "FR", "ES", "DE"]}
         showOptionLabel={false}
         defaultCountry={locale}
         selectedSize={14}
