@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import {withTranslation} from 'react-i18next';
 import {resolve} from 'url';
 import {
@@ -16,14 +15,6 @@ import {i18nGrades} from '../../Util';
 import {AppContext} from '../../AppContext';
 import {errorMessage, Error} from '../../Errors';
 
-const meritProfileFromVotes = votes => {
-  const numGrades = Math.max(...votes) - Math.min(...votes);
-  const profile = Array(numGrades).fill(0);
-  votes.forEach(vote => {
-    profile[vote] += 1;
-  });
-  return profile;
-};
 
 class Result extends Component {
   static contextType = AppContext;

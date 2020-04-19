@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 
 import Routes from './Routes';
 import Header from './components/layouts/Header';

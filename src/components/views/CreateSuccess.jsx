@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Col, Container, Row} from 'reactstrap';
+import {Col, Container, Row} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {withTranslation, Trans} from 'react-i18next';
 import {faCopy, faUsers, faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
