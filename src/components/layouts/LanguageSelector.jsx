@@ -14,8 +14,7 @@ const LanguageSelector = () => {
         i18n.changeLanguage(locale);
     };
 
-    let locale=i18n.language.substring(0,2).toUpperCase()
-    console.log(locale);
+    let locale=i18n.language.substring(0,2).toUpperCase();
     if(locale==="EN")locale="GB";
     return (<ReactFlagsSelect onSelect={selectHandler}
         className="text-primary"
