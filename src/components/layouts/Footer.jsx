@@ -22,7 +22,7 @@ class Footer extends Component {
         <span className="m-2">-</span>
         <a href="https://github.com/MieuxVoter" target="_blank" rel="noopener noreferrer" style={linkStyle}>{t("Source code")}</a>
         <span className="m-2">-</span>
-        <a href="https://mieuxvoter.fr/" target="_blank" rel="noopener noreferrer" style={linkStyle} >{t("Who are we")}</a>
+        <a href="https://mieuxvoter.fr/" target="_blank" rel="noopener noreferrer" style={linkStyle} >{t("Who are we?")}</a>
           <div className="mt-3">
               <Paypal />
           </div>

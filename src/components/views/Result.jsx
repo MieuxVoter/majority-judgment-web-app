@@ -35,6 +35,7 @@ class Result extends Component {
       collapseProfiles: false,
       electionGrades: i18nGrades(),
       errorMessage: "",
+      numVotes:"..."
     };
   }
 
@@ -60,7 +61,7 @@ class Result extends Component {
       numVotes: c.num_votes
     }));
     console.log(response);
-    this.setState(state => ({ candidates: candidates }));
+    this.setState(state => ({ candidates: candidates, numVotes : candidates[0].numVotes }));
     return response;
   };
 
@@ -196,6 +197,8 @@ class Result extends Component {
         <Row className="mt-5">
           <Col>
 		  <h1>{t("Results of the election:")}</h1>
+            <h5><small>{t("Number of votes:")}{" "+this.state.numVotes}</small></h5>
+            <hr className="mb-5"/>
             <ol>
               {candidates.map((candidate, i) => {
               console.log(candidate);
