@@ -33,7 +33,6 @@ class Footer extends Component {
           style={linkStyle}>
           {t('Who are we?')}
         </a>
-        <span className="m-2">-</span>
         <div className="mt-3">
           <Paypal btnColor="btn-primary" />
         </div>
