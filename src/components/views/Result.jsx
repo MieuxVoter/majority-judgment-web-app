@@ -11,7 +11,7 @@ import {
   CardBody,
   Table,
 } from 'reactstrap';
-import {grades, i18nGrades} from '../../Util';
+import {i18nGrades} from '../../Util';
 import {AppContext} from '../../AppContext';
 import {errorMessage, Error} from '../../Errors';
 
@@ -166,8 +166,8 @@ class Result extends Component {
   render() {
     const {errorMessage, candidates, electionGrades} = this.state;
     const {t} = this.props;
-    const offsetGrade = grades.length-(this.state.numGrades);
     const i18nGradesObject = i18nGrades();
+    const offsetGrade = i18nGradesObject.length-(this.state.numGrades);
 
 
     if (errorMessage && errorMessage !== '') {
@@ -203,6 +203,7 @@ class Result extends Component {
             <hr className="mb-5" />
             <ol>
               {candidates.map((candidate, i) => {
+                const gradeValue=candidate.grade+offsetGrade;
                 return (
                   <li key={i} className="mt-2">
                     <span className="mt-2 ml-2">{candidate.name}</span>
@@ -212,7 +213,7 @@ class Result extends Component {
                         backgroundColor: electionGrades.slice(0).reverse()[(candidate.grade)].color,
                         color: '#fff',
                       }}>
-                      {i18nGradesObject.slice(0).reverse()[candidate.grade+offsetGrade].label}
+                      {i18nGradesObject.slice(0).reverse()[gradeValue].label}
                     </span>
                     {/* <span className="badge badge-dark mt-2 ml-2">
                       {(100 * candidate.score).toFixed(1)}%
