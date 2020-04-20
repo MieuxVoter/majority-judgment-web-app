@@ -11,7 +11,7 @@ import {
   CardBody,
   Table,
 } from 'reactstrap';
-import {i18nGrades} from '../../Util';
+import {grades, i18nGrades} from '../../Util';
 import {AppContext} from '../../AppContext';
 import {errorMessage, Error} from '../../Errors';
 
@@ -166,7 +166,9 @@ class Result extends Component {
   render() {
     const {errorMessage, candidates, electionGrades} = this.state;
     const {t} = this.props;
-    const grades = i18nGrades();
+    const offsetGrade = grades.length-(this.state.numGrades);
+    const i18nGradesObject = i18nGrades();
+
 
     if (errorMessage && errorMessage !== '') {
       return <Error value={errorMessage} />;
@@ -207,10 +209,10 @@ class Result extends Component {
                     <span
                       className="badge badge-light ml-2 mt-2"
                       style={{
-                        backgroundColor: electionGrades[candidate.grade].color,
+                        backgroundColor: electionGrades.slice(0).reverse()[(candidate.grade)].color,
                         color: '#fff',
                       }}>
-                      {grades[candidate.grade].label}
+                      {i18nGradesObject.slice(0).reverse()[candidate.grade+offsetGrade].label}
                     </span>
                     {/* <span className="badge badge-dark mt-2 ml-2">
                       {(100 * candidate.score).toFixed(1)}%
@@ -252,7 +254,7 @@ class Result extends Component {
                                 <table style={{width: '100%'}}>
                                   <tbody>
                                     <tr>
-                                      {gradeIds.map((id, i) => {
+                                      {gradeIds.slice(0).reverse().map((id, i) => {
                                         const value = candidate.profile[id];
                                         if (value > 0) {
                                           let percent =
@@ -359,7 +361,7 @@ class Result extends Component {
                           return (
                             <tr key={i}>
                               <td>{i + 1}</td>
-                              {gradeIds.map((id, i) => {
+                              {gradeIds.slice(0).reverse().map((id, i) => {
                                 const value = candidate.profile[id];
                                 const percent = (
                                   (value / numVotes) *
