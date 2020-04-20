@@ -6,7 +6,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import {resolve} from 'url';
-import {i18nGrades,grades} from '../../Util';
+import {i18nGrades} from '../../Util';
 import {AppContext} from '../../AppContext';
 import {errorMessage} from '../../Errors';
 
@@ -169,7 +169,7 @@ class Vote extends Component {
   render() {
     const {t} = this.props;
     const {redirectTo, candidates, electionGrades} = this.state;
-    const offsetGrade = grades.length-this.state.numGrades;
+    const offsetGrade = i18nGrades().length-this.state.numGrades;
 
     if (redirectTo) {
       return <Redirect to={redirectTo} />;
@@ -222,6 +222,7 @@ class Vote extends Component {
                 </Col>
                 {this.state.electionGrades.map((grade, gradeId) => {
                   console.assert(gradeId < this.state.numGrades)
+                  const gradeValue = grade.value-offsetGrade;
                   return (
                     <Col
                       xs={this.state.colSizeGradeXs}
@@ -230,7 +231,7 @@ class Vote extends Component {
                       key={gradeId}
                       className="text-lg-center">
                       <label
-                        htmlFor={'candidateGrade' + candidateId + '-' + (grade.value-offsetGrade)}
+                        htmlFor={'candidateGrade' + candidateId + '-' + gradeValue}
                         className="check">
                         <small
                           className="nowrap d-lg-none ml-2 bold badge"
@@ -240,7 +241,7 @@ class Vote extends Component {
                             ) {
                               return (
                                 JSON.stringify(ratedCandidat) ===
-                                JSON.stringify({id: candidate.id, value: (grade.value-offsetGrade)})
+                                JSON.stringify({id: candidate.id, value: gradeValue})
                               );
                             })
                               ? {backgroundColor: grade.color, color: '#fff'}
@@ -254,7 +255,7 @@ class Vote extends Component {
                         <input
                           type="radio"
                           name={'candidate' + candidateId}
-                          id={'candidateGrade' + candidateId + '-' + (grade.value-offsetGrade)}
+                          id={'candidateGrade' + candidateId + '-' + gradeValue}
                           data-index={candidateId}
                           data-id={candidate.id}
                           value={grade.value-offsetGrade}
@@ -263,7 +264,7 @@ class Vote extends Component {
                             function(element) {
                               return (
                                 JSON.stringify(element) ===
-                                JSON.stringify({id: candidate.id, value: grade.value-offsetGrade})
+                                JSON.stringify({id: candidate.id, value: gradeValue})
                               );
                             },
                           )}
@@ -276,7 +277,7 @@ class Vote extends Component {
                             ) {
                               return (
                                 JSON.stringify(ratedCandidat) ===
-                                JSON.stringify({id: candidate.id, value: (grade.value-offsetGrade)})
+                                JSON.stringify({id: candidate.id, value: gradeValue})
                               );
                             })
                               ? {backgroundColor: grade.color, color: '#fff'}
