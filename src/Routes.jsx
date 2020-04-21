@@ -9,7 +9,8 @@ import UnknownView from "./components/views/UnknownView";
 import UnknownElection from "./components/views/UnknownElection";
 import CreateSuccess from "./components/views/CreateSuccess";
 import VoteSuccess from "./components/views/VoteSuccess";
-
+import LegalNotices from "./components/views/LegalNotices";
+import PrivacyPolicy from "./components/views/PrivacyPolicy";
 
 function Routes() {
   return (
@@ -23,6 +24,8 @@ function Routes() {
         <Route path="/links/:slug" component={props => <CreateSuccess invitationOnly={false} {...props} />} />
         <Route path="/vote-success/:slug" component={VoteSuccess} />
         <Route path="/unknown-election/:slug" component={UnknownElection} />
+        <Route path="/legal-notices" component={LegalNotices} />
+        <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route component={UnknownView} />
       </Switch>
     </main>
