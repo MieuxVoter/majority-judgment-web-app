@@ -1,5 +1,5 @@
 {
-  "Homepage": " Homepage ",
+  "Homepage": "Homepage",
   "Source code": "Quellcode",
   "Who are we?": "Wer wir sind?",
   "BetterVote": " BetterVote",
@@ -50,9 +50,9 @@
   "You have to judge every candidate/proposal!": "Sie müssen jeden Kandidaten/Abstimmungsvorschlag bewerten!",
   "Your participation was recorded with success!": " Ihre Teilnahme wurde gespeichert!",
   "Thanks for your participation.": " Vielen Dank für Ihre Teilnahme.",
-  "Support us !" : "Unterstützen Sie uns!",
-  "PayPal - The safer, easier way to pay online!" : "PayPal - Die sicherere und einfachere Art, online zu bezahlen!",
-  "Number of votes:" : "Anzahl der Stimmen:"
+  "Support us !": "Unterstützen Sie uns!",
+  "PayPal - The safer, easier way to pay online!": "PayPal - Die sicherere und einfachere Art, online zu bezahlen!",
+  "Number of votes:": "Anzahl der Stimmen:",
   "Unknown error. Try again please.": "__STRING_NOT_TRANSLATED__",
   "Ending date:": "__STRING_NOT_TRANSLATED__",
   "If you list voters' emails, only them will be able to access the election": "__STRING_NOT_TRANSLATED__",
@@ -73,5 +73,5 @@
   "The election is over. You can't vote anymore": "__STRING_NOT_TRANSLATED__",
   "You need a token to vote in this election": "__STRING_NOT_TRANSLATED__",
   "You seem to have already voted.": "__STRING_NOT_TRANSLATED__",
-  "The parameters of the election are incorrect.": "__STRING_NOT_TRANSLATED__",
+  "The parameters of the election are incorrect.": "__STRING_NOT_TRANSLATED__"
 }
