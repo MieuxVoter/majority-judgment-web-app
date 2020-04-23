@@ -29,6 +29,7 @@ class Vote extends Component {
       colSizeGradeXs: 1,
       redirectTo: null,
       electionGrades: i18nGrades(),
+      errorMsg: "",
     };
   }
 
@@ -37,10 +38,9 @@ class Vote extends Component {
       response.json().then(response => {
         console.log(response);
         const {t} = this.props;
-        toast.error(errorMessage(response, t));
-        // this.setState(state => ({
-        //   redirectTo: "/unknown-election/" + encodeURIComponent(response)
-        // }));
+        this.setState(state => ({
+	  errorMsg: errorMessage(response, t)
+        }));
       });
       throw Error(response);
     }
@@ -167,13 +167,25 @@ class Vote extends Component {
 
   render() {
     const {t} = this.props;
-    const {redirectTo, candidates} = this.state;
+    const {candidates, errorMsg, redirectTo} = this.state;
     const grades = i18nGrades();
     const offsetGrade = grades.length-this.state.numGrades;
     const electionGrades = grades.slice(0, this.state.numGrades);
 
     if (redirectTo) {
       return <Redirect to={redirectTo} />;
+    }
+
+    if (errorMsg !== "") {
+	return(
+      <Container>
+          <Row>
+            <Col>
+              <h3>{errorMsg}</h3>
+            </Col>
+          </Row>
+      </Container>
+	      );
     }
 
     return (
