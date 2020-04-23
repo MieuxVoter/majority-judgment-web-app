@@ -12,6 +12,7 @@ i18n
     fallbackLng: 'en',
     debug: true,
     saveMissing: true, // send not translated keys to endpoint
+    defaultValue: "__STRING_NOT_TRANSLATED__",
 
 	  keySeparator: '>',
 	  nsSeparator: '|',

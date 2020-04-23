@@ -84,7 +84,6 @@ class Vote extends Component {
         12 - colSizeGradeXs * numGrades > 0
           ? 12 - colSizeGradeXs * numGrades
           : 12,
-      electionGrades: i18nGrades().slice(0, numGrades),
     }));
     return response;
   };
@@ -168,8 +167,10 @@ class Vote extends Component {
 
   render() {
     const {t} = this.props;
-    const {redirectTo, candidates, electionGrades} = this.state;
-    const offsetGrade = i18nGrades().length-this.state.numGrades;
+    const {redirectTo, candidates} = this.state;
+    const grades = i18nGrades();
+    const offsetGrade = grades.length-this.state.numGrades;
+    const electionGrades = grades.slice(0, this.state.numGrades);
 
     if (redirectTo) {
       return <Redirect to={redirectTo} />;
@@ -220,7 +221,7 @@ class Vote extends Component {
                   <h5 className="m-0">{candidate.label}</h5>
                   <hr className="d-lg-none" />
                 </Col>
-                {this.state.electionGrades.map((grade, gradeId) => {
+                {electionGrades.map((grade, gradeId) => {
                   console.assert(gradeId < this.state.numGrades)
                   const gradeValue = grade.value-offsetGrade;
                   return (
