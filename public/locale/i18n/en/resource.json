@@ -84,5 +84,6 @@
   "Immediately": "Immediately",
   "At the end of the election": "At the end of the election",
   "The results page will not be accessible until all participants have voted.":"The results page will not be accessible until all participants have voted.",
-  "The results page will not be accessible until the end date is reached.": "The results page will not be accessible until the end date is reached."
+  "The results page will not be accessible until the end date is reached.": "The results page will not be accessible until the end date is reached.",
+  "No one will be able to see the result until the end date is reached or until all participants have voted.": "No one will be able to see the result until the end date is reached or until all participants have voted."
 }

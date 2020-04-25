@@ -77,5 +77,6 @@
   "Immediately": "Sofort",
   "At the end of the election": "Am Ende der Wahl",
   "The results page will not be accessible until all participants have voted.":"Die Ergebnisseite wird nicht zugänglich sein, bis alle Teilnehmer abgestimmt haben.",
-  "The results page will not be accessible until the end date is reached.": "Die Ergebnisseite wird nicht zugänglich sein, bis das Enddatum erreicht ist."
+  "The results page will not be accessible until the end date is reached.": "Die Ergebnisseite wird nicht zugänglich sein, bis das Enddatum erreicht ist.",
+  "No one will be able to see the result until the end date is reached or until all participants have voted.": "Niemand wird das Ergebnis sehen können, bis das Enddatum erreicht ist oder bis alle Teilnehmer abgestimmt haben."
 }

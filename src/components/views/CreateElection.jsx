@@ -489,7 +489,7 @@ class CreateElection extends Component {
                         </span>
                         <HelpButton className="ml-2">
                           {t(
-                            "Personne ne pourra voir le résultat tant que la date de fin n'est pas atteinte ou que tous les participants n'ont pas voté."
+                            "No one will be able to see the result until the end date is reached or until all participants have voted."
                           )}
                         </HelpButton>
                       </span>

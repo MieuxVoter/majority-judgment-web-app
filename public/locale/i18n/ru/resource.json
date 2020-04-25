@@ -84,5 +84,6 @@
   "Immediately": "Немедленно",
   "At the end of the election": "По окончании выборов",
   "The results page will not be accessible until all participants have voted.":"Страница результатов не будет доступна до тех пор, пока все участники не проголосуют.",
-  "The results page will not be accessible until the end date is reached.": "Страница результатов не будет доступна до тех пор, пока не будет достигнута конечная дата."
+  "The results page will not be accessible until the end date is reached.": "Страница результатов не будет доступна до тех пор, пока не будет достигнута конечная дата.",
+  "No one will be able to see the result until the end date is reached or until all participants have voted.": "Никто не сможет увидеть результат до тех пор, пока не будет достигнут конечный срок или пока все участники не проголосуют."
 }
