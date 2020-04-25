@@ -181,7 +181,6 @@ class Result extends Component {
       candidates && candidates.length > 0
         ? Object.keys(candidates[0].profile)
         : [];
-    console.log(gradeIds);
 
     return (
       <Container>

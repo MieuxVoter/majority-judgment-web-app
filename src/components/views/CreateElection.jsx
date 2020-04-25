@@ -324,7 +324,6 @@ class CreateElection extends Component {
     })
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         if (result.id) {
           const nextPage =
             electorEmails && electorEmails.length

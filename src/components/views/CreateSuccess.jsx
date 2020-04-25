@@ -15,7 +15,6 @@ class CreateSuccess extends Component {
   static contextType = AppContext;
   constructor(props) {
     super(props);
-    console.log(props);
     const electionSlug = this.props.match.params.slug;
     this.state = {
       urlOfVote:
@@ -36,7 +35,6 @@ class CreateSuccess extends Component {
 
   render() {
     const {t} = this.props;
-    console.log(this.props)
     const electionLink = this.props.invitationOnly ? (
       <>
         <p className="mt-4 mb-1">
