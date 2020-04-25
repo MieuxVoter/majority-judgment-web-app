@@ -25,7 +25,7 @@ class HelpButton extends Component {
 
   render() {
     return (
-      <span>
+      <span className={this.props.className}>
         <span>
           {this.state.tooltipOpen ? (
             <span

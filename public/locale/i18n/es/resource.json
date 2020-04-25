@@ -19,9 +19,9 @@
   "Candidates/Proposals": "Candidatos(as)/Propuestas",
   "Add a proposal": "Añadir una propuesta",
   "Advanced options": "Opciones avanzadas",
-  "Starting date:": "Fecha de inicio:",
-  "Ending date: ": "Fecha de finalización: ",
-  "Grades:": "Escala",
+  "Starting date": "Fecha de inicio",
+  "Ending date": "Fecha de finalización",
+  "Grades": "Escala",
   "You can select here the number of grades for your election": "Puede seleccionar aquí el número de niveles de la escala para su elección",
   "5 = Excellent, Very good, Good, Fair, Passable": "5 == Excelente, Muy bien, Bien, Regular, Pasable",
   "Participants:": "Participantes",
@@ -62,7 +62,6 @@
   "The election will take place from": "La elección tendrá lugar desde",
   "at": "a las",
   "to": "hasta",
-  "Grades": "Escala",
   "Voters' list": "Lista de votantes",
   "Graph": "Gráfico",
   "Preference profile": "Perfil de preferencia",
@@ -81,5 +80,10 @@
   "The election is over. You can't vote anymore": "La elección ha terminado. Ya no puedes votar.",
   "You need a token to vote in this election": "Necesitas una ficha para votar en esta elección",
   "You seem to have already voted.": "Parece que ya has votado.",
-  "The parameters of the election are incorrect.": "Los parámetros de la elección son incorrectos."
+  "The parameters of the election are incorrect.": "Los parámetros de la elección son incorrectos.",
+  "Access to results" : "Acceso a los resultados",
+  "Immediately": "Inmediatamente",
+  "At the end of the election": "Al final de la elección",
+  "The results page will not be accessible until all participants have voted.":"La página de resultados no será accesible hasta que todos los participantes hayan votado.",
+  "The results page will not be accessible until the end date is reached.": "No se podrá acceder a la página de resultados hasta que se alcance la fecha de finalización."
 }

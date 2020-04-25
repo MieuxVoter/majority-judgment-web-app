@@ -19,9 +19,9 @@
   "Candidates/Proposals": "Кандидаты/Предложения",
   "Add a proposal": "Добавьте предложение",
   "Advanced options": "Расширенные настройки",
-  "Starting date:": "Дата начала:",
-  "Ending date: ": "Дата окончания: ",
-  "Grades:": "Оценки:",
+  "Starting date": "Дата начала",
+  "Ending date": "Дата окончания",
+  "Grades": "Оценки",
   "You can select here the number of grades for your election": "Здесь вы можете выбрать количество оценок для вашего голосования",
   "5 = Excellent, Very good, Good, Fair, Passable": "5 = Отлично, Очень хорошо, Хорошо, Удовлетворительно, Допустимо",
   "Participants:": "Участники:",
@@ -62,7 +62,6 @@
   "The election will take place from": "Голосование состоится",
   "at": "в",
   "to": "к",
-  "Grades": "Оценки",
   "Voters' list": "Список проголосовавших",
   "Graph": "Кривая",
   "Preference profile": "Профиль заслуг",
@@ -80,5 +79,10 @@
   "The parameters of the election are incorrect.": "Параметры голосвания неверны.",
   "Support us !": "Поддержите нас !",
   "PayPal - The safer, easier way to pay online!": "PayPal - Безопасный и простой способ платить онлайн!",
-  "Number of votes:": "Количество голосов:"
+  "Number of votes:": "Количество голосов:",
+  "Access to results" : "Доступ к результатам",
+  "Immediately": "Немедленно",
+  "At the end of the election": "По окончании выборов",
+  "The results page will not be accessible until all participants have voted.":"Страница результатов не будет доступна до тех пор, пока все участники не проголосуют.",
+  "The results page will not be accessible until the end date is reached.": "Страница результатов не будет доступна до тех пор, пока не будет достигнута конечная дата."
 }

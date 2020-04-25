@@ -154,6 +154,10 @@ li.sortable {
   border-radius: 50%;
 }
 
+.checkround.checkround-gray{
+  border-color: $gray-600;
+}
+
 /* When the radio button is checked, add a blue background */
 .radio input:checked ~ .checkround {
   background-color: #fff;
@@ -180,6 +184,10 @@ li.sortable {
   border-radius: 50%;
   background: $mv-blue-color;
 }
+
+/*.radio .checkround.checkround-gray:after {
+  background: $gray-600;
+}*/
 
 /* The check */
 .check {
