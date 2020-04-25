@@ -13,7 +13,7 @@ class Footer extends Component {
     const linkStyle = {whiteSpace: 'nowrap'};
     const {t} = this.props;
     return (
-      <footer className="text-center">
+      <footer className="text-center small">
         <Link to="/" style={linkStyle}>
           {t('Homepage')}
         </Link>
@@ -33,6 +33,14 @@ class Footer extends Component {
           style={linkStyle}>
           {t('Who are we?')}
         </a>
+          <span className="m-2">-</span>
+          <Link to="/legal-notices" style={linkStyle}>
+              {t('Legal notices')}
+          </Link>
+          <span className="m-2">-</span>
+          <Link to="/privacy-policy" style={linkStyle}>
+              {t('Privacy policy')}
+          </Link>
         <div className="mt-3">
           <Paypal btnColor="btn-primary" />
         </div>
