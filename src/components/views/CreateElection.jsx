@@ -45,21 +45,24 @@ import i18n from "../../i18n";
 const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
 const NO_TITLE_ERROR = "Please add a title.";
 
+const isValidDate = date => date instanceof Date && !isNaN(date);
+const getOnlyValidDate = date => isValidDate(date)?date:new Date();
+
 // Convert a Date object into YYYY-MM-DD
-const dateToISO = date => date.toISOString().substring(0, 10);
+const dateToISO = date => getOnlyValidDate(date).toISOString().substring(0, 10);
 
 // Retrieve the current hour, minute, sec, ms, time into a timestamp
-const hours = date => date.getHours() * 3600 * 1000;
-const minutes = date => date.getMinutes() * 60 * 1000;
-const seconds = date => date.getSeconds() * 1000;
-const ms = date => date.getMilliseconds();
-const time = date => hours(date) + minutes(date) + seconds(date) + ms(date);
+const hours = date => getOnlyValidDate(date).getHours() * 3600 * 1000;
+const minutes = date => getOnlyValidDate(date).getMinutes() * 60 * 1000;
+const seconds = date => getOnlyValidDate(date).getSeconds() * 1000;
+const ms = date => getOnlyValidDate(date).getMilliseconds();
+const time = date => hours(getOnlyValidDate(date)) + minutes(getOnlyValidDate(date)) + seconds(getOnlyValidDate(date)) + ms(getOnlyValidDate(date));
 
 // Retrieve the time part from a timestamp and remove the day. Return a int.
-const timeMinusDate = date => time(date);
+const timeMinusDate = date => time(getOnlyValidDate(date));
 
 // Retrieve the day and remove the time. Return a Date
-const dateMinusTime = date => new Date(date.getTime() - time(date));
+const dateMinusTime = date => new Date(getOnlyValidDate(date).getTime() - time(getOnlyValidDate(date)));
 
 const DragHandle = sortableHandle(({ children }) => (
   <span className="input-group-text indexNumber">{children}</span>
@@ -527,7 +530,7 @@ class CreateElection extends Component {
                   <Col xs="6" md="5" lg="3">
                     <select
                       className="form-control"
-                      value={start.getHours()}
+                      value={getOnlyValidDate(start).getHours()}
                       onChange={e =>
                         this.setState({
                           start: new Date(
@@ -556,7 +559,7 @@ class CreateElection extends Component {
                         this.setState({
                           finish: new Date(
                             timeMinusDate(finish) +
-                              new Date(e.target.valueAsNumber).getTime()
+                              new Date(getOnlyValidDate(e.target.valueAsNumber)).getTime()
                           )
                         });
                       }}
@@ -565,7 +568,7 @@ class CreateElection extends Component {
                   <Col xs="6" md="5" lg="3">
                     <select
                       className="form-control"
-                      value={finish.getHours()}
+                      value={getOnlyValidDate(finish).getHours()}
                       onChange={e =>
                         this.setState({
                           finish: new Date(
@@ -783,14 +786,15 @@ class CreateElection extends Component {
                                     "The results page will not be accessible until all participants have voted."
                                   )}
                                 </span>
-                              ) : <span>
-                                {t(
+                              ) : (
+                                <span>
+                                  {t(
                                     "The results page will not be accessible until the end date is reached."
-                                )}{" "}
-                                ({finish.toLocaleDateString()} {t("at")}{" "}
-                                {finish.toLocaleTimeString()})
-                              </span>}
-
+                                  )}{" "}
+                                  ({finish.toLocaleDateString()} {t("at")}{" "}
+                                  {finish.toLocaleTimeString()})
+                                </span>
+                              )}
                             </p>
                           </div>
                         </div>
