@@ -70,11 +70,11 @@ module.exports = {
     );
 
     if (count > 0) {
-      console.log(
+      /* console.log(
         `i18next-scanner: count=${chalk.cyan(count)}, file=${chalk.yellow(
           JSON.stringify(file.relative)
         )}`
-      );
+      );*/
     }
 
     done();
