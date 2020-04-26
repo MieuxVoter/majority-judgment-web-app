@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
-import {withTranslation} from 'react-i18next';
-import {Button, Col, Container, Row} from 'reactstrap';
-import {toast, ToastContainer} from 'react-toastify';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCheck} from '@fortawesome/free-solid-svg-icons';
-import {resolve} from 'url';
-import {i18nGrades} from '../../Util';
-import {AppContext} from '../../AppContext';
-import {errorMessage} from '../../Errors';
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+import { withTranslation } from "react-i18next";
+import { Button, Col, Container, Row } from "reactstrap";
+import { toast, ToastContainer } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { resolve } from "url";
+import { i18nGrades } from "../../Util";
+import { AppContext } from "../../AppContext";
+import { errorMessage } from "../../Errors";
 
 const shuffle = array => array.sort(() => Math.random() - 0.5);
 
@@ -29,7 +29,7 @@ class Vote extends Component {
       colSizeGradeXs: 1,
       redirectTo: null,
       electionGrades: i18nGrades(),
-      errorMsg: "",
+      errorMsg: ""
     };
   }
 
@@ -37,9 +37,9 @@ class Vote extends Component {
     if (!response.ok) {
       response.json().then(response => {
         console.log(response);
-        const {t} = this.props;
+        const { t } = this.props;
         this.setState(state => ({
-	  errorMsg: errorMessage(response, t)
+          errorMsg: errorMessage(response, t)
         }));
       });
       throw Error(response);
@@ -51,18 +51,18 @@ class Vote extends Component {
     const numGrades = response.num_grades;
     const candidates = response.candidates.map((c, i) => ({
       id: i,
-      label: c,
+      label: c
     }));
     shuffle(candidates);
 
     const colSizeGradeLg = Math.floor(
-      (12 - this.state.colSizeCandidateLg) / numGrades,
+      (12 - this.state.colSizeCandidateLg) / numGrades
     );
     const colSizeGradeMd = Math.floor(
-      (12 - this.state.colSizeCandidateMd) / numGrades,
+      (12 - this.state.colSizeCandidateMd) / numGrades
     );
     const colSizeGradeXs = Math.floor(
-      (12 - this.state.colSizeCandidateXs) / numGrades,
+      (12 - this.state.colSizeCandidateXs) / numGrades
     );
 
     this.setState(state => ({
@@ -83,7 +83,7 @@ class Vote extends Component {
       colSizeCandidateXs:
         12 - colSizeGradeXs * numGrades > 0
           ? 12 - colSizeGradeXs * numGrades
-          : 12,
+          : 12
     }));
     return response;
   };
@@ -94,9 +94,9 @@ class Vote extends Component {
     const detailsEndpoint = resolve(
       this.context.urlServer,
       this.context.routesServer.getElection.replace(
-        new RegExp(':slug', 'g'),
-        electionSlug,
-      ),
+        new RegExp(":slug", "g"),
+        electionSlug
+      )
     );
     fetch(detailsEndpoint)
       .then(this.handleErrors)
@@ -107,33 +107,33 @@ class Vote extends Component {
 
   handleGradeClick = event => {
     let data = {
-      id: parseInt(event.currentTarget.getAttribute('data-id')),
-      value: parseInt(event.currentTarget.value),
+      id: parseInt(event.currentTarget.getAttribute("data-id")),
+      value: parseInt(event.currentTarget.value)
     };
     //remove candidate
     let ratedCandidates = this.state.ratedCandidates.filter(
-      ratedCandidate => ratedCandidate.id !== data.id,
+      ratedCandidate => ratedCandidate.id !== data.id
     );
     ratedCandidates.push(data);
-    this.setState({ratedCandidates});
+    this.setState({ ratedCandidates });
   };
 
   handleSubmitWithoutAllRate = () => {
-    const {t} = this.props;
-    toast.error(t('You have to judge every candidate/proposal!'), {
-      position: toast.POSITION.TOP_CENTER,
+    const { t } = this.props;
+    toast.error(t("You have to judge every candidate/proposal!"), {
+      position: toast.POSITION.TOP_CENTER
     });
   };
 
   handleSubmit = event => {
     event.preventDefault();
 
-    const {ratedCandidates} = this.state;
+    const { ratedCandidates } = this.state;
     const electionSlug = this.props.match.params.slug;
     const token = this.props.location.search.substr(7);
     const endpoint = resolve(
       this.context.urlServer,
-      this.context.routesServer.voteElection,
+      this.context.routesServer.voteElection
     );
 
     const gradesById = {};
@@ -147,29 +147,29 @@ class Vote extends Component {
 
     const payload = {
       election: electionSlug,
-      grades_by_candidate: gradesByCandidate,
+      grades_by_candidate: gradesByCandidate
     };
-    if (token !== '') {
-      payload['token'] = token;
+    if (token !== "") {
+      payload["token"] = token;
     }
 
     fetch(endpoint, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload),
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     })
       .then(this.handleErrors)
       .then(result =>
-        this.setState({redirectTo: '/vote-success/' + electionSlug}),
+        this.setState({ redirectTo: "/vote-success/" + electionSlug })
       )
       .catch(error => error);
   };
 
   render() {
-    const {t} = this.props;
-    const {candidates, errorMsg, redirectTo} = this.state;
+    const { t } = this.props;
+    const { candidates, errorMsg, redirectTo } = this.state;
     const grades = i18nGrades();
-    const offsetGrade = grades.length-this.state.numGrades;
+    const offsetGrade = grades.length - this.state.numGrades;
     const electionGrades = grades.slice(0, this.state.numGrades);
 
     if (redirectTo) {
@@ -177,15 +177,15 @@ class Vote extends Component {
     }
 
     if (errorMsg !== "") {
-	return(
-      <Container>
+      return (
+        <Container>
           <Row>
             <Col>
               <h3>{errorMsg}</h3>
             </Col>
           </Row>
-      </Container>
-	      );
+        </Container>
+      );
     }
 
     return (
@@ -201,7 +201,8 @@ class Vote extends Component {
             <Col
               xs={this.state.colSizeCandidateXs}
               md={this.state.colSizeCandidateMd}
-              lg={this.state.colSizeCandidateLg}>
+              lg={this.state.colSizeCandidateLg}
+            >
               <h5>&nbsp;</h5>
             </Col>
             {electionGrades.map((grade, gradeId) => {
@@ -212,10 +213,12 @@ class Vote extends Component {
                   lg={this.state.colSizeGradeLg}
                   key={gradeId}
                   className="text-center p-0"
-                  style={{lineHeight: 2}}>
+                  style={{ lineHeight: 2 }}
+                >
                   <small
                     className="nowrap bold badge"
-                    style={{backgroundColor: grade.color, color: '#fff'}}>
+                    style={{ backgroundColor: grade.color, color: "#fff" }}
+                  >
                     {grade.label}
                   </small>
                 </Col>
@@ -229,81 +232,95 @@ class Vote extends Component {
                 <Col
                   xs={this.state.colSizeCandidateXs}
                   md={this.state.colSizeCandidateMd}
-                  lg={this.state.colSizeCandidateLg}>
+                  lg={this.state.colSizeCandidateLg}
+                >
                   <h5 className="m-0">{candidate.label}</h5>
                   <hr className="d-lg-none" />
                 </Col>
                 {electionGrades.map((grade, gradeId) => {
-                  console.assert(gradeId < this.state.numGrades)
-                  const gradeValue = grade.value-offsetGrade;
+                  console.assert(gradeId < this.state.numGrades);
+                  const gradeValue = grade.value - offsetGrade;
                   return (
                     <Col
                       xs={this.state.colSizeGradeXs}
                       md={this.state.colSizeGradeMd}
                       lg={this.state.colSizeGradeLg}
                       key={gradeId}
-                      className="text-lg-center">
+                      className="text-lg-center"
+                    >
                       <label
-                        htmlFor={'candidateGrade' + candidateId + '-' + gradeValue}
-                        className="check">
+                        htmlFor={
+                          "candidateGrade" + candidateId + "-" + gradeValue
+                        }
+                        className="check"
+                      >
                         <small
                           className="nowrap d-lg-none ml-2 bold badge"
                           style={
                             this.state.ratedCandidates.find(function(
-                              ratedCandidat,
+                              ratedCandidat
                             ) {
                               return (
                                 JSON.stringify(ratedCandidat) ===
-                                JSON.stringify({id: candidate.id, value: gradeValue})
+                                JSON.stringify({
+                                  id: candidate.id,
+                                  value: gradeValue
+                                })
                               );
                             })
-                              ? {backgroundColor: grade.color, color: '#fff'}
+                              ? { backgroundColor: grade.color, color: "#fff" }
                               : {
-                                  backgroundColor: 'transparent',
-                                  color: '#000',
+                                  backgroundColor: "transparent",
+                                  color: "#000"
                                 }
-                          }>
+                          }
+                        >
                           {grade.label}
                         </small>
                         <input
                           type="radio"
-                          name={'candidate' + candidateId}
-                          id={'candidateGrade' + candidateId + '-' + gradeValue}
+                          name={"candidate" + candidateId}
+                          id={"candidateGrade" + candidateId + "-" + gradeValue}
                           data-index={candidateId}
                           data-id={candidate.id}
-                          value={grade.value-offsetGrade}
+                          value={grade.value - offsetGrade}
                           onClick={this.handleGradeClick}
                           defaultChecked={this.state.ratedCandidates.find(
                             function(element) {
                               return (
                                 JSON.stringify(element) ===
-                                JSON.stringify({id: candidate.id, value: gradeValue})
+                                JSON.stringify({
+                                  id: candidate.id,
+                                  value: gradeValue
+                                })
                               );
-                            },
+                            }
                           )}
                         />
                         <span
                           className="checkmark"
                           style={
                             this.state.ratedCandidates.find(function(
-                              ratedCandidat,
+                              ratedCandidat
                             ) {
                               return (
                                 JSON.stringify(ratedCandidat) ===
-                                JSON.stringify({id: candidate.id, value: gradeValue})
+                                JSON.stringify({
+                                  id: candidate.id,
+                                  value: gradeValue
+                                })
                               );
                             })
-                              ? {backgroundColor: grade.color, color: '#fff'}
+                              ? { backgroundColor: grade.color, color: "#fff" }
                               : {
-                                  backgroundColor: 'transparent',
-                                  color: '#000',
+                                  backgroundColor: "transparent",
+                                  color: "#000"
                                 }
                           }
                         />
                       </label>
                     </Col>
-                  
-                  )
+                  );
                 })}
               </Row>
             );
@@ -316,14 +333,15 @@ class Vote extends Component {
                 <Button
                   type="button"
                   onClick={this.handleSubmitWithoutAllRate}
-                  className="btn btn-dark ">
+                  className="btn btn-dark "
+                >
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  {t('Validate')}
+                  {t("Validate")}
                 </Button>
               ) : (
                 <Button type="submit" className="btn btn-success ">
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  {t('Validate')}
+                  {t("Validate")}
                 </Button>
               )}
             </Col>

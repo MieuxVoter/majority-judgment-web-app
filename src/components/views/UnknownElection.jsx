@@ -13,7 +13,7 @@ class UnknownElection extends Component {
   }
 
   render() {
-  const {t} = this.props;
+    const { t } = this.props;
     return (
       <Container>
         <Row>
@@ -23,14 +23,18 @@ class UnknownElection extends Component {
         </Row>
         <Row className="mt-4">
           <Col className="text-center">
-            <h2>{t("Oops! This election does not exist or it is not available anymore.")}</h2>
+            <h2>
+              {t(
+                "Oops! This election does not exist or it is not available anymore."
+              )}
+            </h2>
             <p>{t("You can start another election.")}</p>
           </Col>
         </Row>
         <Row className="mt-4">
           <Col className="text-center">
             <Link to="/" className="btn btn-secondary">
-		    {t("Go back to homepage")}
+              {t("Go back to homepage")}
             </Link>
           </Col>
         </Row>

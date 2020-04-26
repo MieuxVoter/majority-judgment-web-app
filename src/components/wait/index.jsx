@@ -1,9 +1,8 @@
-import React from 'react';
-import Loader from '../loader';
+import React from "react";
+import Loader from "../loader";
 
 const Wait = () => {
-return (<Loader />);
+  return <Loader />;
 };
-
 
 export default Wait;

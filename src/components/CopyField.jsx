@@ -1,7 +1,6 @@
-import React from 'react';
-import {Button} from 'reactstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-
+import React from "react";
+import { Button } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CopyField = props => {
   const ref = React.createRef();
@@ -13,10 +12,10 @@ const CopyField = props => {
     const input = ref.current;
     input.focus();
     input.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
   };
 
-  const {t, value, icon} = props;
+  const { t, value, icon } = props;
 
   return (
     <div className="input-group  ">
@@ -33,9 +32,10 @@ const CopyField = props => {
         <Button
           className="btn btn-outline-light"
           onClick={handleClickOnButton}
-          type="button">
+          type="button"
+        >
           <FontAwesomeIcon icon={icon} className="mr-2" />
-          {t('Copy')}
+          {t("Copy")}
         </Button>
       </div>
     </div>
