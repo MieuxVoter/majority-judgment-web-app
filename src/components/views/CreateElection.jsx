@@ -264,14 +264,13 @@ class CreateElection extends Component {
 
   checkFields() {
     const { candidates, title } = this.state;
-
     if (!candidates) {
       return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
     }
 
     let numCandidates = 0;
     candidates.forEach(c => {
-      if (c !== "") numCandidates += 1;
+      if (c.label !== "") numCandidates += 1;
     });
     if (numCandidates < 2) {
       return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
