@@ -1,14 +1,13 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from "react";
-import { withTranslation } from 'react-i18next';
+import { withTranslation } from "react-i18next";
 import { Container, Row, Col, Button, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import { Redirect } from "react-router-dom";
 import logoLine from "../../logos/logo-line-white.svg";
 
-
 class Home extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +28,7 @@ class Home extends Component {
   };
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     const redirect = this.state.redirect;
 
     if (redirect) {
@@ -53,7 +52,9 @@ class Home extends Component {
           <Row>
             <Col className="text-center">
               <h3>
-		{t("Simple and free: organize an election with Majority Judgment.")}
+                {t(
+                  "Simple and free: organize an election with Majority Judgment."
+                )}
               </h3>
             </Col>
           </Row>
@@ -77,7 +78,7 @@ class Home extends Component {
                 className="btn btn-block btn-secondary mt-2"
               >
                 <FontAwesomeIcon icon={faRocket} className="mr-2" />
-		{t("Start")}
+                {t("Start")}
               </Button>
             </Col>
           </Row>

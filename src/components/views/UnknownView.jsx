@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
 import logoLine from "../../logos/logo-line-white.svg";
@@ -21,13 +22,13 @@ class UnknownView extends Component {
         </Row>
         <Row className="mt-4">
           <Col className="text-center">
-            <h2>Oups ! Cette page n'existe pas</h2>
+            <h2>Ooops ! this page doesn&#39;t exist !</h2>
           </Col>
         </Row>
         <Row className="mt-4">
           <Col className="text-center">
             <Link to="/" className="btn btn-secondary">
-              Revenir à l'accueil
+                Go back to homepage
             </Link>
           </Col>
         </Row>

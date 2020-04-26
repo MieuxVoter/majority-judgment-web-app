@@ -154,6 +154,10 @@ li.sortable {
   border-radius: 50%;
 }
 
+.checkround.checkround-gray {
+  border-color: $gray-600;
+}
+
 /* When the radio button is checked, add a blue background */
 .radio input:checked ~ .checkround {
   background-color: #fff;
@@ -180,6 +184,10 @@ li.sortable {
   border-radius: 50%;
   background: $mv-blue-color;
 }
+
+/*.radio .checkround.checkround-gray:after {
+  background: $gray-600;
+}*/
 
 /* The check */
 .check {
@@ -311,22 +319,21 @@ li.sortable {
   padding: 0.25em !important;
 }
 
-
 /** flag selector **/
 .flag-select > button {
-  height:35px;
+  height: 35px;
 }
 
-.flag-select__options{
-  width:65px;
-  text-align:center;
+.flag-select__options {
+  width: 65px;
+  text-align: center;
   background-color: $mv-light-color !important;
 }
 
-.flag-select__options .flag-select__option{
-  padding:0;
-  margin:0;
+.flag-select__options .flag-select__option {
+  padding: 0;
+  margin: 0;
 }
-.flag-select__options .flag-select__option__icon{
-  top:0;
+.flag-select__options .flag-select__option__icon {
+  top: 0;
 }
