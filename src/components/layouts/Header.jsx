@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Collapse, Navbar, NavbarToggler, Nav, NavItem } from "reactstrap";
 import { Link } from "react-router-dom";
-import { withTranslation } from 'react-i18next';
-
+import { withTranslation } from "react-i18next";
 
 import logo from "../../logos/logo-color.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,15 +9,15 @@ import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import LanguageSelector from "./LanguageSelector";
 
 class Header extends Component {
-   state = {
-     isOpen: false
-   };
+  state = {
+    isOpen: false
+  };
 
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
+  };
 
   render() {
     const { t } = this.props;
@@ -33,7 +32,7 @@ class Header extends Component {
               <div className="align-self-center ml-2">
                 <div className="logo-text">
                   <h1>
-		    {t("Voting platform")}
+                    {t("Voting platform")}
                     <small>{t("Majority Judgment")}</small>
                   </h1>
                 </div>
@@ -49,7 +48,7 @@ class Header extends Component {
                   {t("Start an election")}
                 </Link>
               </NavItem>
-              <NavItem style={{width:"150px"}}>
+              <NavItem style={{ width: "150px" }}>
                 <LanguageSelector />
               </NavItem>
             </Nav>
