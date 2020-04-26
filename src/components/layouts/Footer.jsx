@@ -15,6 +15,7 @@ class Footer extends Component {
     const { t } = this.props;
     return (
       <footer className="text-center">
+        <div>
         <Link to="/" style={linkStyle}>
           {t("Homepage")}
         </Link>
@@ -36,6 +37,7 @@ class Footer extends Component {
         >
           {t("Who are we?")}
         </a>
+        </div>
         <div className="mt-3">
           <Paypal btnColor="btn-primary" />
         </div>
