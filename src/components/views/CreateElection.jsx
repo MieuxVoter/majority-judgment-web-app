@@ -138,7 +138,7 @@ const SortableCandidate = sortableElement(
         <Col xs="auto" className="align-self-center pl-0">
           <HelpButton>
             {t(
-              "Write here your question or introduce simple your election (250 characters max.)"
+              "Enter the name of your candidate or proposal here (250 characters max.)"
             )}
           </HelpButton>
         </Col>
