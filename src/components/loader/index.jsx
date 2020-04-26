@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from "react";
 import logo from "./loader-pulse-2.gif";
 import "./style.css";

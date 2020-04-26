@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
@@ -25,7 +26,7 @@ class CreateSuccess extends Component {
     this.urlResultField = React.createRef();
   }
 
-  handleClickOnCopyResult = event => {
+  handleClickOnCopyResult = () => {
     const input = this.urlResultField.current;
     input.focus();
     input.select();

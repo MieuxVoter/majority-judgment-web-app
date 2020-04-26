@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from "react";
 import { withTranslation } from "react-i18next";
 import { resolve } from "url";
@@ -40,7 +41,7 @@ class Result extends Component {
   handleErrors = response => {
     if (!response.ok) {
       response.json().then(response => {
-        this.setState(state => ({
+        this.setState(() => ({
           errorMessage: errorMessage(response, this.props.t)
         }));
       });
@@ -56,7 +57,7 @@ class Result extends Component {
       profile: c.profile,
       grade: c.grade
     }));
-    this.setState(state => ({ candidates: candidates }));
+    this.setState(() => ({ candidates: candidates }));
     return response;
   };
 
@@ -71,7 +72,7 @@ class Result extends Component {
     const colSizeGradeXs = Math.floor(
       (12 - this.state.colSizeCandidateXs) / numGrades
     );
-    this.setState(state => ({
+    this.setState(() => ({
       title: response.title,
       numGrades: numGrades,
       colSizeGradeLg: colSizeGradeLg,
