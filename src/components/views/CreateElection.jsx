@@ -700,16 +700,16 @@ class CreateElection extends Component {
                   <div key="modal-title" className="text-primary bold">{t("Confirm your vote")}</div>
                   <div key="modal-body">
                     <div className="mt-1 mb-1">
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Question of the election")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         {title}
                       </div>
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Candidates/Proposals")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         <ul className="m-0 pl-4">
                           {candidates.map((candidate, i) => {
                             if (candidate.label !== "") {
@@ -724,10 +724,10 @@ class CreateElection extends Component {
                           })}
                         </ul>
                       </div>
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Dates")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         {t("The election will take place from")}{" "}
                         <b>
                           {start.toLocaleDateString()}, {t("at")}{" "}
@@ -739,10 +739,10 @@ class CreateElection extends Component {
                           {finish.toLocaleTimeString()}
                         </b>
                       </div>
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Grades")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         {grades.map((mention, i) => {
                           return i < numGrades ? (
                             <span
@@ -760,10 +760,10 @@ class CreateElection extends Component {
                           );
                         })}
                       </div>
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Voters' list")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         {electorEmails.length > 0 ? (
                           electorEmails.join(", ")
                         ) : (
