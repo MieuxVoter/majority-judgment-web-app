@@ -470,10 +470,10 @@ class CreateElection extends Component {
             <Card>
               <CardBody className="text-primary">
                 <Row>
-                  <Col xs="12" md="3" lg="2">
+                  <Col xs="12" md="3" lg="3" >
                     <Label for="title">{t("Access to results")}</Label>
                   </Col>
-                  <Col xs="6" md="5" lg="3">
+                  <Col xs="12" md="4" lg="3" >
                     <Label className="radio " htmlFor="restrict_result_false">
                       <span className="small text-dark">
                         {t("Immediately")}
@@ -490,7 +490,7 @@ class CreateElection extends Component {
                       <span className="checkround checkround-gray" />
                     </Label>
                   </Col>
-                  <Col xs="6" md="5" lg="3">
+                  <Col xs="12" md="4" lg="3" >
                     <Label className="radio" htmlFor="restrict_result_true">
                       <span className="small">
                         <span className="text-dark">
@@ -517,7 +517,7 @@ class CreateElection extends Component {
                 </Row>
                 <hr className="mt-2 mb-2" />
                 <Row>
-                  <Col xs="12" md="3" lg="2">
+                  <Col xs="12" md="3" lg="3">
                     <span className="label">{t("Starting date")}</span>
                   </Col>
                   <Col xs="6" md="4" lg="3">
@@ -554,7 +554,7 @@ class CreateElection extends Component {
                 </Row>
                 <hr className="mt-2 mb-2" />
                 <Row>
-                  <Col xs="12" md="3" lg="2">
+                  <Col xs="12" md="3" lg="3">
                     <span className="label">{t("Ending date")}</span>
                   </Col>
                   <Col xs="6" md="4" lg="3">
@@ -594,7 +594,7 @@ class CreateElection extends Component {
                 </Row>
                 <hr className="mt-2 mb-2" />
                 <Row>
-                  <Col xs="12" md="3" lg="2">
+                  <Col xs="12" md="3" lg="3">
                     <span className="label">{t("Grades")}</span>
                   </Col>
                   <Col xs="10" sm="11" md="4" lg="3">
@@ -625,8 +625,8 @@ class CreateElection extends Component {
                   <Col
                     xs="12"
                     md="9"
-                    lg="10"
-                    className="offset-xs-0 offset-md-3 offset-lg-2"
+                    lg="9"
+                    className="offset-xs-0 offset-md-3 offset-lg-3"
                   >
                     {grades.map((mention, i) => {
                       return (
@@ -647,10 +647,10 @@ class CreateElection extends Component {
                 </Row>
                 <hr className="mt-2 mb-2" />
                 <Row>
-                  <Col xs="12" md="3" lg="2">
+                  <Col xs="12" md="3" lg="3">
                     <span className="label">{t("Participants")}</span>
                   </Col>
-                  <Col xs="12" md="9" lg="10">
+                  <Col xs="12" md="9" lg="9">
                     <ReactMultiEmail
                       placeholder={t("Add here participants' emails")}
                       emails={electorEmails}
@@ -698,19 +698,19 @@ class CreateElection extends Component {
                     <FontAwesomeIcon icon={faCheck} className="mr-2" />
                     {t("Validate")}
                   </div>
-                  <div key="modal-title">{t("Confirm your vote")}</div>
+                  <div key="modal-title" className="text-primary bold">{t("Confirm your vote")}</div>
                   <div key="modal-body">
                     <div className="mt-1 mb-1">
-                      <div className="text-white bg-primary p-1">
+                      <div className="text-white bg-primary p-2 rounded">
                         {t("Question of the election")}
                       </div>
-                      <div className="p-1 pl-3">
+                      <div className="p-2 pl-3 bg-light mb-3">
                         <em>{title}</em>
                       </div>
-                      <div className="text-white bg-primary p-1">
+                      <div className="text-white bg-primary p-2 rounded">
                         {t("Candidates/Proposals")}
                       </div>
-                      <div className="p-1 pl-0">
+                      <div className="p-2 pl-3 bg-light mb-3">
                         <ul className="m-0 pl-4">
                           {candidates.map((candidate, i) => {
                             if (candidate.label !== "") {
@@ -725,10 +725,10 @@ class CreateElection extends Component {
                           })}
                         </ul>
                       </div>
-                      <div className="text-white bg-primary p-1 mt-1">
+                      <div className="text-white bg-primary p-2 rounded">
                         {t("Dates")}
                       </div>
-                      <p className="p-1 pl-3">
+                      <div className="p-2 pl-3 bg-light mb-3">
                         {t("The election will take place from")}{" "}
                         <b>
                           {start.toLocaleDateString()}, {t("at")}{" "}
@@ -739,11 +739,11 @@ class CreateElection extends Component {
                           {finish.toLocaleDateString()}, {t("at")}{" "}
                           {finish.toLocaleTimeString()}
                         </b>
-                      </p>
-                      <div className="text-white bg-primary p-1">
+                      </div>
+                      <div className="text-white bg-primary p-2 rounded">
                         {t("Grades")}
                       </div>
-                      <div className="p-1 pl-3">
+                      <div className="p-2 pl-3 bg-light mb-3">
                         {grades.map((mention, i) => {
                           return i < numGrades ? (
                             <span
@@ -761,10 +761,10 @@ class CreateElection extends Component {
                           );
                         })}
                       </div>
-                      <div className="text-white bg-primary p-1 mt-1">
+                      <div className="text-white bg-primary p-2 rounded">
                         {t("Voters' list")}
                       </div>
-                      <div className="p-1 pl-3">
+                      <div className="p-2 pl-3 bg-light mb-3">
                         {electorEmails.length > 0 ? (
                           electorEmails.join(", ")
                         ) : (
@@ -781,14 +781,14 @@ class CreateElection extends Component {
                       </div>
                       {this.state.restrictResult ? (
                         <div>
-                          <div className=" bg-danger text-white p-2 mt-2">
-                            <h5 className="m-0 p-0">
+                          <div className="small bg-light text-primary p-3 mt-2 rounded">
+                            <h6 className="m-0 p-0">
                               <FontAwesomeIcon
                                 icon={faExclamationTriangle}
                                 className="mr-2"
                               />
                               <u>{t("Accès aux résultats")}</u>
-                            </h5>
+                            </h6>
                             <p className="m-2 p-0">
                               {electorEmails.length > 0 ? (
                                 <span>
