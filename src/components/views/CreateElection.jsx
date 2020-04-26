@@ -705,7 +705,7 @@ class CreateElection extends Component {
                         {t("Question of the election")}
                       </div>
                       <div className="p-2 pl-3 bg-light mb-3">
-                        <em>{title}</em>
+                        {title}
                       </div>
                       <div className="text-white bg-primary p-2 rounded">
                         {t("Candidates/Proposals")}
