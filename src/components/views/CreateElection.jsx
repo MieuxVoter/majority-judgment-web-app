@@ -229,7 +229,7 @@ class CreateElection extends Component {
   editCandidateLabel = (event, index) => {
     let candidates = this.state.candidates;
     candidates[index].label = event.currentTarget.value;
-    candidates.map((candidate) => {
+    candidates.map(candidate => {
       return candidate.label;
     });
     this.setState({
@@ -469,10 +469,10 @@ class CreateElection extends Component {
             <Card>
               <CardBody className="text-primary">
                 <Row>
-                  <Col xs="12" md="3" lg="3" >
+                  <Col xs="12" md="3" lg="3">
                     <Label for="title">{t("Access to results")}</Label>
                   </Col>
-                  <Col xs="12" md="4" lg="3" >
+                  <Col xs="12" md="4" lg="3">
                     <Label className="radio " htmlFor="restrict_result_false">
                       <span className="small text-dark">
                         {t("Immediately")}
@@ -489,7 +489,7 @@ class CreateElection extends Component {
                       <span className="checkround checkround-gray" />
                     </Label>
                   </Col>
-                  <Col xs="12" md="4" lg="3" >
+                  <Col xs="12" md="4" lg="3">
                     <Label className="radio" htmlFor="restrict_result_true">
                       <span className="small">
                         <span className="text-dark">
@@ -697,15 +697,15 @@ class CreateElection extends Component {
                     <FontAwesomeIcon icon={faCheck} className="mr-2" />
                     {t("Validate")}
                   </div>
-                  <div key="modal-title" className="text-primary bold">{t("Confirm your vote")}</div>
+                  <div key="modal-title" className="text-primary bold">
+                    {t("Confirm your vote")}
+                  </div>
                   <div key="modal-body">
                     <div className="mt-1 mb-1">
                       <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Question of the election")}
                       </div>
-                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
-                        {title}
-                      </div>
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">{title}</div>
                       <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Candidates/Proposals")}
                       </div>
