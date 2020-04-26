@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
@@ -25,7 +26,7 @@ class HelpButton extends Component {
 
   render() {
     return (
-      <span>
+      <span className={this.props.className}>
         <span>
           {this.state.tooltipOpen ? (
             <span
