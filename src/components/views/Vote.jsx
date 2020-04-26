@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { withTranslation } from "react-i18next";
@@ -38,7 +39,7 @@ class Vote extends Component {
       response.json().then(response => {
         console.log(response);
         const { t } = this.props;
-        this.setState(state => ({
+        this.setState(() => ({
           errorMsg: errorMessage(response, t)
         }));
       });
@@ -65,7 +66,7 @@ class Vote extends Component {
       (12 - this.state.colSizeCandidateXs) / numGrades
     );
 
-    this.setState(state => ({
+    this.setState(() => ({
       title: response.title,
       candidates: candidates,
       numGrades: numGrades,
@@ -159,7 +160,7 @@ class Vote extends Component {
       body: JSON.stringify(payload)
     })
       .then(this.handleErrors)
-      .then(result =>
+      .then(() =>
         this.setState({ redirectTo: "/vote-success/" + electionSlug })
       )
       .catch(error => error);

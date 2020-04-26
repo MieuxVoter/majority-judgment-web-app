@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from "react";
 import { withTranslation } from "react-i18next";
 import { Container, Row, Col, Button, Input } from "reactstrap";

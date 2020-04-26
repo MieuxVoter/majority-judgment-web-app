@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint react/prop-types: 0 */
 
 export const UNKNOWN_ELECTION_ERROR = "E1";
 export const ONGOING_ELECTION_ERROR = "E2";
@@ -10,7 +10,7 @@ export const UNKNOWN_TOKEN_ERROR = "E7";
 export const USED_TOKEN_ERROR = "E8";
 export const WRONG_ELECTION_ERROR = "E9";
 
-export const redirectError = (errorMsg, history) => {};
+export const redirectError = () => {};
 
 export const errorMessage = (error, t) => {
   if (error.startsWith(UNKNOWN_ELECTION_ERROR)) {

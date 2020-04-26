@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { createContext, Suspense } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Loader from "./components/loader";
@@ -6,6 +7,7 @@ export const AppContext = createContext();
 
 const AppContextProvider = ({ children }) => {
   const defaultState = {
+    // eslint-disable-next-line no-undef
     urlServer: process.env.REACT_APP_SERVER_URL,
     routesServer: {
       setElection: "election/",

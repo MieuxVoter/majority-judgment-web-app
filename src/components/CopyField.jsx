@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from "react";
 import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +9,7 @@ const CopyField = props => {
     event.target.focus();
     event.target.select();
   };
-  const handleClickOnButton = event => {
+  const handleClickOnButton = () => {
     const input = ref.current;
     input.focus();
     input.select();

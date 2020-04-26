@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
@@ -13,7 +14,7 @@ export const UNKNOWN_TOKEN_ERROR = "E7";
 export const USED_TOKEN_ERROR = "E8";
 export const WRONG_ELECTION_ERROR = "E9";
 
-export const redirectError = (errorMsg, history) => {};
+export const redirectError = () => {};
 
 export const errorMessage = (error, t) => {
   if (error.startsWith(UNKNOWN_ELECTION_ERROR)) {

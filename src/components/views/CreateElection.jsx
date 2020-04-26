@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, { Component } from "react";
 import { Redirect, withRouter } from "react-router-dom";
 import {
@@ -116,7 +117,7 @@ const SortableCandidate = sortableElement(
               <div key="modal-body">
                 {t("Are you sure to delete")}{" "}
                 {candidate.label !== "" ? (
-                  <b>"{candidate.label}"</b>
+                  <b>&quot;{candidate.label}&quot;</b>
                 ) : (
                   <span>
                     {t("the row")} {sortIndex + 1}
@@ -228,7 +229,7 @@ class CreateElection extends Component {
   editCandidateLabel = (event, index) => {
     let candidates = this.state.candidates;
     candidates[index].label = event.currentTarget.value;
-    candidates.map((candidate, i) => {
+    candidates.map((candidate) => {
       return candidate.label;
     });
     this.setState({
@@ -337,7 +338,7 @@ class CreateElection extends Component {
             electorEmails && electorEmails.length
               ? `/link/${result.id}`
               : `/links/${result.id}`;
-          this.setState(state => ({
+          this.setState(() => ({
             redirectTo: nextPage,
             successCreate: true,
             waiting: false
@@ -832,4 +833,5 @@ class CreateElection extends Component {
     );
   }
 }
+
 export default withTranslation()(withRouter(CreateElection));
