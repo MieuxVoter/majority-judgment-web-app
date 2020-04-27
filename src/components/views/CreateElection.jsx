@@ -138,7 +138,7 @@ const SortableCandidate = sortableElement(
         <Col xs="auto" className="align-self-center pl-0">
           <HelpButton>
             {t(
-              "Write here your question or introduce simple your election (250 characters max.)"
+              "Enter the name of your candidate or proposal here (250 characters max.)"
             )}
           </HelpButton>
         </Col>
@@ -229,7 +229,7 @@ class CreateElection extends Component {
   editCandidateLabel = (event, index) => {
     let candidates = this.state.candidates;
     candidates[index].label = event.currentTarget.value;
-    candidates.map((candidate) => {
+    candidates.map(candidate => {
       return candidate.label;
     });
     this.setState({
@@ -264,14 +264,13 @@ class CreateElection extends Component {
 
   checkFields() {
     const { candidates, title } = this.state;
-
     if (!candidates) {
       return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
     }
 
     let numCandidates = 0;
     candidates.forEach(c => {
-      if (c !== "") numCandidates += 1;
+      if (c.label !== "") numCandidates += 1;
     });
     if (numCandidates < 2) {
       return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
@@ -470,10 +469,10 @@ class CreateElection extends Component {
             <Card>
               <CardBody className="text-primary">
                 <Row>
-                  <Col xs="12" md="3" lg="3" >
+                  <Col xs="12" md="3" lg="3">
                     <Label for="title">{t("Access to results")}</Label>
                   </Col>
-                  <Col xs="12" md="4" lg="3" >
+                  <Col xs="12" md="4" lg="3">
                     <Label className="radio " htmlFor="restrict_result_false">
                       <span className="small text-dark">
                         {t("Immediately")}
@@ -490,7 +489,7 @@ class CreateElection extends Component {
                       <span className="checkround checkround-gray" />
                     </Label>
                   </Col>
-                  <Col xs="12" md="4" lg="3" >
+                  <Col xs="12" md="4" lg="3">
                     <Label className="radio" htmlFor="restrict_result_true">
                       <span className="small">
                         <span className="text-dark">
@@ -698,19 +697,19 @@ class CreateElection extends Component {
                     <FontAwesomeIcon icon={faCheck} className="mr-2" />
                     {t("Validate")}
                   </div>
-                  <div key="modal-title" className="text-primary bold">{t("Confirm your vote")}</div>
+                  <div key="modal-title" className="text-primary bold">
+                    {t("Confirm your vote")}
+                  </div>
                   <div key="modal-body">
                     <div className="mt-1 mb-1">
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Question of the election")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
-                        {title}
-                      </div>
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">{title}</div>
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Candidates/Proposals")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         <ul className="m-0 pl-4">
                           {candidates.map((candidate, i) => {
                             if (candidate.label !== "") {
@@ -725,10 +724,10 @@ class CreateElection extends Component {
                           })}
                         </ul>
                       </div>
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Dates")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         {t("The election will take place from")}{" "}
                         <b>
                           {start.toLocaleDateString()}, {t("at")}{" "}
@@ -740,10 +739,10 @@ class CreateElection extends Component {
                           {finish.toLocaleTimeString()}
                         </b>
                       </div>
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Grades")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         {grades.map((mention, i) => {
                           return i < numGrades ? (
                             <span
@@ -761,10 +760,10 @@ class CreateElection extends Component {
                           );
                         })}
                       </div>
-                      <div className="text-white bg-primary p-2 rounded">
+                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Voters' list")}
                       </div>
-                      <div className="p-2 pl-3 bg-light mb-3">
+                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
                         {electorEmails.length > 0 ? (
                           electorEmails.join(", ")
                         ) : (
