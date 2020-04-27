@@ -567,7 +567,7 @@ class CreateElection extends Component {
                           finish: new Date(
                             timeMinusDate(finish) +
                               new Date(
-                                getOnlyValidDate(e.target.valueAsNumber)
+                                e.target.valueAsNumber
                               ).getTime()
                           )
                         });
