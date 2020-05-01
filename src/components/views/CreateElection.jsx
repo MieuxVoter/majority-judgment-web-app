@@ -534,11 +534,11 @@ class CreateElection extends Component {
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="3">
-                    <Label for="title">{t("Durée du vote")}</Label>
+                    <Label for="title">{t("Voting time")}</Label>
                   </Col>
                   <Col xs="12" md="4" lg="3">
                     <Label className="radio " htmlFor="is_time_limited_false">
-                      <span className="small text-dark">{t("Illimitée")}</span>
+                      <span className="small text-dark">{t("Unlimited")}</span>
                       <input
                         className="radio"
                         type="radio"
@@ -555,7 +555,7 @@ class CreateElection extends Component {
                     <Label className="radio" htmlFor="is_time_limited_true">
                       <span className="small">
                         <span className="text-dark">
-                          {t("Période définie")}
+                          {t("Defined period")}
                         </span>
                       </span>
                       <input
