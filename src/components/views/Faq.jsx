@@ -41,6 +41,13 @@ class Faq extends Component {
               l’électorat (celui qui obtient la meilleure mention « majoritaire
               »).
             </p>
+            <div style={{maxWidth:"445px"}}>
+            <video width="100%" height="250" controls="controls">
+              <source src="/video/Le_Jugement_Majoritaire_en_1_minute.mp4" type="video/mp4" />
+              <source src="/video/Le_Jugement_Majoritaire_en_1_minute.webm" type="video/webm" />
+              <source src="/video/Le_Jugement_Majoritaire_en_1_minute.3gpp" type="video/3gpp" />
+            </video>
+            </div>
 
             <h5 className="bold mt-5">D’où vient le Jugement Majoritaire ?</h5>
             <p>
@@ -93,7 +100,7 @@ class Faq extends Component {
             <p>
               Cette application ne convient pas pour les votes à plus de 1000
               votants. Si c’est votre cas, nous vous invitons à nous contacter
-              par email à l’adresse contact@MieuxVoter.fr.
+              par email à l’adresse <a href="mailto:contact@mieuxvoter.fr" className="text-light">contact@mieuxvoter.fr</a>.
             </p>
 
             <h5 className="bold mt-5">
@@ -101,8 +108,7 @@ class Faq extends Component {
             </h5>
             <p>
               Si vous rencontrez un problème en utilisant notre application,
-              prenez contact avec nous par email à l’adresse « app [At]
-              MieuxVoter [Point] fr », et prenez soin de bien décrire le
+              prenez contact avec nous par email à l’adresse «<a href="mailto:app@mieuxvoter.fr?subject=[HELP]" className="text-light">app@mieuxvoter.fr</a>», et prenez soin de bien décrire le
               problème rencontré dans votre message. Ajoutez éventuellement dans
               votre description le lien de votre vote.
             </p>
@@ -114,8 +120,7 @@ class Faq extends Component {
             <p>
               Le nombre maximum de votants pour un vote sur invitation est de
               1000 personnes. Si toutefois votre besoin est supérieur à cette
-              limite, nous vous invitons à nous envoyer un email à l’adresse «
-              contact [At] MieuxVoter [Point] fr ».
+              limite, nous vous invitons à nous envoyer un email à l’adresse «<a href="mailto:contact@mieuxvoter.fr" className="text-light">contact@mieuxvoter.fr</a>».
             </p>
 
             <h5 className="bold mt-5">
