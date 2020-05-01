@@ -1,0 +1,25 @@
+.tacky {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.tacky li {
+  display: inline-block;
+}
+
+.tacky li:after {
+  content: "-";
+  margin: 0 5px;
+}
+
+.tacky li:last-of-type:after {
+  content: "";
+  margin: 0;
+}
+
+.tacky li.no-tack:after {
+  content: "";
+  margin: 0;
+  display: none;
+}
