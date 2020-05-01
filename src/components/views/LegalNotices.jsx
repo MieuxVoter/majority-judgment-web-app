@@ -29,53 +29,29 @@ class LegalNotices extends Component {
                 </Row>
                 <Row className="mt-4">
                     <Col>
-                        <h3 className="bold">Editeur du Site</h3>
-                        <p>
-                            Association MIEUX VOTER
-                            <br />
-                            59 Rue Saint-André des Arts, 75006 Paris
-                        </p>
-                        <p>
-                            <a
+                        <h3 className="bold">Editeur</h3>
+                        <p>Cette Application est éditée par l’association loi 1901
+                            {" "}<a
                                 href="https://mieuxvoter.fr/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-white"
                             >
-                                https://mieuxvoter.fr/
-                            </a>
+                                “Mieux Voter”
+                            </a>, dont le siège social est situé au 59 rue saint andré des arts, à Paris (75006).</p>
+
+                        <p>Adresse email : <a href="mailto:contact@mieuxvoter.fr" className="text-light">contact@mieuxvoter.fr</a></p>
+
+                        <p>
+                            <b>Directeur de la publication</b>
+                            <br />Chloé Ridel
                         </p>
                         <h3 className="mt-2 bold">Hébergement</h3>
-                        <p>
-                            Association MIEUX VOTER
-                            <br />
-                            59 Rue Saint-André des Arts, 75006 Paris
+                        <p>Serveurs localisés à Paris
                         </p>
+                        <h3 className="mt-2 bold">Oeuvres graphiques</h3>
                         <p>
-                            <a
-                                href="https://mieuxvoter.fr/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-white"
-                            >
-                                https://mieuxvoter.fr/
-                            </a>
-                        </p>
-                        <h3 className="mt-2 bold">Développement</h3>
-                        <p>
-                            Association MIEUX VOTER
-                            <br />
-                            59 Rue Saint-André des Arts, 75006 Paris
-                        </p>
-                        <p>
-                            <a
-                                href="https://mieuxvoter.fr/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-white"
-                            >
-                                https://mieuxvoter.fr/
-                            </a>
+                            Les illustrations et graphismes sur cette application sont l’oeuvre de l’association MieuxVoter
                         </p>
                     </Col>
                 </Row>
