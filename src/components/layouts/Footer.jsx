@@ -38,6 +38,18 @@ class Footer extends Component {
           {t("Who are we?")}
         </a>
         </div>
+          <span className="m-2">-</span>
+          <Link to="/legal-notices" style={linkStyle}>
+              {t('Legal notices')}
+          </Link>
+          <span className="m-2">-</span>
+          <Link to="/privacy-policy" style={linkStyle}>
+              {t('Privacy policy')}
+          </Link>
+          <span className="m-2">-</span>
+          <Link to="/faq" style={linkStyle}>
+              {t('faq')}
+          </Link>
         <div className="mt-3">
           <Paypal btnColor="btn-primary" />
         </div>
