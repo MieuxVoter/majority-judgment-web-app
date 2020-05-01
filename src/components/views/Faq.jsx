@@ -228,7 +228,7 @@ class Faq extends Component {
               Jugement Majoritaire ? <br />Nous en sommes ravis ! Vous pouvez nous
               aider en faisant un don à l’association ici :
             </p>
-              <p><Paypal btnColor="btn-success" /></p>
+              <Paypal btnColor="btn-success" className="mt-1"/>
           </Col>
         </Row>
           {/* <Row className="mt-4">
