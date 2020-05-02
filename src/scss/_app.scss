@@ -305,7 +305,7 @@ li.sortable {
 .median {
   border-width: 0 3px 0 0;
   border-style: dashed;
-  border-color: $mv-blue-color;
+  border-color: #000;
   min-height: 30px;
   width: 1px;
   position: absolute;
@@ -336,4 +336,22 @@ li.sortable {
 }
 .flag-select__options .flag-select__option__icon {
   top: 0;
+}
+
+/** result **/
+ol.result > li{
+  font-size:1rem;
+  font-weight:normal;
+}
+ol.result > li:nth-child(1){
+  font-size:1.75rem;
+  font-weight:bold;
+}
+
+ol.result > li:nth-child(2){
+  font-size:1.5rem;
+}
+
+ol.result > li:nth-child(3){
+  font-size:1.25rem;
 }
