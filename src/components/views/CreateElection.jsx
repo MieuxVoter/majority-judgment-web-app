@@ -840,7 +840,7 @@ class CreateElection extends Component {
                       </div>
                       {this.state.restrictResult ? (
                         <div>
-                          <div className="small bg-light text-primary p-3 mt-2 rounded">
+                          <div className="small bg-primary text-white p-3 mt-2 rounded">
                             <h6 className="m-0 p-0">
                               <FontAwesomeIcon
                                 icon={faExclamationTriangle}
@@ -861,7 +861,7 @@ class CreateElection extends Component {
                                     "The results page will not be accessible until the end date is reached."
                                   )}{" "}
                                   ({finish.toLocaleDateString()} {t("at")}{" "}
-                                  {finish.toLocaleTimeString()})
+                                    {finish.toLocaleTimeString()})
                                 </span>
                               )}
                             </p>
