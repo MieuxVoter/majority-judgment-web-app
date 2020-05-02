@@ -9,7 +9,6 @@ import {
   faExclamationTriangle
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logoLine from "../../logos/logo-line-white.svg";
 import { AppContext } from "../../AppContext";
 import CopyField from "../CopyField";
 
@@ -54,12 +53,7 @@ class CreateSuccess extends Component {
 
     return (
       <Container>
-        <Row>
-          <Link to="/" className="d-block ml-auto mr-auto mb-4">
-            <img src={logoLine} alt="logo" height="128" />
-          </Link>
-        </Row>
-        <Row className="mt-4">
+        <Row className="mt-5">
           <Col className="text-center offset-lg-3" lg="6">
             <h2>{t("Successful election creation!")}</h2>
 
@@ -73,7 +67,7 @@ class CreateSuccess extends Component {
         </Row>
         <Row className="mt-4 mb-4">
           <Col className="text-center offset-lg-3" lg="6">
-            <div className=" bg-danger text-white p-2 ">
+            <div className=" bg-light text-primary p-2 ">
               <h4 className="m-0 p-0 text-center">
                 <FontAwesomeIcon
                   icon={faExclamationTriangle}
