@@ -312,7 +312,7 @@ class CreateElection extends Component {
       start = new Date(
           now.getTime() - minutes(now) - seconds(now) - ms(now)
       );
-      finish=new Date(start.getTime() + 1 * 365 * 24 * 3600 * 1000);
+      finish=new Date(start.getTime() + 10 * 365 * 24 * 3600 * 1000);
     }
 
     const { t } = this.props;
