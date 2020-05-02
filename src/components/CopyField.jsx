@@ -16,7 +16,7 @@ const CopyField = props => {
     document.execCommand("copy");
   };
 
-  const { t, value, icon } = props;
+  const { t, value, iconCopy, iconOpen } = props;
 
   return (
     <div className="input-group  ">
@@ -31,13 +31,24 @@ const CopyField = props => {
 
       <div className="input-group-append">
         <Button
-          className="btn btn-outline-light"
+          className="btn btn-success"
           onClick={handleClickOnButton}
           type="button"
         >
-          <FontAwesomeIcon icon={icon} className="mr-2" />
+          <FontAwesomeIcon icon={iconCopy} className="mr-2" />
           {t("Copy")}
         </Button>
+      </div>
+      <div className="input-group-append">
+        <a
+          className="btn btn-secondary"
+          href={value}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FontAwesomeIcon icon={iconOpen} className="mr-2" />
+          {t("Open")}
+        </a>
       </div>
     </div>
   );
