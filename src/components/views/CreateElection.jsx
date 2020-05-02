@@ -846,7 +846,7 @@ class CreateElection extends Component {
                                 icon={faExclamationTriangle}
                                 className="mr-2"
                               />
-                              <u>{t("Accès aux résultats")}</u>
+                              <u>{t("Results available at the close of the vote")}</u>
                             </h6>
                             <p className="m-2 p-0">
                               {electorEmails.length > 0 ? (

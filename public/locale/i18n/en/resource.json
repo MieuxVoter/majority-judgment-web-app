@@ -36,6 +36,7 @@
   "Add here participants' emails": "Add here participants' emails",
   "List voters' emails in case the election is not opened": "List voters' emails in case the election is not opened",
   "Validate": "Validate",
+  "Submit my vote": "Submit my vote",
   "Confirm your vote": "Confirm your vote",
   "The form contains no address.": "The form contains no address.",
   "The election will be opened to anyone with the link": "The election will be opened to anyone with the link",
@@ -91,6 +92,7 @@
   "Access to results" : "Access to results",
   "Immediately": "Immediately",
   "At the end of the election": "At the end of the election",
+  "Results available at the close of the vote": "Results available at the close of the vote",
   "The results page will not be accessible until all participants have voted.":"The results page will not be accessible until all participants have voted.",
   "The results page will not be accessible until the end date is reached.": "The results page will not be accessible until the end date is reached.",
   "No one will be able to see the result until the end date is reached or until all participants have voted.": "No one will be able to see the result until the end date is reached or until all participants have voted."

@@ -337,12 +337,12 @@ class Vote extends Component {
                   className="btn btn-dark "
                 >
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  {t("Validate")}
+                  {t("Submit my vote")}
                 </Button>
               ) : (
                 <Button type="submit" className="btn btn-success ">
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                  {t("Validate")}
+                  {t("Submit my vote")}
                 </Button>
               )}
             </Col>

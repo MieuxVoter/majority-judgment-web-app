@@ -36,6 +36,7 @@
   "Add here participants' emails": "Añadir aquí los correos electrónicos de los(as) participantes",
   "List voters' emails in case the election is not opened": "Enumere los correos electrónicos de los(as) votantes en caso de que la elección no se abra",
   "Validate": "Validar",
+  "Submit my vote": "Validar",
   "Confirm your vote": "Confirme su voto",
   "The form contains no address.": "El formulario no contiene ningún correo electrónico",
   "The election will be opened to anyone with the link": "La elección se abrirá a cualquiera que tenga el enlace",
@@ -92,6 +93,7 @@
   "Access to results" : "Acceso a los resultados",
   "Immediately": "Inmediatamente",
   "At the end of the election": "Al final de la elección",
+  "Results available at the close of the vote": "Resultados disponibles al cierre de la votación",
   "The results page will not be accessible until all participants have voted.":"La página de resultados no será accesible hasta que todos los participantes hayan votado.",
   "The results page will not be accessible until the end date is reached.": "No se podrá acceder a la página de resultados hasta que se alcance la fecha de finalización.",
   "No one will be able to see the result until the end date is reached or until all participants have voted.": "Nadie podrá ver el resultado hasta que se alcance la fecha final o hasta que todos los participantes hayan votado."
