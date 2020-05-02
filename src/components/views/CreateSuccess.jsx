@@ -62,7 +62,7 @@ class CreateSuccess extends Component {
             {this.props.invitationOnly ? null : (
               <Facebook
                 className="btn btn-outline-light  m-2"
-                text={t("Share election Facebook")}
+                text={t("Share election on Facebook")}
                 url={this.state.urlOfVote}
                 title={"app.mieuxvoter.fr"}
               />
