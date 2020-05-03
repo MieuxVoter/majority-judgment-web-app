@@ -2,16 +2,17 @@
 import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
-import { withTranslation, Trans } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import {
   faCopy,
   faUsers,
-  faExclamationTriangle
+  faExclamationTriangle,
+  faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logoLine from "../../logos/logo-line-white.svg";
 import { AppContext } from "../../AppContext";
 import CopyField from "../CopyField";
+import Facebook from "../banner/Facebook";
 
 class CreateSuccess extends Component {
   static contextType = AppContext;
@@ -37,7 +38,7 @@ class CreateSuccess extends Component {
     const { t } = this.props;
     const electionLink = this.props.invitationOnly ? (
       <>
-        <p className="mt-4 mb-1">
+        <p className="mb-1">
           {t(
             "Voters received a link to vote by email. Each link can be used only once!"
           )}
@@ -45,58 +46,86 @@ class CreateSuccess extends Component {
       </>
     ) : (
       <>
-        <p className="mt-4 mb-1">
-          {t("You can now share the election link to participants:")}
-        </p>
-        <CopyField value={this.state.urlOfVote} icon={faCopy} t={t} />
+        <p className="mb-1">{t("Voting address")}</p>
+        <CopyField
+          value={this.state.urlOfVote}
+          iconCopy={faCopy}
+          iconOpen={faExternalLinkAlt}
+          t={t}
+        />
       </>
     );
-
     return (
       <Container>
-        <Row>
-          <Link to="/" className="d-block ml-auto mr-auto mb-4">
-            <img src={logoLine} alt="logo" height="128" />
-          </Link>
-        </Row>
-        <Row className="mt-4">
+        <Row className="mt-5">
           <Col className="text-center offset-lg-3" lg="6">
             <h2>{t("Successful election creation!")}</h2>
-
-            {electionLink}
-
-            <p className="mt-4 mb-1">
-              {t("Here is the link for the results in real time:")}
-            </p>
-            <CopyField value={this.state.urlOfResult} icon={faCopy} t={t} />
+            {this.props.invitationOnly ? null : (
+              <Facebook
+                className="btn btn-outline-light  m-2"
+                text={t("Share election on Facebook")}
+                url={this.state.urlOfVote}
+                title={"app.mieuxvoter.fr"}
+              />
+            )}
           </Col>
         </Row>
-        <Row className="mt-4 mb-4">
-          <Col className="text-center offset-lg-3" lg="6">
-            <div className=" bg-danger text-white p-2 ">
-              <h4 className="m-0 p-0 text-center">
-                <FontAwesomeIcon
-                  icon={faExclamationTriangle}
-                  className="mr-2"
-                />
-                {t("Keep these links carefully")}
-              </h4>
-              <p className="small m-2 p-0">
-                <Trans i18nKey="t">
-                  <b>Warning</b>: you will have no other choices to recover the
-                  links, and we will not be able to share them with you. For
-                  example, you can bookmark them in your browser.
-                </Trans>
-              </p>
+        <Row className="mt-5 mb-4">
+          <Col className="offset-lg-3" lg="6">
+            <h5 className="mb-3 text-center">
+              <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+              {t("Keep these links carefully")}
+            </h5>
+            <div className="border rounded p-4 pb-5">
+              {electionLink}
+
+              <p className="mt-4 mb-1">{t("Results address")}</p>
+              <CopyField
+                value={this.state.urlOfResult}
+                iconCopy={faCopy}
+                iconOpen={faExternalLinkAlt}
+                t={t}
+              />
             </div>
+
+            {/*<div className="input-group  ">
+              <input
+                type="text"
+                className="form-control"
+                value=""
+                placeholder="email@domaine.com"
+              />
+              <div className="input-group-append">
+                <a
+                  className="btn btn-success"
+                  href=""
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
+                  {this.props.invitationOnly
+                    ? t("Send me this link")
+                    : t("Send me these links")}
+                </a>
+              </div>
+            </div>*/}
+            {/*<div className="text-center">
+                <button
+                    type="button"
+                    className="btn btn-success  m-2"
+                >
+                  <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
+                  {(this.props.invitationOnly?t("Send me this link by email"):t("Send me these links by email"))}
+                </button>
+
+              </div>*/}
           </Col>
         </Row>
-
         <Row className="mt-4 mb-4">
           <Col className="text-center">
             <Link
               to={"/vote/" + this.props.match.params.slug}
-              className="btn btn-success"
+              className="btn btn-secondary"
             >
               <FontAwesomeIcon icon={faUsers} className="mr-2" />
               {t("Participate now!")}

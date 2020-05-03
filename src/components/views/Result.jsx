@@ -15,6 +15,7 @@ import {
 import { i18nGrades } from "../../Util";
 import { AppContext } from "../../AppContext";
 import { errorMessage, Error } from "../../Errors";
+import Facebook from "../banner/Facebook";
 
 class Result extends Component {
   static contextType = AppContext;
@@ -185,21 +186,12 @@ class Result extends Component {
       <Container>
         <Row>
           <Col xs="12">
-            <h1>{this.state.title}</h1>
+            <h3>{this.state.title}</h3>
           </Col>
         </Row>
-
         <Row className="mt-5">
           <Col>
-            <h1>{t("Results of the election:")}</h1>
-            <h5>
-              <small>
-                {t("Number of votes:")}
-                {" " + numVotes}
-              </small>
-            </h5>
-            <hr className="mb-5" />
-            <ol>
+            <ol className="result">
               {candidates.map((candidate, i) => {
                 const gradeValue = candidate.grade + offsetGrade;
                 return (
@@ -223,6 +215,12 @@ class Result extends Component {
                 );
               })}
             </ol>
+            <h5>
+              <small>
+                {t("Number of votes:")}
+                {" " + numVotes}
+              </small>
+            </h5>
           </Col>
         </Row>
 
@@ -401,6 +399,16 @@ class Result extends Component {
                 </CardBody>
               </Collapse>
             </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" className="text-center pt-2 pb-5">
+            <Facebook
+                className="btn btn-outline-light m-2"
+                text={t("Share results on Facebook")}
+                url={window.location.origin + "/result/" + this.props.match.params.slug}
+                title={encodeURI(this.state.title)}
+            />
           </Col>
         </Row>
       </Container>
