@@ -185,6 +185,7 @@ class CreateElection extends Component {
       redirectTo: null,
       isAdvancedOptionsOpen: false,
       restrictResult: false,
+      isTimeLimited: false,
       start,
       // by default, the election ends in a week
       finish: new Date(start.getTime() + 7 * 24 * 3600 * 1000),
@@ -194,10 +195,15 @@ class CreateElection extends Component {
     this.focusInput = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRestrictResultCheck = this.handleRestrictResultCheck.bind(this);
+    this.handleIsTimeLimited = this.handleIsTimeLimited.bind(this);
   }
 
   handleChangeTitle = event => {
     this.setState({ title: event.target.value });
+  };
+
+  handleIsTimeLimited = event => {
+    this.setState({ isTimeLimited: event.target.value === "1" });
   };
 
   handleRestrictResultCheck = event => {
@@ -288,15 +294,26 @@ class CreateElection extends Component {
       candidates,
       title,
       numGrades,
+      electorEmails
+    } = this.state;
+
+    let {
       start,
       finish,
-      electorEmails
     } = this.state;
 
     const endpoint = resolve(
       this.context.urlServer,
       this.context.routesServer.setElection
     );
+
+    if(!this.state.isTimeLimited){
+      let now = new Date();
+      start = new Date(
+          now.getTime() - minutes(now) - seconds(now) - ms(now)
+      );
+      finish=new Date(start.getTime() + 10 * 365 * 24 * 3600 * 1000);
+    }
 
     const { t } = this.props;
     const locale =
@@ -517,80 +534,121 @@ class CreateElection extends Component {
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="3">
-                    <span className="label">{t("Starting date")}</span>
+                    <Label for="title">{t("Voting time")}</Label>
                   </Col>
-                  <Col xs="6" md="4" lg="3">
-                    <input
-                      className="form-control"
-                      type="date"
-                      value={dateToISO(start)}
-                      onChange={e => {
-                        this.setState({
-                          start: new Date(
-                            timeMinusDate(start) +
-                              new Date(e.target.valueAsNumber).getTime()
-                          )
-                        });
-                      }}
-                    />
+                  <Col xs="12" md="4" lg="3">
+                    <Label className="radio " htmlFor="is_time_limited_false">
+                      <span className="small text-dark">{t("Unlimited")}</span>
+                      <input
+                        className="radio"
+                        type="radio"
+                        name="time_limited"
+                        id="is_time_limited_false"
+                        onClick={this.handleIsTimeLimited}
+                        defaultChecked={!this.state.isTimeLimited}
+                        value="0"
+                      />
+                      <span className="checkround checkround-gray" />
+                    </Label>
                   </Col>
-                  <Col xs="6" md="5" lg="3">
-                    <select
-                      className="form-control"
-                      value={getOnlyValidDate(start).getHours()}
-                      onChange={e =>
-                        this.setState({
-                          start: new Date(
-                            dateMinusTime(start).getTime() +
-                              e.target.value * 3600000
-                          )
-                        })
-                      }
-                    >
-                      {displayClockOptions()}
-                    </select>
-                  </Col>
-                </Row>
-                <hr className="mt-2 mb-2" />
-                <Row>
-                  <Col xs="12" md="3" lg="3">
-                    <span className="label">{t("Ending date")}</span>
-                  </Col>
-                  <Col xs="6" md="4" lg="3">
-                    <input
-                      className="form-control"
-                      type="date"
-                      value={dateToISO(finish)}
-                      min={dateToISO(start)}
-                      onChange={e => {
-                        this.setState({
-                          finish: new Date(
-                            timeMinusDate(finish) +
-                              new Date(
-                                e.target.valueAsNumber
-                              ).getTime()
-                          )
-                        });
-                      }}
-                    />
-                  </Col>
-                  <Col xs="6" md="5" lg="3">
-                    <select
-                      className="form-control"
-                      value={getOnlyValidDate(finish).getHours()}
-                      onChange={e =>
-                        this.setState({
-                          finish: new Date(
-                            dateMinusTime(finish).getTime() +
-                              e.target.value * 3600000
-                          )
-                        })
-                      }
-                    >
-                      {displayClockOptions()}
-                    </select>
+                  <Col xs="12" md="4" lg="3">
+                    <Label className="radio" htmlFor="is_time_limited_true">
+                      <span className="small">
+                        <span className="text-dark">
+                          {t("Defined period")}
+                        </span>
+                      </span>
+                      <input
+                        className="radio"
+                        type="radio"
+                        name="time_limited"
+                        id="is_time_limited_true"
+                        onClick={this.handleIsTimeLimited}
+                        defaultChecked={this.state.isTimeLimited}
+                        value="1"
+                      />
+                      <span className="checkround checkround-gray" />
+                    </Label>
                   </Col>
                 </Row>
+                <div
+                  className={(this.state.isTimeLimited ? "d-block " : "d-none")+" bg-light p-3"}
+                >
+                  <Row >
+                    <Col xs="12" md="3" lg="3">
+                      <span className="label">- {t("Starting date")}</span>
+                    </Col>
+                    <Col xs="6" md="4" lg="3">
+                      <input
+                        className="form-control"
+                        type="date"
+                        value={dateToISO(start)}
+                        onChange={e => {
+                          this.setState({
+                            start: new Date(
+                              timeMinusDate(start) +
+                                new Date(e.target.valueAsNumber).getTime()
+                            )
+                          });
+                        }}
+                      />
+                    </Col>
+                    <Col xs="6" md="5" lg="3">
+                      <select
+                        className="form-control"
+                        value={getOnlyValidDate(start).getHours()}
+                        onChange={e =>
+                          this.setState({
+                            start: new Date(
+                              dateMinusTime(start).getTime() +
+                                e.target.value * 3600000
+                            )
+                          })
+                        }
+                      >
+                        {displayClockOptions()}
+                      </select>
+                    </Col>
+                  </Row>
+
+                  <Row className="mt-2">
+                    <Col xs="12" md="3" lg="3">
+                      <span className="label">- {t("Ending date")}</span>
+                    </Col>
+                    <Col xs="6" md="4" lg="3">
+                      <input
+                        className="form-control"
+                        type="date"
+                        value={dateToISO(finish)}
+                        min={dateToISO(start)}
+                        onChange={e => {
+                          this.setState({
+                            finish: new Date(
+                              timeMinusDate(finish) +
+                                new Date(e.target.valueAsNumber).getTime()
+                            )
+                          });
+                        }}
+                      />
+                    </Col>
+                    <Col xs="6" md="5" lg="3">
+                      <select
+                        className="form-control"
+                        value={getOnlyValidDate(finish).getHours()}
+                        onChange={e =>
+                          this.setState({
+                            finish: new Date(
+                              dateMinusTime(finish).getTime() +
+                                e.target.value * 3600000
+                            )
+                          })
+                        }
+                      >
+                        {displayClockOptions()}
+                      </select>
+                    </Col>
+                  </Row>
+                </div>
                 <hr className="mt-2 mb-2" />
                 <Row>
                   <Col xs="12" md="3" lg="3">
@@ -724,6 +782,7 @@ class CreateElection extends Component {
                           })}
                         </ul>
                       </div>
+                      <div className={(this.state.isTimeLimited ? "d-block " : "d-none")} >
                       <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Dates")}
                       </div>
@@ -738,6 +797,7 @@ class CreateElection extends Component {
                           {finish.toLocaleDateString()}, {t("at")}{" "}
                           {finish.toLocaleTimeString()}
                         </b>
+                      </div>
                       </div>
                       <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Grades")}
@@ -780,13 +840,13 @@ class CreateElection extends Component {
                       </div>
                       {this.state.restrictResult ? (
                         <div>
-                          <div className="small bg-light text-primary p-3 mt-2 rounded">
+                          <div className="small bg-primary text-white p-3 mt-2 rounded">
                             <h6 className="m-0 p-0">
                               <FontAwesomeIcon
                                 icon={faExclamationTriangle}
                                 className="mr-2"
                               />
-                              <u>{t("Accès aux résultats")}</u>
+                              <u>{t("Results available at the close of the vote")}</u>
                             </h6>
                             <p className="m-2 p-0">
                               {electorEmails.length > 0 ? (
@@ -801,7 +861,7 @@ class CreateElection extends Component {
                                     "The results page will not be accessible until the end date is reached."
                                   )}{" "}
                                   ({finish.toLocaleDateString()} {t("at")}{" "}
-                                  {finish.toLocaleTimeString()})
+                                    {finish.toLocaleTimeString()})
                                 </span>
                               )}
                             </p>
