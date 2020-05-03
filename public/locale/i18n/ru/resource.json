@@ -95,5 +95,12 @@
   "Results available at the close of the vote": "Результаты, доступные по окончании голосования",
   "The results page will not be accessible until all participants have voted.":"Страница результатов не будет доступна до тех пор, пока все участники не проголосуют.",
   "The results page will not be accessible until the end date is reached.": "Страница результатов не будет доступна до тех пор, пока не будет достигнута конечная дата.",
-  "No one will be able to see the result until the end date is reached or until all participants have voted.": "Никто не сможет увидеть результат до тех пор, пока не будет достигнут конечный срок или пока все участники не проголосуют."
+  "No one will be able to see the result until the end date is reached or until all participants have voted.": "Никто не сможет увидеть результат до тех пор, пока не будет достигнут конечный срок или пока все участники не проголосуют.",
+  "Send me this link" : "Пришлите мне эту ссылку",
+  "Send me these links" : "Пришлите мне эти ссылки",
+  "Open" : "Открыть",
+  "Voting address" : "URL-адрес для голосования",
+  "Results address" : "URL-адрес результатов",
+  "Share election on Facebook" : "Поделиться выборами на Facebook",
+  "Share results on Facebook" : "Поделиться результатами на Facebook"
 }

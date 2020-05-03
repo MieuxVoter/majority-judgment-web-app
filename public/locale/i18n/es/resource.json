@@ -96,5 +96,12 @@
   "Results available at the close of the vote": "Resultados disponibles al cierre de la votación",
   "The results page will not be accessible until all participants have voted.":"La página de resultados no será accesible hasta que todos los participantes hayan votado.",
   "The results page will not be accessible until the end date is reached.": "No se podrá acceder a la página de resultados hasta que se alcance la fecha de finalización.",
-  "No one will be able to see the result until the end date is reached or until all participants have voted.": "Nadie podrá ver el resultado hasta que se alcance la fecha final o hasta que todos los participantes hayan votado."
+  "No one will be able to see the result until the end date is reached or until all participants have voted.": "Nadie podrá ver el resultado hasta que se alcance la fecha final o hasta que todos los participantes hayan votado.",
+  "Send me this link" : "Envíame este enlace",
+  "Send me these links" : "Envíame estos enlaces",
+  "Open" : "Abrir",
+  "Voting address" : "URL de la votación",
+  "Results address" : "URL de los resultados",
+  "Share election on Facebook" : "Compartir la elección en Facebook",
+  "Share results on Facebook" : "Comparte los resultados en Facebook"
 }
