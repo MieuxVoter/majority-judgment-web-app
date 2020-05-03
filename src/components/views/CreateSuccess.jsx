@@ -1,9 +1,11 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
+import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 import {
   faCopy,
+    faUsers,
   faExclamationTriangle,
   faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
@@ -36,7 +38,7 @@ class CreateSuccess extends Component {
     const { t } = this.props;
     const electionLink = this.props.invitationOnly ? (
       <>
-        <p className="mt-4 mb-1">
+        <p className="mb-1">
           {t(
             "Voters received a link to vote by email. Each link can be used only once!"
           )}
@@ -44,7 +46,7 @@ class CreateSuccess extends Component {
       </>
     ) : (
       <>
-        <p className="mt-4 mb-1">{t("Voting address")}</p>
+        <p className="mb-1">{t("Voting address")}</p>
         <CopyField
           value={this.state.urlOfVote}
           iconCopy={faCopy}
@@ -68,8 +70,13 @@ class CreateSuccess extends Component {
             )}
           </Col>
         </Row>
-        <Row className="mt-4 mb-4">
+        <Row className="mt-5 mb-4">
           <Col className="offset-lg-3" lg="6">
+              <h5 className="mb-3 text-center">
+                  <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+                  {t("Keep these links carefully")}
+              </h5>
+              <div className="border rounded p-4 pb-5">
             {electionLink}
 
             <p className="mt-4 mb-1">{t("Results address")}</p>
@@ -79,10 +86,8 @@ class CreateSuccess extends Component {
               iconOpen={faExternalLinkAlt}
               t={t}
             />
-            <h5 className="mt-5 mb-3 text-center">
-              <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
-              {t("Keep these links carefully")}
-            </h5>
+              </div>
+
               {/*<div className="input-group  ">
               <input
                 type="text"
@@ -116,9 +121,17 @@ class CreateSuccess extends Component {
               </div>*/}
           </Col>
         </Row>
-        <Row className="mt-4 mb-4">
-          <Col className="offset-lg-3 text-center" lg="6"></Col>
-        </Row>
+          <Row className="mt-4 mb-4">
+              <Col className="text-center">
+                  <Link
+                      to={"/vote/" + this.props.match.params.slug}
+                      className="btn btn-secondary"
+                  >
+                      <FontAwesomeIcon icon={faUsers} className="mr-2" />
+                      {t("Participate now!")}
+                  </Link>
+              </Col>
+          </Row>
       </Container>
     );
   }
