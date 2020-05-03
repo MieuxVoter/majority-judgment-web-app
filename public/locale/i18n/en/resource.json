@@ -95,5 +95,12 @@
   "Results available at the close of the vote": "Results available at the close of the vote",
   "The results page will not be accessible until all participants have voted.":"The results page will not be accessible until all participants have voted.",
   "The results page will not be accessible until the end date is reached.": "The results page will not be accessible until the end date is reached.",
-  "No one will be able to see the result until the end date is reached or until all participants have voted.": "No one will be able to see the result until the end date is reached or until all participants have voted."
+  "No one will be able to see the result until the end date is reached or until all participants have voted.": "No one will be able to see the result until the end date is reached or until all participants have voted.",
+  "Send me this link" : "Send me this link",
+  "Send me these links" : "Send me these links",
+  "Open" : "Open",
+  "Voting address" : "Voting address",
+  "Results address" : "Results address",
+  "Share election on Facebook" : "Share election on Facebook",
+  "Share results on Facebook" : "Share results on Facebook"
 }
