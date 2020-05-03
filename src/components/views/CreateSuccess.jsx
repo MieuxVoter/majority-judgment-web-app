@@ -5,7 +5,6 @@ import { withTranslation } from "react-i18next";
 import {
   faCopy,
   faExclamationTriangle,
-  faPaperPlane,
   faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -84,7 +83,7 @@ class CreateSuccess extends Component {
               <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
               {t("Keep these links carefully")}
             </h5>
-            <div className="input-group  ">
+              {/*<div className="input-group  ">
               <input
                 type="text"
                 className="form-control"
@@ -104,7 +103,7 @@ class CreateSuccess extends Component {
                     : t("Send me these links")}
                 </a>
               </div>
-            </div>
+            </div>*/}
             {/*<div className="text-center">
                 <button
                     type="button"
