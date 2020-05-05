@@ -240,7 +240,7 @@ class Faq extends Component {
               L’application app.mieuxvoter.fr a pour seul et unique but de faire
               découvrir le vote au Jugement Majoritaire. Elle n’a pas de but
               politique, ni commercial. Mieux Voter attache la plus grande
-              importance au stricte respect de la vie privée, et utilise ces
+              importance au strict respect de la vie privée, et utilise ces
               données uniquement de manière responsable et confidentielle, dans
               une finalité précise.
             </p>
