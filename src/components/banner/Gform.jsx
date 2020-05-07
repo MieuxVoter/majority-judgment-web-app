@@ -7,7 +7,7 @@ const Gform = props => {
   return (
     <a
       className={props.className}
-      href="https://docs.google.com/forms/d/1Y5ocQscSkHFZdniR7Lvc9mbkJYe9ZIC4w0tOvC4rDZo/viewform?edit_requested=true"
+      href={process.env.REACT_APP_FEEDBACK_FORM}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -18,5 +18,3 @@ const Gform = props => {
 };
 
 export default Gform;
-
-//https://docs.google.com/forms/d/1Y5ocQscSkHFZdniR7Lvc9mbkJYe9ZIC4w0tOvC4rDZo/viewform?edit_requested=true
