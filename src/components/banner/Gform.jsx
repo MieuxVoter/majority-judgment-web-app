@@ -7,7 +7,7 @@ const Gform = props => {
   return (
     <a
       className={props.className}
-      href={process.env.REACT_APP_FEEDBACK_FORM}
+      href={this.context.feedbackForm}
       target="_blank"
       rel="noopener noreferrer"
     >
