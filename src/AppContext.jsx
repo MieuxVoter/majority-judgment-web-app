@@ -7,8 +7,8 @@ export const AppContext = createContext();
 
 const AppContextProvider = ({ children }) => {
   const defaultState = {
-    // eslint-disable-next-line no-undef
     urlServer: process.env.REACT_APP_SERVER_URL,
+    feedbackForm: process.env.REACT_APP_FEEDBACK_FORM,
     routesServer: {
       setElection: "election/",
       getElection: "election/get/:slug/",
