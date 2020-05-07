@@ -17,6 +17,6 @@ class Gform extends Component {
       </a>
     );
   }
-};
+}
 
 export default Gform;
