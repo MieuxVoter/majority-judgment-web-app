@@ -38,20 +38,28 @@ class LegalNotices extends Component {
                                 className="text-white"
                             >
                                 “Mieux Voter”
-                            </a>, dont le siège social est situé au 59 rue saint andré des arts, à Paris (75006).</p>
+                            </a>, dont le siège social est situé au 59 rue Saint-André des Arts, à Paris (75006).</p>
 
-                        <p>Adresse email : <a href="mailto:contact@mieuxvoter.fr" className="text-light">contact@mieuxvoter.fr</a></p>
-
+                        <p>
+                            Adresse email : 
+                            <a href="mailto:contact@mieuxvoter.fr" className="text-light">
+                                contact@mieuxvoter.fr
+                            </a>
+                        </p>
                         <p>
                             <b>Directeur de la publication</b>
                             <br />Chloé Ridel
                         </p>
                         <h3 className="mt-2 bold">Hébergement</h3>
-                        <p>Serveurs localisés à Paris
-                        </p>
-                        <h3 className="mt-2 bold">Oeuvres graphiques</h3>
                         <p>
-                            Les illustrations et graphismes sur cette application sont l’oeuvre de l’association MieuxVoter
+                            <ul>
+                                <li>Base de données : Institut Systèmes Complexes, Paris ;</li>
+                                <li>Fichiers statiques : Netlify, 2325 3rd Street, Suite 215, San Francisco, California 94107.</li>
+                            </ul>
+                        </p>
+                        <h3 className="mt-2 bold">&OElig;uvres graphiques</h3>
+                        <p>
+                            Les illustrations et graphismes sur cette application sont l’&oelig;uvre de l’association Mieux Voter.
                         </p>
                     </Col>
                 </Row>

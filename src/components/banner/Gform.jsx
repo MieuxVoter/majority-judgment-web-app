@@ -1,22 +1,29 @@
-/* eslint react/prop-types: 0 */
-import React, { Component } from "react";
+import React, { useContext } from "react";
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCommentAlt} from "@fortawesome/free-solid-svg-icons";
+import { AppContext } from "../../AppContext"
 
-class Gform extends Component {
-  render () {
-    return (
-      <a
-        className={this.props.className}
-        href={this.context.feedbackForm}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FontAwesomeIcon icon={faCommentAlt} className="mr-2" />
-        Votre avis nous intéresse !
-      </a>
-    );
-  }
+
+const Gform = (props) => {
+  const context = useContext(AppContext);
+  console.log(context);
+
+  return (
+    <a
+      className={props.className}
+      href={context.feedbackForm}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FontAwesomeIcon icon={faCommentAlt} className="mr-2" />
+      Votre avis nous intéresse !
+    </a>
+  );
 }
+
+Gform.propTypes = {
+  className: PropTypes.string,
+};
 
 export default Gform;
