@@ -121,17 +121,19 @@ class CreateSuccess extends Component {
               </div>*/}
           </Col>
         </Row>
-        <Row className="mt-4 mb-4">
-          <Col className="text-center">
-            <Link
-              to={"/vote/" + this.props.match.params.slug}
-              className="btn btn-secondary"
-            >
-              <FontAwesomeIcon icon={faVoteYea} className="mr-2" />
-              {t("Participate now!")}
-            </Link>
-          </Col>
-        </Row>
+        {this.props.invitationOnly ? null : (
+          <Row className="mt-4 mb-4">
+            <Col className="text-center">
+              <Link
+                to={"/vote/" + this.props.match.params.slug}
+                className="btn btn-secondary"
+              >
+                <FontAwesomeIcon icon={faVoteYea} className="mr-2" />
+                {t("Participate now!")}
+              </Link>
+            </Col>
+          </Row>
+        )}
       </Container>
     );
   }
