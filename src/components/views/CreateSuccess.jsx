@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 import {
   faCopy,
-  faUsers,
+  faVoteYea,
   faExclamationTriangle,
   faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
@@ -127,7 +127,7 @@ class CreateSuccess extends Component {
               to={"/vote/" + this.props.match.params.slug}
               className="btn btn-secondary"
             >
-              <FontAwesomeIcon icon={faUsers} className="mr-2" />
+              <FontAwesomeIcon icon={faVoteYea} className="mr-2" />
               {t("Participate now!")}
             </Link>
           </Col>
