@@ -184,7 +184,7 @@ class CreateElection extends Component {
       successCreate: false,
       redirectTo: null,
       isAdvancedOptionsOpen: false,
-      restrictResult: false,
+      restrictResults: false,
       isTimeLimited: false,
       start,
       // by default, the election ends in a week
@@ -194,7 +194,9 @@ class CreateElection extends Component {
     this.candidateInputs = [];
     this.focusInput = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleRestrictResultCheck = this.handleRestrictResultCheck.bind(this);
+    this.handlerestrictResultsCheck = this.handlerestrictResultsCheck.bind(
+      this
+    );
     this.handleIsTimeLimited = this.handleIsTimeLimited.bind(this);
   }
 
@@ -206,8 +208,8 @@ class CreateElection extends Component {
     this.setState({ isTimeLimited: event.target.value === "1" });
   };
 
-  handleRestrictResultCheck = event => {
-    this.setState({ restrictResult: event.target.value === "1" });
+  handlerestrictResultsCheck = event => {
+    this.setState({ restrictResults: event.target.value === "1" });
   };
 
   addCandidate = event => {
@@ -290,29 +292,19 @@ class CreateElection extends Component {
   }
 
   handleSubmit() {
-    const {
-      candidates,
-      title,
-      numGrades,
-      electorEmails
-    } = this.state;
+    const { candidates, title, numGrades, electorEmails } = this.state;
 
-    let {
-      start,
-      finish,
-    } = this.state;
+    let { start, finish } = this.state;
 
     const endpoint = resolve(
       this.context.urlServer,
       this.context.routesServer.setElection
     );
 
-    if(!this.state.isTimeLimited){
+    if (!this.state.isTimeLimited) {
       let now = new Date();
-      start = new Date(
-          now.getTime() - minutes(now) - seconds(now) - ms(now)
-      );
-      finish=new Date(start.getTime() + 10 * 365 * 24 * 3600 * 1000);
+      start = new Date(now.getTime() - minutes(now) - seconds(now) - ms(now));
+      finish = new Date(start.getTime() + 10 * 365 * 24 * 3600 * 1000);
     }
 
     const { t } = this.props;
@@ -344,7 +336,7 @@ class CreateElection extends Component {
         finish_at: finish.getTime() / 1000,
         select_language: locale,
         front_url: window.location.origin,
-        restrict_result: this.state.restrictResult
+        restrict_results: this.state.restrictResults
       })
     })
       .then(response => response.json())
@@ -490,24 +482,24 @@ class CreateElection extends Component {
                     <Label for="title">{t("Access to results")}</Label>
                   </Col>
                   <Col xs="12" md="4" lg="3">
-                    <Label className="radio " htmlFor="restrict_result_false">
+                    <Label className="radio " htmlFor="restrict_results_false">
                       <span className="small text-dark">
                         {t("Immediately")}
                       </span>
                       <input
                         className="radio"
                         type="radio"
-                        name="restrict_result"
-                        id="restrict_result_false"
-                        onClick={this.handleRestrictResultCheck}
-                        defaultChecked={!this.state.restrictResult}
+                        name="restrict_results"
+                        id="restrict_results_false"
+                        onClick={this.handlerestrictResultsCheck}
+                        defaultChecked={!this.state.restrictResults}
                         value="0"
                       />
                       <span className="checkround checkround-gray" />
                     </Label>
                   </Col>
                   <Col xs="12" md="4" lg="3">
-                    <Label className="radio" htmlFor="restrict_result_true">
+                    <Label className="radio" htmlFor="restrict_results_true">
                       <span className="small">
                         <span className="text-dark">
                           {t("At the end of the election")}
@@ -521,10 +513,10 @@ class CreateElection extends Component {
                       <input
                         className="radio"
                         type="radio"
-                        name="restrict_result"
-                        id="restrict_result_true"
-                        onClick={this.handleRestrictResultCheck}
-                        defaultChecked={this.state.restrictResult}
+                        name="restrict_results"
+                        id="restrict_results_true"
+                        onClick={this.handlerestrictResultsCheck}
+                        defaultChecked={this.state.restrictResults}
                         value="1"
                       />
                       <span className="checkround checkround-gray" />
@@ -554,9 +546,7 @@ class CreateElection extends Component {
                   <Col xs="12" md="4" lg="3">
                     <Label className="radio" htmlFor="is_time_limited_true">
                       <span className="small">
-                        <span className="text-dark">
-                          {t("Defined period")}
-                        </span>
+                        <span className="text-dark">{t("Defined period")}</span>
                       </span>
                       <input
                         className="radio"
@@ -572,9 +562,12 @@ class CreateElection extends Component {
                   </Col>
                 </Row>
                 <div
-                  className={(this.state.isTimeLimited ? "d-block " : "d-none")+" bg-light p-3"}
+                  className={
+                    (this.state.isTimeLimited ? "d-block " : "d-none") +
+                    " bg-light p-3"
+                  }
                 >
-                  <Row >
+                  <Row>
                     <Col xs="12" md="3" lg="3">
                       <span className="label">- {t("Starting date")}</span>
                     </Col>
@@ -782,22 +775,26 @@ class CreateElection extends Component {
                           })}
                         </ul>
                       </div>
-                      <div className={(this.state.isTimeLimited ? "d-block " : "d-none")} >
-                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
-                        {t("Dates")}
-                      </div>
-                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
-                        {t("The election will take place from")}{" "}
-                        <b>
-                          {start.toLocaleDateString()}, {t("at")}{" "}
-                          {start.toLocaleTimeString()}
-                        </b>{" "}
-                        {t("to")}{" "}
-                        <b>
-                          {finish.toLocaleDateString()}, {t("at")}{" "}
-                          {finish.toLocaleTimeString()}
-                        </b>
-                      </div>
+                      <div
+                        className={
+                          this.state.isTimeLimited ? "d-block " : "d-none"
+                        }
+                      >
+                        <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
+                          {t("Dates")}
+                        </div>
+                        <div className="p-2 pl-3 pr-3 bg-light mb-3">
+                          {t("The election will take place from")}{" "}
+                          <b>
+                            {start.toLocaleDateString()}, {t("at")}{" "}
+                            {start.toLocaleTimeString()}
+                          </b>{" "}
+                          {t("to")}{" "}
+                          <b>
+                            {finish.toLocaleDateString()}, {t("at")}{" "}
+                            {finish.toLocaleTimeString()}
+                          </b>
+                        </div>
                       </div>
                       <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Grades")}
@@ -838,7 +835,7 @@ class CreateElection extends Component {
                           </p>
                         )}
                       </div>
-                      {this.state.restrictResult ? (
+                      {this.state.restrictResults ? (
                         <div>
                           <div className="small bg-primary text-white p-3 mt-2 rounded">
                             <h6 className="m-0 p-0">
@@ -846,7 +843,11 @@ class CreateElection extends Component {
                                 icon={faExclamationTriangle}
                                 className="mr-2"
                               />
-                              <u>{t("Results available at the close of the vote")}</u>
+                              <u>
+                                {t(
+                                  "Results available at the close of the vote"
+                                )}
+                              </u>
                             </h6>
                             <p className="m-2 p-0">
                               {electorEmails.length > 0 ? (
@@ -861,7 +862,7 @@ class CreateElection extends Component {
                                     "The results page will not be accessible until the end date is reached."
                                   )}{" "}
                                   ({finish.toLocaleDateString()} {t("at")}{" "}
-                                    {finish.toLocaleTimeString()})
+                                  {finish.toLocaleTimeString()})
                                 </span>
                               )}
                             </p>
