@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 import {
   faCopy,
-  faUsers,
+  faVoteYea,
   faExclamationTriangle,
   faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
@@ -62,7 +62,7 @@ class CreateSuccess extends Component {
             <h2>{t("Successful election creation!")}</h2>
             {this.props.invitationOnly ? null : (
               <Facebook
-                className="btn btn-outline-light  m-2"
+                className="btn btn-sm btn-outline-light  m-2"
                 text={t("Share election on Facebook")}
                 url={this.state.urlOfVote}
                 title={"app.mieuxvoter.fr"}
@@ -121,17 +121,19 @@ class CreateSuccess extends Component {
               </div>*/}
           </Col>
         </Row>
-        <Row className="mt-4 mb-4">
-          <Col className="text-center">
-            <Link
-              to={"/vote/" + this.props.match.params.slug}
-              className="btn btn-secondary"
-            >
-              <FontAwesomeIcon icon={faUsers} className="mr-2" />
-              {t("Participate now!")}
-            </Link>
-          </Col>
-        </Row>
+        {this.props.invitationOnly ? null : (
+          <Row className="mt-4 mb-4">
+            <Col className="text-center">
+              <Link
+                to={"/vote/" + this.props.match.params.slug}
+                className="btn btn-secondary"
+              >
+                <FontAwesomeIcon icon={faVoteYea} className="mr-2" />
+                {t("Participate now!")}
+              </Link>
+            </Col>
+          </Row>
+        )}
       </Container>
     );
   }
