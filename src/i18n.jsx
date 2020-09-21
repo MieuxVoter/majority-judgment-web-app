@@ -12,7 +12,7 @@ i18n
     debug: true,
     saveMissing: true, // send not translated keys to endpoint
     defaultValue: "__STRING_NOT_TRANSLATED__",
-
+    react: { useSuspense: false },
     keySeparator: ">",
     nsSeparator: "|",
     backend: {

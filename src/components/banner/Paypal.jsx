@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Paypal = props => {
   const { t } = props;
-  let localeStringShort = i18n.language.substring(0, 2);
+  let localeStringShort = i18n.language? i18n.language.substring(0, 2): "en";
   let localeStringComplete =
     localeStringShort.toLowerCase() + "_" + localeStringShort.toUpperCase();
   if (localeStringComplete === "en_EN") {
