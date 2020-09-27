@@ -12,7 +12,7 @@ import {
   InputGroupAddon,
   Button,
   Card,
-  CardBody
+  CardBody,
 } from "reactstrap";
 import { withTranslation } from "react-i18next";
 import { ReactMultiEmail, isEmail } from "react-multi-email";
@@ -25,7 +25,7 @@ import {
   arrayMove,
   sortableContainer,
   sortableElement,
-  sortableHandle
+  sortableHandle,
 } from "react-sortable-hoc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -33,7 +33,7 @@ import {
   faTrashAlt,
   faCheck,
   faCogs,
-  faExclamationTriangle
+  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import { i18nGrades } from "../../Util";
 import { AppContext } from "../../AppContext";
@@ -45,32 +45,32 @@ import i18n from "../../i18n";
 // Error messages
 const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
 const NO_TITLE_ERROR = "Please add a title.";
+const RESTRICTED_RESULTS_NEED_LIMITED_TIME =
+  "You can't limit access results without specify a voting time.";
 
-const isValidDate = date => date instanceof Date && !isNaN(date);
-const getOnlyValidDate = date => (isValidDate(date) ? date : new Date());
+const isValidDate = (date) => date instanceof Date && !isNaN(date);
+const getOnlyValidDate = (date) => (isValidDate(date) ? date : new Date());
 
 // Convert a Date object into YYYY-MM-DD
-const dateToISO = date =>
-  getOnlyValidDate(date)
-    .toISOString()
-    .substring(0, 10);
+const dateToISO = (date) =>
+  getOnlyValidDate(date).toISOString().substring(0, 10);
 
 // Retrieve the current hour, minute, sec, ms, time into a timestamp
-const hours = date => getOnlyValidDate(date).getHours() * 3600 * 1000;
-const minutes = date => getOnlyValidDate(date).getMinutes() * 60 * 1000;
-const seconds = date => getOnlyValidDate(date).getSeconds() * 1000;
-const ms = date => getOnlyValidDate(date).getMilliseconds();
-const time = date =>
+const hours = (date) => getOnlyValidDate(date).getHours() * 3600 * 1000;
+const minutes = (date) => getOnlyValidDate(date).getMinutes() * 60 * 1000;
+const seconds = (date) => getOnlyValidDate(date).getSeconds() * 1000;
+const ms = (date) => getOnlyValidDate(date).getMilliseconds();
+const time = (date) =>
   hours(getOnlyValidDate(date)) +
   minutes(getOnlyValidDate(date)) +
   seconds(getOnlyValidDate(date)) +
   ms(getOnlyValidDate(date));
 
 // Retrieve the time part from a timestamp and remove the day. Return a int.
-const timeMinusDate = date => time(getOnlyValidDate(date));
+const timeMinusDate = (date) => time(getOnlyValidDate(date));
 
 // Retrieve the day and remove the time. Return a Date
-const dateMinusTime = date =>
+const dateMinusTime = (date) =>
   new Date(getOnlyValidDate(date).getTime() - time(getOnlyValidDate(date)));
 
 const DragHandle = sortableHandle(({ children }) => (
@@ -100,13 +100,13 @@ const SortableCandidate = sortableElement(
             <Input
               type="text"
               value={candidate.label}
-              onChange={event => form.editCandidateLabel(event, sortIndex)}
-              onKeyPress={event =>
+              onChange={(event) => form.editCandidateLabel(event, sortIndex)}
+              onKeyPress={(event) =>
                 form.handleKeypressOnCandidateLabel(event, sortIndex)
               }
               placeholder={t("Candidate/proposal name...")}
               tabIndex={sortIndex + 1}
-              innerRef={ref => (form.candidateInputs[sortIndex] = ref)}
+              innerRef={(ref) => (form.candidateInputs[sortIndex] = ref)}
               maxLength="250"
             />
             <ButtonWithConfirm className="btn btn-primary input-group-append border-light">
@@ -184,33 +184,35 @@ class CreateElection extends Component {
       successCreate: false,
       redirectTo: null,
       isAdvancedOptionsOpen: false,
-      restrictResult: false,
+      restrictResults: false,
       isTimeLimited: false,
       start,
       // by default, the election ends in a week
       finish: new Date(start.getTime() + 7 * 24 * 3600 * 1000),
-      electorEmails: []
+      electorEmails: [],
     };
     this.candidateInputs = [];
     this.focusInput = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleRestrictResultCheck = this.handleRestrictResultCheck.bind(this);
+    this.handleRestrictResultsCheck = this.handleRestrictResultsCheck.bind(
+      this
+    );
     this.handleIsTimeLimited = this.handleIsTimeLimited.bind(this);
   }
 
-  handleChangeTitle = event => {
+  handleChangeTitle = (event) => {
     this.setState({ title: event.target.value });
   };
 
-  handleIsTimeLimited = event => {
+  handleIsTimeLimited = (event) => {
     this.setState({ isTimeLimited: event.target.value === "1" });
   };
 
-  handleRestrictResultCheck = event => {
-    this.setState({ restrictResult: event.target.value === "1" });
+  handleRestrictResultsCheck = (event) => {
+    this.setState({ restrictResults: event.target.value === "1" });
   };
 
-  addCandidate = event => {
+  addCandidate = (event) => {
     let candidates = this.state.candidates;
     if (candidates.length < 100) {
       candidates.push({ label: "" });
@@ -223,7 +225,7 @@ class CreateElection extends Component {
     }
   };
 
-  removeCandidate = index => {
+  removeCandidate = (index) => {
     let candidates = this.state.candidates;
     candidates.splice(index, 1);
     if (candidates.length === 0) {
@@ -235,11 +237,11 @@ class CreateElection extends Component {
   editCandidateLabel = (event, index) => {
     let candidates = this.state.candidates;
     candidates[index].label = event.currentTarget.value;
-    candidates.map(candidate => {
+    candidates.map((candidate) => {
       return candidate.label;
     });
     this.setState({
-      candidates: candidates
+      candidates: candidates,
     });
   };
 
@@ -260,7 +262,7 @@ class CreateElection extends Component {
     this.setState({ candidates: candidates });
   };
 
-  handleChangeNumGrades = event => {
+  handleChangeNumGrades = (event) => {
     this.setState({ numGrades: event.target.value });
   };
 
@@ -269,13 +271,16 @@ class CreateElection extends Component {
   };
 
   checkFields() {
-    const { candidates, title } = this.state;
+    const { candidates, title, restrictResults, isTimeLimited } = this.state;
     if (!candidates) {
       return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
     }
+    if (restrictResults && !isTimeLimited) {
+      return { ok: false, msg: RESTRICTED_RESULTS_NEED_LIMITED_TIME };
+    }
 
     let numCandidates = 0;
-    candidates.forEach(c => {
+    candidates.forEach((c) => {
       if (c.label !== "") numCandidates += 1;
     });
     if (numCandidates < 2) {
@@ -290,29 +295,19 @@ class CreateElection extends Component {
   }
 
   handleSubmit() {
-    const {
-      candidates,
-      title,
-      numGrades,
-      electorEmails
-    } = this.state;
+    const { candidates, title, numGrades, electorEmails } = this.state;
 
-    let {
-      start,
-      finish,
-    } = this.state;
+    let { start, finish } = this.state;
 
     const endpoint = resolve(
       this.context.urlServer,
       this.context.routesServer.setElection
     );
 
-    if(!this.state.isTimeLimited){
+    if (!this.state.isTimeLimited) {
       let now = new Date();
-      start = new Date(
-          now.getTime() - minutes(now) - seconds(now) - ms(now)
-      );
-      finish=new Date(start.getTime() + 10 * 365 * 24 * 3600 * 1000);
+      start = new Date(now.getTime() - minutes(now) - seconds(now) - ms(now));
+      finish = new Date(start.getTime() + 10 * 365 * 24 * 3600 * 1000);
     }
 
     const { t } = this.props;
@@ -322,7 +317,7 @@ class CreateElection extends Component {
     const check = this.checkFields();
     if (!check.ok) {
       toast.error(t(check.msg), {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
@@ -332,11 +327,11 @@ class CreateElection extends Component {
     fetch(endpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         title: title,
-        candidates: candidates.map(c => c.label).filter(c => c !== ""),
+        candidates: candidates.map((c) => c.label).filter((c) => c !== ""),
         on_invitation_only: electorEmails.length > 0,
         num_grades: numGrades,
         elector_emails: electorEmails,
@@ -344,11 +339,11 @@ class CreateElection extends Component {
         finish_at: finish.getTime() / 1000,
         select_language: locale,
         front_url: window.location.origin,
-        restrict_result: this.state.restrictResult
-      })
+        restrict_results: this.state.restrictResults,
+      }),
     })
-      .then(response => response.json())
-      .then(result => {
+      .then((response) => response.json())
+      .then((result) => {
         if (result.id) {
           const nextPage =
             electorEmails && electorEmails.length
@@ -357,23 +352,26 @@ class CreateElection extends Component {
           this.setState(() => ({
             redirectTo: nextPage,
             successCreate: true,
-            waiting: false
+            waiting: false,
           }));
         } else {
           toast.error(t("Unknown error. Try again please."), {
-            position: toast.POSITION.TOP_CENTER
+            position: toast.POSITION.TOP_CENTER,
           });
           this.setState({ waiting: false });
         }
       })
-      .catch(error => error);
+      .catch((error) => error);
   }
 
-  handleSendNotReady = msg => {
+  handleSendNotReady = () => {
     const { t } = this.props;
-    toast.error(t(msg), {
-      position: toast.POSITION.TOP_CENTER
-    });
+    const check = this.checkFields();
+    if (!check.ok) {
+      toast.error(t(check.msg), {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
 
   render() {
@@ -387,7 +385,7 @@ class CreateElection extends Component {
       candidates,
       numGrades,
       isAdvancedOptionsOpen,
-      electorEmails
+      electorEmails,
     } = this.state;
     const { t } = this.props;
 
@@ -460,7 +458,7 @@ class CreateElection extends Component {
                 className="btn-block mt-2"
                 tabIndex={candidates.length + 2}
                 type="button"
-                onClick={event => this.addCandidate(event)}
+                onClick={(event) => this.addCandidate(event)}
               >
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
                 {t("Add a proposal")}
@@ -490,24 +488,24 @@ class CreateElection extends Component {
                     <Label for="title">{t("Access to results")}</Label>
                   </Col>
                   <Col xs="12" md="4" lg="3">
-                    <Label className="radio " htmlFor="restrict_result_false">
+                    <Label className="radio " htmlFor="restrict_results_false">
                       <span className="small text-dark">
                         {t("Immediately")}
                       </span>
                       <input
                         className="radio"
                         type="radio"
-                        name="restrict_result"
-                        id="restrict_result_false"
-                        onClick={this.handleRestrictResultCheck}
-                        defaultChecked={!this.state.restrictResult}
+                        name="restrict_results"
+                        id="restrict_results_false"
+                        onClick={this.handleRestrictResultsCheck}
+                        defaultChecked={!this.state.restrictResults}
                         value="0"
                       />
                       <span className="checkround checkround-gray" />
                     </Label>
                   </Col>
                   <Col xs="12" md="4" lg="3">
-                    <Label className="radio" htmlFor="restrict_result_true">
+                    <Label className="radio" htmlFor="restrict_results_true">
                       <span className="small">
                         <span className="text-dark">
                           {t("At the end of the election")}
@@ -521,10 +519,10 @@ class CreateElection extends Component {
                       <input
                         className="radio"
                         type="radio"
-                        name="restrict_result"
-                        id="restrict_result_true"
-                        onClick={this.handleRestrictResultCheck}
-                        defaultChecked={this.state.restrictResult}
+                        name="restrict_results"
+                        id="restrict_results_true"
+                        onClick={this.handleRestrictResultsCheck}
+                        defaultChecked={this.state.restrictResults}
                         value="1"
                       />
                       <span className="checkround checkround-gray" />
@@ -554,9 +552,7 @@ class CreateElection extends Component {
                   <Col xs="12" md="4" lg="3">
                     <Label className="radio" htmlFor="is_time_limited_true">
                       <span className="small">
-                        <span className="text-dark">
-                          {t("Defined period")}
-                        </span>
+                        <span className="text-dark">{t("Defined period")}</span>
                       </span>
                       <input
                         className="radio"
@@ -572,9 +568,12 @@ class CreateElection extends Component {
                   </Col>
                 </Row>
                 <div
-                  className={(this.state.isTimeLimited ? "d-block " : "d-none")+" bg-light p-3"}
+                  className={
+                    (this.state.isTimeLimited ? "d-block " : "d-none") +
+                    " bg-light p-3"
+                  }
                 >
-                  <Row >
+                  <Row>
                     <Col xs="12" md="3" lg="3">
                       <span className="label">- {t("Starting date")}</span>
                     </Col>
@@ -583,12 +582,12 @@ class CreateElection extends Component {
                         className="form-control"
                         type="date"
                         value={dateToISO(start)}
-                        onChange={e => {
+                        onChange={(e) => {
                           this.setState({
                             start: new Date(
                               timeMinusDate(start) +
                                 new Date(e.target.valueAsNumber).getTime()
-                            )
+                            ),
                           });
                         }}
                       />
@@ -597,12 +596,12 @@ class CreateElection extends Component {
                       <select
                         className="form-control"
                         value={getOnlyValidDate(start).getHours()}
-                        onChange={e =>
+                        onChange={(e) =>
                           this.setState({
                             start: new Date(
                               dateMinusTime(start).getTime() +
                                 e.target.value * 3600000
-                            )
+                            ),
                           })
                         }
                       >
@@ -621,12 +620,12 @@ class CreateElection extends Component {
                         type="date"
                         value={dateToISO(finish)}
                         min={dateToISO(start)}
-                        onChange={e => {
+                        onChange={(e) => {
                           this.setState({
                             finish: new Date(
                               timeMinusDate(finish) +
                                 new Date(e.target.valueAsNumber).getTime()
-                            )
+                            ),
                           });
                         }}
                       />
@@ -635,12 +634,12 @@ class CreateElection extends Component {
                       <select
                         className="form-control"
                         value={getOnlyValidDate(finish).getHours()}
-                        onChange={e =>
+                        onChange={(e) =>
                           this.setState({
                             finish: new Date(
                               dateMinusTime(finish).getTime() +
                                 e.target.value * 3600000
-                            )
+                            ),
                           })
                         }
                       >
@@ -693,7 +692,7 @@ class CreateElection extends Component {
                           style={{
                             backgroundColor: mention.color,
                             color: "#fff",
-                            opacity: i < numGrades ? 1 : 0.3
+                            opacity: i < numGrades ? 1 : 0.3,
                           }}
                         >
                           {mention.label}
@@ -711,10 +710,10 @@ class CreateElection extends Component {
                     <ReactMultiEmail
                       placeholder={t("Add here participants' emails")}
                       emails={electorEmails}
-                      onChange={_emails => {
+                      onChange={(_emails) => {
                         this.setState({ electorEmails: _emails });
                       }}
-                      validateEmail={email => {
+                      validateEmail={(email) => {
                         return isEmail(email); // return boolean
                       }}
                       getLabel={(email, index, removeEmail) => {
@@ -782,22 +781,26 @@ class CreateElection extends Component {
                           })}
                         </ul>
                       </div>
-                      <div className={(this.state.isTimeLimited ? "d-block " : "d-none")} >
-                      <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
-                        {t("Dates")}
-                      </div>
-                      <div className="p-2 pl-3 pr-3 bg-light mb-3">
-                        {t("The election will take place from")}{" "}
-                        <b>
-                          {start.toLocaleDateString()}, {t("at")}{" "}
-                          {start.toLocaleTimeString()}
-                        </b>{" "}
-                        {t("to")}{" "}
-                        <b>
-                          {finish.toLocaleDateString()}, {t("at")}{" "}
-                          {finish.toLocaleTimeString()}
-                        </b>
-                      </div>
+                      <div
+                        className={
+                          this.state.isTimeLimited ? "d-block " : "d-none"
+                        }
+                      >
+                        <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
+                          {t("Dates")}
+                        </div>
+                        <div className="p-2 pl-3 pr-3 bg-light mb-3">
+                          {t("The election will take place from")}{" "}
+                          <b>
+                            {start.toLocaleDateString()}, {t("at")}{" "}
+                            {start.toLocaleTimeString()}
+                          </b>{" "}
+                          {t("to")}{" "}
+                          <b>
+                            {finish.toLocaleDateString()}, {t("at")}{" "}
+                            {finish.toLocaleTimeString()}
+                          </b>
+                        </div>
                       </div>
                       <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
                         {t("Grades")}
@@ -810,7 +813,7 @@ class CreateElection extends Component {
                               className="badge badge-light mr-2 mt-2"
                               style={{
                                 backgroundColor: mention.color,
-                                color: "#fff"
+                                color: "#fff",
                               }}
                             >
                               {mention.label}
@@ -838,7 +841,7 @@ class CreateElection extends Component {
                           </p>
                         )}
                       </div>
-                      {this.state.restrictResult ? (
+                      {this.state.restrictResults ? (
                         <div>
                           <div className="small bg-primary text-white p-3 mt-2 rounded">
                             <h6 className="m-0 p-0">
@@ -846,7 +849,11 @@ class CreateElection extends Component {
                                 icon={faExclamationTriangle}
                                 className="mr-2"
                               />
-                              <u>{t("Results available at the close of the vote")}</u>
+                              <u>
+                                {t(
+                                  "Results available at the close of the vote"
+                                )}
+                              </u>
                             </h6>
                             <p className="m-2 p-0">
                               {electorEmails.length > 0 ? (
@@ -861,7 +868,7 @@ class CreateElection extends Component {
                                     "The results page will not be accessible until the end date is reached."
                                   )}{" "}
                                   ({finish.toLocaleDateString()} {t("at")}{" "}
-                                    {finish.toLocaleTimeString()})
+                                  {finish.toLocaleTimeString()})
                                 </span>
                               )}
                             </p>
@@ -879,7 +886,7 @@ class CreateElection extends Component {
                 <Button
                   type="button"
                   className="btn btn-dark float-right btn-block"
-                  onClick={this.handleSendWithoutCandidate}
+                  onClick={this.handleSendNotReady}
                 >
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
                   {t("Confirm")}
