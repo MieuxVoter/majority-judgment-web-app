@@ -17,6 +17,7 @@
   "Write here your question or introduce simple your election (250 characters max.)": "Décrire ici votre question ou introduire simplement votre vote (250 caractères max.)",
   "Enter the name of your candidate or proposal here (250 characters max.)": "Saisissez ici le nom de votre candidat ou de votre proposition (250 caractères max.)",
   "Please add at least 2 candidates.": "Merci d'ajouter au moins 2 candidats.",
+  "You can't limit access results without specify a voting time." : "Vous ne pouvez pas limiter l'accès aux résultats sans spécifier une durée de vote.",
   "Question of the election": "Question de votre vote",
   "Write here the question of your election": "Ecrire ici la question de votre vote",
   "For example:": "Par exemple",

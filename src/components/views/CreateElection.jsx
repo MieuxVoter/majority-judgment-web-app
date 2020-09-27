@@ -45,6 +45,8 @@ import i18n from "../../i18n";
 // Error messages
 const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
 const NO_TITLE_ERROR = "Please add a title.";
+const RESTRICTED_RESULTS_NEED_LIMITED_TIME =
+  "You can't limit access results without specify a voting time.";
 
 const isValidDate = (date) => date instanceof Date && !isNaN(date);
 const getOnlyValidDate = (date) => (isValidDate(date) ? date : new Date());
@@ -269,9 +271,12 @@ class CreateElection extends Component {
   };
 
   checkFields() {
-    const { candidates, title } = this.state;
+    const { candidates, title, restrictResults, isTimeLimited } = this.state;
     if (!candidates) {
       return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
+    }
+    if (restrictResults && !isTimeLimited) {
+      return { ok: false, msg: RESTRICTED_RESULTS_NEED_LIMITED_TIME };
     }
 
     let numCandidates = 0;
@@ -359,11 +364,14 @@ class CreateElection extends Component {
       .catch((error) => error);
   }
 
-  handleSendNotReady = (msg) => {
+  handleSendNotReady = () => {
     const { t } = this.props;
-    toast.error(t(msg), {
-      position: toast.POSITION.TOP_CENTER,
-    });
+    const check = this.checkFields();
+    if (!check.ok) {
+      toast.error(t(check.msg), {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
 
   render() {
@@ -878,7 +886,7 @@ class CreateElection extends Component {
                 <Button
                   type="button"
                   className="btn btn-dark float-right btn-block"
-                  onClick={this.handleSendWithoutCandidate}
+                  onClick={this.handleSendNotReady}
                 >
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
                   {t("Confirm")}

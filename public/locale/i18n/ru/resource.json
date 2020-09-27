@@ -17,6 +17,7 @@
   "Write here your question or introduce simple your election (250 characters max.)": "Напишите свой вопрос или опишите голосование (250 символов максимум.)",
   "Enter the name of your candidate or proposal here (250 characters max.)": "Введите имя вашего кандидата или предложение здесь (не более 250 символов).",
   "Please add at least 2 candidates.": "Пожалуйста добавьте как минимум 2 кандидатов",
+  "You can't limit access results without specify a voting time." : "Вы не можете ограничить результаты доступа без указания времени голосования.",
   "Question of the election": "Суть голосования",
   "Write here the question of your election": "Напишите вопрос вашего голосования",
   "For example:": "Например:",
