@@ -344,7 +344,7 @@ class CreateElection extends Component {
         finish_at: finish.getTime() / 1000,
         select_language: locale,
         front_url: window.location.origin,
-        restrict_result: this.state.restrictResult
+        restrict_results: this.state.restrictResult
       })
     })
       .then(response => response.json())
