@@ -26,17 +26,15 @@ export async function getServerSideProps({ query, locale }) {
   const [res, details, translations] = await Promise.all([
     getResults(
       pid,
-      (res) => {
-        ok: true, res;
-      },
-      (err) => ({ ok: false, err })
+      (res) => ({ ok: true, res }),
+      (err) => {
+        return { ok: false, err: "Unknown error" };
+      }
     ),
     getDetails(
       pid,
-      (res) => {
-        ok: true, res;
-      },
-      (err) => ({ ok: false, err })
+      (res) => ({ ok: true, ...res }),
+      (err) => ({ ok: false, err: "Unknown error" })
     ),
     serverSideTranslations(locale, [], config),
   ]);
@@ -52,7 +50,7 @@ export async function getServerSideProps({ query, locale }) {
     props: {
       title: details.title,
       numGrades: details.num_grades,
-      candidates: res,
+      candidates: res.res,
       pid: pid,
       ...translations,
     },

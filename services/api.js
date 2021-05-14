@@ -127,8 +127,7 @@ const getResults = (pid, successCallback, failureCallback) => {
       return response.json();
     })
     .then(successCallback || ((res) => res))
-    .catch((err) => err)
-    .then(failureCallback || console.log);
+    .catch(failureCallback || ((err) => err));
 };
 
 const getDetails = (pid, successCallback, failureCallback) => {
@@ -148,7 +147,7 @@ const getDetails = (pid, successCallback, failureCallback) => {
       return response.json();
     })
     .then(successCallback || ((res) => res))
-    .catch(failureCallback || console.log);
+    .catch(failureCallback || ((err) => err));
 };
 
 const castBallot = (judgments, pid, token, callbackSuccess, callbackError) => {
