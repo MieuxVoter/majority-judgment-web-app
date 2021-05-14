@@ -1,0 +1,24 @@
+// mieux voter vars
+$mv-blue-color: #2a43a0;
+$mv-red-color: #ee455b;
+$mv-light-color: #efefff;
+$mv-light-color-hover: rgba(#efefff, 0.8);
+$mv-dark-color: #333;
+
+// Override default variables before the import bootstrap
+$body-bg: #000000;
+$body-color: $mv-light-color;
+
+$theme-colors: (
+  "primary": $mv-blue-color,
+  "secondary": $mv-red-color,
+  "light": $mv-light-color,
+  "dark": $mv-dark-color,
+  "danger": #990000,
+  "success": #009900,
+  "info": #2b8299,
+  "warning": #ff6e11
+);
+
+@import "_bootstrap.scss";
+@import "app.scss";
