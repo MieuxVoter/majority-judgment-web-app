@@ -1,7 +1,7 @@
 # Front-end election web application using NextJs
 
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e5e19870-2d67-4082-973e-593f58c56f87/deploy-status)](https://app.netlify.com/sites/mv-front-react/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/021c39c6-1018-4e3f-98e2-f808b4ea8f6d/deploy-status)](https://app.netlify.com/sites/epic-nightingale-99f910/deploys)
 
 
 :ballot_box: This project is going to be the default front-end for our [election application](https://app.mieuxvoter.fr).
@@ -23,7 +23,7 @@ The separation between the front-end and the back-end makes it easy to customize
 
 **Option one:** One-click deploy
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/MieuxVoter/mv-front-nextjs&utm_source=github)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/MieuxVoter/mv-front-react&utm_source=github)
 
 
 **Option two:** Manual clone
