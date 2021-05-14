@@ -11,6 +11,7 @@ import {
   faVoteYea,
   faExclamationTriangle,
   faExternalLinkAlt,
+  faPollH,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CopyField from "@components/CopyField";
@@ -91,16 +92,16 @@ const ConfirmElection = ({
   );
 
   const participate = invitationOnly ? null : (
-    <Row className="mt-4 mb-4">
-      <Col className="text-center">
+    <>
+      <Col className="col-lg-3 text-center mr-10">
         <Link href={`/vote/${pid}`}>
-          <a className="btn btn-secondary">
+          <a target="_blank" rel="noreferrer" className="btn btn-success">
             <FontAwesomeIcon icon={faVoteYea} className="mr-2" />
-            {t("Participate now!")}
+            {t("resource.participateBtn")}
           </a>
         </Link>
       </Col>
-    </Row>
+    </>
   );
 
   return (
@@ -143,7 +144,17 @@ const ConfirmElection = ({
           </div>
         </Col>
       </Row>
-      {participate}
+      <Row className="mt-4 mb-4 justify-content-md-center">
+        {participate}
+        <Col className="text-center col-lg-3">
+          <Link href={`/vote/${pid}`}>
+            <a target="_blank" rel="noreferrer" className="btn btn-secondary">
+              <FontAwesomeIcon icon={faPollH} className="mr-2" />
+              {t("resource.resultsBtn")}
+            </a>
+          </Link>
+        </Col>
+      </Row>
     </Container>
   );
 };

@@ -2,10 +2,16 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCopy,
+  faVoteYea,
+  faExclamationTriangle,
+  faExternalLinkAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
-const CopyField = props => {
+const CopyField = (props) => {
   const ref = React.createRef();
-  const handleClickOnField = event => {
+  const handleClickOnField = (event) => {
     event.target.focus();
     event.target.select();
   };
@@ -16,7 +22,7 @@ const CopyField = props => {
     document.execCommand("copy");
   };
 
-  const { t, value, iconCopy } = props;
+  const { t, value, iconCopy, iconOpen } = props;
 
   return (
     <div className="input-group  ">
@@ -30,6 +36,18 @@ const CopyField = props => {
       />
 
       <div className="input-group-append">
+        {/*
+        <Button
+          href={value}
+          target="_blank"
+          rel="noreferrer"
+          className="btn btn-success"
+          type="button"
+        >
+          <FontAwesomeIcon icon={iconOpen} className="mr-2" />
+          {t("Go")}
+        </Button>
+        */}
         <Button
           className="btn btn-secondary"
           onClick={handleClickOnButton}
@@ -39,19 +57,13 @@ const CopyField = props => {
           {t("Copy")}
         </Button>
       </div>
-        {/*<div className="input-group-append">
-        <a
-          className="btn btn-secondary"
-          href={value}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FontAwesomeIcon icon={iconOpen} className="mr-2" />
-          {t("Open")}
-        </a>
-      </div>*/}
     </div>
   );
+};
+
+CopyField.defaultProps = {
+  iconCopy: faCopy,
+  iconOpen: faExternalLinkAlt,
 };
 
 export default CopyField;
