@@ -82,7 +82,7 @@
   "Unknown error. Try again please.": "Error desconocido. Inténtelo de nuevo, por favor.",
   "If you list voters' emails, only them will be able to access the election": "Si enumera los correos electrónicos de los votantes, sólo ellos podrán acceder a la elección",
   "Voters received a link to vote by email. Each link can be used only once!": "Los votantes recibieron un enlace para votar por correo electrónico. ¡Cada enlace puede ser usado sólo una vez!",
-  "Number of votes:": "Número de votos:",
+  "resource.numVotes": "Número de votos:",
   "Oops... The election is unknown.": "Oops... La elección es desconocida",
   "The election is still going on. You can't access now to the results.": "La elección sigue en marcha. No puedes acceder ahora a los resultados.",
   "No votes have been recorded yet. Come back later.": "Aún no se han registrado votos. Vuelva más tarde.",

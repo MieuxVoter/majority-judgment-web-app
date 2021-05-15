@@ -1,11 +1,11 @@
 import Link from "next/link";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 import Paypal from "../banner/Paypal";
-import {useBbox} from "./useBbox";
+import { useBbox } from "./useBbox";
 
 const Footer = () => {
-  const linkStyle = {whiteSpace: "nowrap"};
-  const {t} = useTranslation();
+  const linkStyle = { whiteSpace: "nowrap" };
+  const { t } = useTranslation();
 
   const [bboxLink1, link1] = useBbox();
   const [bboxLink2, link2] = useBbox();

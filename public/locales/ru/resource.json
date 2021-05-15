@@ -89,7 +89,7 @@
   "The parameters of the election are incorrect.": "Параметры голосвания неверны.",
   "Support us !": "Поддержите нас !",
   "PayPal - The safer, easier way to pay online!": "PayPal - Безопасный и простой способ платить онлайн!",
-  "Number of votes:": "Количество голосов:",
+  "resource.numVotes": "Количество голосов:",
   "Access to results" : "Доступ к результатам",
   "Immediately": "Немедленно",
   "At the end of the election": "По окончании выборов",

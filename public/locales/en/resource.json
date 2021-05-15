@@ -89,7 +89,7 @@
   "The parameters of the election are incorrect.": "The parameters of the vote are incorrect.",
   "Support us !": "Support us!",
   "PayPal - The safer, easier way to pay online!": "PayPal - The safer, easier way to pay online!",
-  "Number of votes:": "Number of votes:",
+  "resource.numVotes": "Number of votes:",
   "Access to results": "Results availability",
   "Immediately": "Immediately",
   "At the end of the election": "At the end of the vote",

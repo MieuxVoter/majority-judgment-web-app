@@ -134,7 +134,7 @@ const Result = ({ candidates, numGrades, title, pid, err }) => {
           </ol>
           <h5>
             <small>
-              {t("Number of votes:")}
+              {t("resource.numVotes")}
               {" " + numVotes}
             </small>
           </h5>
