@@ -165,7 +165,7 @@ const CreateElection = (props) => {
       title,
       candidates.map((c) => c.label).filter((c) => c !== ""),
       {
-        emails,
+        mails: emails,
         numGrades,
         start: start.getTime() / 1000,
         finish: finish.getTime() / 1000,

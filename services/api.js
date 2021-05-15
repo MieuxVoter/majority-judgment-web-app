@@ -18,6 +18,10 @@ const sendInviteMail = (res) => {
    */
   const { title, mails, tokens, locale } = res;
 
+  if (!mails || !mails.length) {
+    throw new Error("No emails are provided.");
+  }
+
   if (mails.length !== tokens.length) {
     throw new Error("The number of emails differ from the number of tokens");
   }
@@ -49,12 +53,7 @@ const sendInviteMail = (res) => {
     }),
   });
 
-  return Promise.all([
-    new Promise((resolve, reject) => {
-      resolve(res);
-    }),
-    req,
-  ]);
+  return req.then((any) => res);
 };
 
 const createElection = (
@@ -64,7 +63,7 @@ const createElection = (
     /**
      * Create an election from its title, its candidates and a bunch of options
      */
-    emails,
+    mails,
     numGrades,
     start,
     finish,
@@ -77,6 +76,7 @@ const createElection = (
   const endpoint = new URL(api.routesServer.setElection, api.urlServer);
 
   console.log(endpoint.href);
+  const onInvitationOnly = mails && mails.length > 0;
 
   fetch(endpoint.href, {
     method: "POST",
@@ -86,9 +86,9 @@ const createElection = (
     body: JSON.stringify({
       title,
       candidates,
-      on_invitation_only: emails.length > 0,
+      on_invitation_only: onInvitationOnly,
       num_grades: numGrades,
-      elector_emails: emails || [],
+      elector_emails: mails || [],
       start_at: start,
       finish_at: finish,
       select_language: locale || "en",
@@ -103,8 +103,12 @@ const createElection = (
       }
       return response.json();
     })
-    .then((res) => sendInviteMail({ locale, mails: emails || [], ...res }))
-    .then((res) => res[0]) // remove response from mail invitations
+    .then((res) => {
+      if (onInvitationOnly) {
+        return sendInviteMail({ locale, mails: mails, ...res });
+      }
+      return res;
+    })
     .then(successCallback)
     .catch(failureCallback || console.log);
 };

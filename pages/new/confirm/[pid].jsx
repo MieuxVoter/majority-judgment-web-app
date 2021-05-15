@@ -147,7 +147,7 @@ const ConfirmElection = ({
       <Row className="mt-4 mb-4 justify-content-md-center">
         {participate}
         <Col className="text-center col-lg-3">
-          <Link href={`/vote/${pid}`}>
+          <Link href={`/result/${pid}`}>
             <a target="_blank" rel="noreferrer" className="btn btn-secondary">
               <FontAwesomeIcon icon={faPollH} className="mr-2" />
               {t("resource.resultsBtn")}

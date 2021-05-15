@@ -70,9 +70,7 @@
   <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
 
     <!-- HIDDEN PREHEADER TEXT -->
-    <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
-      {{#i18n 'email.happy' }}We are happy to send you this email! You will be able to vote using majority judgment.{{/i18n}}
-    </div>
+    <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">Nous sommes très heureux de vous partager ce lien de vote ! Vous allez pouvoir voter avec le jugement majoritaire.</div>
     <table border="0" style="margin: 0px auto 0px auto; width: 100%;" aria-describedby="Email">
       <!-- LOGO -->
       <tr>
@@ -94,7 +92,7 @@
           <table border="0" style="margin: 0px auto 0px auto; width: 100%; max-width: 600px;" aria-describedby="email title">
             <tr>
               <th scope="col" style="vertical-align: top; background-color: #ffffff; padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
-				        <h1 style="font-size: 48px; font-weight: 400; margin: 0;">{{#i18n 'email.hello'}}Hi, there! 🙂{{/i18n}}</h1>
+				        <h1 style="font-size: 48px; font-weight: 400; margin: 0;">Bonjour ! 🙂</h1>
               </th>
             </tr>
           </table>
@@ -107,19 +105,13 @@
             <!-- BLOCK  SUBTITLE-->
             <tr>
               <th scope="col" style="background-color: #ffffff; padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
-                <p style="margin: 0; text-align: left;">
-                  {{#i18n 'email.happy'}}We are happy to send you this email! You will be able to vote using majority judgment.{{/i18n}}
-                </p>
+                <p style="margin: 0; text-align: left;">Nous sommes très heureux de vous partager ce lien de vote ! Vous allez pouvoir voter avec le jugement majoritaire.</p>
               </th>
             </tr>
             <!-- BLOCK  EXPLANATION-->
             <tr>
               <th scope="col" style="background-color: #ffffff; padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
-                <p style="margin: 0; text-align: left;">
-                  {{#i18n 'email.why'}}This email was sent to you because your email address was entered to participate in the vote on the subject:{{/i18n}}
-                  &nbsp;
-                  <strong>{{title}}</strong>
-                </p>
+                <p style="margin: 0; text-align: left;">Vous avez été invité·e à participer à l'élection suivante : </p>
               </th>
             </tr>
             <!-- BULLETPROOF BUTTON BLUE-->
@@ -131,8 +123,7 @@
                       <table border="0" style="margin: 0px auto 0px auto; border-collapse: collapse;" aria-describedby="invitation url">
                         <tr>
                           <th scope="col" style="border-radius: 3px; background-color: #2a43a0;">
-		 	    <a href="%recipient.urlVote%" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #2a43a0; display: inline-block;">
-  			    {{#i18n 'common.vote' }}Vote!{{/i18n}}</a></th>
+		 	    <a href="%recipient.urlVote%" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #2a43a0; display: inline-block;">Voter !</a></th>
                         </tr>
                       </table>
                     </th>
@@ -144,7 +135,7 @@
             <tr>
               <th scope="col" style="background-color: #ffffff; padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
                 <p style="margin: 0; text-align: left;">
-                  {{#i18n 'email.copyLink' }}If that doesn't work, copy and paste the following link into your browser:{{/i18n}}
+                  Si le lien ne fonctionne pas, vous pouvez le copier et le coller dans la barre de navigation de votre navigateur.
                   &nbsp;
                   <a  target="_blank" style="color: #2a43a0;">%recipient.urlVote%</a>
                 </p>
@@ -154,8 +145,8 @@
             <tr>
               <th scope="col" style="background-color: #ffffff; padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
                 <p style="margin: 0; text-align: left;">
-                  {{#i18n 'email.linkResult' }}The results will be available with the following link when the vote is finished:{{/i18n}}
-                  &nbsp;
+                  A la fin de l'élection, vous pourrez accéder aux résultats en cliquant sur ce lien :
+		  &nbsp;
                   <a  target="_blank" style="color: #2a43a0;">%recipient.urlResult%</a>
                 </p>
               </th>
@@ -163,7 +154,7 @@
             <!-- BLOCK THANKS -->
             <tr>
               <th scope="col" style="background-color: #ffffff; padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
-                <p style="margin: 0; text-align: left;">{{#i18n 'email.bye'}}Good vote{{/i18n}},<br>{{#i18n 'common.mieuxvoter'}}Mieux Voter{{/i18n}}</p>
+                <p style="margin: 0; text-align: left;">Bon vote,<br>Mieux Voter</p>
               </th>
             </tr>
           </table>
@@ -177,14 +168,10 @@
             <tr>
               <th scope="col" style="background-color: #7d8ecf; padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
                 <p style="margin: 0;"><strong>
-                  <a href="https://mieuxvoter.fr/index.php/decouvrir/" target="_blank" style="color: #FFFFFF;" rel="noopener noreferrer">
-                    {{#i18n 'email.aboutjm'}}Need any further information?{{/i18n}}	
-                  </a></strong>
+                  <a href="https://mieuxvoter.fr/index.php/decouvrir/" target="_blank" style="color: #FFFFFF;" rel="noopener noreferrer">Besoin de plus d'information</a></strong>
                 </p>
                 <p style="margin: 0;"> <strong>
-                  <a href="https://mieuxvoter.fr/index.php/decouvrir/" target="_blank" style="color: #111111;" rel="noopener noreferrer">
-                    {{#i18n 'common.helpus'}}Do you want to help us?{{/i18n}}
-                  </a></strong>
+                  <a href="https://mieuxvoter.fr/index.php/decouvrir/" target="_blank" style="color: #111111;" rel="noopener noreferrer">Vous souhaitez nous aider ?</a></strong>
                 </p>
               </th>
             </tr>
@@ -199,15 +186,13 @@
             </br>
             <tr>
               <th scope="col" style="background-color: #f4f4f4; padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;" >
-                <p style="margin: 0;">
-                {{#i18n email.why }}You received this email because someone invited you to vote.{{/i18n}}
-                </p>
+                <p style="margin: 0;">Vous avez été invité·e à participer à l'élection suivante</p>
               </th>
             </tr>
             <!-- ADDRESS -->
             <tr>
               <th scope="col" style="background-color: #f4f4f4; padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;" >
-                <p style="margin: 0;">{{#i18n mieuxvoter }}Mieux Voter{{/i18n}} - <a "mailto:app@mieuxvoter.fr">app@mieuxvoter.fr</a></p>
+                <p style="margin: 0;">Mieux Voter - <a "mailto:app@mieuxvoter.fr">app@mieuxvoter.fr</a></p>
               </th>
             </tr>
           </table>
