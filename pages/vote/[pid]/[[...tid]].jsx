@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { getDetails, castBallot, apiErrors } from "@services/api";
+import Error from "@components/Error";
 import { translateGrades } from "@services/grades";
 import config from "../../../next-i18next.config.js";
 
@@ -17,8 +18,14 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
   const [res, translations] = await Promise.all([
     getDetails(
       pid,
-      (res) => ({ ok: true, ...res }),
-      (err) => ({ ok: false, err })
+      (res) => {
+        console.log("DETAILS:", res);
+        return { ok: true, ...res };
+      },
+      (err) => {
+        console.log("ERR:", err);
+        return { ok: false, err: "Unknown error" };
+      }
     ),
     serverSideTranslations(locale, [], config),
   ]);

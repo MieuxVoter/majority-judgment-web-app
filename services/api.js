@@ -146,9 +146,12 @@ const getDetails = (pid, successCallback, failureCallback) => {
   return fetch(detailsEndpoint.href)
     .then((response) => {
       if (!response.ok) {
+        console.log("NOK", response);
         return Promise.reject(response.text());
       }
-      return response.json();
+      const res = response.json();
+      console.log("OK", res);
+      return res;
     })
     .then(successCallback || ((res) => res))
     .catch(failureCallback || ((err) => err));
