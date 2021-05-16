@@ -3,7 +3,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { getDetails, apiErrors } from "@services/api";
+import {
+  getDetails,
+  apiErrors,
+  ELECTION_NOT_STARTED_ERROR,
+} from "@services/api";
 import { Col, Container, Row } from "reactstrap";
 import Link from "next/link";
 import {
@@ -20,17 +24,21 @@ import Facebook from "@components/banner/Facebook";
 import config from "../../../next-i18next.config.js";
 
 export async function getServerSideProps({ query: { pid }, locale }) {
-  const [details, translations] = await Promise.all([
+  let [details, translations] = await Promise.all([
     getDetails(pid),
     serverSideTranslations(locale, [], config),
   ]);
 
-  if (typeof details === "string" || details instanceof String) {
-    return { props: { err: details, ...translations } };
-  }
+  if (details.includes(ELECTION_NOT_STARTED_ERROR)) {
+    details = { title: "", on_invitation_only: true, restrict_results: true };
+  } else {
+    if (typeof details === "string" || details instanceof String) {
+      return { props: { err: details, ...translations } };
+    }
 
-  if (!details.candidates || !Array.isArray(details.candidates)) {
-    return { props: { err: "Unknown error", ...translations } };
+    if (!details.title) {
+      return { props: { err: "Unknown error", ...translations } };
+    }
   }
 
   return {
