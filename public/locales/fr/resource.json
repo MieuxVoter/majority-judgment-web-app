@@ -15,7 +15,7 @@
   "Delete?": "Supprimer ?",
   "Are you sure to delete": "Êtes-vous sûr(e) de supprimer",
   "the row": "la ligne",
-  "resource.writeQuestion": "Décrire ici votre question ou introduire simplement votre vote (250 caractères max.)",
+  "resource.writeQuestionHere": "Décrire ici votre question ou introduire simplement votre vote (250 caractères max.)",
   "Enter the name of your candidate or proposal here (250 characters max.)": "Saisissez ici le nom de votre candidat ou de votre proposition (250 caractères max.)",
   "Please add at least 2 candidates.": "Merci d'ajouter au moins 2 candidats.",
   "resource.questionLabel": "Question de votre vote",
