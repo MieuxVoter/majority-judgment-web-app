@@ -16,7 +16,7 @@ const sendInviteMail = (res) => {
   /**
    * Send an invitation mail using a micro-service with Netlify
    */
-  const { title, mails, tokens, locale } = res;
+  const { id, title, mails, tokens, locale } = res;
 
   if (!mails || !mails.length) {
     throw new Error("No emails are provided.");
@@ -30,14 +30,14 @@ const sendInviteMail = (res) => {
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
       : "http://localhost";
-  const urlVote = (pid) => new URL(`/vote/${pid}`, origin);
+  const urlVote = (pid, token) => new URL(`/vote/${pid}/${token}`, origin);
   const urlResult = (pid) => new URL(`/result/${pid}`, origin);
 
   const recipientVariables = {};
   tokens.forEach((token, index) => {
     recipientVariables[mails[index]] = {
-      urlVote: urlVote(token),
-      urlResult: urlResult(token),
+      urlVote: urlVote(id, token),
+      urlResult: urlResult(id),
     };
   });
 
@@ -146,15 +146,13 @@ const getDetails = (pid, successCallback, failureCallback) => {
   return fetch(detailsEndpoint.href)
     .then((response) => {
       if (!response.ok) {
-        console.log("NOK", response);
         return Promise.reject(response.text());
       }
-      const res = response.json();
-      console.log("OK", res);
-      return res;
+      return response.json();
     })
     .then(successCallback || ((res) => res))
-    .catch(failureCallback || ((err) => err));
+    .catch(failureCallback || ((err) => err))
+    .then((res) => res);
 };
 
 const castBallot = (judgments, pid, token, callbackSuccess, callbackError) => {
@@ -193,30 +191,30 @@ export const WRONG_ELECTION_ERROR = "E9:";
 
 export const apiErrors = (error, t) => {
   if (error.includes(UNKNOWN_ELECTION_ERROR)) {
-    return t("Oops... The election is unknown.");
+    return t("error.e1");
   }
   if (error.includes(ONGOING_ELECTION_ERROR)) {
-    return t(
-      "The election is still going on. You can't access now to the results."
-    );
+    return t("error.e2");
   }
   if (error.includes(NO_VOTE_ERROR)) {
-    return t("No votes have been recorded yet. Come back later.");
+    return t("error.e3");
   }
   if (error.includes(ELECTION_NOT_STARTED_ERROR)) {
-    return t("The election has not started yet.");
+    return t("error.e4");
   }
   if (error.includes(ELECTION_FINISHED_ERROR)) {
-    return t("The election is over. You can't vote anymore");
+    return t("error.e5");
   }
   if (error.includes(INVITATION_ONLY_ERROR)) {
-    return t("You need a token to vote in this election");
+    return t("error.e6");
   }
   if (error.includes(USED_TOKEN_ERROR)) {
-    return t("You seem to have already voted.");
+    return t("error.e7");
   }
   if (error.includes(WRONG_ELECTION_ERROR)) {
-    return t("The parameters of the election are incorrect.");
+    return t("error.e8");
+  } else {
+    return t("error.catch22");
   }
 };
 

@@ -15,37 +15,29 @@ import config from "../../../next-i18next.config.js";
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
 export async function getServerSideProps({ query: { pid, tid }, locale }) {
-  const [res, translations] = await Promise.all([
-    getDetails(
-      pid,
-      (res) => {
-        console.log("DETAILS:", res);
-        return { ok: true, ...res };
-      },
-      (err) => {
-        console.log("ERR:", err);
-        return { ok: false, err: "Unknown error" };
-      }
-    ),
+  const [details, translations] = await Promise.all([
+    getDetails(pid),
     serverSideTranslations(locale, [], config),
   ]);
 
-  if (!res.ok) {
-    return { props: { err: res.err, ...translations } };
+  if (typeof details === "string" || details instanceof String) {
+    return { props: { err: details, ...translations } };
   }
 
-  console.log(res);
+  if (!details.candidates || !Array.isArray(details.candidates)) {
+    return { props: { err: "Unknown error", ...translations } };
+  }
 
-  shuffle(res.candidates);
+  shuffle(details.candidates);
 
   return {
     props: {
       ...translations,
-      invitationOnly: res.on_invitation_only,
-      restrictResults: res.restrict_results,
-      candidates: res.candidates.map((name, i) => ({ id: i, label: name })),
-      title: res.title,
-      numGrades: res.num_grades,
+      invitationOnly: details.on_invitation_only,
+      restrictResults: details.restrict_results,
+      candidates: details.candidates.map((name, i) => ({ id: i, label: name })),
+      title: details.title,
+      numGrades: details.num_grades,
       pid: pid,
       token: tid || null,
     },
@@ -53,8 +45,10 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
 }
 
 const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
+  const { t } = useTranslation();
+
   if (err) {
-    return <Error value={err}></Error>;
+    return <Error value={apiErrors(err, t)}></Error>;
   }
 
   const [judgments, setJudgments] = useState([]);
@@ -67,7 +61,6 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
 
   const router = useRouter();
 
-  const { t } = useTranslation();
   const allGrades = translateGrades(t);
   const grades = allGrades.filter(
     (grade) => grade.value >= allGrades.length - numGrades
