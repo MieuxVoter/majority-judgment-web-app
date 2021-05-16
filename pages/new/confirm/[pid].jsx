@@ -3,7 +3,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { getDetails } from "@services/api";
+import {
+  getDetails,
+  apiErrors,
+  ELECTION_NOT_STARTED_ERROR,
+} from "@services/api";
 import { Col, Container, Row } from "reactstrap";
 import Link from "next/link";
 import {
@@ -15,28 +19,33 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CopyField from "@components/CopyField";
+import Error from "@components/Error";
 import Facebook from "@components/banner/Facebook";
 import config from "../../../next-i18next.config.js";
 
 export async function getServerSideProps({ query: { pid }, locale }) {
-  const [res, translations] = await Promise.all([
-    getDetails(
-      pid,
-      (res) => ({ ok: true, ...res }),
-      (err) => ({ ok: false, err })
-    ),
+  let [details, translations] = await Promise.all([
+    getDetails(pid),
     serverSideTranslations(locale, [], config),
   ]);
 
-  if (!res.ok) {
-    return { props: { err: res.err, ...translations } };
+  if (details.includes(ELECTION_NOT_STARTED_ERROR)) {
+    details = { title: "", on_invitation_only: true, restrict_results: true };
+  } else {
+    if (typeof details === "string" || details instanceof String) {
+      return { props: { err: details, ...translations } };
+    }
+
+    if (!details.title) {
+      return { props: { err: "Unknown error", ...translations } };
+    }
   }
 
   return {
     props: {
-      invitationOnly: res.on_invitation_only,
-      restrictResults: res.restrict_results,
-      title: res.title,
+      invitationOnly: details.on_invitation_only,
+      restrictResults: details.restrict_results,
+      title: details.title,
       pid: pid,
       ...translations,
     },
@@ -50,11 +59,11 @@ const ConfirmElection = ({
   pid,
   err,
 }) => {
-  if (err) {
-    return <Error value={err}></Error>;
-  }
-
   const { t } = useTranslation();
+
+  if (err) {
+    return <Error value={apiErrors(err, t)} />;
+  }
 
   const origin =
     typeof window !== "undefined" && window.location.origin

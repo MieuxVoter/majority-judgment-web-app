@@ -40,7 +40,7 @@ const Footer = () => {
             className={bboxLink3.top === bboxLink4.top ? "" : "no-tack"}
           >
             <a href="mailto:app@mieuxvoter.fr?subject=[HELP]" style={linkStyle}>
-              {t("Need help?")}
+              {t("resource.help")}
             </a>
           </li>
           <li

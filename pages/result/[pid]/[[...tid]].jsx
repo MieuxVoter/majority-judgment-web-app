@@ -24,33 +24,28 @@ export async function getServerSideProps({ query, locale }) {
   const { pid, tid } = query;
 
   const [res, details, translations] = await Promise.all([
-    getResults(
-      pid,
-      (res) => ({ ok: true, res }),
-      (err) => {
-        return { ok: false, err: "Unknown error" };
-      }
-    ),
-    getDetails(
-      pid,
-      (res) => ({ ok: true, ...res }),
-      (err) => ({ ok: false, err: "Unknown error" })
-    ),
+    getResults(pid),
+    getDetails(pid),
     serverSideTranslations(locale, [], config),
   ]);
 
-  if (!res.ok) {
-    return { props: { err: res.err, ...translations } };
+  if (typeof res === "string" || res instanceof String) {
+    return { props: { err: res.slice(1, -1), ...translations } };
   }
-  if (!details.ok) {
-    return { props: { err: details.err, ...translations } };
+
+  if (typeof details === "string" || details instanceof String) {
+    return { props: { err: res.slice(1, -1), ...translations } };
+  }
+
+  if (!details.candidates || !Array.isArray(details.candidates)) {
+    return { props: { err: "Unknown error", ...translations } };
   }
 
   return {
     props: {
       title: details.title,
       numGrades: details.num_grades,
-      candidates: res.res,
+      candidates: res,
       pid: pid,
       ...translations,
     },

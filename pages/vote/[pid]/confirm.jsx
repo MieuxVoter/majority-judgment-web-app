@@ -5,38 +5,43 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Paypal from "@components/banner/Paypal";
 import Gform from "@components/banner/Gform";
-import { getDetails } from "@services/api";
+import Error from "@components/Error";
+import { getDetails, apiErrors } from "@services/api";
 import config from "../../../next-i18next.config.js";
 
 export async function getServerSideProps({ query: { pid }, locale }) {
-  const [res, translations] = await Promise.all([
-    getDetails(
-      pid,
-      (res) => ({ ok: true, ...res }),
-      (err) => ({ ok: false, err })
-    ),
+  const [details, translations] = await Promise.all([
+    getDetails(pid),
     serverSideTranslations(locale, [], config),
   ]);
 
-  if (!res.ok) {
-    return { props: { err: res.err, ...translations } };
+  if (typeof details === "string" || details instanceof String) {
+    return { props: { err: res.slice(1, -1), ...translations } };
+  }
+
+  if (!details.candidates || !Array.isArray(details.candidates)) {
+    return { props: { err: "Unknown error", ...translations } };
   }
 
   return {
     props: {
       ...translations,
-      invitationOnly: res.on_invitation_only,
-      restrictResults: res.restrict_results,
-      candidates: res.candidates.map((name, i) => ({ id: i, label: name })),
-      title: res.title,
-      numGrades: res.num_grades,
+      invitationOnly: details.on_invitation_only,
+      restrictResults: details.restrict_results,
+      candidates: details.candidates.map((name, i) => ({ id: i, label: name })),
+      title: details.title,
+      numGrades: details.num_grades,
       pid: pid,
     },
   };
 }
 
-const VoteSuccess = ({ title, invitationOnly, pid }) => {
+const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
   const { t } = useTranslation();
+  if (err && err !== "") {
+    return <Error value={apiErrors(err, t)} />;
+  }
+
   return (
     <Container>
       <Head>

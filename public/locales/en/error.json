@@ -1,0 +1,11 @@
+{
+  "error.e1": "Oops... The election is unknown",
+  "error.e2": "The election is still going on. You can't access now to the results.",
+  "error.e3": "No votes have been recorded yet. Come back later.",
+  "error.e4": "The election has not started yet.",
+  "error.e5": "The election is over. You can't vote anymore",
+  "error.e6": "You need a token to vote in this election",
+  "error.e7": "You seem to have already voted.",
+  "error.e8": "The parameters of the election are incorrect.",
+  "error.catch22": "Unknown error"
+}
