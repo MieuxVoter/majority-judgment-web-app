@@ -37,7 +37,7 @@ import Loader from "@components/wait";
 import CandidatesField from "@components/form/CandidatesField";
 import ConfirmModal from "@components/form/ConfirmModal";
 import config from "../../next-i18next.config.js";
-
+import Modal from '../../components/Modal'
 // Error messages
 const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
 const NO_TITLE_ERROR = "Please add a title.";
@@ -92,6 +92,7 @@ const CreateElection = (props) => {
   const [numGrades, setNumGrades] = useState(5);
   const [waiting, setWaiting] = useState(false);
   const [isAdvancedOptionsOpen, setAdvancedOptionsOpen] = useState(false);
+  const [isAddCandidateMOpen, setAddCandidateMOpen] = useState(false);
   const [isTimeLimited, setTimeLimited] = useState(false);
   const [restrictResult, setRestrictResult] = useState(false);
   const [start, setStart] = useState(
@@ -121,6 +122,10 @@ const CreateElection = (props) => {
 
   const toggleAdvancedOptions = () => {
     setAdvancedOptionsOpen(!isAdvancedOptionsOpen);
+  };
+
+  const toggleAddCandidateM = () => {
+    setAddCandidateMOpen(!isAddCandidateMOpen);
   };
 
   const addCandidate = () => {
@@ -194,8 +199,10 @@ const CreateElection = (props) => {
   const check = checkFields();
   const grades = translateGrades(t);
 
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <Container>
+    <Container className="addCandidatePage">
       <Head>
         <meta
           key="og:title"
@@ -211,38 +218,92 @@ const CreateElection = (props) => {
       <ToastContainer />
       {waiting ? <Loader /> : ""}
       <form onSubmit={handleSubmit} autoComplete="off">
-        <Row>
+        <Row className="stepForm">
           <Col>
-            <h3>{t("resource.startVote")}</h3>
-          </Col>
-        </Row>
-        <hr />
-        <Row className="mt-4">
-          <Col xs="12">
-            <Label for="title">{t("resource.questionLabel")}</Label>
+            <img src="/icone-one-white.svg" />
+            <h4>Les candidats</h4>
           </Col>
           <Col>
-            <Input
-              placeholder={t("resource.writeQuestionHere")}
-              tabIndex="1"
-              name="title"
-              id="title"
-              autoFocus
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              maxLength="250"
-            />
+            <img src="/icone-two-dark.svg" />
+            <h4>Paramètres du vote</h4>
           </Col>
-          <Col xs="auto" className="align-self-center pl-0">
-            <HelpButton>
-              <u>{t("resource.eg")}</u> <em>{t("resource.exampleQuestion")}</em>
-            </HelpButton>
+          <Col>
+            <img src="/icone-three-dark.svg" />
+            <h4>Confirmation</h4>
           </Col>
         </Row>
-        <Row className="mt-4">
-          <Col xs="12">
-            <Label for="title">{t("common.candidates")}</Label>
-          </Col>
+        
+
+
+
+ 
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <Row className="mt-4">         
           <Col xs="12">
             <CandidatesField onChange={setCandidates} />
           </Col>

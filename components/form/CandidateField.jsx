@@ -3,6 +3,7 @@ import ButtonWithConfirm from "./ButtonWithConfirm";
 import {
   Row,
   Col,
+  Label,
   Input,
   InputGroup,
   InputGroupAddon,
@@ -16,18 +17,21 @@ import HelpButton from "@components/form/HelpButton";
 const DragHandle = sortableHandle(({children}) => (
   <span className="input-group-text indexNumber">{children}</span>
 ));
-const CandidateField = ({label, candIndex, onDelete, ...inputProps}) => {
+const CandidateField = ({label, description, candIndex, onDelete, ...inputProps}) => {
   const {t} = useTranslation();
 
   return (
     <Row>
-      <Col>
-        <InputGroup>
-          <InputGroupAddon addonType="prepend">
+      <Col className="addCandidateCard">
+        <InputGroup className="addCandidateForm">
+          <InputGroupAddon addonType="prepend"  className="addCandidateHeader">
             <DragHandle>
-              <span>{candIndex + 1}</span>
+              <h6>Ajouter un participant</h6>
+              <p>Ajoutez une photo, le nom et une description au candidat.</p>
+              <img src="/avatar.svg" />
             </DragHandle>
           </InputGroupAddon>
+          <Label className="addCandidateText">Nom et prenom</Label>
           <Input
             type="text"
             value={label}
@@ -36,8 +40,21 @@ const CandidateField = ({label, candIndex, onDelete, ...inputProps}) => {
             tabIndex={candIndex + 1}
             maxLength="250"
             autoFocus
+            className="addCandidateText"
           />
-          <ButtonWithConfirm className="btn btn-primary  border-light" label={label} onDelete={onDelete}>
+          <Label className="addCandidateText">Description (Facultatif)</Label>
+          <Input
+            type="text"
+            value={description}
+            {...inputProps}
+            placeholder={t("resource.candidatePlaceholder")}
+            tabIndex={candIndex + 1}
+            maxLength="250"
+            autoFocus
+            className="addCandidateText"
+          />
+          <ButtonWithConfirm className="" label={label} onDelete={onDelete}>
+            
           </ButtonWithConfirm>
         </InputGroup>
       </Col>

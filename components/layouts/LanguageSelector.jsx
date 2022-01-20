@@ -25,6 +25,7 @@ const LanguageSelector = () => {
       optionsSize={22}
       showSelectedLabel={false}
       showSecondaryOptionLabel={false}
+      className="menu-flags"
     />
   );
 };

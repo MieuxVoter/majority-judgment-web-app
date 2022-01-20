@@ -29,17 +29,17 @@ export async function getServerSideProps({ query: { pid }, locale }) {
     serverSideTranslations(locale, [], config),
   ]);
 
-  if (details.includes(ELECTION_NOT_STARTED_ERROR)) {
-    details = { title: "", on_invitation_only: true, restrict_results: true };
-  } else {
-    if (typeof details === "string" || details instanceof String) {
-      return { props: { err: details, ...translations } };
-    }
+  // if (details.includes(ELECTION_NOT_STARTED_ERROR)) {
+  //   details = { title: "", on_invitation_only: true, restrict_results: true };
+  // } else {
+  //   if (typeof details === "string" || details instanceof String) {
+  //     return { props: { err: details, ...translations } };
+  //   }
 
-    if (!details.title) {
-      return { props: { err: "Unknown error", ...translations } };
-    }
-  }
+  //   if (!details.title) {
+  //     return { props: { err: "Unknown error", ...translations } };
+  //   }
+  // }
 
   return {
     props: {

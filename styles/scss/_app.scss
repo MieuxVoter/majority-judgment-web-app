@@ -1,6 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&display=swap');
+h1, h2, h3 {
+  font-family: "DM Serif Display", serif!important;
+}
+body, h4, h5, p, button {
+  font-family: "DM Sans", sans-serif!important;
+}
+::placeholder {
+  font-family: "DM Sans", sans-serif!important;
+}
 // mieux voter vars
-$mv-blue-color: #009900 !default;
-$mv-red-color: #000099 !default;
+$mv-blue-color: #2400FD !default;
+$mv-dark-blue-color:  #0A004C!default;
 $mv-light-color: #efefff !default;
 $mv-dark-color: #333 !default;
 
@@ -10,7 +20,7 @@ $body-color: $mv-light-color !default;
 
 $theme-colors: (
   "primary": $mv-blue-color,
-  "secondary": $mv-red-color,
+  "secondary": $mv-dark-blue-color,
   "light": $mv-light-color,
   "dark": $mv-dark-color,
   "danger": #990000,
@@ -42,15 +52,11 @@ body,
 }
 
 main {
-  background-image: url("/background-mv.png");
   background-size: 100%;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-color: $mv-blue-color;
-  min-height: calc(100% - 128px);
-  overflow: auto;
-  padding-top: 72px;
-  padding-bottom: 100px;
+  background-color: $mv-dark-blue-color;
+  overflow: hidden;
 }
 
 header {
@@ -60,13 +66,14 @@ header {
 }
 
 footer {
-  background-color: $body-bg;
+  background-color: $mv-blue-color;
   color: $mv-light-color;
-  padding: 25px;
+  padding: 16px;
 }
 
 footer a {
   color: $mv-light-color;
+  font-size: 14px;
 }
 
 footer a:hover {
@@ -354,4 +361,170 @@ ol.result > li:nth-child(2){
 
 ol.result > li:nth-child(3){
   font-size:1.25rem;
+}
+
+
+/** GLOBALS **/
+section {
+  width: 100%;
+}
+p {
+  font-size: 16px;
+  margin-top: 32px;
+}
+h2 {
+  font-size: 56px;
+  line-height: 56px;
+}
+h3 {
+  font-size: 40px;
+}
+h4 {
+  font-size: 24px;
+  line-height: 32px;
+}
+h5 {
+  font-size: 18px;
+  font-weight: bold;
+}
+.btn {
+  width: 165px;
+  padding: 16px 24px;
+  background: $mv-blue-color;
+  border: 2px solid #FFFFFF;
+  border-radius: 0px;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 0px #FFFFFF;
+  font-family: DM Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.5px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn img {
+  width: 24px!important;
+  height: 24px!important;
+  margin: 0px 16px!important;
+}
+
+.footerRow > .col {
+  flex-basis: auto!important;
+  width: auto!important;
+  align-self: center;
+}
+.footerLogo {
+ padding-right: 0px;
+}
+.footerButton {
+  padding-right: 0px;
+}
+.btn-footer {
+  width: auto;
+  padding: 7px;
+  border: none;
+  box-shadow: none;
+  background: #4A2FEF;
+  color: white;
+  font-size: 14px;
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.sectionAjouterCandidat {
+
+ 
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+.ajouterCandidat {
+  width: 40%;
+  margin: auto;
+}
+.input-group-text {
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  white-space: nowrap;
+  background-color: transparent;
+  border: none;
+  border-radius: 0px;
+}
+.form-control {
+  height: auto;
+  background: transparent;
+  color: white;
+  border: none;
+}
+.form-control::placeholder {
+  color: white;
+}
+.btnTrash {
+  background-color: transparent;
+color: white;
+border: none;
+}
+.btnValidateCandidate {
+  background: transparent;
+  width: auto;
+  opacity: 0.4;
+  margin: 250px auto 0px;
+}
+
+@media screen and (min-width: 931px) {
+  header {
+    display: none!important;
+  }
+
+}
+
+
+
+
+
+
+.result {
+display: flex;
+    margin: auto;
+    justify-content: space-around;
+}
+
+ol.result > li {
+  text-align: center;
 }
