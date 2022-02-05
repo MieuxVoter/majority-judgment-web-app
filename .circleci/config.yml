@@ -1,19 +1,65 @@
 version: 2.1
+workflows:
+  workflow:
+    jobs:
+      - test:
+          name: test
+
+      - deploy:
+          name: deploy
+          filters:
+            branches:
+              only:
+                - next
+          requires:
+            - test
+
 jobs:
-  build:
+  test:
     docker:
       - image: cimg/node:lts
     steps:
       - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - node_modules-{{ checksum "yarn.lock" }}
       - run:
-          name: update-yarn
-          command: 'curl --compressed -o- -L https://yarnpkg.com/install.sh | bash'
-      - run:
-          name: install-dependencies
-          command: yarn install
-      - run:
-          name: compile-translations
-          command: yarn translate
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: node_modules-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+            - ~/.cache
+          background: true
       - run:
           name: test
           command: yarn test
+
+  deploy:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - node_modules-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: node_modules-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+            - ~/.cache
+          background: true
+      - run:
+          name: build
+          command: yarn build
+      - run:
+          name: deploy
+          command: yarn deploy
