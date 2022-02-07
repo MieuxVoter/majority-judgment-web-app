@@ -1,0 +1,277 @@
+.addCandidatePage {
+    max-width: 100%!important;
+    background-color: #17048e;
+    background-image: url('/back.svg');
+    background-size: 100%;
+    background-position: center;
+}
+.stepForm {
+    width: 650px;
+    margin: 50px auto;
+}
+.stepForm .col {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.stepForm img {
+    width: 24px;
+    margin-right: 10px;
+}
+.stepForm h4 {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 0;
+}
+.preventWarning {
+    background: #2407D3!important;
+    padding: 8px!important;
+}
+.alert-heading {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+line-height: 16px;
+margin: 0px!important;
+}
+.alert-heading svg {
+    cursor: pointer;
+}
+.addCandidateCard {
+    background-color: white;
+    padding: 30px;
+    width: 100%;
+    flex-basis: auto;
+}
+.addCandidateCard p {
+    color: #0A004C;
+}
+.addCandidateForm {
+    display: inline-block;
+}
+.addCandidateHeader {
+    text-align: left;
+}
+.addCandidateHeader h6 {
+    font-size: 28px;
+    line-height: 32px;
+    color:#2400FD;
+    text-align: left;
+}
+.addCandidateHeader p {
+    font-size: 16px;
+    line-height: 24px;
+    color:#0A004C;
+    text-align: left;
+    margin-top: 0px;
+}
+.addCandidateHeader span {
+    display: inline-block;
+}
+.addCandidateForm label {
+    margin-bottom: 0px;
+}
+.addCandidateText {
+    color: #0A004C; 
+}
+.addCandidateForm input {
+    width: 100%!important;
+    padding-left: 0px;
+    margin-bottom: 50px!important;
+    box-shadow: 0px 2px 0px 0px #C3BFD8;
+
+}
+.addCandidateText::placeholder {
+    color: #C3BFD8;
+}
+.cancelButton button {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    border: 2px solid #0A004C;
+    box-shadow: 0px 4px 0px 0px #0A004C;
+    background: transparent;
+    align-items: center;
+padding: 16px 24px;
+}
+.cancelButton p {
+    margin: auto;
+    margin-left: 20px;
+}
+.removeAddButtons {
+    justify-content: space-between;
+    margin: 0px;
+}
+.removeButton {
+    font-size: 16px;
+line-height: 24px;
+background: transparent;
+color:#0A004C;
+border: 2px solid #0A004C;
+box-shadow: 0px 4px 0px 0px #0A004C;
+padding: 16px 24px 16px 24px;
+font-weight: bold;
+}
+.closeModalAddCandidate {
+    position: absolute;
+    z-index: 999;
+    right: 10px;
+    border: none;
+}
+.addButton {
+    font-weight: bold;
+font-size: 16px;
+line-height: 24px;
+background: transparent;
+color: #2400FD;
+border: 2px solid #2400FD;
+box-shadow: 0px 4px 0px 0px #2400FD;
+padding: 16px 24px 16px 24px;
+}
+.addButton span {
+    margin-left: 20px;
+}
+.ajout-avatar {
+    display: flex;
+}
+.avatar-placeholer {
+    background-image: url("/avatar-blue.svg");
+    background-repeat: no-repeat;
+    background-size: 52px;
+    background-position: center;
+    background-color: #F2F0FF;
+    width: 112px;
+    height: 100%;
+}
+.avatar-placeholer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.avatar-text {
+    text-align: left;
+    margin-left: 22px;
+}
+.avatar-text h4 {
+    font-size: 16px;
+    line-height: 32px;
+    color: #0A004C;
+    margin-block-start: -8px;
+}
+.avatar-text span {
+    font-size: 16px;
+    line-height: 32px;
+    color: #0A004C;
+    opacity: 0.3;
+}
+.avatar-text p {
+    font-size: 13px;
+    line-height: 16px;
+    color: #0A004C;
+    margin-top: 0px;
+}
+.avatarThumb img {
+    background-image: url("/avatar.svg");
+    width: 24px;
+ height: 24px;
+    object-fit: cover;
+   }
+input[type="file"] {
+    display: none;
+}
+.inputfile {
+    background: transparent;
+    color: #0A004C;
+    border: 2px solid #0A004C;
+    box-shadow: 0px 2px 0px 0px #0A004C;
+    padding: 8px 20px;
+    font-size: 14px;
+    line-height: 24px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+    
+.input-group-text {
+    padding: 0px!important;
+}
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
+
+  .candidateButton {
+      display: flex;
+      width: 100%;
+      padding: 12px;
+      align-content: center;
+      justify-content: space-between;
+      border: 1px dashed rgba(255, 255, 255, 0.24);
+  }
+  .candidateButton div {
+    display: flex;
+    align-content: center;
+}
+@media screen and (max-width: 619px) {
+    .stepForm {
+        width: auto;
+    }
+    .stepFormCol {
+    flex-grow: unset;
+    padding: 0;
+    margin: 8px;
+    width: 24px;
+    justify-content: flex-start!important;
+    }
+    .stepForm h4 {
+        display: none;
+    }
+    .ajouterCandidat {
+        width: 100%;
+        margin: 10px auto;
+    }
+    .addCandidateCard {
+        padding: 30px 0px;
+    }
+    .addCandidateHeader h6 {
+        font-size: 24px;
+        line-height: 28px;
+    }
+    .addCandidateHeader p {
+        font-size: 15px;
+        line-height: 20px;
+    }
+    .addCandidateHeader span {
+        white-space: initial;
+    }
+}
+@media screen and (max-width: 375px) {
+.removeAddButtons {
+    flex-direction: column;
+}
+.removeAddButtons button {
+    width: 100%;
+    text-align: center;
+    margin: 15px auto;
+}
+.annuler {
+    display: flex;
+}
+}
