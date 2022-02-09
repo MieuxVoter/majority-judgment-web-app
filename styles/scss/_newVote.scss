@@ -229,6 +229,39 @@ input[type="file"] {
     display: flex;
     align-content: center;
 }
+.settings-modal {
+    background-color: #17048e;
+    background-image: url('/back.svg');
+    max-width: 100vw;
+    height: 100%;
+    margin: 0;
+    padding: 0px;
+}
+.settings-modal .modal-content {
+    background: transparent;
+}
+.settings-modal-body {
+    background: white;
+    width: 80%;
+    margin: auto;
+}
+.settings-modal-body .col {
+    margin: auto;
+}
+.custom-switch {
+text-align: right;
+}
+.modal.fade .modal-dialog {
+    transition: none;
+}
+.fade {
+
+    transition: none;
+}
+.btn-return-candidates {
+    color: white;
+    cursor: pointer;
+}
 @media screen and (max-width: 619px) {
     .stepForm {
         width: auto;
