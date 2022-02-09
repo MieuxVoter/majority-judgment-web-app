@@ -16,7 +16,7 @@ import {
 } from "react-sortable-hoc";
 import arrayMove from "array-move"
 import CandidateField from './CandidateField'
-
+import AlertDismissibleExample from './AlertButton'
 // const SortableItem = sortableElement(({className, ...childProps}) => <li className={className}><CandidateField {...childProps} /></li>);
 // 
 // const SortableContainer = sortableContainer(({children}) => {
@@ -36,7 +36,7 @@ const CandidatesField = ({onChange}) => {
 
   const addCandidate = () => {
     if (candidates.length < 1000) {
-      candidates.push({label: "", fieldRef: createRef()});
+      candidates.push({label: "", description: "", fieldRef: createRef()});
       setCandidates([...candidates]);
       onChange(candidates)
     } else {
@@ -53,8 +53,8 @@ const CandidatesField = ({onChange}) => {
   const removeCandidate = index => {
     if (candidates.length === 1) {
       const newCandidates = []
-      newCandidates.push({label: "", fieldRef: createRef()});
-      newCandidates.push({label: "", fieldRef: createRef()});
+      newCandidates.push({label: "", description: "", fieldRef: createRef()});
+      newCandidates.push({label: "", description: "", fieldRef: createRef()});
       setCandidates(newCandidates);
       onChange(newCandidates)
     }
@@ -65,8 +65,9 @@ const CandidatesField = ({onChange}) => {
     }
   };
 
-  const editCandidate = (index, label) => {
+  const editCandidate = (index, label, description) => {
     candidates[index].label = label
+    candidates[index].description = description
     setCandidates([...candidates]);
     onChange(candidates);
   };
@@ -88,7 +89,10 @@ const CandidatesField = ({onChange}) => {
   };
 
   return (
-    <>
+    <div className="sectionAjouterCandidat">
+      <div className="ajouterCandidat">
+        <h4>Saisissez ici le nom de vos candidats.</h4>
+        <AlertDismissibleExample />
       <SortableContainer onSortEnd={onSortEnd}>
         {candidates.map((candidate, index) => {
           const className = "sortable"
@@ -99,26 +103,18 @@ const CandidatesField = ({onChange}) => {
               index={index}
               candIndex={index}
               label={candidate.label}
+              description={candidate.description}
               onDelete={() => removeCandidate(index)}
               onChange={(e) => editCandidate(index, e.target.value)}
               onKeyPress={(e) => handleKeyPress(e, index)}
+              onAdd={addCandidate}
               innerRef={candidate.fieldRef}
             />
           )
         })}
       </SortableContainer>
-
-      <Button
-        color="secondary"
-        className="btn-block mt-2"
-        tabIndex={candidates.length + 2}
-        type="button"
-        onClick={addCandidate}
-      >
-        <FontAwesomeIcon icon={faPlus} className="mr-2" />
-        {t("Add a proposal")}
-      </Button>
-    </>
+      </div>
+    </div>
   );
 
 }

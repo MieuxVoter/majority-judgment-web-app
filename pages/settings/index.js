@@ -601,10 +601,14 @@ const CreateElection = (props) => {
                 confirmCallback={handleSubmit}
               />
             ) : (
-              
-                <a href="/settings" ><FontAwesomeIcon icon={faCheck} className="mr-2" />
-                {t("Confirm")}</a>
-              
+              <Button
+                type="button"
+                className="btn btn-dark float-right btn-block"
+                onClick={handleSendNotReady}
+              >
+                <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                {t("Confirm")}
+              </Button>
             )}
           </Col>
         </Row>

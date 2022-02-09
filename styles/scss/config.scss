@@ -1,6 +1,6 @@
 // mieux voter vars
-$mv-blue-color: #2a43a0;
-$mv-red-color: #ee455b;
+$mv-blue-color: #2400FD;
+$mv-dark-blue-color: #0A004C;
 $mv-light-color: #efefff;
 $mv-light-color-hover: rgba(#efefff, 0.8);
 $mv-dark-color: #333;
@@ -11,7 +11,7 @@ $body-color: $mv-light-color;
 
 $theme-colors: (
   "primary": $mv-blue-color,
-  "secondary": $mv-red-color,
+  "secondary": $mv-dark-blue-color,
   "light": $mv-light-color,
   "dark": $mv-dark-color,
   "danger": #990000,
@@ -22,3 +22,7 @@ $theme-colors: (
 
 @import "_bootstrap.scss";
 @import "app.scss";
+@import "_homePage.scss";
+@import "_newVote.scss";
+@import "_resultVote.scss";
+@import "_header.scss";

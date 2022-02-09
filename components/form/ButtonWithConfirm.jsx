@@ -13,13 +13,13 @@ const ButtonWithConfirm = ({className, label, onDelete}) => {
   const toggle = () => setVisibility(!visibled)
 
   return (
-    <div className="input-group-append">
+    <div className="input-group-append cancelButton">
       <button
         type="button"
         className={className}
         onClick={toggle}
       >
-        <FontAwesomeIcon icon={faTrashAlt} />
+        <div className="annuler"><img src="/arrow-dark-left.svg" /><p>Annuler</p></div>
       </button>
       <Modal
         isOpen={visibled}
