@@ -1,14 +1,11 @@
-import dynamic from 'next/dynamic';
-import plotly from 'plotly.js/dist/plotly';
-import createPlotComponent from 'react-plotly.js/factory';
-import React, { Component } from 'react';
+import React, { Component } from "react";
 //import Plot from 'react-plotly.js';
 
 class BarChart extends Component {
-    render() {
-        return (
-            <div>
-                <Plot 
+  render() {
+    return (
+      <div>
+        {/* <Plot
                     data={[
                         {
                             type: 'bar',
@@ -20,10 +17,10 @@ class BarChart extends Component {
                     config={{
                         displayModeBar: false // this is the line that hides the bar.
                     }}
-                />
-            </div>
-        )
-    };
+                /> */}
+      </div>
+    );
+  }
 }
 
 export default BarChart;
