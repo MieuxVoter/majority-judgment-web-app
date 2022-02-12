@@ -5,15 +5,54 @@ jobs:
       - image: cimg/node:lts
     steps:
       - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - v1-node_modules-{{ checksum "yarn.lock" }}
+
       - run:
-          name: update-yarn
-          command: 'curl --compressed -o- -L https://yarnpkg.com/install.sh | bash'
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: v1-node_modules-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+            - ~/.cache
+          background: true
+
       - run:
-          name: install-dependencies
-          command: yarn install
+          name: build app
+          command: yarn build
+
       - run:
-          name: compile-translations
-          command: yarn translate
+          name: integration tests
+          command: npx http-server build --port 3000 --silent & yarn test:integration
+
       - run:
-          name: test
-          command: yarn test
+          name: Store failing screenshots
+          command: |
+            mkdir /tmp/artifacts
+            if [[ -n $(find cypress/screenshots -name '*\(failed\)*.png') ]]
+            then
+              find cypress/screenshots -name '*\(failed\)*.png' -print0 | xargs -0 mv -t /tmp/artifacts
+            fi
+          when: on_fail
+
+      - store_artifacts:
+          path: /tmp/artifacts
+
+      - run:
+          name: Upload screenshots
+          command: |
+            for filename in cypress/screenshots/**/**/*
+            do
+              newname=$(echo $filename | sed -e 's/ (attempt .)//')
+              if [ "$filename" != "$newname" ]
+              then
+                mv "$filename" "$newname"
+              fi
+            done
+            ARGOS_COMMIT=$CIRCLE_SHA1 ARGOS_BRANCH=$CIRCLE_BRANCH yarn argos
+          background: true

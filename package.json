@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build && yarn export",
     "start": "next start",
-    "export": "next export"
+    "export": "next export",
+    "test:integration": "cypress run",
+    "argos": "argos upload cypress/screenshots --token $ARGOS_TOKEN --ignore \"**/*(failed*.png\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
@@ -58,5 +60,11 @@
     "reactstrap": "^8.9.0",
     "sass": "^1.32.13",
     "styled-components": "^5.3.3"
+  },
+  "devDependencies": {
+    "argos-cli": "^0.3.3",
+    "cypress": "^9.4.1",
+    "http-server": "^14.1.0",
+    "typescript": "^4.5.5"
   }
 }

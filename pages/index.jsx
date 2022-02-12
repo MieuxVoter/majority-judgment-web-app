@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
@@ -6,8 +5,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col, Button, Input } from "reactstrap";
 import config from "../next-i18next.config.js";
-import VoteBallot from './vote/[pid]/[[...tid]]';
-import CandidatesField from '../components/form/CandidatesField';
+import VoteBallot from "./vote/[pid]/[[...tid]]";
+import CandidatesField from "../components/form/CandidatesField";
 export const getStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, [], config)),
@@ -18,7 +17,6 @@ const Home = () => {
   const [title, setTitle] = useState(null);
   const { t } = useTranslation();
   return (
-   
     <Container className="homePage">
       <section>
         <form className="sectionOneHomeForm" autoComplete="off">
@@ -48,17 +46,18 @@ const Home = () => {
                   value={title ? title : ""}
                   onChange={(e) => setTitle(e.target.value)}
                   maxLength="250"
+                  data-test="question-input"
                 />
               </Row>
               <Row>
-              <Link href={{ pathname: "/new/", query: { title: title } }}>
-                <Button
-                  type="submit"
-                  className="btn btn-block btn-secondary mt-2"
-                >
-                  {t("resource.start")}
-                  <img src="/arrow-white.svg" className="mr-2" />
-                </Button>
+                <Link href={{ pathname: "/new/", query: { title: title } }}>
+                  <Button
+                    type="submit"
+                    className="btn btn-block btn-secondary mt-2"
+                  >
+                    {t("resource.start")}
+                    <img src="/arrow-white.svg" className="mr-2" />
+                  </Button>
                 </Link>
               </Row>
               <Row className="noAds">
@@ -67,11 +66,9 @@ const Home = () => {
             </Col>
             <Col></Col>
           </Row>
-          <Row>
-
-          </Row>
+          <Row></Row>
         </form>
-      </section> 
+      </section>
       <section className="sectionTwoHome">
         <Row className="sectionTwoRowOne">
           <Col className="sectionTwoRowOneCol">
@@ -106,39 +103,50 @@ const Home = () => {
           </Col>
         </Row>
         <Row className="sectionTwoRowTwo">
-        <Row className="sectionTwoHomeImage">
+          <Row className="sectionTwoHomeImage">
             <img src="/vote.svg" />
-        </Row>
+          </Row>
           <Row className="sectionTwoRowTwoCol">
-            <h3 className="col-md-7">Une expérience de vote démocratique et intuitive</h3>
+            <h3 className="col-md-7">
+              Une expérience de vote démocratique et intuitive
+            </h3>
           </Row>
           <Row className="sectionTwoRowTwoCol">
             <Col className="sectionTwoRowTwoColText col-md-4">
               <h5 className="">Exprimez toute votre opinion</h5>
-              <p>Au jugement majoritaire, chaque candidat est évalué sur une grille de mention. Vous n’aurez plus besoin de faire un vote stratégique.</p>
+              <p>
+                Au jugement majoritaire, chaque candidat est évalué sur une
+                grille de mention. Vous n’aurez plus besoin de faire un vote
+                stratégique.
+              </p>
             </Col>
             <Col className="sectionTwoRowTwoColText col-md-4 offset-md-1">
               <h5 className="">Obtenez le meilleur consensus</h5>
-              <p>Le profil des mérites dresse un panorama précis de l’opinion des électeurs. Le gagnant du vote est celui qui est la meilleure mention majoritaire.</p>
+              <p>
+                Le profil des mérites dresse un panorama précis de l’opinion des
+                électeurs. Le gagnant du vote est celui qui est la meilleure
+                mention majoritaire.
+              </p>
             </Col>
           </Row>
           <Row className="sectionTwoRowThreeCol">
-            <Button
-              className="btn btn-block btn-secondary btn-sectionTwoHome"
-            >
+            <Button className="btn btn-block btn-secondary btn-sectionTwoHome">
               Découvrez le jugement majoritaire
-                  <img src="/arrow-white.svg" className="mr-2" />
+              <img src="/arrow-white.svg" className="mr-2" />
             </Button>
           </Row>
         </Row>
         <Row className="sharing">
           <p>Partagez l’application Mieux voter</p>
-          <Link href="https://www.facebook.com/mieuxvoter.fr/"><img src="/facebook.svg" className="mr-2" /></Link>
-          <Link href="https://twitter.com/mieux_voter"><img src="/twitter.svg" className="mr-2" /></Link>
-        </Row> 
+          <Link href="https://www.facebook.com/mieuxvoter.fr/">
+            <img src="/facebook.svg" className="mr-2" />
+          </Link>
+          <Link href="https://twitter.com/mieux_voter">
+            <img src="/twitter.svg" className="mr-2" />
+          </Link>
+        </Row>
       </section>
     </Container>
-
   );
 };
 

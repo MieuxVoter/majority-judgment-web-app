@@ -34,3 +34,5 @@ yarn-error.log*
 .netlify
 functions/next_*
 .env
+
+cypress/screenshots
