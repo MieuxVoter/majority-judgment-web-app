@@ -9,7 +9,7 @@
     "export": "next export",
     "test:integration": "cypress run",
     "argos": "argos upload cypress/screenshots --ignore \"**/*(failed*.png\"",
-    "deploy": "netlify"
+    "deploy": "netlify deploy"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
@@ -63,10 +63,11 @@
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.2.5",
     "argos-cli": "^0.3.3",
     "cypress": "^9.4.1",
     "http-server": "^14.1.0",
-    "netlify": "^11.0.0",
+    "netlify-cli": "^9.4.0",
     "typescript": "^4.5.5"
   }
 }
