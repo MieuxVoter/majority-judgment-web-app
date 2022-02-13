@@ -8,7 +8,8 @@
     "start": "next start",
     "export": "next export",
     "test:integration": "cypress run",
-    "argos": "argos upload cypress/screenshots --token $ARGOS_TOKEN --ignore \"**/*(failed*.png\""
+    "argos": "argos upload cypress/screenshots --ignore \"**/*(failed*.png\"",
+    "deploy": "netlify"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
@@ -65,6 +66,7 @@
     "argos-cli": "^0.3.3",
     "cypress": "^9.4.1",
     "http-server": "^14.1.0",
+    "netlify": "^11.0.0",
     "typescript": "^4.5.5"
   }
 }
