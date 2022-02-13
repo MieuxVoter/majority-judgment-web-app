@@ -9,7 +9,7 @@
     "export": "next export",
     "test:integration": "cypress run",
     "argos": "argos upload cypress/screenshots --ignore \"**/*(failed*.png\"",
-    "deploy": "netlify deploy"
+    "deploy": "netlify deploy --build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
