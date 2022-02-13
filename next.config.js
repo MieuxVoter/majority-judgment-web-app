@@ -1,7 +1,6 @@
 const { i18n } = require("./next-i18next.config");
 
 module.exports = {
-  
   i18n,
   // See https://github.com/netlify/netlify-plugin-nextjs/issues/223
   unstableNetlifyFunctionsSupport: {
