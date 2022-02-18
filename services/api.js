@@ -1,3 +1,5 @@
+import { createConfiguration, PollApi } from "mv-api-client";
+
 const api = {
   urlServer:
     process.env.NEXT_PUBLIC_SERVER_URL || "https://demo.mieuxvoter.fr/api/",
@@ -11,6 +13,9 @@ const api = {
     voteElection: "election/vote/",
   },
 };
+
+const configuration = createConfiguration({ urlServer: api.urlServer });
+export const pollApi = new PollApi(configuration);
 
 const sendInviteMail = (res) => {
   /**
@@ -78,25 +83,21 @@ const createElection = (
   console.log(endpoint.href);
   const onInvitationOnly = mails && mails.length > 0;
 
-  fetch(endpoint.href, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      title,
-      candidates,
-      on_invitation_only: onInvitationOnly,
-      num_grades: numGrades,
-      elector_emails: mails || [],
-      start_at: start,
-      finish_at: finish,
-      select_language: locale || "en",
-      front_url: window.location.origin,
-      restrict_results: restrictResult,
-      send_mail: false,
-    }),
-  })
+  pollApi
+    .postPollCollection({
+      subject: title,
+      proposals: candidates,
+      scope: onInvitationOnly ? "unlisted" : "public",
+      // TODO: map the old API properties with the new ones
+      // num_grades: numGrades,
+      // elector_emails: mails || [],
+      // start_at: start,
+      // finish_at: finish,
+      // select_language: locale || "en",
+      // front_url: window.location.origin,
+      // restrict_results: restrictResult,
+      // send_mail: false,
+    })
     .then((response) => {
       if (!response.ok) {
         throw Error(response.statusText);
