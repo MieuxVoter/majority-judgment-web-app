@@ -10657,10 +10657,10 @@ mute-stream@0.0.7:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
   integrity sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=
 
-mv-api-client@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/mv-api-client/-/mv-api-client-0.0.2.tgz#cab08faafdd38eaeb40087c5a849911e500bdfdf"
-  integrity sha512-Qy4x2dfn/jXxr07UWvqhkz00h57ZjSjAMrLYveSZS9rs9tbtTbCqCYKgLFqfU/8GjxkAHFSitbaeS4xW/7jk7w==
+mv-api-client@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/mv-api-client/-/mv-api-client-0.0.3.tgz#bf4a1c7af2bda5f597f8254f1240d35ea98ec609"
+  integrity sha512-ZRRh4gS2qiQk21k0sENNhWDKRxYmy7RJ8R1NZ42+uScrweuDUAOeZky+UL7Nd9X6WT6LrPOUu6MlmKFuv/4mHQ==
   dependencies:
     es6-promise "^4.2.4"
     url-parse "^1.4.3"
