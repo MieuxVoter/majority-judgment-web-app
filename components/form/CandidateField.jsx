@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect} from 'react'
 import ButtonWithConfirm from "./ButtonWithConfirm";
 import TrashButton from "./TrashButton";
 import {
@@ -10,7 +10,7 @@ import {
   InputGroupAddon,
   Button, Modal, ModalHeader, ModalBody, ModalFooter
 } from "reactstrap";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import {
   sortableHandle
 } from "react-sortable-hoc";
@@ -19,72 +19,72 @@ import AddPicture from "@components/form/AddPicture";
 import {
   faPlus, faCogs, faCheck, faTrash
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const DragHandle = sortableHandle(({ children }) => (
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+const DragHandle = sortableHandle(({children}) => (
   <span className="input-group-text indexNumber">{children}</span>
 ));
 
-const CandidateField = ({ avatar, label, description, candIndex, onDelete, onAdd, ...inputProps }) => {
-  const { t } = useTranslation();
+const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd, ...inputProps}) => {
+  const {t} = useTranslation();
   const [visibled, setVisibility] = useState(false);
   const toggle = () => setVisibility(!visibled)
 
 
 
   const [selected, setSelectedState] = useState(false);
-  const [className , setClassName] = useState("none");
-  const [trashIcon , setTrashIcon] = useState("none");
-  const [plusIcon , setPlusIcon] = useState("none");
-  
+  const [className, setClassName] = useState("none");
+  const [trashIcon, setTrashIcon] = useState("none");
+  const [plusIcon, setPlusIcon] = useState("none");
+
   const addCandidate = () => {
     toggle();
-    onAdd();  
+    onAdd();
   }
   useEffect(() => {
     setClassName("candidateButton " + (selected ? "candidateAdded" : ""))
-}, [selected] );
-useEffect(() => {
-  setPlusIcon("mr-2 cursorPointer " + (selected ? "trashIcon" : ""))
-}, [selected] );
-useEffect(() => {
-  setTrashIcon("trashIcon " + (selected ? "displayTrash" : ""))
-}, [selected] );
+  }, [selected]);
+  useEffect(() => {
+    setPlusIcon("mr-2 cursorPointer " + (selected ? "trashIcon" : ""))
+  }, [selected]);
+  useEffect(() => {
+    setTrashIcon("trashIcon " + (selected ? "displayTrash" : ""))
+  }, [selected]);
 
-const addFunction = () => {
-  addCandidate();
-  setSelectedState(!selected); 
-}
+  const addFunction = () => {
+    addCandidate();
+    setSelectedState(!selected);
+  }
 
 
 
   const [image, setImage] = useState(null);
-    const [createObjectURL, setCreateObjectURL] = useState(null);
+  const [createObjectURL, setCreateObjectURL] = useState(null);
 
-    const uploadToClient = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            const i = event.target.files[0];
+  const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
 
-            setImage(i);
-            setCreateObjectURL(URL.createObjectURL(i));
-  
-    
+      setImage(i);
+      setCreateObjectURL(URL.createObjectURL(i));
 
 
 
-        }
-    };
 
-   
+
+    }
+  };
+
+
   return (
     <Row className="rowNoMargin">
       <div className={className}>
         <div className="avatarThumb">
           <img src={createObjectURL} alt="" />
-          <input placeholder="Ajouter un candidat" className="candidate-placeholder ml-2" value={label}/>         
-        </div>       
-       
-        <FontAwesomeIcon  onClick={toggle} icon={faPlus} className={plusIcon} />
-        <div className={trashIcon}><TrashButton  label={label} onDelete={onDelete}/></div>
+          <input placeholder="Ajouter un candidat" className="candidate-placeholder ml-2" value={label} />
+        </div>
+
+        <FontAwesomeIcon onClick={toggle} icon={faPlus} className={plusIcon} />
+        <div className={trashIcon}><TrashButton label={label} onDelete={onDelete} /></div>
       </div>
 
       <Modal
@@ -113,21 +113,21 @@ const addFunction = () => {
                   <h6>Ajouter un participant</h6>
                   <p>Ajoutez une photo, le nom et une description au candidat.</p>
                   <div className="ajout-avatar">
-            <div>
-                <div className="avatar-placeholer">
-                    <img src={createObjectURL} />
-                </div>
-            </div>
-            <div className="avatar-text">
-                <h4>Photo <span> (facultatif)</span></h4>
+                    <div>
+                      <div className="avatar-placeholer">
+                        <img src={createObjectURL} />
+                      </div>
+                    </div>
+                    <div className="avatar-text">
+                      <h4>Photo <span> (facultatif)</span></h4>
 
-                <p>Importer une photo.<br />format : jpg, png, pdf</p>
-                <div className="btn-ajout-avatar">
-                    <input type="file" name="myImage" id="myImage" value={avatar} onChange={uploadToClient} />
-                    <label className="inputfile" for="myImage">Importer une photo</label>
-                </div>
-            </div>
-        </div>
+                      <p>Importer une photo.<br />format : jpg, png, pdf</p>
+                      <div className="btn-ajout-avatar">
+                        <input type="file" name="myImage" id="myImage" value={avatar} onChange={uploadToClient} />
+                        <label className="inputfile" htmlFor="myImage">Importer une photo</label>
+                      </div>
+                    </div>
+                  </div>
                   <img src="/avatar.svg" />
                 </DragHandle>
               </InputGroupAddon>
@@ -153,8 +153,8 @@ const addFunction = () => {
                 autoFocus
               />
               <Row className="removeAddButtons">
-                
-                <ButtonWithConfirm className="removeButton" label={label} onDelete={onDelete, toggle}/>
+
+                <ButtonWithConfirm className="removeButton" label={label} onDelete={onDelete, toggle} />
                 <Button className="addButton" label={label} onClick={addFunction}>
                   <FontAwesomeIcon icon={faPlus} />
                   <span>Ajouter</span>

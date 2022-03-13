@@ -1,29 +1,29 @@
 import Head from "next/head";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { Col, Container, Row, Button } from "reactstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {Col, Container, Row, Button} from "reactstrap";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import PaypalNoLogo from "@components/banner/PaypalNoLogo";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+// import PaypalNoLogo from "@components/banner/PaypalNoLogo";
 import Gform from "@components/banner/Gform";
 import Error from "@components/Error";
-import { getDetails, apiErrors } from "@services/api";
+import {getDetails, apiErrors} from "@services/api";
 import config from "../../../next-i18next.config.js";
-import { motion } from 'framer-motion/dist/framer-motion';
+import {motion} from 'framer-motion';
 
-export async function getServerSideProps({ query: { pid }, locale }) {
+export async function getServerSideProps({query: {pid}, locale}) {
   const [details, translations] = await Promise.all([
     getDetails(pid),
     serverSideTranslations(locale, [], config),
   ]);
 
   if (typeof details === "string" || details instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return {props: {err: res.slice(1, -1), ...translations}};
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
-    return { props: { err: "Unknown error", ...translations } };
+    return {props: {err: "Unknown error", ...translations}};
   }
 
   return {
@@ -31,7 +31,7 @@ export async function getServerSideProps({ query: { pid }, locale }) {
       ...translations,
       invitationOnly: details.on_invitation_only,
       restrictResults: details.restrict_results,
-      candidates: details.candidates.map((name, i) => ({ id: i, label: name })),
+      candidates: details.candidates.map((name, i) => ({id: i, label: name})),
       title: details.title,
       numGrades: details.num_grades,
       pid: pid,
@@ -39,8 +39,8 @@ export async function getServerSideProps({ query: { pid }, locale }) {
   };
 }
 
-const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
-  const { t } = useTranslation();
+const VoteSuccess = ({title, invitationOnly, pid, err}) => {
+  const {t} = useTranslation();
   if (err && err !== "") {
     return <Error value={apiErrors(err, t)} />;
   }
@@ -60,8 +60,8 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
 
       <motion.div
         className="mx-auto"
-        initial={{ scale: 1, paddingBottom: '200px' }}
-        animate={{ scale: 0.5, paddingBottom: '0px' }}
+        initial={{scale: 1, paddingBottom: '200px'}}
+        animate={{scale: 0.5, paddingBottom: '0px'}}
         transition={{
           type: "spring",
           damping: 100,
@@ -71,8 +71,8 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
         <Row>
           <motion.div
             className="main-animation"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
             transition={{
               type: "spring",
               damping: 20,
@@ -82,8 +82,8 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
 
             <motion.div
               className="vote-animation"
-              initial={{ scale: 0, y: 50 }}
-              animate={{ scale: 1, y: 0 }}
+              initial={{scale: 0, y: 50}}
+              animate={{scale: 1, y: 0}}
               transition={{
                 type: "spring",
                 stiffness: 260,
@@ -95,8 +95,8 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
             </motion.div>
             <motion.div
               className="star-animation"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
+              initial={{scale: 0}}
+              animate={{scale: 1}}
               transition={{
                 type: "spring",
                 damping: 20,
@@ -112,8 +112,8 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
 
       <motion.div
         className=""
-        initial={{ scale: 0, opacity: 0, y: 100 }}
-        animate={{ scale: 1, opacity: 1, y: -70 }}
+        initial={{scale: 0, opacity: 0, y: 100}}
+        animate={{scale: 1, opacity: 1, y: -70}}
         transition={{
           type: "spring",
           damping: 100,
@@ -150,7 +150,6 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
               </Col>
             </Row>
             <p className="pt-4">{t("Mieux Voter est une association transpartisane et sans but lucratif. En adhérant à l’association, vous contribuez à financer son fonctionnement et ses activités. ")}</p>
-            <PaypalNoLogo />
           </Col>
         </Row>
 
@@ -158,20 +157,20 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
           <Col className="text-center col-md-3 mx-auto my-5 thanksVote">
             <h4>{t("resource.thanks")}</h4>
             <p>{t("Aidez nous à améliorer l’application en cliquant ci-dessous")}</p>
-              <Gform className="btn btn-secondary mt-3 mx-auto" />        
+            <Gform className="btn btn-secondary mt-3 mx-auto" />
           </Col>
 
         </Row>
-     
-  
-          <div className="mx-auto my-5">
-            <Row className="justify-content-center">
-          <Link href="https://www.facebook.com/mieuxvoter.fr/"><img src="/facebook.svg" className="mr-2" /></Link>
-          <p className="m-0">{t("Faites découvrir l’application a vos amis")}</p>
-          
-</Row>
-          </div>
-   
+
+
+        <div className="mx-auto my-5">
+          <Row className="justify-content-center">
+            <Link href="https://www.facebook.com/mieuxvoter.fr/"><img src="/facebook.svg" className="mr-2" /></Link>
+            <p className="m-0">{t("Faites découvrir l’application a vos amis")}</p>
+
+          </Row>
+        </div>
+
 
       </motion.div>
 

@@ -1,15 +1,15 @@
 
-import { useState } from "react";
+import {useState} from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import { Container, Row, Col, Button, Input } from "reactstrap";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
+import {Container, Row, Col, Button, Input} from "reactstrap";
 import config from "../next-i18next.config.js";
 import Footer from '@components/layouts/Footer';
 import VoteBallot from './vote/[pid]/[[...tid]]';
 import CandidatesField from '../components/form/CandidatesField';
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, [], config)),
   },
@@ -17,9 +17,9 @@ export const getStaticProps = async ({ locale }) => ({
 
 const Home = () => {
   const [title, setTitle] = useState(null);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
-   
+
     <Container className="homePage">
       <section>
         <form className="sectionOneHomeForm" autoComplete="off">
@@ -52,14 +52,14 @@ const Home = () => {
                 />
               </Row>
               <Row>
-              <Link href={{ pathname: "/new/", query: { title: title } }}>
-                <Button
-                  type="submit"
-                  className="btn btn-block btn-secondary mt-2"
-                >
-                  {t("resource.start")}
-                  <img src="/arrow-white.svg" className="mr-2" />
-                </Button>
+                <Link href={{pathname: "/new/", query: {title: title}}}>
+                  <Button
+                    type="submit"
+                    className="btn btn-block btn-secondary mt-2"
+                  >
+                    {t("resource.start")}
+                    <img src="/arrow-white.svg" className="mr-2" />
+                  </Button>
                 </Link>
               </Row>
               <Row className="noAds">
@@ -72,7 +72,7 @@ const Home = () => {
 
           </Row>
         </form>
-      </section> 
+      </section>
       <section className="sectionTwoHome">
         <Row className="sectionTwoRowOne">
           <Col className="sectionTwoRowOneCol">
@@ -93,7 +93,7 @@ const Home = () => {
               className="d-block mx-auto"
             />
             <h4>Gratuit</h4>
-            <p>Envoyez des invitations par courriel sans limite d'envoi</p>
+            <p>Envoyez des invitations par courriel sans limite d`&apos;`envoi</p>
           </Col>
           <Col className="sectionTwoRowOneCol">
             <img
@@ -107,9 +107,9 @@ const Home = () => {
           </Col>
         </Row>
         <Row className="sectionTwoRowTwo">
-        <Row className="sectionTwoHomeImage">
+          <Row className="sectionTwoHomeImage">
             <img src="/vote.svg" />
-        </Row>
+          </Row>
           <Row className="sectionTwoRowTwoCol">
             <h3 className="col-md-7">Une expérience de vote démocratique et intuitive</h3>
           </Row>
@@ -128,7 +128,7 @@ const Home = () => {
               className="btn btn-block btn-secondary btn-sectionTwoHome"
             >
               Découvrez le jugement majoritaire
-                  <img src="/arrow-white.svg" className="mr-2" />
+              <img src="/arrow-white.svg" className="mr-2" />
             </Button>
           </Row>
         </Row>
@@ -136,7 +136,7 @@ const Home = () => {
           <p>Partagez l’application Mieux voter</p>
           <Link href="https://www.facebook.com/mieuxvoter.fr/"><img src="/facebook.svg" className="mr-2" /></Link>
           <Link href="https://twitter.com/mieux_voter"><img src="/twitter.svg" className="mr-2" /></Link>
-        </Row> 
+        </Row>
       </section>
       <Footer />
     </Container>
