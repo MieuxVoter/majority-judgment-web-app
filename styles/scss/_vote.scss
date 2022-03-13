@@ -1,0 +1,242 @@
+.sectionOneVoteContent {
+    max-width: 40%;
+    justify-content: center;
+}
+.btn-black {
+    box-shadow: 0px 2px 0px 0px #000000;
+    color: white;
+    border-color: #000000;
+}
+.modalVote {
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+    background-color: #17048e;
+    background-image: url('/back.svg');
+    background-size: 100%;
+    background-position: center;
+    margin: 0px!important;
+    display: flex;
+}
+.modalVoteHeader, .modalVoteBody {
+    width: fit-content;
+    margin: auto;
+}
+.modalVote > .modal-content {
+    background: transparent;
+
+}
+.modalVote > .modal-content > div > .modal-header {
+    border-bottom: none;
+}
+.modalVote > .modal-content > div > .modal-header > .modal-title {
+    color: white;
+    font-size: 36px;
+    line-height: 56px;
+    margin: auto;
+    font-family: "DM Serif Display", serif!important;
+    font-weight: normal;
+}
+.candidateGrade {
+    width: 100%;
+    height: 32px;
+    margin: auto 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 2px 0px 0px #8F88BA;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+.voteCheck {
+    width: 100px;
+    height: 32px;
+    margin: auto 8px;
+    padding: 0px;
+}
+.checkmark > .badge {
+    width: 100%;
+}
+.cardVoteLabel {
+    max-width: fit-content;
+    color: #0A004C;
+
+}
+.cardVoteGrades {
+    display: flex;
+}
+.warningVote {
+    background-color: #2400FD;
+    color: white;
+}
+.backToVoteBtn, .warningVote {
+    width: 100%;
+    margin: auto;
+}
+.noRateVote {
+    max-width: 550px;
+}
+.noRateVote > .modal-content {
+    padding: 40px 32px;
+}
+.noRateVote > .modal-content > .modal-header h5 {
+    font-size: 28px;
+    line-height: 32px;
+    color: #2400FD;
+    font-weight: 500;
+}
+.noRateVote > .modal-content > .modal-body {
+    font-size: 16px;
+    line-height: 24px;
+    color: #0A004C;
+    font-weight: 500;
+}
+.vote-animation {
+    z-index: 5;
+    position: relative;
+}
+.confirmH2 {
+    font-size: 32px;
+line-height: 32px;
+margin: auto;
+}
+.confirmLeft {
+    max-width: 35%;
+    background-color: #0A004C;
+    padding: 40px;
+    color: white;
+    margin-right: 30px;
+}
+.confirmRight {
+    max-width: 35%;
+    background-color: white;
+    padding: 40px;
+    color: #0A004C;
+    margin-left: 30px;
+}
+.thanksVote h4 {
+    font-weight: bold;
+font-size: 20px;
+line-height: 24px;
+}
+.thanksVote p, .confirmLeft p, .confirmRight p {
+    font-size: 14px;
+    line-height: 16px;
+}
+@media screen and (max-width: 1440px) {
+    .sectionOneVoteContent {
+        max-width: 70%;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .voteMobile {
+        display: none;
+    }
+}
+@media screen and (max-width: 899px) {
+    .sectionOneVoteContent {
+        max-width: 80%;
+    }
+    .voteDesktop {
+        display: none;
+    }
+    .cardVote, .cardVoteGrades {
+        flex-direction: column;
+    }
+    .candidateGrade {
+        margin: auto;
+    }
+    .voteCheck {
+        width: 100%;
+        margin: auto;
+    }
+    .candidateGrade {
+        justify-content: center;
+    }
+    .checkmark > .badge {
+        width: fit-content;
+    }
+    .embla {
+        overflow: hidden;
+      }
+      .embla__container {
+        display: flex;
+      }
+      .embla__slide {
+        position: relative;
+        flex: 0 0 100%;
+      }
+      .embla__nav {
+          justify-content: center;
+      }
+      .embla__btn {
+          width: 32px;
+          height: 32px;
+          display: flex;
+      }
+      
+.embla__dots {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding-top: 10px;
+  }
+  
+  .embla__dot {
+    background-color: #0A004C4D;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    width: 30px;
+    height: 30px;
+    margin-right: 7.5px;
+    margin-left: 7.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+  }
+  .embla__dot.is-selected {
+    background-color: white;
+    opacity: 1;
+    color: #0A004C;
+  }
+  .btn-background {
+    background-color:#291797;
+    width: 100%;
+    display: flex;   
+  }
+  .backToVoteBtn, .warningVote {
+    width: 300px;
+    margin: auto;
+}
+.confirmRowTwo {
+    flex-direction: column;
+}
+.confirmRowOne > .col > .voteMobile {
+    border: 2px solid #0A004C;
+    box-shadow: 0px 4px 0px 0px #0A004C;
+}
+
+.confirmLeft, .confirmRight {
+    max-width: 100%;
+    margin: auto;
+    padding: 24px;
+}
+.confirmH2 {
+margin: 24px auto;
+}
+.confirmRight div, .confirmRight button {
+    width: 100%;
+}
+}
+@media screen and (max-width: 550px) {
+.modalVoteBody {
+    width: auto;
+}
+}

@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import {
   Container,
   Row,
@@ -12,6 +13,7 @@ import {
   CardHeader,
   CardBody,
   Table,
+  Button
 } from "reactstrap";
 import { getResults, getDetails, apiErrors } from "@services/api";
 import { grades } from "@services/grades";
@@ -19,6 +21,9 @@ import { translateGrades } from "@services/grades";
 import Facebook from "@components/banner/Facebook";
 import Error from "@components/Error";
 import config from "../../../next-i18next.config.js";
+import Footer from '@components/layouts/Footer'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faChevronRight, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 export async function getServerSideProps({ query, locale }) {
   const { pid, tid } = query;
@@ -45,6 +50,7 @@ export async function getServerSideProps({ query, locale }) {
     props: {
       title: details.title,
       numGrades: details.num_grades,
+      finish: details.finish_at,
       candidates: res,
       pid: pid,
       ...translations,
@@ -52,8 +58,11 @@ export async function getServerSideProps({ query, locale }) {
   };
 }
 
-const Result = ({ candidates, numGrades, title, pid, err }) => {
+const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
   const { t } = useTranslation();
+
+  const newstart = new Date(finish * 1000).toLocaleDateString("fr-FR");
+
 
   if (err && err !== "") {
     return <Error value={apiErrors(err, t)} />;
@@ -81,6 +90,8 @@ const Result = ({ candidates, numGrades, title, pid, err }) => {
   console.log("origin", origin);
   const urlVote = new URL(`/vote/${pid}`, origin);
 
+  const collapsee = (candidates[0].title);
+  console.log(collapsee);
   const [collapseProfiles, setCollapseProfiles] = useState(false);
   const [collapseGraphics, setCollapseGraphics] = useState(false);
 
@@ -93,240 +104,198 @@ const Result = ({ candidates, numGrades, title, pid, err }) => {
       : [];
 
   return (
-    <Container>
+    <Container className="resultContainer resultPage">
       <Head>
         <title>{title}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta property="og:title" content={title} />
       </Head>
-      <Row>
-        <Col xs="12">
+      <Row className="sectionHeaderResult componentDesktop mx-0">
+        <Col className="col-md-3 sectionHeaderResultLeftCol">
+          <Row>
+            <Col className="sectionHeaderResultSideCol">
+              <img src="/calendar.svg" />
+              <p>{newstart}</p></Col>
+          </Row>
+          <Row>
+            <Col className="sectionHeaderResultSideCol"><img src="/avatarBlue.svg" />
+              <p>{" " + numVotes} votants</p></Col>
+          </Row>
+        </Col>
+
+        <Col className="sectionHeaderResultMiddleCol">
           <h3>{title}</h3>
         </Col>
-      </Row>
-      <Row className="mt-5">
-        <Col>
-          <ol className="result">
-            {candidates.map((candidate, i) => {
-              const gradeValue = candidate.grade + offsetGrade;
-              return (
-                <li key={i} className="mt-2">
-                  <span className="mt-2 ml-2">{candidate.name}</span>
-                  <span
-                    className="badge badge-light ml-2 mt-2"
-                    style={{
-                      backgroundColor: grades.slice(0).reverse()[
-                        candidate.grade
-                      ].color,
-                      color: "#fff",
-                    }}
-                  >
-                    {allGrades.slice(0).reverse()[gradeValue].label}
-                  </span>
-                </li>
-              );
-            })}
-          </ol>
-          <h5>
-            <small>
-              {t("resource.numVotes")}
-              {" " + numVotes}
-            </small>
-          </h5>
+
+        <Col className="col-md-3 sectionHeaderResultRightCol">
+          <Row>
+            <Col className="sectionHeaderResultSideCol"><img src="/arrowUpload.svg" /><p>Télécharger les résultats</p></Col>
+          </Row>
+          <Row>
+            <Col className="sectionHeaderResultSideCol"><img src="/arrowL.svg" /><p>Partagez les résultats</p></Col>
+          </Row>
         </Col>
       </Row>
 
-      <Row className="mt-5">
-        <Col>
-          <Card className="bg-light text-primary">
-            <CardHeader
-              className="pointer"
-              onClick={() => setCollapseGraphics(!collapseGraphics)}
-            >
-              <h4
-                className={
-                  "m-0 panel-title " + (collapseGraphics ? "collapsed" : "")
-                }
-              >
-                {t("Graph")}
-              </h4>
-            </CardHeader>
-            <Collapse isOpen={collapseGraphics}>
-              <CardBody className="pt-5">
-                <div>
-                  <div
-                    className="median"
-                    style={{ height: candidates.length * 28 + 30 }}
-                  />
-                  <table style={{ width: "100%" }}>
-                    <tbody>
-                      {candidates.map((candidate, i) => {
-                        return (
-                          <tr key={i}>
-                            <td style={{ width: "30px" }}>{i + 1}</td>
-                            {/*candidate.label*/}
-                            <td>
-                              <table style={{ width: "100%" }}>
-                                <tbody>
-                                  <tr>
-                                    {gradeIds
-                                      .slice(0)
-                                      .reverse()
-                                      .map((id, i) => {
-                                        const value = candidate.profile[id];
-                                        if (value > 0) {
-                                          let percent =
-                                            (value * 100) / numVotes + "%";
-                                          if (i === 0) {
-                                            percent = "auto";
-                                          }
-                                          return (
-                                            <td
-                                              key={i}
-                                              style={{
-                                                width: percent,
-                                                backgroundColor:
-                                                  grades[i].color,
-                                              }}
-                                            >
-                                              &nbsp;
-                                            </td>
-                                          );
-                                        } else {
-                                          return null;
-                                        }
-                                      })}
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="mt-4">
-                  <small>
-                    {candidates.map((candidate, i) => {
-                      return (
-                        <span key={i}>
-                          {i > 0 ? ", " : ""}
-                          <b>{i + 1}</b>: {candidate.name}
-                        </span>
-                      );
-                    })}
-                  </small>
-                </div>
-                <div className="mt-2">
-                  <small>
-                    {grades.map((grade, i) => {
-                      return (
-                        <span
-                          key={i}
-                          className="badge badge-light mr-2 mt-2"
-                          style={{
-                            backgroundColor: grade.color,
-                            color: "#fff",
-                          }}
-                        >
-                          {grade.label}
-                        </span>
-                      );
-                    })}
-                  </small>
-                </div>
-              </CardBody>
-            </Collapse>
-          </Card>
+
+      <Row className="sectionHeaderResult componentMobile mx-0">
+        <Col className="px-0">
+          <h3>{title}</h3>
         </Col>
+        <Row>
+          <Col className="sectionHeaderResultSideCol">
+            <img src="/calendar.svg" />
+            <p>{newstart}</p></Col>
+          <Col className="sectionHeaderResultSideCol"><img src="/avatarBlue.svg" />
+            <p>{" " + numVotes} votants</p></Col>
+        </Row>
       </Row>
-      <Row className="mt-3">
-        <Col>
-          <Card className="bg-light text-primary">
-            <CardHeader
-              className="pointer"
-              onClick={() => setCollapseProfiles(!collapseProfiles)}
-            >
-              <h4
-                className={
-                  "m-0 panel-title " + (collapseProfiles ? "collapsed" : "")
-                }
-              >
-                {t("Preference profile")}
-              </h4>
-            </CardHeader>
-            <Collapse isOpen={collapseProfiles}>
-              <CardBody>
-                <div className="table-responsive">
-                  <Table className="profiles">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        {grades.map((grade, i) => {
-                          return (
-                            <th key={i}>
-                              <span
-                                className="badge badge-light"
-                                style={{
-                                  backgroundColor: grade.color,
-                                  color: "#fff",
-                                }}
-                              >
-                                {grade.label}{" "}
-                              </span>
-                            </th>
-                          );
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {candidates.map((candidate, i) => {
-                        return (
-                          <tr key={i}>
-                            <td>{i + 1}</td>
-                            {gradeIds
-                              .slice(0)
-                              .reverse()
-                              .map((id, i) => {
-                                const value = candidate.profile[id];
-                                const percent = (
-                                  (value / numVotes) *
-                                  100
-                                ).toFixed(1);
-                                return <td key={i}>{percent} %</td>;
-                              })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </div>
-                <small>
-                  {candidates.map((candidate, i) => {
-                    return (
-                      <span key={i}>
-                        {i > 0 ? ", " : ""}
-                        <b>{i + 1}</b>: {candidate.name}
+
+      <section className="sectionContentResult mb-5">
+        <Row className="mt-5 componentDesktop">
+          <Col>
+            <ol className="result px-0">
+              {candidates.map((candidate, i) => {
+                const gradeValue = candidate.grade + offsetGrade;
+                return (
+                  <li key={i} className="mt-2">
+                    <span className="resultPosition">{i + 1}</span>
+                    <span className="my-3">{candidate.name}</span>
+                    <span
+                      className="badge badge-light"
+                      style={{
+                        backgroundColor: grades.slice(0).reverse()[
+                          candidate.grade
+                        ].color,
+                        color: "#fff",
+                      }}
+                    >
+                      {allGrades.slice(0).reverse()[gradeValue].label}
+                    </span>
+
+                  </li>
+                );
+              })}
+            </ol>
+          </Col>
+        </Row>
+
+        <Row className="mt-5">
+          <Col>
+            <h5>
+              <small>
+                {t("Détails des résultats")}
+              </small>
+            </h5>
+            {candidates.map((candidate, i) => {
+              const gradeValue = candidate.grade + offsetGrade;
+              return (
+                <Card className="bg-light text-primary my-3">
+                  <CardHeader
+                    className="pointer"
+                    onClick={() => setCollapseGraphics(!collapseGraphics)}
+                  >
+                    <h4
+                      className={
+                        "m-0 " + (collapseGraphics ? "collapsed" : "")
+                      }
+                    >
+                      <span key={i} className="d-flex panel-title justify-content-between">
+                        <div className="d-flex">
+                          <span className="resultPositionCard mr-2">{i + 1}</span>
+                          <span className="candidateName">{candidate.name}</span>
+                        </div>
+                        <div>
+                          <span
+                            className="badge badge-light"
+                            style={{
+                              backgroundColor: grades.slice(0).reverse()[
+                                candidate.grade
+                              ].color,
+                              color: "#fff",
+                            }}
+                          >
+                            {allGrades.slice(0).reverse()[gradeValue].label}
+                          </span>
+                          <FontAwesomeIcon icon={faChevronDown} className="ml-2 openIcon" />
+                          <FontAwesomeIcon icon={faChevronUp} className="ml-2 closeIcon" />
+                        </div>
                       </span>
-                    );
-                  })}
-                </small>
-              </CardBody>
-            </Collapse>
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs="12" className="text-center pt-2 pb-5">
-          <Facebook
-            className="btn btn-outline-light m-2"
-            text={t("Share results on Facebook")}
-            url={urlVote}
-            title={title}
-          />
-        </Col>
-      </Row>
+                    </h4>
+                  </CardHeader>
+                  <Collapse isOpen={collapseGraphics}>
+                    <CardBody className="pt-5">
+                      <Row className="column">
+                        <Col>
+                   
+                            {t("Preference profile")}
+                           
+                          <div>
+                            <div
+                              className="median"
+                              style={{ height: "40px" }}
+                            />
+                            <div style={{ width: "100%" }}>
+
+                              <div key={i}>
+
+                                {/*candidate.label*/}
+
+                                <div style={{ width: "100%" }}>
+
+                                  {gradeIds
+                                    .slice(0)
+                                    .reverse()
+                                    .map((id, i) => {
+                                      const value = candidate.profile[id];
+                                      if (value > 0) {
+                                        let percent =
+                                          (value * 100) / numVotes + "%";
+                                        if (i === 0) {
+                                          percent = "auto";
+                                        }
+                                        return (
+                                          <div
+                                            key={i}
+                                            style={{
+                                              width: percent,
+                                              backgroundColor:
+                                                grades[i].color,
+                                            }}
+                                          >
+                                            &nbsp;
+                                          </div>
+                                        );
+                                      } else {
+                                        return null;
+                                      }
+                                    })}
+                                </div></div></div>
+                          </div>
+                        </Col>
+                        <Col><p>Graph bulles</p></Col>
+
+                      </Row>
+                      <Row className="linkResult my-3">
+                        <Link href="/"><a className="mx-auto">{t("Comment interpréter les résultats")}<FontAwesomeIcon icon={faChevronRight} className="ml-2 closeIcon" /></a></Link>
+                      </Row>
+                    </CardBody>
+                  </Collapse>
+                </Card>
+              );
+            })}
+          </Col>
+        </Row>
+<div className="componentMobile mt-5">
+        <Row>
+          <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary"><img src="/arrowUpload.svg" /><p>Télécharger les résultats</p></Button>
+        </Row>
+        <Row>
+        <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary"><img src="/arrowL.svg" /><p>Partagez les résultats</p></Button>
+        </Row>
+        </div>
+      </section>
+      <Footer />
     </Container>
   );
 };

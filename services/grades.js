@@ -1,29 +1,40 @@
 const colors = [
-  "#015411",
-  "#019812",
-  "#6bca24",
-  "#ffb200",
-  "#ff5d00",
-  "#b20616",
-  "#6f0214"
+  "#F2F0FF",
+  "#C23D13",
+  "#C27C13",
+  "#C2B113",
+  "#D3D715",
+  "#A0CF1C",
+  "#3A9918"
 ];
 
 const gradeNames = [
-  "Excellent",
-  "Very good",
-  "Good",
-  "Fair",
-  "Passable",
+  "To reject",
   "Insufficient",
-  "To reject"
+  "Passable",
+  "Fair",
+  "Good",
+  "Very good",
+  "Excellent"
 ];
 
-const gradeValues = [6, 5, 4, 3, 2, 1, 0];
+const gradeClass = [
+  "to-reject",
+  "insufficient",
+  "passable",
+  "fair",
+  "good",
+  "very-good",
+  "excellent"
+];
+
+const gradeValues = [0, 1, 2, 3, 4, 5, 6, 7];
 
 export const translateGrades = (t) => {
   return gradeNames.map((name, i) => ({
     label: t(name),
     color: colors[i],
-    value: gradeValues[i]
+    value: gradeValues[i],
+    class: gradeClass[i]
   }));
 };

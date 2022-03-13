@@ -19,12 +19,16 @@ const LanguageSelector = () => {
         // ["GB", "FR", "ES", "DE", "RU"]
         ["GB", "FR"]
       }
-      showOptionLabel={false}
+      showOptionLabel={true}
       selected={localeShort}
       selectedSize={15}
       optionsSize={22}
-      showSelectedLabel={false}
+      showSelectedLabel={true}
       showSecondaryOptionLabel={false}
+      customLabels={{ "GB": "Lang: EN", "FR": "Lang: FR" }}
+      fullWidth={false}
+
+      className="menu-flags"
     />
   );
 };

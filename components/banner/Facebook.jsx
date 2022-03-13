@@ -6,7 +6,7 @@ import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
 const Facebook = props => {
   const handleClick = () => {
     const url =
-      "https://www.facebook.com/sharer.php?u=" +
+      "https://www.facebook.com/sharer/sharer.php?u=" +
       props.url +
       "&t=" +
       props.title;
@@ -17,10 +17,9 @@ const Facebook = props => {
     );
   };
   return (
-    <button className={props.className} onClick={handleClick} type="button">
-      <FontAwesomeIcon icon={faFacebookSquare} className="mr-2" />
-      {props.text}
-    </button>
+  
+      <img src="/facebook.svg" onClick={handleClick} className="cursorPointer mr-2" />
+    
   );
 };
 

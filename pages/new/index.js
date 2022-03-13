@@ -15,6 +15,7 @@ import {
   Button,
   Card,
   CardBody,
+  Modal, ModalHeader, ModalBody, ModalFooter, CustomInput
 } from "reactstrap";
 import { ReactMultiEmail, isEmail } from "react-multi-email";
 import "react-multi-email/style.css";
@@ -28,6 +29,9 @@ import {
   faCheck,
   faCogs,
   faExclamationTriangle,
+  faArrowLeft,
+  faExclamationCircle,
+  faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
 import { useAppContext } from "@services/context";
 import { createElection } from "@services/api";
@@ -37,6 +41,8 @@ import Loader from "@components/wait";
 import CandidatesField from "@components/form/CandidatesField";
 import ConfirmModal from "@components/form/ConfirmModal";
 import config from "../../next-i18next.config.js";
+import Footer from '@components/layouts/Footer'
+
 
 // Error messages
 const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
@@ -48,6 +54,7 @@ const getOnlyValidDate = (date) => (isValidDate(date) ? date : new Date());
 // Convert a Date object into YYYY-MM-DD
 const dateToISO = (date) =>
   getOnlyValidDate(date).toISOString().substring(0, 10);
+
 
 // Retrieve the current hour, minute, sec, ms, time into a timestamp
 const hours = (date) => getOnlyValidDate(date).getHours() * 3600 * 1000;
@@ -88,12 +95,14 @@ const CreateElection = (props) => {
   // default value : start at the last hour
   const now = new Date();
   const [title, setTitle] = useState("");
-  const [candidates, setCandidates] = useState([{ label: "" }, { label: "" }]);
+  const [candidates, setCandidates] = useState([{ label: "" }, { description: "" }]);
   const [numGrades, setNumGrades] = useState(5);
   const [waiting, setWaiting] = useState(false);
-  const [isAdvancedOptionsOpen, setAdvancedOptionsOpen] = useState(false);
+  const [isGradesOpen, setGradesOpen] = useState(false);
+  const [isAddCandidateMOpen, setAddCandidateMOpen] = useState(false);
   const [isTimeLimited, setTimeLimited] = useState(false);
   const [restrictResult, setRestrictResult] = useState(false);
+  const [restrictVote, setRestrictVote] = useState(false);
   const [start, setStart] = useState(
     new Date(now.getTime() - minutes(now) - seconds(now) - ms(now))
   );
@@ -118,9 +127,17 @@ const CreateElection = (props) => {
   const handleRestrictResultCheck = (event) => {
     setRestrictResult(event.target.value === "1");
   };
+  const handleRestrictVote = (event) => {
+    setRestrictVote(event.target.value === "1");
+  };
+ 
+  const toggleMails = () => setVisibilityMails(!visibledMails)
+  const toggleGrades = () => setVisibilityGrades(!visibledGrades)
+  const toggle = () => setVisibility(!visibled)
+ 
 
-  const toggleAdvancedOptions = () => {
-    setAdvancedOptionsOpen(!isAdvancedOptionsOpen);
+  const toggleAddCandidateM = () => {
+    setAddCandidateMOpen(!isAddCandidateMOpen);
   };
 
   const addCandidate = () => {
@@ -170,6 +187,7 @@ const CreateElection = (props) => {
         start: start.getTime() / 1000,
         finish: finish.getTime() / 1000,
         restrictResult: restrictResult,
+        restrictVote: restrictVote,
         locale: router.locale.substring(0, 2).toLowerCase(),
       },
       (result) => {
@@ -184,7 +202,9 @@ const CreateElection = (props) => {
       }
     );
   };
-
+  const [visibled, setVisibility] = useState(false);
+  const [visibledGrades, setVisibilityGrades] = useState(false);
+  const [visibledMails, setVisibilityMails] = useState(false);
   const handleSendNotReady = (msg) => {
     toast.error(t(msg), {
       position: toast.POSITION.TOP_CENTER,
@@ -194,8 +214,22 @@ const CreateElection = (props) => {
   const check = checkFields();
   const grades = translateGrades(t);
 
+  const [showModal, setShowModal] = useState(false);
+  // Mangae display
+  const [selected, setSelectedState] = useState(false);
+  const [displayNone, setDisplayNone] = useState("none");
+  const [displayBlock, setDisplayBlock] = useState("none");
+  useEffect(() => {
+    setDisplayNone("mt-0 " + (selected ? "displayNone" : ""))
+  }, [selected]);
+  useEffect(() => {
+    setDisplayBlock("settings " + (selected ? "displayBlock" : ""))
+  }, [selected]);
+  const changeDisplay = () => {
+    setSelectedState(!selected);
+  }
   return (
-    <Container>
+    <Container className="addCandidatePage">
       <Head>
         <meta
           key="og:title"
@@ -210,130 +244,118 @@ const CreateElection = (props) => {
       </Head>
       <ToastContainer />
       {waiting ? <Loader /> : ""}
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <Row>
-          <Col>
-            <h3>{t("resource.startVote")}</h3>
-          </Col>
-        </Row>
-        <hr />
-        <Row className="mt-4">
-          <Col xs="12">
-            <Label for="title">{t("resource.questionLabel")}</Label>
-          </Col>
-          <Col>
-            <Input
-              placeholder={t("resource.writeQuestionHere")}
-              tabIndex="1"
-              name="title"
-              id="title"
-              autoFocus
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              maxLength="250"
-            />
-          </Col>
-          <Col xs="auto" className="align-self-center pl-0">
-            <HelpButton>
-              <u>{t("resource.eg")}</u> <em>{t("resource.exampleQuestion")}</em>
-            </HelpButton>
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col xs="12">
-            <Label for="title">{t("common.candidates")}</Label>
-          </Col>
-          <Col xs="12">
-            <CandidatesField onChange={setCandidates} />
-          </Col>
-          <Col
-            xs="12"
-            sm="6"
-            md="12"
-            className="text-center text-sm-right text-md-left"
-          >
-            <Button
-              color="link"
-              className="text-white mt-3 mb-1"
-              onClick={toggleAdvancedOptions}
-            >
-              <FontAwesomeIcon icon={faCogs} className="mr-2" />
-              {t("resource.advancedOptions")}
-            </Button>
-          </Col>
-        </Row>
-        <Collapse isOpen={isAdvancedOptionsOpen}>
-          <Card>
-            <CardBody className="text-primary">
+      <form className="form" onSubmit={handleSubmit} autoComplete="off">
+        <div className={displayNone}>
+          <Row className="stepForm">
+            <Col className="stepFormCol">
+              <img src="/icone-one-white.svg" />
+              <h4>Les candidats</h4>
+            </Col>
+            <Col className="stepFormCol opacity">
+              <img src="/icone-two-dark.svg" />
+              <h4>Paramètres du vote</h4>
+            </Col>
+            <Col className="stepFormCol opacity">
+              <img src="/icone-three-dark.svg" />
+              <h4>Confirmation</h4>
+
+            </Col>
+          </Row>
+
+          <Row>
+            <Col xs="12">
+              <CandidatesField onChange={setCandidates} />
+            </Col>
+          </Row>
+
+          <Row className="justify-content-center">
+            <div className="mx-auto mt-5">
+
+              <Button onClick={changeDisplay} className="cursorPointer btn-opacity btn-validation mb-5" >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
+            </div>
+          </Row>
+        </div>
+
+
+
+
+        <div className={displayBlock}>
+          <div onClick={changeDisplay} className="btn-return-candidates"><FontAwesomeIcon icon={faArrowLeft} className="mr-2" />Retour aux candidats</div>
+          <Row className="stepForm">
+            <Col className="stepFormCol">
+              <img src="/icone-check-dark.svg" />
+              <h4>Les candidats</h4>
+            </Col>
+            <Col className="stepFormCol">
+              <img src="/icone-two-white.svg" />
+              <h4>Paramètres du vote</h4>
+            </Col>
+            <Col className="stepFormCol opacity">
+              <img src="/icone-three-dark.svg" />
+              <h4>Confirmation</h4>
+
+            </Col>
+          </Row>
+          <div className="settings-modal-body ">
+          <div className="mobile-title">{t("Vos paramètres")}</div>
+            <Row>
+              <Col>
+                <Row className="row-label">
+                  <Col xs="10" lg="10">
+                    <Label for="title">{t("Access to results")} {t("Immediately")}</Label>
+
+                  </Col>
+                  <Col l xs="2" lg="2">
+                    <div class="radio-group">
+                      <input
+                        className="radio"
+                        type="radio"
+                        name="restrict_result"
+                        id="restrict_result_false"
+                        onClick={handleRestrictResultCheck}
+                        defaultChecked={!restrictResult}
+                        value="0"
+                      />
+                      <label for="restrict_result_false" />
+                      <input
+                        className="radio"
+                        type="radio"
+                        name="restrict_result"
+                        id="restrict_result_true"
+                        onClick={handleRestrictResultCheck}
+                        defaultChecked={!restrictResult}
+                        value="1"
+                      />
+                      <label for="restrict_result_true" />
+                      <div class="radio-switch"></div>
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs="12" md="10">
+                    <p>{t("No one will be able to see the result until the end date is reached or until all participants have voted.")}</p>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            <hr className="settings-divider" />
+            <div className="row-label" id="voting-time-label">
               <Row>
-                <Col xs="12" md="3" lg="3">
-                  <Label for="title">{t("Access to results")}</Label>
-                </Col>
-                <Col xs="12" md="4" lg="3">
-                  <Label className="radio " htmlFor="restrict_result_false">
-                    <span className="small text-dark">{t("Immediately")}</span>
-                    <input
-                      className="radio"
-                      type="radio"
-                      name="restrict_result"
-                      id="restrict_result_false"
-                      onClick={handleRestrictResultCheck}
-                      defaultChecked={!restrictResult}
-                      value="0"
-                    />
-                    <span className="checkround checkround-gray" />
-                  </Label>
-                </Col>
-                <Col xs="12" md="4" lg="3">
-                  <Label className="radio" htmlFor="restrict_result_true">
-                    <span className="small">
-                      <span className="text-dark">
-                        {t("At the end of the election")}
-                      </span>
-                      <HelpButton className="ml-2">
-                        {t(
-                          "No one will be able to see the result until the end date is reached or until all participants have voted."
-                        )}
-                      </HelpButton>
-                    </span>
-                    <input
-                      className="radio"
-                      type="radio"
-                      name="restrict_result"
-                      id="restrict_result_true"
-                      onClick={handleRestrictResultCheck}
-                      defaultChecked={restrictResult}
-                      value="1"
-                    />
-                    <span className="checkround checkround-gray" />
-                  </Label>
-                </Col>
-              </Row>
-              <hr className="mt-2 mb-2" />
-              <Row>
-                <Col xs="12" md="3" lg="3">
+
+                <Col xs="10">
                   <Label for="title">{t("Voting time")}</Label>
                 </Col>
-                <Col xs="12" md="4" lg="3">
-                  <Label className="radio " htmlFor="is_time_limited_false">
-                    <span className="small text-dark">{t("Unlimited")}</span>
+                <Col l xs="2">
+                  <div class="radio-group">
                     <input
                       className="radio"
                       type="radio"
                       name="time_limited"
                       id="is_time_limited_false"
                       onClick={handleIsTimeLimited}
-                      defaultChecked={!isTimeLimited}
+                      defaultChecked={isTimeLimited}
                       value="0"
-                    />
-                    <span className="checkround checkround-gray" />
-                  </Label>
-                </Col>
-                <Col xs="12" md="4" lg="3">
-                  <Label className="radio" htmlFor="is_time_limited_true">
-                    <span className="small">
-                      <span className="text-dark">{t("Defined period")}</span>
-                    </span>
+                    /><label for="is_time_limited_false" />
                     <input
                       className="radio"
                       type="radio"
@@ -343,16 +365,18 @@ const CreateElection = (props) => {
                       defaultChecked={isTimeLimited}
                       value="1"
                     />
-                    <span className="checkround checkround-gray" />
-                  </Label>
+                    <label for="is_time_limited_true" />
+                    <div class="radio-switch"></div>
+                  </div>
                 </Col>
+
               </Row>
               <div
                 className={
-                  (isTimeLimited ? "d-block " : "d-none") + " bg-light p-3"
+                  (isTimeLimited ? "d-block " : "d-none")
                 }
               >
-                <Row>
+                <Row className="displayNone">
                   <Col xs="12" md="3" lg="3">
                     <span className="label">- {t("Starting date")}</span>
                   </Col>
@@ -365,7 +389,7 @@ const CreateElection = (props) => {
                         setStart(
                           new Date(
                             timeMinusDate(start) +
-                              new Date(e.target.valueAsNumber).getTime()
+                            new Date(e.target.valueAsNumber).getTime()
                           )
                         );
                       }}
@@ -379,7 +403,7 @@ const CreateElection = (props) => {
                         setStart(
                           new Date(
                             dateMinusTime(start).getTime() +
-                              e.target.value * 3600000
+                            e.target.value * 3600000
                           )
                         )
                       }
@@ -390,10 +414,8 @@ const CreateElection = (props) => {
                 </Row>
 
                 <Row className="mt-2">
-                  <Col xs="12" md="3" lg="3">
-                    <span className="label">- {t("Ending date")}</span>
-                  </Col>
-                  <Col xs="6" md="4" lg="3">
+
+                  <Col xs="6" md="4" lg="3" className="time-container">
                     <input
                       className="form-control"
                       type="date"
@@ -403,13 +425,13 @@ const CreateElection = (props) => {
                         setFinish(
                           new Date(
                             timeMinusDate(finish) +
-                              new Date(e.target.valueAsNumber).getTime()
+                            new Date(e.target.valueAsNumber).getTime()
                           )
                         );
                       }}
                     />
                   </Col>
-                  <Col xs="6" md="5" lg="3">
+                  <Col xs="6" md="5" lg="3" className="displayNone">
                     <select
                       className="form-control"
                       value={getOnlyValidDate(finish).getHours()}
@@ -417,7 +439,7 @@ const CreateElection = (props) => {
                         setFinish(
                           new Date(
                             dateMinusTime(finish).getTime() +
-                              e.target.value * 3600000
+                            e.target.value * 3600000
                           )
                         )
                       }
@@ -426,103 +448,256 @@ const CreateElection = (props) => {
                     </select>
                   </Col>
                 </Row>
-              </div>
-              <hr className="mt-2 mb-2" />
-              <Row>
-                <Col xs="12" md="3" lg="3">
-                  <span className="label">{t("Grades")}</span>
-                </Col>
-                <Col xs="10" sm="11" md="4" lg="3">
-                  <select
-                    className="form-control"
-                    tabIndex={candidates.length + 3}
-                    onChange={(e) => setNumGrades(e.target.value)}
-                    defaultValue="5"
-                  >
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                  </select>
-                </Col>
-                <Col xs="auto" className="align-self-center pl-0 ">
-                  <HelpButton>
-                    {t(
-                      "You can select here the number of grades for your election"
-                    )}
-                    <br />
-                    <u>{t("For example:")}</u>{" "}
-                    <em>
-                      {" "}
-                      {t("5 = Excellent, Very good, Good, Fair, Passable")}
-                    </em>
-                  </HelpButton>
-                </Col>
-                <Col
-                  xs="12"
-                  md="9"
-                  lg="9"
-                  className="offset-xs-0 offset-md-3 offset-lg-3"
+              </div></div>
+            <hr className="settings-divider" />
+            <Row className="componentMobile">
+              <Col>
+                <Row className="row-label">
+                  <Label>{t("Grades")}</Label>
+                  <FontAwesomeIcon onClick={toggleGrades} icon={faChevronRight} className="ml-2 my-auto" />
+
+                </Row>
+                <Row className="mx-0">
+                  <p className="m-0">{t("You can select here the number of grades for your election")}</p>
+                </Row>
+              </Col>
+            </Row>
+
+            <Modal
+              isOpen={visibledGrades}
+              toggle={toggleGrades}
+              className="modal-dialog-centered grades-mobile"
+            ><ModalHeader toggle={toggleGrades}>
+                <Label>{t("Grades")}</Label>
+              </ModalHeader>
+              <ModalBody>
+                <p>{t("Choisissez le nombre de mentions des votes.")}</p>
+                <div className="numGradesContainer justify-content-center" tabIndex={candidates.length + 3}
+                  onChange={(e) => setNumGrades(e.target.value)}>
+                  <Label className="numGrades numGradesMobile">
+                    <Input type="radio" name="radio" value="5" />
+                    <div className="customCheckmarck customCheckmarckMobile numGradeFive"></div>
+                  </Label>
+                  <Label className="numGrades numGradesMobile">
+                    <Input type="radio" checked="checked" name="radio" value="6" />
+                    <div className="customCheckmarck customCheckmarckMobile numGradeSix"></div>
+                  </Label>
+                  <Label className="numGrades numGradesMobile">
+                    <Input type="radio" name="radio" value="7" />
+                    <div className="customCheckmarck customCheckmarckMobile numGradeSeven"></div>
+                  </Label>
+                </div>
+                <p className="mt-2">{t("Voici la liste des mentions de votre vote")}</p>
+                {grades.map((mention, i) => {
+                  return (
+                    <span
+                      key={i}
+                      className={"badge badge-light mx-1 my-2 " + mention.class}
+                      style={{
+                        backgroundColor: mention.color,
+                        color: "#fff",
+                        opacity: i < numGrades ? 1 : 0.3,
+                      }}
+                    >
+                      {mention.label}
+                    </span>
+                  );
+                })}
+                <Row>
+                  <Button
+                    type="button"
+                    className="btn-confirm-mobile"
+                    onClick={toggleGrades}>
+                    <FontAwesomeIcon className="mr-2" icon={faCheck} />
+                    {t("Valider les mentions")}
+                  </Button>
+                </Row>
+
+              </ModalBody>
+            </Modal>
+
+
+            <Row className="componentDesktop">
+              <Col xs="9">
+                <Label>{t("Grades")}</Label>
+                <p>{t("You can select here the number of grades for your election")}</p>
+              </Col>
+              <Col xs="3">
+                <div className="numGradesContainer justify-content-end" tabIndex={candidates.length + 3}
+                  onChange={(e) => setNumGrades(e.target.value)}>
+                  <Label className="numGrades">
+                    <Input type="radio" name="radio" value="5" />
+                    <div className="customCheckmarck numGradeFive"></div>
+                  </Label>
+                  <Label className="numGrades">
+                    <Input type="radio" checked="checked" name="radio" value="6" />
+                    <div className="customCheckmarck numGradeSix"></div>
+                  </Label>
+                  <Label className="numGrades">
+                    <Input type="radio" name="radio" value="7" />
+                    <div className="customCheckmarck numGradeSeven"></div>
+                  </Label>
+                </div>
+              </Col>
+              <Col
+                xs="12"
+                md="9"
+                lg="9"
+              >
+                {grades.map((mention, i) => {
+                  return (
+                    <span
+                      key={i}
+                      className={"badge badge-light mr-2 mt-2 " + mention.class}
+                      style={{
+                        backgroundColor: mention.color,
+                        color: "#fff",
+                        opacity: i < numGrades ? 1 : 0.3,
+                      }}
+                    >
+                      {mention.label}
+                    </span>
+                  );
+                })}
+              </Col>
+            </Row>
+            <hr className="settings-divider" />
+            <Row>
+              <Col>
+                <Row className="row-label">
+                  <Col xs="10" lg="10">
+                    <Label for="title">{t("Vote privée")}</Label>
+
+                  </Col>
+                  <Col l xs="2" lg="2">
+                    <div class="radio-group">
+                      <input
+                        className="radio"
+                        type="radio"
+                        name="restrict_result"
+                        id="restrict_result_false"
+                        onClick={handleRestrictResultCheck}
+                        defaultChecked={!restrictResult}
+                        value="0"
+                      />
+                      <label for="restrict_result_false" />
+                      <input
+                        className="radio"
+                        type="radio"
+                        name="restrict_result"
+                        id="restrict_result_true"
+                        onClick={handleRestrictResultCheck}
+                        defaultChecked={!restrictResult}
+                        value="1"
+                      />
+                      <label for="restrict_result_true" />
+                      <div class="radio-switch"></div>
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row className="mx-0"><p className="mx-0">{t("Uniquement les personnes invités par mail pourront participé au vote")}</p></Row>
+              </Col></Row>
+            <hr className="settings-divider" />
+            <Row className="componentMobile">
+              <Col xs="12">
+                <Row className="row-label">
+                  <Label>{t("Participants")}</Label>
+                  <FontAwesomeIcon onClick={toggleMails} icon={faChevronRight} className="ml-2 my-auto" />
+                </Row>
+                <p>{t("Copier-coller les emails des participants depuis un fichier Excel")}</p>
+                <Modal
+                  isOpen={visibledMails}
+                  toggle={toggleMails}
+                  className="modal-dialog-centered grades-mobile"
                 >
-                  {grades.map((mention, i) => {
-                    return (
-                      <span
-                        key={i}
-                        className="badge badge-light mr-2 mt-2 "
-                        style={{
-                          backgroundColor: mention.color,
-                          color: "#fff",
-                          opacity: i < numGrades ? 1 : 0.3,
+                  <ModalHeader toggle={toggleMails}>
+                    <Label>{t("Ajouter des invités")}</Label>
+                  </ModalHeader>
+                  <ModalBody>
+                    <Row>
+                      <p className="mr-2 my-auto">{t("À ")}</p>
+
+                      <ReactMultiEmail
+                        placeholder={t("Add here participants' emails")}
+                        emails={emails}
+                        onChange={setEmails}
+                        validateEmail={(email) => {
+                          return isEmail(email); // return boolean
                         }}
-                      >
-                        {mention.label}
-                      </span>
+                        getLabel={(email, index, removeEmail) => {
+                          return (
+                            <div data-tag key={index}>
+                              {email}
+                              <span
+                                data-tag-handle
+                                onClick={() => removeEmail(index)}
+                              >
+                                ×
+                              </span>
+
+                            </div>
+
+                          );
+                        }}
+
+                      />
+                    </Row>
+                    <Row>
+                      <Button
+                        type="button"
+                        className="btn-confirm-mobile"
+                        onClick={toggleMails}>
+                        <FontAwesomeIcon className="mr-2" icon={faCheck} />
+                        {t("Valider les mails")}
+                      </Button>
+                    </Row>
+                  </ModalBody>
+                </Modal>
+
+
+
+              </Col>
+            </Row>
+            <Row className="componentDesktop">
+              <Col xs="12">
+                <Label>{t("Participants")}</Label>
+                <p>{t("If you list voters' emails, only them will be able to access the election")}</p>
+                <ReactMultiEmail
+                  placeholder={t("Add here participants' emails")}
+                  emails={emails}
+                  onChange={setEmails}
+                  validateEmail={(email) => {
+                    return isEmail(email); // return boolean
+                  }}
+                  getLabel={(email, index, removeEmail) => {
+                    return (
+                      <div data-tag key={index}>
+                        {email}
+                        <span
+                          data-tag-handle
+                          onClick={() => removeEmail(index)}
+                        >
+                          ×
+                        </span>
+                      </div>
                     );
-                  })}
-                </Col>
-              </Row>
-              <hr className="mt-2 mb-2" />
-              <Row>
-                <Col xs="12" md="3" lg="3">
-                  <span className="label">{t("Participants")}</span>
-                </Col>
-                <Col xs="12" md="9" lg="9">
-                  <ReactMultiEmail
-                    placeholder={t("Add here participants' emails")}
-                    emails={emails}
-                    onChange={setEmails}
-                    validateEmail={(email) => {
-                      return isEmail(email); // return boolean
-                    }}
-                    getLabel={(email, index, removeEmail) => {
-                      return (
-                        <div data-tag key={index}>
-                          {email}
-                          <span
-                            data-tag-handle
-                            onClick={() => removeEmail(index)}
-                          >
-                            ×
-                          </span>
-                        </div>
-                      );
-                    }}
-                  />
-                  <div>
-                    <small className="text-muted">
-                      {t(
-                        "If you list voters' emails, only them will be able to access the election"
-                      )}
-                    </small>
-                  </div>
-                </Col>
-              </Row>
-              <hr className="mt-2 mb-2" />
-            </CardBody>
-          </Card>
-        </Collapse>
-        <Row className="justify-content-end mt-2">
-          <Col xs="12" md="3">
+                  }}
+                />
+                <div className="mt-2 mailMutedText">
+                  <small className="text-muted">
+                    <FontAwesomeIcon icon={faExclamationCircle} className="mr-2" />
+                    {t("Copier-coller les emails des participants depuis un fichier Excel")}
+                  </small>
+                </div>
+              </Col>
+            </Row>
+            <hr className="settings-divider" />
+            <Col xs="12" md="3">
+
+            </Col>
+          </div>
+          <div className="justify-content-center">
             {check.ok ? (
               <ConfirmModal
                 title={title}
@@ -532,24 +707,28 @@ const CreateElection = (props) => {
                 finish={finish}
                 emails={emails}
                 restrictResult={restrictResult}
+                restrictVote={restrictVote}
                 grades={grades.slice(0, numGrades)}
-                className={"btn btn-success float-right btn-block"}
+                className={"btn float-right btn-block"}
                 tabIndex={candidates.length + 1}
                 confirmCallback={handleSubmit}
               />
             ) : (
-              <Button
-                type="button"
-                className="btn btn-dark float-right btn-block"
-                onClick={handleSendNotReady}
-              >
-                <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                {t("Confirm")}
-              </Button>
+              <div>
+                <Button onClick={handleSendNotReady} className="mt-5 componentDesktop btn-transparent cursorPointer btn-validation mb-5 mx-auto" >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
+                <Button
+
+                  className="componentMobile btn-confirm-mobile mb-5"
+                  onClick={handleSendNotReady}>
+                  <FontAwesomeIcon className="mr-2" icon={faCheck} />
+                  {t("Valider")}
+                </Button>
+              </div>
             )}
-          </Col>
-        </Row>
+          </div>
+        </div>
       </form>
+      <Footer />
     </Container>
   );
 };

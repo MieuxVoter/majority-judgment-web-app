@@ -13,39 +13,41 @@ const ButtonWithConfirm = ({className, label, onDelete}) => {
   const toggle = () => setVisibility(!visibled)
 
   return (
-    <div className="input-group-append">
+    <div className="input-group-append cancelButton">
       <button
         type="button"
-        className={className}
+        className={"btn " + className}
         onClick={toggle}
       >
-        <FontAwesomeIcon icon={faTrashAlt} />
+        <div className="annuler"><img className="ml-0" src="/arrow-dark-left.svg" /><p className="ml-0" >Annuler</p></div>
       </button>
       <Modal
         isOpen={visibled}
         toggle={toggle}
-        className="modal-dialog-centered"
+        className="modal-dialog-centered cancelForm"
       >
-        <ModalHeader toggle={toggle}>{t("Delete?")}</ModalHeader>
+        <ModalHeader><FontAwesomeIcon icon={faTrashAlt} /></ModalHeader>
         <ModalBody>
-          {t("Are you sure to delete")}{" "}
+          {t("Are you sure to delete")}{<br />}
           {label && label !== "" ? (
-            <b>&quot;{label}&quot;</b>
+            <b>{label}</b>
           ) : (
             <>{t("the row")}</>
-          )}{" "}
-                ?
+          )}
         </ModalBody>
         <ModalFooter>
           <Button
-            color="primary-outline"
-            className="text-primary border-primary"
+
+            className={className}
             onClick={toggle}>
-            {t("No")}
+              <div className="annuler"><img src="/arrow-dark-left.svg" /> {t("No")}</div>
+           
           </Button>
-          <Button color="primary"
+          <Button
+          className="new-btn-confirm"
             onClick={() => {toggle(); onDelete();}}
           >
+            <FontAwesomeIcon icon={faTrashAlt} className="mr-2"/>
             {t("Yes")}
           </Button>
         </ModalFooter>

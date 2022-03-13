@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCopy,
+  faClone,
   faVoteYea,
   faExclamationTriangle,
   faExternalLinkAlt,
@@ -25,9 +25,10 @@ const CopyField = (props) => {
   const { t, value, iconCopy, iconOpen } = props;
 
   return (
-    <div className="input-group  ">
+    <div className="input-group my-4 ">
       <input
         type="text"
+        style={{display:"none"}}
         className="form-control"
         ref={ref}
         value={value}
@@ -35,7 +36,7 @@ const CopyField = (props) => {
         onClick={handleClickOnField}
       />
 
-      <div className="input-group-append">
+      <div className="input-group-append copy">
         {/*
         <Button
           href={value}
@@ -49,12 +50,12 @@ const CopyField = (props) => {
         </Button>
         */}
         <Button
-          className="btn btn-secondary"
+          className="btn btn-copy"
           onClick={handleClickOnButton}
           type="button"
         >
-          <FontAwesomeIcon icon={iconCopy} className="mr-2" />
           {t("Copy")}
+          <FontAwesomeIcon icon={iconCopy} className="ml-2" />
         </Button>
       </div>
     </div>
@@ -62,7 +63,7 @@ const CopyField = (props) => {
 };
 
 CopyField.defaultProps = {
-  iconCopy: faCopy,
+  iconCopy: faClone,
   iconOpen: faExternalLinkAlt,
 };
 

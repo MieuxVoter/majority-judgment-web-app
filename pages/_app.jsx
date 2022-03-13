@@ -27,7 +27,7 @@ function Application({Component, pageProps}) {
     <main className="d-flex flex-column justify-content-center">
       <Component {...pageProps} />
     </main>
-    <Footer />
+    
   </AppProvider>);
 }
 
