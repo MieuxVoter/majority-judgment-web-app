@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {
   Collapse,
   Container,
@@ -17,12 +17,12 @@ import {
   CardBody,
   Modal, ModalHeader, ModalBody, ModalFooter, CustomInput
 } from "reactstrap";
-import { ReactMultiEmail, isEmail } from "react-multi-email";
+import {ReactMultiEmail, isEmail} from "react-multi-email";
 import "react-multi-email/style.css";
-import { toast, ToastContainer } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import queryString from "query-string";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   faPlus,
   faTrashAlt,
@@ -32,14 +32,14 @@ import {
   faArrowLeft,
   faExclamationCircle
 } from "@fortawesome/free-solid-svg-icons";
-import { useAppContext } from "@services/context";
-import { createElection } from "@services/api";
-import { translateGrades } from "@services/grades";
+import {useAppContext} from "@services/context";
+import {createElection} from "@services/api";
+import {translateGrades} from "@services/grades";
 import HelpButton from "@components/form/HelpButton";
 import Loader from "@components/wait";
 import CandidatesField from "@components/form/CandidatesField";
 import ConfirmModal from "@components/form/ConfirmModal";
-import config from "../../next-i18next.config.js";
+// import config from "../../next-i18next.config.js";
 
 
 // Error messages
@@ -80,19 +80,19 @@ const displayClockOptions = () =>
       </option>
     ));
 
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps = async ({locale}) => ({
   props: {
-    ...(await serverSideTranslations(locale, [], config)),
+    ...(await serverSideTranslations(locale, [])),
   },
 });
 
 const CreateElection = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   // default value : start at the last hour
   const now = new Date();
   const [title, setTitle] = useState("");
-  const [candidates, setCandidates] = useState([{ label: "" }, { description: "" }]);
+  const [candidates, setCandidates] = useState([{label: ""}, {description: ""}]);
   const [numGrades, setNumGrades] = useState(5);
   const [waiting, setWaiting] = useState(false);
   const [isAdvancedOptionsOpen, setAdvancedOptionsOpen] = useState(false);
@@ -113,7 +113,7 @@ const CreateElection = (props) => {
   useEffect(() => {
     if (!router.isReady) return;
 
-    const { title: urlTitle } = router.query;
+    const {title: urlTitle} = router.query;
     setTitle(urlTitle || "");
   }, [router.isReady]);
 
@@ -138,14 +138,14 @@ const CreateElection = (props) => {
 
   const addCandidate = () => {
     if (candidates.length < 1000) {
-      candidates.push({ label: "" });
+      candidates.push({label: ""});
       setCandidates(candidates);
     }
   };
 
   const checkFields = () => {
     if (!candidates) {
-      return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
+      return {ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR};
     }
 
     let numCandidates = 0;
@@ -153,14 +153,14 @@ const CreateElection = (props) => {
       if (c.label !== "") numCandidates += 1;
     });
     if (numCandidates < 2) {
-      return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
+      return {ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR};
     }
 
     if (!title || title === "") {
-      return { ok: false, msg: NO_TITLE_ERROR };
+      return {ok: false, msg: NO_TITLE_ERROR};
     }
 
-    return { ok: true, msg: "OK" };
+    return {ok: true, msg: "OK"};
   };
 
   const handleSubmit = () => {
@@ -472,8 +472,8 @@ const CreateElection = (props) => {
 
           )}
         </div></form>
-    
-    
+
+
     </Container >
   );
 };
