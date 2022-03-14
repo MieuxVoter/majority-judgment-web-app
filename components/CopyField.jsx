@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 import React from "react";
-import { Button } from "reactstrap";
+import { Button, UncontrolledTooltip } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClone,
@@ -8,27 +8,25 @@ import {
   faExclamationTriangle,
   faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
-
+import ClipboardJS from 'clipboard';
 const CopyField = (props) => {
   const ref = React.createRef();
   const handleClickOnField = (event) => {
     event.target.focus();
     event.target.select();
   };
-  const handleClickOnButton = () => {
-    const input = ref.current;
-    input.focus();
-    input.select();
-    document.execCommand("copy");
-  };
+  const { t, value, iconCopy, text } = props;
 
-  const { t, value, iconCopy, iconOpen } = props;
+  if (typeof window !== "undefined") {
+    new ClipboardJS('.btn');
+  }
+
 
   return (
     <div className="input-group my-4 ">
       <input
         type="text"
-        style={{display:"none"}}
+        style={{ display: "none" }}
         className="form-control"
         ref={ref}
         value={value}
@@ -37,8 +35,8 @@ const CopyField = (props) => {
       />
 
       <div className="input-group-append copy">
-        {/*
-        <Button
+
+        {/* <Button
           href={value}
           target="_blank"
           rel="noreferrer"
@@ -47,17 +45,25 @@ const CopyField = (props) => {
         >
           <FontAwesomeIcon icon={iconOpen} className="mr-2" />
           {t("Go")}
-        </Button>
-        */}
+        </Button> */}
+
         <Button
+          data-clipboard-text={value}
+          id="tooltip"
+          target="_blank"
+          rel="noreferrer"
           className="btn btn-copy"
-          onClick={handleClickOnButton}
           type="button"
         >
-          {t("Copy")}
+          {text}
           <FontAwesomeIcon icon={iconCopy} className="ml-2" />
         </Button>
       </div>
+      <UncontrolledTooltip
+        placement="top"
+        target="tooltip"
+        trigger="click"
+      >Lien copié</UncontrolledTooltip>
     </div>
   );
 };

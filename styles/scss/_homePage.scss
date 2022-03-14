@@ -51,7 +51,13 @@
     border-radius: 0%;
     color: #FFFFFF;
   }
+  .sectionOneHomeInput::after {
+    content: '100';
+  }
   .sectionOneHomeInput::placeholder {
+    color: #C3BFD8;
+  }
+  .maxLength {
     color: #C3BFD8;
   }
   .noAds p {

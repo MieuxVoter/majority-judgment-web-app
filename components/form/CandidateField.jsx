@@ -53,24 +53,19 @@ useEffect(() => {
 const addFunction = () => {
   addCandidate();
   setSelectedState(!selected); 
+};
+const deleteFunction = () => {
+  onDelete();
+  toggle();
 }
 
-
-
-  const [image, setImage] = useState(null);
+    const [image, setImage] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
-
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             const i = event.target.files[0];
-
             setImage(i);
             setCreateObjectURL(URL.createObjectURL(i));
-  
-    
-
-
-
         }
     };
 
@@ -154,7 +149,7 @@ const addFunction = () => {
               />
               <Row className="removeAddButtons">
                 
-                <ButtonWithConfirm className="removeButton" label={label} onDelete={onDelete, toggle}/>
+                <ButtonWithConfirm className="removeButton" label={label} onDelete={deleteFunction}/>
                 <Button className="addButton" label={label} onClick={addFunction}>
                   <FontAwesomeIcon icon={faPlus} />
                   <span>Ajouter</span>

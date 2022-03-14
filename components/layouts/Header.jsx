@@ -25,7 +25,7 @@ const Header = () => {
       <Navbar light className="nav-mobile" expand="lg">
         <div className="navbar-header">         
 
-          <Button onClick={toggle} className="navbar-toggle">
+          <Button onClick={toggle} className="navbar-toggle pt-0 mt-0">
             <img src="/open-menu-icon.svg" alt="" height="50" />
           </Button>
         </div>

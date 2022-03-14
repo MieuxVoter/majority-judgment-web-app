@@ -88,7 +88,7 @@ const ConfirmElection = ({
         value={urlVote.href}
         iconCopy={faCopy}
         iconOpen={faExternalLinkAlt}
-        t={t}
+        text={''}
       />
     </>
   );
@@ -206,13 +206,18 @@ const ConfirmElection = ({
       <Row className="mb-4">
         <Col className=" mx-auto" lg="4">
           <div className="p-4 pb-5">
-            {electionLink}
-
+        
+            <CopyField
+              value={urlVote}
+              iconCopy={faCopy}
+              iconOpen={faExternalLinkAlt}
+              text={t("Copier le lien du vote")}
+            />
             <CopyField
               value={urlResult}
               iconCopy={faCopy}
               iconOpen={faExternalLinkAlt}
-              t={t}
+              text={t("Copier le lien des résultats")}
             />
           </div>
         </Col>

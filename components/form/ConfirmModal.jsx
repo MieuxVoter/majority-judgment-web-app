@@ -13,16 +13,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const ConfirmModal = ({ tabIndex, title, candidates, grades, isTimeLimited, start, finish, emails, restrictResult, className, confirmCallback }) => {
   const [visibled, setVisibility] = useState(false);
   const { t } = useTranslation();
-  const toggle = () => setVisibility(!visibled)
+  const toggleConfirm = () => setVisibility(!visibled)
 
   return (
     <div className="input-group-append">
-       <Button  onClick={toggle}
+       <Button  onClick={toggleConfirm}
         tabIndex={tabIndex} className={"mt-5 componentDesktop btn-transparent cursorPointer btn-validation mb-5 mx-auto" + className} >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
                 <Button
 
                   className={"componentMobile btn-confirm-mobile mb-5" + className}
-                  onClick={toggle}
+                  onClick={toggleConfirm}
                   tabIndex={tabIndex}>
                   <FontAwesomeIcon className="mr-2" icon={faCheck} />
                   {t("Valider")}
@@ -30,11 +30,11 @@ const ConfirmModal = ({ tabIndex, title, candidates, grades, isTimeLimited, star
 
       <Modal
         isOpen={!visibled}
-        toggle={toggle}
+        toggleConfirm={toggleConfirm}
         className="modal-dialog-centered settings-modal"
       >
         <ModalHeader className="modal-header-settings">
-          <div onClick={toggle} className="btn-return-candidates"><FontAwesomeIcon icon={faArrowLeft} className="mr-2" />Retour aux paramètres</div>
+          <div onClick={toggleConfirm} className="btn-return-candidates"><FontAwesomeIcon icon={faArrowLeft} className="mr-2" />Retour aux paramètres</div>
           <Row>
             <Row className="stepForm">
               <Col className="stepFormCol">

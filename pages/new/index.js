@@ -96,7 +96,7 @@ const CreateElection = (props) => {
   const now = new Date();
   const [title, setTitle] = useState("");
   const [candidates, setCandidates] = useState([{ label: "" }, { description: "" }]);
-  const [numGrades, setNumGrades] = useState(5);
+  const [numGrades, setNumGrades] = useState(6);
   const [waiting, setWaiting] = useState(false);
   const [isGradesOpen, setGradesOpen] = useState(false);
   const [isAddCandidateMOpen, setAddCandidateMOpen] = useState(false);
@@ -130,11 +130,11 @@ const CreateElection = (props) => {
   const handleRestrictVote = (event) => {
     setRestrictVote(event.target.value === "1");
   };
- 
+
   const toggleMails = () => setVisibilityMails(!visibledMails)
   const toggleGrades = () => setVisibilityGrades(!visibledGrades)
   const toggle = () => setVisibility(!visibled)
- 
+
 
   const toggleAddCandidateM = () => {
     setAddCandidateMOpen(!isAddCandidateMOpen);
@@ -170,9 +170,7 @@ const CreateElection = (props) => {
   const handleSubmit = () => {
     const check = checkFields();
     if (!check.ok) {
-      toast.error(t(check.msg), {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      alert("Saisissez ici le nom d'au moins deux candidats.");
       return;
     }
 
@@ -202,6 +200,7 @@ const CreateElection = (props) => {
       }
     );
   };
+  
   const [visibled, setVisibility] = useState(false);
   const [visibledGrades, setVisibilityGrades] = useState(false);
   const [visibledMails, setVisibilityMails] = useState(false);
@@ -227,7 +226,18 @@ const CreateElection = (props) => {
   }, [selected]);
   const changeDisplay = () => {
     setSelectedState(!selected);
-  }
+  };
+  const badgesValues = [5, 6, 7];
+  const [badgesValue, setbadgesValue] = useState(6);
+  const handleFirstSubmit = () => {
+    const check = checkFields();
+    if (!check.ok) {
+     alert("Saisissez ici le nom d'au moins deux candidats.");
+      return;
+    }
+    changeDisplay();
+    
+  };
   return (
     <Container className="addCandidatePage">
       <Head>
@@ -271,7 +281,7 @@ const CreateElection = (props) => {
           <Row className="justify-content-center">
             <div className="mx-auto mt-5">
 
-              <Button onClick={changeDisplay} className="cursorPointer btn-opacity btn-validation mb-5" >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
+              <Button onClick={handleFirstSubmit} className="cursorPointer btn-opacity btn-validation mb-5" >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
             </div>
           </Row>
         </div>
@@ -297,16 +307,16 @@ const CreateElection = (props) => {
             </Col>
           </Row>
           <div className="settings-modal-body ">
-          <div className="mobile-title">{t("Vos paramètres")}</div>
+            <div className="mobile-title">{t("Vos paramètres")}</div>
             <Row>
               <Col>
                 <Row className="row-label">
                   <Col xs="10" lg="10">
-                    <Label for="title">{t("Access to results")} {t("Immediately")}</Label>
+                    <Label htmlFor="title">{t("Access to results")} {t("Immediately")}</Label>
 
                   </Col>
                   <Col l xs="2" lg="2">
-                    <div class="radio-group">
+                    <div className="radio-group">
                       <input
                         className="radio"
                         type="radio"
@@ -316,7 +326,7 @@ const CreateElection = (props) => {
                         defaultChecked={!restrictResult}
                         value="0"
                       />
-                      <label for="restrict_result_false" />
+                      <label htmlFor="restrict_result_false" />
                       <input
                         className="radio"
                         type="radio"
@@ -326,8 +336,8 @@ const CreateElection = (props) => {
                         defaultChecked={!restrictResult}
                         value="1"
                       />
-                      <label for="restrict_result_true" />
-                      <div class="radio-switch"></div>
+                      <label htmlFor="restrict_result_true" />
+                      <div className="radio-switch"></div>
                     </div>
                   </Col>
                 </Row>
@@ -343,10 +353,10 @@ const CreateElection = (props) => {
               <Row>
 
                 <Col xs="10">
-                  <Label for="title">{t("Voting time")}</Label>
+                  <Label htmlFor="title">{t("Voting time")}</Label>
                 </Col>
                 <Col l xs="2">
-                  <div class="radio-group">
+                  <div className="radio-group">
                     <input
                       className="radio"
                       type="radio"
@@ -355,7 +365,7 @@ const CreateElection = (props) => {
                       onClick={handleIsTimeLimited}
                       defaultChecked={isTimeLimited}
                       value="0"
-                    /><label for="is_time_limited_false" />
+                    /><label htmlFor="is_time_limited_false" />
                     <input
                       className="radio"
                       type="radio"
@@ -365,8 +375,8 @@ const CreateElection = (props) => {
                       defaultChecked={isTimeLimited}
                       value="1"
                     />
-                    <label for="is_time_limited_true" />
-                    <div class="radio-switch"></div>
+                    <label htmlFor="is_time_limited_true" />
+                    <div className="radio-switch"></div>
                   </div>
                 </Col>
 
@@ -472,20 +482,16 @@ const CreateElection = (props) => {
               </ModalHeader>
               <ModalBody>
                 <p>{t("Choisissez le nombre de mentions des votes.")}</p>
-                <div className="numGradesContainer justify-content-center" tabIndex={candidates.length + 3}
-                  onChange={(e) => setNumGrades(e.target.value)}>
-                  <Label className="numGrades numGradesMobile">
-                    <Input type="radio" name="radio" value="5" />
-                    <div className="customCheckmarck customCheckmarckMobile numGradeFive"></div>
-                  </Label>
-                  <Label className="numGrades numGradesMobile">
-                    <Input type="radio" checked="checked" name="radio" value="6" />
-                    <div className="customCheckmarck customCheckmarckMobile numGradeSix"></div>
-                  </Label>
-                  <Label className="numGrades numGradesMobile">
-                    <Input type="radio" name="radio" value="7" />
-                    <div className="customCheckmarck customCheckmarckMobile numGradeSeven"></div>
-                  </Label>
+                <div className="numGradesContainer justify-content-center" tabIndex={candidates.length + 3}>
+
+                  {badgesValues.map(f => (
+
+                    <Label className="numGrades numGradesMobile">
+                      <Input type="radio" name="radio" value={f}  checked={badgesValue === f}
+                        onChange={e => setNumGrades(e.currentTarget.value)} />
+                      <div className="customCheckmarck customCheckmarckMobile"><p>{f}</p></div>
+                    </Label>
+                  ))}
                 </div>
                 <p className="mt-2">{t("Voici la liste des mentions de votre vote")}</p>
                 {grades.map((mention, i) => {
@@ -523,20 +529,19 @@ const CreateElection = (props) => {
                 <p>{t("You can select here the number of grades for your election")}</p>
               </Col>
               <Col xs="3">
-                <div className="numGradesContainer justify-content-end" tabIndex={candidates.length + 3}
-                  onChange={(e) => setNumGrades(e.target.value)}>
-                  <Label className="numGrades">
-                    <Input type="radio" name="radio" value="5" />
-                    <div className="customCheckmarck numGradeFive"></div>
-                  </Label>
-                  <Label className="numGrades">
-                    <Input type="radio" checked="checked" name="radio" value="6" />
-                    <div className="customCheckmarck numGradeSix"></div>
-                  </Label>
-                  <Label className="numGrades">
-                    <Input type="radio" name="radio" value="7" />
-                    <div className="customCheckmarck numGradeSeven"></div>
-                  </Label>
+                <div className="numGradesContainer justify-content-end" tabIndex={candidates.length + 3}>
+                {badgesValues.map(f => (
+
+<Label className="numGrades ">
+  <Input type="radio" name="radio" value={f} checked={badgesValue === f}
+    onChange={e => setNumGrades(e.currentTarget.value)} />
+  <div className="customCheckmarck"><p>{f}</p></div>
+</Label>
+))}
+
+
+
+
                 </div>
               </Col>
               <Col
@@ -566,11 +571,11 @@ const CreateElection = (props) => {
               <Col>
                 <Row className="row-label">
                   <Col xs="10" lg="10">
-                    <Label for="title">{t("Vote privée")}</Label>
+                    <Label htmlFor="title">{t("Vote privée")}</Label>
 
                   </Col>
                   <Col l xs="2" lg="2">
-                    <div class="radio-group">
+                    <div className="radio-group">
                       <input
                         className="radio"
                         type="radio"
@@ -580,7 +585,7 @@ const CreateElection = (props) => {
                         defaultChecked={!restrictResult}
                         value="0"
                       />
-                      <label for="restrict_result_false" />
+                      <label htmlFor="restrict_result_false" />
                       <input
                         className="radio"
                         type="radio"
@@ -590,8 +595,8 @@ const CreateElection = (props) => {
                         defaultChecked={!restrictResult}
                         value="1"
                       />
-                      <label for="restrict_result_true" />
-                      <div class="radio-switch"></div>
+                      <label htmlFor="restrict_result_true" />
+                      <div className="radio-switch"></div>
                     </div>
                   </Col>
                 </Row>

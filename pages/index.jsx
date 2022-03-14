@@ -44,12 +44,15 @@ const Home = () => {
                   placeholder={t("resource.writeQuestion")}
                   autoFocus
                   required
-                  className="mt-2 sectionOneHomeInput"
+                  className="mt-2 mb-0 sectionOneHomeInput"
                   name="title"
                   value={title ? title : ""}
                   onChange={(e) => setTitle(e.target.value)}
-                  maxLength="250"
+                  maxLength="100"
                 />
+                
+                <p className="pt-0 mt-0 mr-0 maxLength">100</p>
+                
               </Row>
               <Row>
               <Link href={{ pathname: "/new/", query: { title: title } }}>
@@ -58,7 +61,7 @@ const Home = () => {
                   className="btn btn-block btn-secondary mt-2"
                 >
                   {t("resource.start")}
-                  <img src="/arrow-white.svg" className="mr-2" />
+                  <img src="/arrow-white.svg" className="m-2" />
                 </Button>
                 </Link>
               </Row>
