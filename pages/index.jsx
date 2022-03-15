@@ -39,7 +39,7 @@ const Home = () => {
               <Row>
                 <h2>Organisez un vote avec le Jugement Majoritaire</h2>
               </Row>
-              <Row>
+              <Row className="justify-content-end">
                 <Input
                   placeholder={t("resource.writeQuestion")}
                   autoFocus
@@ -48,23 +48,13 @@ const Home = () => {
                   name="title"
                   value={title ? title : ""}
                   onChange={(e) => setTitle(e.target.value)}
-                  maxLength="100"
+                  maxLength="250"
                 />
                 
-                <p className="pt-0 mt-0 mr-0 maxLength">100</p>
+                <p className="pt-0 mt-0 mr-0 maxLength">250</p>
                 
               </Row>
               <Row>
-<<<<<<< HEAD
-              <Link href={{ pathname: "/new/", query: { title: title } }}>
-                <Button
-                  type="submit"
-                  className="btn btn-block btn-secondary mt-2"
-                >
-                  {t("resource.start")}
-                  <img src="/arrow-white.svg" className="m-2" />
-                </Button>
-=======
                 <Link href={{pathname: "/new/", query: {title: title}}}>
                   <Button
                     type="submit"
@@ -73,7 +63,6 @@ const Home = () => {
                     {t("resource.start")}
                     <img src="/arrow-white.svg" className="mr-2" />
                   </Button>
->>>>>>> 102b62636454308245aa839e42a8387359101d1d
                 </Link>
               </Row>
               <Row className="noAds">

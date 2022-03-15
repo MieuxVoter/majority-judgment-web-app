@@ -21,6 +21,7 @@ const CopyField = (props) => {
     new ClipboardJS('.btn');
   }
 
+  
 
   return (
     <div className="input-group my-4 ">

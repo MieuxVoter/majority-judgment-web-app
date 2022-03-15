@@ -5,11 +5,11 @@ import { useTranslation } from "next-i18next";
 const Error = (props) => {
   const { t } = useTranslation();
   return (
-    <Container>
+    <Container className="full-height-container">
       <Row>
         <Link href="/">
           <a className="d-block ml-auto mr-auto mb-4">
-            <img src="/logos/logo-line-white.svg" alt="logo" height="128" />
+            <img src="/logos/logo.svg" alt="logo" height="128" />
           </a>
         </Link>
       </Row>
@@ -19,15 +19,15 @@ const Error = (props) => {
         </Col>
       </Row>
       <Row className="mt-4">
-        <Col className="text-right mr-4">
+        <Col className="my-3" sm="6">
           <Link href="/">
-            <a className="btn btn-secondary">{t("common.backHomepage")}</a>
+            <a className="btn btn-secondary m-auto">{t("common.backHomepage")}</a>
           </Link>
         </Col>
-        <Col className="text-left ml-4">
+        <Col className="my-3" sm="6">
           <a
             href="mailto:app@mieuxvoter.fr?subject=[HELP]"
-            className="btn btn-success"
+            className="btn btn-success m-auto"
           >
             {t("resource.help")}
           </a>

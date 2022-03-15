@@ -42,34 +42,6 @@ const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd,
   }
   useEffect(() => {
     setClassName("candidateButton " + (selected ? "candidateAdded" : ""))
-<<<<<<< HEAD
-}, [selected] );
-useEffect(() => {
-  setPlusIcon("mr-2 cursorPointer " + (selected ? "trashIcon" : ""))
-}, [selected] );
-useEffect(() => {
-  setTrashIcon("trashIcon " + (selected ? "displayTrash" : ""))
-}, [selected] );
-
-const addFunction = () => {
-  addCandidate();
-  setSelectedState(!selected); 
-};
-const deleteFunction = () => {
-  onDelete();
-  toggle();
-}
-
-    const [image, setImage] = useState(null);
-    const [createObjectURL, setCreateObjectURL] = useState(null);
-    const uploadToClient = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            const i = event.target.files[0];
-            setImage(i);
-            setCreateObjectURL(URL.createObjectURL(i));
-        }
-    };
-=======
   }, [selected]);
   useEffect(() => {
     setPlusIcon("mr-2 cursorPointer " + (selected ? "trashIcon" : ""))
@@ -81,6 +53,10 @@ const deleteFunction = () => {
   const addFunction = () => {
     addCandidate();
     setSelectedState(!selected);
+  }
+  const removeCandidate = () => {
+    onDelete();
+    toggle();
   }
 
 
@@ -98,7 +74,6 @@ const deleteFunction = () => {
 
 
 
->>>>>>> 102b62636454308245aa839e42a8387359101d1d
 
     }
   };
@@ -182,13 +157,8 @@ const deleteFunction = () => {
                 autoFocus
               />
               <Row className="removeAddButtons">
-<<<<<<< HEAD
-                
-                <ButtonWithConfirm className="removeButton" label={label} onDelete={deleteFunction}/>
-=======
 
-                <ButtonWithConfirm className="removeButton" label={label} onDelete={onDelete, toggle} />
->>>>>>> 102b62636454308245aa839e42a8387359101d1d
+                <ButtonWithConfirm className="removeButton" label={label} onDelete={removeCandidate} />
                 <Button className="addButton" label={label} onClick={addFunction}>
                   <FontAwesomeIcon icon={faPlus} />
                   <span>Ajouter</span>
