@@ -8,7 +8,7 @@ import {
   Input,
   InputGroup,
   InputGroupAddon,
-  Button, Modal, ModalHeader, ModalBody, ModalFooter
+  Button, Modal, ModalHeader, ModalBody, Form
 } from "reactstrap";
 import {useTranslation} from "react-i18next";
 import {
@@ -37,9 +37,20 @@ const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd,
   const [plusIcon, setPlusIcon] = useState("none");
 
   const addCandidate = () => {
+    if (label != "") {
     toggle();
     onAdd();
+    setSelectedState(!selected);
+    }
+    else {}
   }
+  if (label != "") {
+  const type = "button";
+  }
+  else {
+    const type = "submit";
+  }
+ 
   useEffect(() => {
     setClassName("candidateButton " + (selected ? "candidateAdded" : ""))
   }, [selected]);
@@ -67,14 +78,8 @@ const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd,
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
-
       setImage(i);
       setCreateObjectURL(URL.createObjectURL(i));
-
-
-
-
-
     }
   };
 
@@ -101,17 +106,9 @@ const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd,
 
         </ModalHeader>
         <ModalBody>
-
-
-
-
-
-
-
-
-
-          <Col className="addCandidateCard">
+     <Col className="addCandidateCard">
             <InputGroup className="addCandidateForm">
+              <Form>
               <InputGroupAddon addonType="prepend" className="addCandidateHeader">
                 <DragHandle>
                   <h6>Ajouter un participant</h6>
@@ -159,11 +156,14 @@ const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd,
               <Row className="removeAddButtons">
 
                 <ButtonWithConfirm className="removeButton" label={label} onDelete={removeCandidate} />
-                <Button className="addButton" label={label} onClick={addFunction}>
+             
+                <Button type={type} className="addButton" label={label} onClick={addCandidate}>
                   <FontAwesomeIcon icon={faPlus} />
                   <span>Ajouter</span>
                 </Button>
+
               </Row>
+              </Form>
             </InputGroup>
           </Col>
         </ModalBody></Modal>

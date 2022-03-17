@@ -170,7 +170,9 @@ const CreateElection = (props) => {
   const handleSubmit = () => {
     const check = checkFields();
     if (!check.ok) {
-      alert("Saisissez ici le nom d'au moins deux candidats.");
+      toast.error(t(check.msg), {
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
 
@@ -232,7 +234,9 @@ const CreateElection = (props) => {
   const handleFirstSubmit = () => {
     const check = checkFields();
     if (!check.ok) {
-     alert("Saisissez ici le nom d'au moins deux candidats.");
+      toast.error(t(check.msg), {
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
     changeDisplay();

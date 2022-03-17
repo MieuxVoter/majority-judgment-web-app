@@ -46,7 +46,7 @@ const CandidatesField = ({onChange}) => {
 
   useEffect(() => {
     addCandidate();
-    addCandidate();
+
   }, [])
 
 
@@ -78,10 +78,11 @@ const CandidatesField = ({onChange}) => {
       if (index + 1 === candidates.length) {
         addCandidate();
       }
-      else {
+      else { 
         candidates[index + 1].fieldRef.current.focus();
       }
     }
+    
   }
 
   const onSortEnd = ({oldIndex, newIndex}) => {
