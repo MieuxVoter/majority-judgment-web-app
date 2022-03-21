@@ -202,7 +202,7 @@ const CreateElection = (props) => {
       }
     );
   };
-  
+
   const [visibled, setVisibility] = useState(false);
   const [visibledGrades, setVisibilityGrades] = useState(false);
   const [visibledMails, setVisibilityMails] = useState(false);
@@ -240,7 +240,7 @@ const CreateElection = (props) => {
       return;
     }
     changeDisplay();
-    
+
   };
   return (
     <Container className="addCandidatePage">
@@ -491,7 +491,7 @@ const CreateElection = (props) => {
                   {badgesValues.map(f => (
 
                     <Label className="numGrades numGradesMobile">
-                      <Input type="radio" name="radio" value={f}  checked={badgesValue === f}
+                      <Input type="radio" name="radio" value={f} checked={badgesValue === f}
                         onChange={e => setNumGrades(e.currentTarget.value)} />
                       <div className="customCheckmarck customCheckmarckMobile"><p>{f}</p></div>
                     </Label>
@@ -534,17 +534,14 @@ const CreateElection = (props) => {
               </Col>
               <Col xs="3">
                 <div className="numGradesContainer justify-content-end" tabIndex={candidates.length + 3}>
-                {badgesValues.map(f => (
+                  {badgesValues.map(f => (
 
-<Label className="numGrades ">
-  <Input type="radio" name="radio" value={f} checked={badgesValue === f}
-    onChange={e => setNumGrades(e.currentTarget.value)} />
-  <div className="customCheckmarck"><p>{f}</p></div>
-</Label>
-))}
-
-
-
+                    <Label className="numGrades ">
+                      <Input type="radio" name="radio" value={f} checked={badgesValue === f}
+                        onChange={e => setNumGrades(e.currentTarget.value)} />
+                      <div className="customCheckmarck"><p>{f}</p></div>
+                    </Label>
+                  ))}
 
                 </div>
               </Col>

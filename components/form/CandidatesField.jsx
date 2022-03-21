@@ -53,8 +53,7 @@ const CandidatesField = ({onChange}) => {
   const removeCandidate = index => {
     if (candidates.length === 1) {
       const newCandidates = []
-      newCandidates.push({label: "", description: "", fieldRef: createRef()});
-      newCandidates.push({label: "", description: "", fieldRef: createRef()});
+      newCandidates.push({label: "", fieldRef: createRef()});
       setCandidates(newCandidates);
       onChange(newCandidates)
     }
@@ -65,9 +64,8 @@ const CandidatesField = ({onChange}) => {
     }
   };
 
-  const editCandidate = (index, label, description) => {
+  const editCandidate = (index, label) => {
     candidates[index].label = label
-    candidates[index].description = description
     setCandidates([...candidates]);
     onChange(candidates);
   };

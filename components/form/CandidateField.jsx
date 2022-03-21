@@ -82,8 +82,8 @@ const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd,
       setCreateObjectURL(URL.createObjectURL(i));
     }
   };
-
-
+const test = {...inputProps};
+console.log(test);
   return (
     <Row className="rowNoMargin">
       <div className={className}>
