@@ -7,26 +7,61 @@ import {
   faArrowLeft,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, Label, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ConfirmModal = ({ tabIndex, title, candidates, grades, isTimeLimited, start, finish, emails, restrictResult, className, confirmCallback }) => {
+const ConfirmModal = ({ CreateElection, handleRestrictResultCheck, handleIsTimeLimited, tabIndex, title, candidates, grades, isTimeLimited, start, finish, emails, restrictResult, className, confirmCallback }) => {
   const [visibled, setVisibility] = useState(false);
   const { t } = useTranslation();
   const toggle = () => setVisibility(!visibled)
 
+  const isValidDate = (date) => date instanceof Date && !isNaN(date);
+  const getOnlyValidDate = (date) => (isValidDate(date) ? date : new Date());
+
+  // Convert a Date object into YYYY-MM-DD
+  const dateToISO = (date) =>
+    getOnlyValidDate(date).toISOString().substring(0, 10);
+
+
+  // Retrieve the current hour, minute, sec, ms, time into a timestamp
+  const hours = (date) => getOnlyValidDate(date).getHours() * 3600 * 1000;
+  const minutes = (date) => getOnlyValidDate(date).getMinutes() * 60 * 1000;
+  const seconds = (date) => getOnlyValidDate(date).getSeconds() * 1000;
+  const ms = (date) => getOnlyValidDate(date).getMilliseconds();
+  const time = (date) =>
+    hours(getOnlyValidDate(date)) +
+    minutes(getOnlyValidDate(date)) +
+    seconds(getOnlyValidDate(date)) +
+    ms(getOnlyValidDate(date));
+
+  // Retrieve the time part from a timestamp and remove the day. Return a int.
+  const timeMinusDate = (date) => time(getOnlyValidDate(date));
+
+  // Retrieve the day and remove the time. Return a Date
+  const dateMinusTime = (date) =>
+    new Date(getOnlyValidDate(date).getTime() - time(getOnlyValidDate(date)));
+
+  const displayClockOptions = () =>
+    Array(24)
+      .fill(1)
+      .map((x, i) => (
+        <option value={i} key={i}>
+          {i}h00
+        </option>
+      ));
+console.log(isTimeLimited);
   return (
     <div className="input-group-append">
-       <Button  onClick={toggle}
+      <Button onClick={toggle}
         tabIndex={tabIndex} className={"mt-5 componentDesktop btn-transparent cursorPointer btn-validation mb-5 mx-auto" + className} >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
-                <Button
+      <Button
 
-                  className={"componentMobile btn-confirm-mobile mb-5" + className}
-                  onClick={toggle}
-                  tabIndex={tabIndex}>
-                  <FontAwesomeIcon className="mr-2" icon={faCheck} />
-                  {t("Valider")}
-                </Button>
+        className={"componentMobile btn-confirm-mobile mb-5" + className}
+        onClick={toggle}
+        tabIndex={tabIndex}>
+        <FontAwesomeIcon className="mr-2" icon={faCheck} />
+        {t("Valider")}
+      </Button>
 
       <Modal
         isOpen={!visibled}
@@ -55,46 +90,84 @@ const ConfirmModal = ({ tabIndex, title, candidates, grades, isTimeLimited, star
         <ModalBody className="confirm-modal-body">
           <Row>
             <Col md="4" className="p-0">
-              <div className="text-light">{t("Le vote")}</div>
+              <div className="text-light componentDesktop">{t("Le vote")}</div>
+              <div className="text-light componentMobile">{t("Confirmation du vote")}</div>
               <div className="mt-1 mb-1 recap-vote">
-                <Row className="m-0">
-                  <div className="recap-vote-label">
-                    {t("Question of the election")}
-                  </div>
-                </Row>
-                <Row>
-                  <div className="p-2 pl-3 pr-3 mb-3 recap-vote-question">{title}</div>
-                </Row>
-                <hr className="confirmation-divider"/>
-                <Row>
-                  <div className="recap-vote-label p-2 pl-3 pr-3 ">
-                    {t("Candidates/Proposals")}
-                  </div>
-                </Row>
-                <Row>
-                  <div className="p-2 pl-3 pr-3 mb-3 recap-vote-content">
-                    <ul className="m-0 pl-4">
-                      {candidates.map((candidate, i) => {
-                        if (candidate.label !== "") {
-                          return (
-                            <li key={i} className="m-0">
-                              {candidate.label}
+                <Col className="px-0 bg-white">
+                  <Row className="m-0">
+                    <div className="recap-vote-label">
+                      {t("Question of the election")}
+                    </div>
+                  </Row>
+                  <Row>
+                    <div className="p-2 pl-3 pr-3 mb-3 recap-vote-question">{title}</div>
+                  
+                  </Row>
+                </Col>
+                <hr className="confirmation-divider" />
+                <Col className="px-0 bg-white">
+                  <Row>
+                    <div className="recap-vote-label p-2 pl-3 pr-3 ">
+                      {t("Candidates/Proposals")}
+                    </div>
+                  </Row>
+                  <Row>
+                    <div className="p-2 pl-3 pr-3 mb-3 recap-vote-content">
+                      <ul className="m-0 pl-4">
+                        {candidates.map((candidate, i) => {
+                          if (candidate.label !== "") {
+                            return (
+                              <li key={i} className="m-0">
+                                {candidate.label}
 
-                            </li>
-                          );
-                        } else {
-                          return <li key={i} className="d-none" />;
-                        }
-                      })}
-                    </ul>
-                  </div>
-                </Row>
+                              </li>
+                            );
+                          } else {
+                            return <li key={i} className="d-none" />;
+                          }
+                        })}
+                      </ul>
+                    </div>
+                  </Row>
+                </Col>
               </div>
             </Col>
-            <Col md="8">
-              <div className="text-light">{t("Les paramètres")}</div>
+            <Col md="8" className="rightColumn">
+              <div className="text-light componentDesktop">{t("Les paramètres")}</div>
               <div className="recap-vote">
-                <div className={(isTimeLimited ? "d-block " : "d-none")} >
+                <Col className="px-0 bg-white mt-0 mb-1">
+                  <Row className="row-label px-3 py-2 m-0">
+                    <Col xs="10" lg="10" className="p-0 m-0">
+                      <Label htmlFor="title" className="m-0">{t("Access to results")} {t("Immediately")}</Label>
+
+                    </Col>
+                    <Col l xs="2" lg="2">
+                      <div className="radio-group">
+                        <input
+                          className="radio"
+                          type="radio"
+                          name="restrict_result"
+                          id="restrict_result_false"
+                          onClick={handleRestrictResultCheck}
+                      
+                          value="0"
+                        />
+                        <label htmlFor="restrict_result_false" />
+                        <input
+                          className="radio"
+                          type="radio"
+                          name="restrict_result"
+                          id="restrict_result_true"
+                          onClick={handleRestrictResultCheck}
+                          checked={restrictResult}
+                          value="1"
+                        />
+                        <label htmlFor="restrict_result_true" />
+                        <div className="radio-switch"></div>
+                      </div>
+                    </Col>
+                  </Row>
+                  {/* <div className={(isTimeLimited ? "d-block " : "d-none")} >
                   <div className="p-2 pl-3 pr-3 recap-vote-label ">
                     {t("Dates")}
                   </div>
@@ -110,50 +183,167 @@ const ConfirmModal = ({ tabIndex, title, candidates, grades, isTimeLimited, star
                       {finish.toLocaleTimeString()}
                     </b>
                   </div>
-                </div>
-                <hr className="confirmation-divider"/>
-                <div className="recap-vote-label p-2 pl-3 pr-3">
-                  {t("Grades")}
-                </div>
-                <div className="p-2 pl-3 pr-3 recap-vote-content mb-3">
-                  {grades.map((mention, i) => {
-                    return i < grades.length ? (
-                      <span
-                        key={i}
-                        className="badge badge-light mr-2 mt-2"
-                        style={{
-                          backgroundColor: mention.color,
-                          color: "#fff"
-                        }}
-                      >
-                        {mention.label}
-                      </span>
+                </div> */}
+                  <hr className="confirmation-divider-mobile" />
+                
+
+                    <Row className="row-label px-3 py-2 m-0">
+
+                      <Col xs="10" className="p-0 m-0">
+                        <Label htmlFor="title" className="m-0">{t("Voting time")}</Label>
+                      </Col>
+                      <Col l xs="2">
+                        <div className="radio-group">
+                          <input
+                            className="radio"
+                            type="radio"
+                            name="time_limited"
+                            id="is_time_limited_false"
+                            onClick={handleIsTimeLimited}
+                            value="0"
+                          />
+                          <label htmlFor="is_time_limited_false" />
+                          <input
+                            className="radio"
+                            type="radio"
+                            name="time_limited"
+                            id="is_time_limited_true"
+                            onClick={handleIsTimeLimited}
+                            checked={isTimeLimited}
+                            value="1"
+                          />
+                          <label htmlFor="is_time_limited_true" />
+                          <div className="radio-switch"></div>
+                        </div>
+                      </Col>
+
+                    </Row>
+                    <div
+                      className={
+                        (isTimeLimited ? "d-block " : "d-none")
+                      }
+                    >
+                      <Row className="displayNone date">
+                        <Col xs="12" md="5" lg="5">
+                          <span className="label">- {t("Starting date")}</span>
+                        </Col>
+                        <Col xs="12" md="12" lg="6">
+                          <input
+                            className="form-control"
+                            type="date"
+                            value={dateToISO(start)}
+                            onChange={(e) => {
+                              setStart(
+                                new Date(
+                                  timeMinusDate(start) +
+                                  new Date(e.target.valueAsNumber).getTime()
+                                )
+                              );
+                            }}
+                          />
+                        </Col>
+                        <Col xs="12" md="12" lg="6">
+                          <select
+                            className="form-control"
+                            value={getOnlyValidDate(start).getHours()}
+                            onChange={(e) =>
+                              setStart(
+                                new Date(
+                                  dateMinusTime(start).getTime() +
+                                  e.target.value * 3600000
+                                )
+                              )
+                            }
+                          >
+                            {displayClockOptions()}
+                          </select>
+                        </Col>
+                      </Row>
+
+                      <Row className="mt-2">
+
+                        <Col xs="12" md="12" lg="6" className="time-container">
+                          <input
+                            className="form-control"
+                            type="date"
+                            value={dateToISO(finish)}
+                            min={dateToISO(start)}
+                            onChange={(e) => {
+                              setFinish(
+                                new Date(
+                                  timeMinusDate(finish) +
+                                  new Date(e.target.valueAsNumber).getTime()
+                                )
+                              );
+                            }}
+                          />
+                        </Col>
+                        <Col xs="12" md="12" lg="6" className="displayNone">
+                          <select
+                            className="form-control"
+                            value={finish}
+                            onChange={(e) =>
+                              setFinish(
+                                new Date(
+                                  dateMinusTime(finish).getTime() +
+                                  e.target.value * 3600000
+                                )
+                              )
+                            }
+                          >
+                            {displayClockOptions()}
+                          </select>
+                        </Col>
+                      </Row>
+                    </div>
+                  <hr className="confirmation-divider-mobile" />
+
+
+
+                  <div className="recap-vote-label p-2 pl-3 pr-3">
+                    {t("Grades")}
+                  </div>
+                  <div className="p-2 pl-3 pr-3 recap-vote-content mb-3">
+                    {grades.map((mention, i) => {
+                      return i < grades.length ? (
+                        <span
+                          key={i}
+                          className="badge badge-light mr-2 mt-2"
+                          style={{
+                            backgroundColor: mention.color,
+                            color: "#fff"
+                          }}
+                        >
+                          {mention.label}
+                        </span>
+                      ) : (
+                        <span key={i} />
+                      );
+                    })}
+                  </div>
+                  <hr className="confirmation-divider" />
+
+                  <hr className="confirmation-divider" />
+                  <div className="recap-vote-label p-2 pl-3 pr-3 rounded">
+                    {t("Voters' list")}
+                  </div>
+                  <div className="p-2 pl-3 pr-3 recap-vote-content mb-3">
+                    {emails.length > 0 ? (
+                      emails.join(", ")
                     ) : (
-                      <span key={i} />
-                    );
-                  })}
-                </div>
-                <hr className="confirmation-divider"/>
-                <div className="recap-vote-label p-2 pl-3 pr-3 rounded">
-                  {t("Voters' list")}
-                </div>
-                <div className="p-2 pl-3 pr-3 recap-vote-content mb-3">
-                  {emails.length > 0 ? (
-                    emails.join(", ")
-                  ) : (
-                    <p>
-                      {t("The form contains no address.")}
-                      <br />
-                      <em>
-                        {t(
-                          "The election will be opened to anyone with the link"
-                        )}
-                      </em>
-                    </p>
-                  )}
-                </div>
-                <hr className="confirmation-divider"/>
-                {restrictResult ? (
+                      <p>
+                        {t("The form contains no address.")}
+                        <br />
+                        <em>
+                          {t(
+                            "The election will be opened to anyone with the link"
+                          )}
+                        </em>
+                      </p>
+                    )}
+                  </div>
+                  <hr className="confirmation-divider" />
+                  {/* {restrictResult ? (
                   <div>
                     <div className="small recap-vote-label p-3 mt-2">
                       <h6 className="m-0 p-0 recap-vote-content">
@@ -182,14 +372,15 @@ const ConfirmModal = ({ tabIndex, title, candidates, grades, isTimeLimited, star
                       </h6>
                     </div>
                   </div>
-                )}
+                )} */}</Col>
               </div>
+
             </Col>
           </Row>
         </ModalBody>
         <ModalFooter>
-          
-          <Button onClick={() => {confirmCallback(); }} className="cursorPointer btn-transparent btn-validation mb-5 ml-auto mr-auto" >{t("Start the election")}<img src="/arrow-white.svg" /></Button>
+
+          <Button onClick={() => { confirmCallback(); }} className="cursorPointer btn-transparent btn-validation mb-5 ml-auto mr-auto" >{t("Start the election")}<img src="/arrow-white.svg" /></Button>
         </ModalFooter>
       </Modal>
     </div >

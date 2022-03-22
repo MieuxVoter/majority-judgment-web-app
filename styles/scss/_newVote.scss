@@ -432,7 +432,7 @@ line-height: 24px;
     margin: auto;
 }
 .recap-vote {
-    background-color: white;
+
     font-weight: bold;
 }
 .recap-vote .row {
@@ -460,7 +460,7 @@ line-height: 24px;
     border-top: none;
 }
 
-.confirmation-divider {
+.confirmation-divider, .confirmation-divider-mobile {
 width: 100%;
 border-top: solid 1px #0A004C;
 }
@@ -600,8 +600,11 @@ line-height: 24px!important;
 }
 .form-control {
     color: #0A004C;
-}
 
+}
+.time-container .form-control {
+    width: fit-content!important;
+}
 .mobile-title {
     display: none;
 }
@@ -613,6 +616,9 @@ line-height: 24px!important;
 }
 .trashIcon {
     color: #FF3E37!important;
+}
+.rightColumn {
+    padding-left: 15px;
 }
   @media screen and (min-width: 619px) and (max-width: 1120px) {
     .btn-return-candidates {
@@ -671,10 +677,10 @@ line-height: 24px!important;
     .modal-header-settings {
         justify-content: flex-start;
     }
-    .settings-modal-body > .row {
+    .settings-modal-body > .row, .confirm-modal-body > .row {
         padding: 15px 15px 0px;
     }
-    .settings-modal-body {
+    .settings-modal-body, .confirm-modal-body, .settings-modal > .modal-content {
         background: transparent;
         width: 100%;
     }
@@ -705,7 +711,7 @@ line-height: 24px!important;
         padding: 12px;
        
     }
-    .settings-divider {
+    .settings-divider, .confirmation-divider {
         display: none;
     }
     
@@ -784,6 +790,21 @@ color: #2400FD;
         line-height: 24px;
         color: white;
         margin-bottom: 10px;
+    }
+    .recap-vote > div {
+        margin: 15px auto;
+    }
+    .recap-vote .row {
+        padding: 0px 15px;
+    }
+    .recap-vote-label {
+        padding-top: 15px!important;
+    }
+    .time-container .form-control {
+        margin: auto;
+    }
+    .rightColumn {
+        padding: 0px;
     }
 }
 @media screen and (max-width: 375px) {

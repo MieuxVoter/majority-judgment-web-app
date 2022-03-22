@@ -242,6 +242,7 @@ const CreateElection = (props) => {
     changeDisplay();
 
   };
+ 
   return (
     <Container className="addCandidatePage">
       <Head>
