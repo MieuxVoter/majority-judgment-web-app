@@ -1,5 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
+import Footer from "@components/layouts/Footer";
 import TrashButton from "./TrashButton";
 import {
   faExclamationTriangle,
@@ -49,7 +50,8 @@ const ConfirmModal = ({ CreateElection, handleRestrictResultCheck, handleIsTimeL
           {i}h00
         </option>
       ));
-console.log(isTimeLimited);
+
+
   return (
     <div className="input-group-append">
       <Button onClick={toggle}
@@ -101,7 +103,7 @@ console.log(isTimeLimited);
                   </Row>
                   <Row>
                     <div className="p-2 pl-3 pr-3 mb-3 recap-vote-question">{title}</div>
-                  
+
                   </Row>
                 </Col>
                 <hr className="confirmation-divider" />
@@ -149,7 +151,7 @@ console.log(isTimeLimited);
                           name="restrict_result"
                           id="restrict_result_false"
                           onClick={handleRestrictResultCheck}
-                      
+
                           value="0"
                         />
                         <label htmlFor="restrict_result_false" />
@@ -185,117 +187,119 @@ console.log(isTimeLimited);
                   </div>
                 </div> */}
                   <hr className="confirmation-divider-mobile" />
-                
 
-                    <Row className="row-label px-3 py-2 m-0">
 
-                      <Col xs="10" className="p-0 m-0">
-                        <Label htmlFor="title" className="m-0">{t("Voting time")}</Label>
+                  <Row className="row-label px-3 py-2 m-0">
+
+                    <Col xs="10" className="p-0 m-0">
+                      <Label htmlFor="title" className="m-0">{t("Voting time")}</Label>
+                    </Col>
+                    <Col l xs="2">
+
+                      <div className="radio-group">
+                        <input
+                          className="radio"
+                          type="radio"
+                          name="time_limited"
+                          id="is_time_limited_false"
+                          onClick={handleIsTimeLimited}
+                          value="0"
+                        />
+                        <label htmlFor="is_time_limited_false" />
+                        <input
+                          className="radio"
+                          type="radio"
+                          name="time_limited"
+                          id="is_time_limited_true"
+                          onClick={handleIsTimeLimited}
+                          checked={isTimeLimited}
+                          value="1"
+                        />
+                        <label htmlFor="is_time_limited_true" />
+                        <div className="radio-switch"></div>
+                      </div>
+                    </Col>
+
+                  </Row>
+                  <div
+                    className={
+                      (isTimeLimited ? "d-block " : "d-none")
+                    }
+                  >
+                    <Row className="displayNone date">
+                      <Col xs="12" md="5" lg="5">
+                        <span className="label">- {t("Starting date")}</span>
                       </Col>
-                      <Col l xs="2">
-                        <div className="radio-group">
-                          <input
-                            className="radio"
-                            type="radio"
-                            name="time_limited"
-                            id="is_time_limited_false"
-                            onClick={handleIsTimeLimited}
-                            value="0"
-                          />
-                          <label htmlFor="is_time_limited_false" />
-                          <input
-                            className="radio"
-                            type="radio"
-                            name="time_limited"
-                            id="is_time_limited_true"
-                            onClick={handleIsTimeLimited}
-                            checked={isTimeLimited}
-                            value="1"
-                          />
-                          <label htmlFor="is_time_limited_true" />
-                          <div className="radio-switch"></div>
-                        </div>
+                      <Col xs="12" md="12" lg="6">
+                        <input
+                          className="form-control"
+                          type="date"
+                          value={dateToISO(start)}
+                          onChange={(e) => {
+                            setStart(
+                              new Date(
+                                timeMinusDate(start) +
+                                new Date(e.target.valueAsNumber).getTime()
+                              )
+                            );
+                          }}
+                        />
                       </Col>
-
+                      <Col xs="12" md="12" lg="6">
+                        <select
+                          className="form-control"
+                          value={getOnlyValidDate(start).getHours()}
+                          onChange={(e) =>
+                            setStart(
+                              new Date(
+                                dateMinusTime(start).getTime() +
+                                e.target.value * 3600000
+                              )
+                            )
+                          }
+                        >
+                          {displayClockOptions()}
+                        </select>
+                      </Col>
                     </Row>
-                    <div
-                      className={
-                        (isTimeLimited ? "d-block " : "d-none")
-                      }
-                    >
-                      <Row className="displayNone date">
-                        <Col xs="12" md="5" lg="5">
-                          <span className="label">- {t("Starting date")}</span>
-                        </Col>
-                        <Col xs="12" md="12" lg="6">
-                          <input
-                            className="form-control"
-                            type="date"
-                            value={dateToISO(start)}
-                            onChange={(e) => {
-                              setStart(
-                                new Date(
-                                  timeMinusDate(start) +
-                                  new Date(e.target.valueAsNumber).getTime()
-                                )
-                              );
-                            }}
-                          />
-                        </Col>
-                        <Col xs="12" md="12" lg="6">
-                          <select
-                            className="form-control"
-                            value={getOnlyValidDate(start).getHours()}
-                            onChange={(e) =>
-                              setStart(
-                                new Date(
-                                  dateMinusTime(start).getTime() +
-                                  e.target.value * 3600000
-                                )
-                              )
-                            }
-                          >
-                            {displayClockOptions()}
-                          </select>
-                        </Col>
-                      </Row>
 
-                      <Row className="mt-2">
+                    <Row className="">
 
-                        <Col xs="12" md="12" lg="6" className="time-container">
-                          <input
-                            className="form-control"
-                            type="date"
-                            value={dateToISO(finish)}
-                            min={dateToISO(start)}
-                            onChange={(e) => {
-                              setFinish(
-                                new Date(
-                                  timeMinusDate(finish) +
-                                  new Date(e.target.valueAsNumber).getTime()
-                                )
-                              );
-                            }}
-                          />
-                        </Col>
-                        <Col xs="12" md="12" lg="6" className="displayNone">
-                          <select
-                            className="form-control"
-                            value={finish}
-                            onChange={(e) =>
-                              setFinish(
-                                new Date(
-                                  dateMinusTime(finish).getTime() +
-                                  e.target.value * 3600000
-                                )
+                      <Col xs="12" md="12" lg="6" className="time-container">
+                        <input
+                          className="form-control"
+                          type="date"
+                          value={dateToISO(finish)}
+                          min={dateToISO(start)}
+                          dateFormat="MMMM d, yyyy h:mm aa"
+                          onChange={(e) => {
+                            setFinish(
+                              new Date(
+                                timeMinusDate(finish) +
+                                new Date(e.target.valueAsNumber).getTime()
                               )
-                            }
-                          >
-                            {displayClockOptions()}
-                          </select>
-                        </Col>
-                      </Row>
-                    </div>
+                            );
+                          }}
+                        />
+                      </Col>
+                      <Col xs="12" md="12" lg="6" className="displayNone">
+                        <select
+                          className="form-control"
+                          value={finish}
+                          onChange={(e) =>
+                            setFinish(
+                              new Date(
+                                dateMinusTime(finish).getTime() +
+                                e.target.value * 3600000
+                              )
+                            )
+                          }
+                        >
+                          {displayClockOptions()}
+                        </select>
+                      </Col>
+                    </Row>
+                  </div>
                   <hr className="confirmation-divider-mobile" />
 
 
@@ -343,36 +347,37 @@ console.log(isTimeLimited);
                     )}
                   </div>
                   <hr className="confirmation-divider" />
-                  {/* {restrictResult ? (
-                  <div>
-                    <div className="small recap-vote-label p-3 mt-2">
-                      <h6 className="m-0 p-0 recap-vote-content">
-                        <FontAwesomeIcon
-                          icon={faExclamationTriangle}
-                          className="mr-2"
-                        />
-                        <u>{t("Results available at the close of the vote")}</u>
-                      </h6>
-                      <p className="m-2 p-0 ">
-                        <span>
-                          {t(
-                            "The results page will not be accessible until the end date is reached."
-                          )}{" "}
-                          ({finish.toLocaleDateString()} {t("at")}{" "}
-                          {finish.toLocaleTimeString()})
-                        </span>
-                      </p>
+                  {restrictResult ? (
+                    <div>
+                      <div className="small recap-vote-label p-3 mt-2 ">
+                        <h6 className="m-0 p-0 recap-vote-content">
+                          {t("Results available at any time")}
+                        </h6>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div>
-                    <div className="small recap-vote-label p-3 mt-2 ">
-                      <h6 className="m-0 p-0 recap-vote-content">
-                        {t("Results available at any time")}
-                      </h6>
+
+                  ) : (
+                    <div>
+                      <div className="small recap-vote-label p-3 mt-2">
+                        <h6 className="m-0 p-0 recap-vote-content">
+                          <FontAwesomeIcon
+                            icon={faExclamationTriangle}
+                            className="mr-2"
+                          />
+                          <u>{t("Results available at the close of the vote")}</u>
+                        </h6>
+                        <p className="m-2 p-0 ">
+                          <span>
+                            {t(
+                              "The results page will not be accessible until the end date is reached."
+                            )}{" "}
+                            ({finish.toLocaleDateString()} {t("at")}{" "}
+                            {finish.toLocaleTimeString()})
+                          </span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                )} */}</Col>
+                  )}</Col>
               </div>
 
             </Col>
@@ -382,6 +387,7 @@ console.log(isTimeLimited);
 
           <Button onClick={() => { confirmCallback(); }} className="cursorPointer btn-transparent btn-validation mb-5 ml-auto mr-auto" >{t("Start the election")}<img src="/arrow-white.svg" /></Button>
         </ModalFooter>
+        <Footer />
       </Modal>
     </div >
   )
