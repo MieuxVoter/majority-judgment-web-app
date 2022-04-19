@@ -73,7 +73,7 @@ const CandidatesField = ({onChange}) => {
   const handleKeyPress = (e, index) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (index + 2 === candidates.length) {
+      if (index + 1 === candidates.length) {
         addCandidate();
       }
       else { 
