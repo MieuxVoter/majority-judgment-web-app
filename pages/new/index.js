@@ -42,7 +42,7 @@ import CandidatesField from "@components/form/CandidatesField";
 import ConfirmModal from "@components/form/ConfirmModal";
 import config from "../../next-i18next.config.js";
 import Footer from '@components/layouts/Footer'
-
+import DatePicker from "react-datepicker";
 
 // Error messages
 const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
@@ -242,7 +242,7 @@ const CreateElection = (props) => {
     changeDisplay();
 
   };
- 
+  const [startDate, setStartDate] = useState(new Date());
   return (
     <Container className="addCandidatePage">
       <Head>
@@ -391,11 +391,14 @@ const CreateElection = (props) => {
                   (isTimeLimited ? "d-block " : "d-none")
                 }
               >
-                <Row className="displayNone">
+               <DatePicker selected={startDate} onChange=
+              {(date) => setStartDate(date)} />
+                {/* <Row className="displayNone">
                   <Col xs="12" md="3" lg="3">
                     <span className="label">- {t("Starting date")}</span>
                   </Col>
                   <Col xs="6" md="4" lg="3">
+                    
                     <input
                       className="form-control"
                       type="date"
@@ -462,7 +465,7 @@ const CreateElection = (props) => {
                       {displayClockOptions()}
                     </select>
                   </Col>
-                </Row>
+                </Row> */}
               </div></div>
             <hr className="settings-divider" />
             <Row className="componentMobile">

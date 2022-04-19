@@ -114,14 +114,19 @@ const ConfirmModal = ({ CreateElection, handleRestrictResultCheck, handleIsTimeL
                     </div>
                   </Row>
                   <Row>
-                    <div className="p-2 pl-3 pr-3 mb-3 recap-vote-content">
-                      <ul className="m-0 pl-4">
+                    <div className="p-2 mb-3 recap-vote-content">
+                      <ul className="m-0 p-2">
                         {candidates.map((candidate, i) => {
                           if (candidate.label !== "") {
                             return (
-                              <li key={i} className="m-0">
-                                {candidate.label}
-
+                              <li key={i} className="m-0 d-flex justify-content-between">
+                                <div className="d-flex">
+                                  <div className="avatarThumb mr-2">
+                                    <img src="" alt="" />
+                                  </div>
+                                  {candidate.label}
+                                </div>
+                                <TrashButton />
                               </li>
                             );
                           } else {

@@ -73,14 +73,14 @@ const CandidatesField = ({onChange}) => {
   const handleKeyPress = (e, index) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (index + 1 === candidates.length) {
+      if (index + 2 === candidates.length) {
         addCandidate();
       }
       else { 
-        candidates[index + 1].fieldRef.current.focus();
-      }
+        
+      }candidates[index + 1].fieldRef.current.focus();
     }
-    
+ 
   }
 
   const onSortEnd = ({oldIndex, newIndex}) => {

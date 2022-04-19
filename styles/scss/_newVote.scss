@@ -455,6 +455,11 @@ line-height: 24px;
     font-size: 15px;
     line-height: 24px;
     color: #2400FD;
+    width: 100%;
+}
+.recap-vote-content .cancelButton {
+    color: #8F88BA;
+
 }
 .modal-footer {
     border-top: none;
@@ -560,7 +565,8 @@ z-index: 3;
     content: '';
     border-radius: 30px;
     background-color: #FFF; }
-  input[type=radio]:last-of-type:checked ~ .radio-switch {  background-color: #4af }
+  input[type=radio]:last-of-type:checked ~ .radio-switch {  background-color: #2708E4;
+  }
   input[type=radio]:last-of-type:checked ~ .radio-switch:before {  right: 2px }
 
 .radio-group > label {
@@ -619,6 +625,53 @@ line-height: 24px!important;
 }
 .rightColumn {
     padding-left: 15px;
+}
+.react-multi-email {
+    border: none!important;
+    border-bottom: solid 2px #C3BFD8!important;
+    
+    border-radius: 0px!important;
+}
+.react-multi-email [data-tag] {
+    color: #2400FD!important;
+    font-weight: 700;
+font-size: 14px;
+line-height: 24px;
+}
+.react-datepicker__header {
+    background: none!important;
+    border: none!important;
+}
+.react-datepicker__navigation-icon::before {
+    top: 12px!important;
+    border-color: #2400FD!important;
+}
+.react-datepicker__day--selected {
+    background-color: #2400FD!important;
+    border-radius: 0px!important;
+    color: white!important;
+}
+.react-datepicker__day {
+    font-weight: 500!important;
+font-size: 18px!important;
+line-height: 100%!important;
+color: #0A004C;
+width: 44px;
+height: 44px;
+padding: 11px!important;
+}
+.react-datepicker__day-name {
+    font-weight: 700!important;
+font-size: 14px!important;
+line-height: 100%!important;
+color: #0A004C;
+width: 44px;
+opacity: 0.4;
+padding: 11px!important;
+}
+.recap-vote-content .badge:first-of-type {
+    color: #8F88BA!important;
+    text-decoration: line-through;
 }
   @media screen and (min-width: 619px) and (max-width: 1120px) {
     .btn-return-candidates {
@@ -768,12 +821,7 @@ color: #2400FD;
         font-size: 35px;
     font-weight: 100;
     }
-    .react-multi-email {
-        border: none!important;
-        border-bottom: solid 2px #C3BFD8!important;
-        
-        border-radius: 0px!important;
-    }
+    
    
     .btn-confirm-mobile {
         width: 100%;

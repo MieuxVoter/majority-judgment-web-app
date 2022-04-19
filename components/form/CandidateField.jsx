@@ -68,6 +68,7 @@ const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd,
   const removeCandidate = () => {
     onDelete();
     toggle();
+    
   }
 
 
@@ -82,8 +83,15 @@ const CandidateField = ({avatar, label, description, candIndex, onDelete, onAdd,
       setCreateObjectURL(URL.createObjectURL(i));
     }
   };
-const test = {...inputProps};
-console.log(test);
+
+
+    
+
+  
+ 
+
+
+
   return (
     <Row className="rowNoMargin">
       <div className={className}>
@@ -147,11 +155,8 @@ console.log(test);
               <Label>Description (Facultatif)</Label>
               <Input
                 type="text"
-                value={description}
-                placeholder="Texte"
-                tabIndex={candIndex + 1}
+                defaultValue={description}
                 maxLength="250"
-                autoFocus
               />
               <Row className="removeAddButtons">
 
