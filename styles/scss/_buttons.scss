@@ -1,0 +1,40 @@
+.btn-opacity:hover {
+  background-color: transparent;
+  border-color: white;
+  opacity: 1;
+}
+.btn-opacity {
+  background-color: transparent;
+  width: fit-content;
+  opacity: 0.4;
+  transition: 0.5s;
+}
+.btn-transparent:hover {
+  background-color: transparent;
+  border-color: white;
+}
+.btn-transparent {
+  background-color: transparent;
+  width: fit-content;
+  transition: 0.5s;
+  margin: auto;
+}
+.btn-secondary {
+  width: fit-content;
+  background-color: transparent;
+}
+.btn-primary {
+  box-sizing: border-box;
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 24px;
+  gap: 16px;
+
+  /* primary */
+  border: 2px solid #2400fd;
+  box-shadow: 0px 5px 0px #7a64f9;
+}

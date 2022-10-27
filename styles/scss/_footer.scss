@@ -1,0 +1,31 @@
+// .tacky {
+//   margin: 0;
+//   padding: 0;
+//   list-style-type: none;
+//   flex-basis: auto;
+// }
+// 
+// .tacky col {
+//   display: inline-block;
+// }
+// 
+// .tacky col:after {
+//   margin: 0 5px;
+// }
+// 
+// .tacky col:last-of-type:after {
+//   content: "";
+//   margin: 0;
+// }
+// 
+// .tacky col.no-tack:after {
+//   content: "";
+//   margin: 0;
+//   display: none;
+// }
+
+@include media-breakpoint-down('md') {
+  footer {
+    display: none !important;
+  }
+}
