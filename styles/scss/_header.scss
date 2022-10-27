@@ -1,179 +1,178 @@
 .mobile-header {
-    width: 100%;
-  }
-  .nav-mobile {
-    width: 100%;
-    padding: 0px;
-  }
-  .navbar-header {
-    width: 100%;
-    display: flex;
-    padding: 25px 16px 15px 32px;
-    justify-content: flex-end;
-   
+  width: 100%;
+}
+.nav-mobile {
+  width: 100%;
+  padding: 0px;
+}
+.navbar-header {
+  width: 100%;
+  display: flex;
+  padding: 25px 16px 15px 32px;
+  justify-content: flex-end;
 }
 .navbar-collapse {
-    background: #0A004C;
-    padding: 10px 20px;
-    height: 100%;
-    position: fixed;
-top: 0;
-width: 100%;
-z-index: 9999;
-  }
+  background: #0a004c;
+  padding: 10px 20px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
 .navbar-brand img {
-    width: 112px;
-    }
-    .navbar-toggle {
-        width: 50px!important;
-        margin-top: 15px;
-        background: transparent;
-        box-shadow: none;
-        border: none;
-      }
-      .navbar-toggle {
-        
-        background: transparent!important;
-        box-shadow: none!important;
-        border: none!important;
-      }
-      
-      .navbar-toggle img {
-        height: 50px!important;
-        width: 50px!important;
-      }
-      .navbar-nav-scroll {
-        max-height: 100vh!important;
-    }
-   
-      .navbar-brand-mobile img {
-      width: 110px;
-      }
-      .navbar-accordion-item, .navbar-accordion-body  {
-        background-color: transparent!important;
-        border: none!important;
-        box-shadow: none!important;
-        font-family: "DM Sans", sans-serif!important;
-      }
-      .navbar-accordion button {
-        background-color: transparent!important;
-        color: white!important;
-        margin-left: 15px!important;
-        font-size: 24px!important;
-        line-height: 31.25px;
-        text-align: left!important;
-        padding: 0px!important;
-        border: none!important;
-        box-shadow: none!important;
-      }
-      .navbar-accordion button:after {
-        display: inline-block;
-        width: 0.25rem;
-          height: 0.25rem;
-          margin-left: 0.255em;
-          vertical-align: 0.255em;
-          content: "";
-          border-top: 0.3em solid;
-          border-right: 0.3em solid transparent;
-          border-bottom: 0;
-          border-left: 0.3em solid transparent;
-      }
-      .navbar-my-link {
-        color: white!important;
-        margin-left: 15px!important;
-        font-size: 24px!important;
-        line-height: 31.25px;
-        text-align: left!important;
-      }
-      .navbar-credits-container {
-        margin-top: 25%;
-        text-align: left;
-        padding-bottom: 20px;
-      }
-      .navbar-credits-container hr {
-        margin-top: 32px;
-        color: white;
-        opacity: 0.3;
-      }
-      .navbar-credits-link, .navbar-credits {
-        color: white!important;
-        font-size: 18px;
-        line-height: 31.25px;
-        text-align: left!important;
-        margin-left: 0!important;
-      }
-      .navbar-credits {
-margin-top: 32px;
-      }
-      .navbar-jimmy-link {
-        color: white!important;
-        font-size: 18px;
-        line-height: 25px;
-        margin-left: 5px;
-        text-decoration: none;
-        opacity: 0.5;
-      }
-      .navbar-close-button {
-          width: auto!important;
-          margin: 0px;
-          padding: 0px;
-      }
-      .navbar-close-button img {
-        width: 117px!important;
-        margin: 0px;
-        padding: 0px;
-    }
-    .nav-logo {
-        margin-bottom: 100px;
-    }
-    .btn-nav {
-        background: #0A004C;
-        border: 2px solid #FFFFFF;
-        box-shadow: 0px 2px 0px 0px #FFFFFF;
-        width: 100%;
-    }
-    .btn-nav a {
-    color: white;
-    }
-    .sharing-mobile {
-        display: flex;
-        justify-content: flex-start;
-    }
-    .menu-flags {
-        width: 25%;
-        margin-left: 15px;
-        margin-top: 12px;
-    }
-    .menu-flags button {
-        border-color: white;
-        color: white;
-    }
-    .menu-flags button:after {
-        border-top: 5px solid white;
-        color: white;
-    }
-    .menu-flags button[aria-expanded="true"]:after {
-        border-bottom: 5px solid white;
-        color: white;
-    }
-    .navbar, body {
+  width: 112px;
+}
+.navbar-toggle {
+  width: 50px !important;
+  margin-top: 15px;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+.navbar-toggle {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
 
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    }
-    
-    .navbar::-webkit-scrollbar {
-        display: none; // Safari and Chrome
-        width: 0;
-        height: 0;
-    }
-    body::-webkit-scrollbar {
-        display: none; // Safari and Chrome
-        width: 0;
-        height: 0;
-    }
-    ::-webkit-scrollbar {
-        width: 0;  /* Remove scrollbar space */
-        background: transparent;  /* Optional: just make scrollbar invisible */
-    }
-   
+.navbar-toggle img {
+  height: 50px !important;
+  width: 50px !important;
+}
+.navbar-nav-scroll {
+  max-height: 100vh !important;
+}
+
+.navbar-brand-mobile img {
+  width: 110px;
+}
+.navbar-accordion-item,
+.navbar-accordion-body {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-family: "DM Sans", sans-serif !important;
+}
+.navbar-accordion button {
+  background-color: transparent !important;
+  color: white !important;
+  margin-left: 15px !important;
+  font-size: 24px !important;
+  line-height: 31.25px;
+  text-align: left !important;
+  padding: 0px !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.navbar-accordion button:after {
+  display: inline-block;
+  width: 0.25rem;
+  height: 0.25rem;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+.navbar-my-link {
+  color: white !important;
+  margin-left: 15px !important;
+  font-size: 24px !important;
+  line-height: 31.25px;
+  text-align: left !important;
+}
+.navbar-credits-container {
+  margin-top: 25%;
+  text-align: left;
+  padding-bottom: 20px;
+}
+.navbar-credits-container hr {
+  margin-top: 32px;
+  color: white;
+  opacity: 0.3;
+}
+.navbar-credits-link,
+.navbar-credits {
+  color: white !important;
+  font-size: 18px;
+  line-height: 31.25px;
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+.navbar-credits {
+  margin-top: 32px;
+}
+.navbar-jimmy-link {
+  color: white !important;
+  font-size: 18px;
+  line-height: 25px;
+  margin-left: 5px;
+  text-decoration: none;
+  opacity: 0.5;
+}
+.navbar-close-button {
+  width: auto !important;
+  margin: 0px;
+  padding: 0px;
+}
+.navbar-close-button img {
+  width: 117px !important;
+  margin: 0px;
+  padding: 0px;
+}
+.nav-logo {
+  margin-bottom: 100px;
+}
+.btn-nav {
+  background: #0a004c;
+  border: 2px solid #ffffff;
+  box-shadow: 0px 2px 0px 0px #ffffff;
+  width: 100%;
+}
+.btn-nav a {
+  color: white;
+}
+.sharing-mobile {
+  display: flex;
+  justify-content: flex-start;
+}
+.menu-flags {
+  width: 25%;
+  margin-left: 15px;
+  margin-top: 12px;
+}
+.menu-flags button {
+  border-color: white;
+  color: white;
+}
+.menu-flags button:after {
+  border-top: 5px solid white;
+  color: white;
+}
+.menu-flags button[aria-expanded="true"]:after {
+  border-bottom: 5px solid white;
+  color: white;
+}
+.navbar,
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.navbar::-webkit-scrollbar {
+  display: none; // Safari and Chrome
+  width: 0;
+  height: 0;
+}
+body::-webkit-scrollbar {
+  display: none; // Safari and Chrome
+  width: 0;
+  height: 0;
+}
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}

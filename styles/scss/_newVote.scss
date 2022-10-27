@@ -1,872 +1,873 @@
 .form {
-    min-height: 93vh;
-    padding: 0px 15px!important;
+  min-height: 93vh;
+  padding: 0px 15px !important;
 }
 .addCandidatePage {
-    max-width: 100%!important;
-    background-color: #17048e;
-    background-image: url('/back.svg');
-    background-size: 100%;
-    background-position: center;
-    padding: 0px;
+  max-width: 100% !important;
+  background-color: #17048e;
+  background-image: url("/back.svg");
+  background-size: 100%;
+  background-position: center;
+  padding: 0px;
 }
 .candidate-placeholder {
-    pointer-events: none;
+  pointer-events: none;
 }
 .stepForm {
-    width: 650px;
-    margin: auto;
-    padding: 50px 0px;
+  width: 650px;
+  margin: auto;
+  padding: 50px 0px;
 }
 .stepForm .col {
-    display: flex;
-    align-content: center;
-    justify-content: center;
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
 .stepForm img {
-    width: 24px;
-    margin-right: 10px;
+  width: 24px;
+  margin-right: 10px;
 }
 .stepForm h4 {
-    font-size: 16px;
-    line-height: 24px;
-    margin-bottom: 0;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 0;
 }
 .preventWarning {
-    background: #2407D3!important;
-    padding: 8px!important;
+  background: #2407d3 !important;
+  padding: 8px !important;
 }
 .alert-heading {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-line-height: 16px;
-margin: 0px!important;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  line-height: 16px;
+  margin: 0px !important;
 }
 .alert-heading svg {
-    cursor: pointer;
+  cursor: pointer;
 }
 .addCandidateCard {
-    background-color: white;
-    padding: 30px;
-    width: 100%;
-    flex-basis: auto;
+  background-color: white;
+  padding: 30px;
+  width: 100%;
+  flex-basis: auto;
 }
 .addCandidateCard p {
-    color: #0A004C;
+  color: #0a004c;
 }
 .addCandidateForm {
-    display: inline-block;
+  display: inline-block;
 }
 .addCandidateHeader {
-    text-align: left;
+  text-align: left;
 }
 .addCandidateHeader h6 {
-    font-size: 28px;
-    line-height: 32px;
-    color:#2400FD;
-    text-align: left;
+  font-size: 28px;
+  line-height: 32px;
+  color: #2400fd;
+  text-align: left;
 }
 .addCandidateHeader p {
-    font-size: 16px;
-    line-height: 24px;
-    color:#0A004C;
-    text-align: left;
-    margin-top: 0px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #0a004c;
+  text-align: left;
+  margin-top: 0px;
 }
 .addCandidateHeader span {
-    display: inline-block;
+  display: inline-block;
 }
 .addCandidateForm label {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 .addCandidateText {
-    color: #0A004C; 
+  color: #0a004c;
 }
 .addCandidateForm input {
-    width: 100%!important;
-    padding-left: 0px;
-    margin-bottom: 50px!important;
-    box-shadow: 0px 2px 0px 0px #C3BFD8;
-
+  width: 100% !important;
+  padding-left: 0px;
+  margin-bottom: 50px !important;
+  box-shadow: 0px 2px 0px 0px #c3bfd8;
 }
 .addCandidateText::placeholder {
-    color: #C3BFD8;
+  color: #c3bfd8;
 }
 .cancelButton button {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    border: 2px solid #0A004C;
-    box-shadow: 0px 4px 0px 0px #0A004C;
-    background: transparent;
-    align-items: center;
-padding: 16px 24px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  border: 2px solid #0a004c;
+  box-shadow: 0px 4px 0px 0px #0a004c;
+  background: transparent;
+  align-items: center;
+  padding: 16px 24px;
 }
 .cancelButton p {
-    margin: auto;
-    margin-left: 20px;
+  margin: auto;
+  margin-left: 20px;
 }
 .cancelForm {
-    text-align: center;
+  text-align: center;
 }
-.cancelForm > .modal-content > .modal-header, .cancelForm > .modal-content > .modal-footer {
-    border: 0px;
+.cancelForm > .modal-content > .modal-header,
+.cancelForm > .modal-content > .modal-footer {
+  border: 0px;
 }
 .cancelForm > .modal-content > .modal-header {
-    color: #FF3E37;
-    justify-content: center;
+  color: #ff3e37;
+  justify-content: center;
 }
 .cancelForm > .modal-content > .modal-body {
-    color: #FF3E37;
-font-size: 16px;
-line-height: 24px;
+  color: #ff3e37;
+  font-size: 16px;
+  line-height: 24px;
 }
 .cancelForm > .modal-content > .modal-body > b {
-    color: #0A004C;
-font-size: 36px;
-line-height: 32px;
-margin-top: 24px;
+  color: #0a004c;
+  font-size: 36px;
+  line-height: 32px;
+  margin-top: 24px;
 }
 .cancelForm > .modal-content > .modal-header > .modal-title {
-    width: 55px;
-    height: 55px;
-    justify-content: center;
-    display: flex;
-    background-color: #FFF5F4;
-    border-radius: 50px;
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+  display: flex;
+  background-color: #fff5f4;
+  border-radius: 50px;
 }
 .cancelForm > .modal-content > .modal-header > .modal-title > svg {
-    align-self: center;
+  align-self: center;
 }
 .new-btn-confirm {
-    background-color: #FF3E37;
-    box-shadow: 0px 4px 0px #FFCAC8;
-    border: 2px solid #FF3E37;
+  background-color: #ff3e37;
+  box-shadow: 0px 4px 0px #ffcac8;
+  border: 2px solid #ff3e37;
 }
 .new-btn-confirm:hover {
-    color: #FF3E37;
-    background-color: transparent;
-    box-shadow: 0px 4px 0px #FFCAC8;
-    border: 2px solid #FF3E37;
+  color: #ff3e37;
+  background-color: transparent;
+  box-shadow: 0px 4px 0px #ffcac8;
+  border: 2px solid #ff3e37;
 }
 .cancelForm > .modal-content > .modal-footer {
-    justify-content: space-evenly;
+  justify-content: space-evenly;
 }
 .removeAddButtons {
-    justify-content: space-between;
-    margin: 0px;
+  justify-content: space-between;
+  margin: 0px;
 }
 .removeButton {
-    font-size: 16px;
-line-height: 24px;
-background: transparent;
-color:#0A004C;
-border: 2px solid #0A004C;
-box-shadow: 0px 4px 0px 0px #0A004C;
-padding: 16px 24px 16px 24px;
-font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  background: transparent;
+  color: #0a004c;
+  border: 2px solid #0a004c;
+  box-shadow: 0px 4px 0px 0px #0a004c;
+  padding: 16px 24px 16px 24px;
+  font-weight: bold;
 }
 .closeModalAddCandidate {
-    position: absolute;
-    z-index: 999;
-    right: 10px;
-    border: none;
+  position: absolute;
+  z-index: 999;
+  right: 10px;
+  border: none;
 }
 .addButton {
-    font-weight: bold;
-font-size: 16px;
-line-height: 24px;
-background: transparent;
-color: #2400FD;
-border: 2px solid #2400FD;
-box-shadow: 0px 4px 0px 0px #2400FD;
-padding: 16px 24px 16px 24px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  background: transparent;
+  color: #2400fd;
+  border: 2px solid #2400fd;
+  box-shadow: 0px 4px 0px 0px #2400fd;
+  padding: 16px 24px 16px 24px;
 }
 .addButton span {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 .ajout-avatar {
-    display: flex;
+  display: flex;
 }
 .avatar-placeholer {
-    background-image: url("/avatar-blue.svg");
-    background-repeat: no-repeat;
-    background-size: 52px;
-    background-position: center;
-    background-color: #F2F0FF;
-    width: 112px;
-    height: 100%;
+  background-image: url("/avatar-blue.svg");
+  background-repeat: no-repeat;
+  background-size: 52px;
+  background-position: center;
+  background-color: #f2f0ff;
+  width: 112px;
+  height: 100%;
 }
 .avatar-placeholer img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .avatar-text {
-    text-align: left;
-    margin-left: 22px;
+  text-align: left;
+  margin-left: 22px;
 }
 .avatar-text h4 {
-    font-size: 16px;
-    line-height: 32px;
-    color: #0A004C;
-    margin-block-start: -8px;
+  font-size: 16px;
+  line-height: 32px;
+  color: #0a004c;
+  margin-block-start: -8px;
 }
 .avatar-text span {
-    font-size: 16px;
-    line-height: 32px;
-    color: #0A004C;
-    opacity: 0.3;
+  font-size: 16px;
+  line-height: 32px;
+  color: #0a004c;
+  opacity: 0.3;
 }
 .avatar-text p {
-    font-size: 13px;
-    line-height: 16px;
-    color: #0A004C;
-    margin-top: 0px;
+  font-size: 13px;
+  line-height: 16px;
+  color: #0a004c;
+  margin-top: 0px;
 }
 .avatarThumb img {
-    background-image: url("/avatar.svg");
-    background-color: #0A004C;
-    width: 24px;
- height: 24px;
-    object-fit: cover;
-   }
+  background-image: url("/avatar.svg");
+  background-color: #0a004c;
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+}
 input[type="file"] {
-    display: none;
+  display: none;
 }
 .inputfile {
-    background: transparent;
-    color: #0A004C;
-    border: 2px solid #0A004C;
-    box-shadow: 0px 2px 0px 0px #0A004C;
-    padding: 8px 20px;
-    font-size: 14px;
-    line-height: 24px;
-    display: inline-block;
-    cursor: pointer;
+  background: transparent;
+  color: #0a004c;
+  border: 2px solid #0a004c;
+  box-shadow: 0px 2px 0px 0px #0a004c;
+  padding: 8px 20px;
+  font-size: 14px;
+  line-height: 24px;
+  display: inline-block;
+  cursor: pointer;
 }
 
-    
 .input-group-text {
-    padding: 0px!important;
+  padding: 0px !important;
 }
 
 .alert {
-    padding: 20px;
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .closebtn {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .closebtn:hover {
-    color: black;
-  }
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+}
 
-  .candidateButton {
-      display: flex;
-      width: 100%;
-      padding: 12px;
-      align-content: center;
-      justify-content: space-between;
-      border: 1px dashed rgba(255, 255, 255, 0.24);
-  }
-  .candidateButton div {
-    display: flex;
-    align-content: center;
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+.candidateButton {
+  display: flex;
+  width: 100%;
+  padding: 12px;
+  align-content: center;
+  justify-content: space-between;
+  border: 1px dashed rgba(255, 255, 255, 0.24);
+}
+.candidateButton div {
+  display: flex;
+  align-content: center;
 }
 .settings-modal {
-    background-color: #17048e;
-    background-image: url('/back.svg');
-    max-width: 100vw;
-  
-    margin: 0;
-    padding: 0px;
+  background-color: #17048e;
+  background-image: url("/back.svg");
+  max-width: 100vw;
+
+  margin: 0;
+  padding: 0px;
 }
 .settings-modal > .modal-content {
-    background: transparent;
-    height: 100%;
+  background: transparent;
+  height: 100%;
 }
 .modal-header-settings {
-    justify-content: center;
-    color: white;
-    padding: 0px;
-    border: none;
+  justify-content: center;
+  color: white;
+  padding: 0px;
+  border: none;
 }
 .settings-modal-body {
-    background: white;
-    width: 70%;
-    margin: auto;
-    color: #0A004C!important;
+  background: white;
+  width: 70%;
+  margin: auto;
+  color: #0a004c !important;
 }
 .settings-modal-body > .row {
-    padding: 30px;
+  padding: 30px;
 }
 .settings {
-    display: none;
+  display: none;
 }
 .settings-modal-body .col {
-    margin: auto;
+  margin: auto;
 }
 .settings-modal-body p {
-    font-size: 13px;
-    line-height: 16px;
+  font-size: 13px;
+  line-height: 16px;
 }
 .settings-modal-body label {
-    font-size: 20px;
-    line-height: 32px;
-    font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 500;
 }
 .custom-switch {
-text-align: right;
+  text-align: right;
 }
 .modal.fade .modal-dialog {
-    transition: none;
+  transition: none;
 }
 .fade {
-
-    transition: none;
+  transition: none;
 }
 .btn-return-candidates {
-    color: white;
-    cursor: pointer;
-    position: absolute;
-    left: 50px;
-    top: 50px;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  left: 50px;
+  top: 50px;
 }
 .avatarThumb {
-    width: 80%;
+  width: 80%;
 }
 .avatarThumb input {
-    background-color: transparent;
-    color: white;
-    border: none;
+  background-color: transparent;
+  color: white;
+  border: none;
 }
 .avatarThumb input::placeholder {
-    color: white;
+  color: white;
 }
 .candidateAdded {
-    background-color: white;
+  background-color: white;
 }
-.candidateAdded input, .candidateAdded input::placeholder {
-    color: #17048e;
-    font-size: 15px;
-    line-height: 24px;
-    font-weight: bold;
+.candidateAdded input,
+.candidateAdded input::placeholder {
+  color: #17048e;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: bold;
 }
 .trashIcon {
-    display: none!important;
-    color: #17048e;
+  display: none !important;
+  color: #17048e;
 }
 .displayTrash {
-    display: inline!important;
+  display: inline !important;
 }
 .badge {
-    padding: 4px 8px!important;
-    border-radius: 0px;
-    font-size: 14px;
-line-height: 24px;
+  padding: 4px 8px !important;
+  border-radius: 0px;
+  font-size: 14px;
+  line-height: 24px;
 }
 .mailMutedText {
-    padding: 8px;
-    background-color: #F2F0FF;
-    width: fit-content;
-    margin-top: 16px;
+  padding: 8px;
+  background-color: #f2f0ff;
+  width: fit-content;
+  margin-top: 16px;
 }
 .numGradesContainer {
-    display: flex;
+  display: flex;
 }
 .numGrades {
-    cursor: pointer;
-    background-color: #F2F0FF;
-  }
-  .numGrades input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-  .customCheckmarck {
-    display: flex;
-    width: 44px;
-    height: 44px;
-  }
+  cursor: pointer;
+  background-color: #f2f0ff;
+}
+.numGrades input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.customCheckmarck {
+  display: flex;
+  width: 44px;
+  height: 44px;
+}
 
-  .numGrades input:checked ~ .customCheckmarck {
-    background-color: #2400FD;
-  }
-  .numGrades input:checked ~ .customCheckmarck p {
-    color: white;
-    opacity: 1;
-  }
-  .numGrades input:checked ~ .customCheckmarck::after {
-    display: block;
-    color: white;
-  }
-  .customCheckmarck::after {
-      margin: auto;
-      color: #0A004C40;
-  }
-  .numGradeFive::after {
-      content: "5";
-  }
-  .numGradeSix::after {
-      content: "6";
-  }
-  .numGradeSeven::after {
-      content: '7';
-  }
-
+.numGrades input:checked ~ .customCheckmarck {
+  background-color: #2400fd;
+}
+.numGrades input:checked ~ .customCheckmarck p {
+  color: white;
+  opacity: 1;
+}
+.numGrades input:checked ~ .customCheckmarck::after {
+  display: block;
+  color: white;
+}
+.customCheckmarck::after {
+  margin: auto;
+  color: #0a004c40;
+}
+.numGradeFive::after {
+  content: "5";
+}
+.numGradeSix::after {
+  content: "6";
+}
+.numGradeSeven::after {
+  content: "7";
+}
 
 .confirm-modal-body {
-    width: 70%;
-    margin: auto;
+  width: 70%;
+  margin: auto;
 }
 .recap-vote {
-
-    font-weight: bold;
+  font-weight: bold;
 }
 .recap-vote .row {
-    padding: 0px 25px;
+  padding: 0px 25px;
 }
 .recap-vote-question {
-    font-size: 18px;
-    line-height: 28px;
-    color: #2400FD;
-    
+  font-size: 18px;
+  line-height: 28px;
+  color: #2400fd;
 }
 .recap-vote-label {
-    font-size: 14px;
-    line-height: 16px;
-    color: #0A004C;
-    font-weight: bold;
-    padding-top: 25px!important;
+  font-size: 14px;
+  line-height: 16px;
+  color: #0a004c;
+  font-weight: bold;
+  padding-top: 25px !important;
 }
 .recap-vote-content {
-    font-size: 15px;
-    line-height: 24px;
-    color: #2400FD;
-    width: 100%;
+  font-size: 15px;
+  line-height: 24px;
+  color: #2400fd;
+  width: 100%;
 }
 .recap-vote-content .cancelButton {
-    color: #8F88BA;
-
+  color: #8f88ba;
 }
 .modal-footer {
-    border-top: none;
+  border-top: none;
 }
 
-.confirmation-divider, .confirmation-divider-mobile {
-width: 100%;
-border-top: solid 1px #0A004C;
+.confirmation-divider,
+.confirmation-divider-mobile {
+  width: 100%;
+  border-top: solid 1px #0a004c;
 }
 .btn-copy {
-    background: white;
-    width: 100%;
-    color: #0A004C;
-    display: flex;
-    justify-content: space-between;
-padding: 16px;
-    font-size: 14px;
+  background: white;
+  width: 100%;
+  color: #0a004c;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  font-size: 14px;
 
-    line-height: 16px;
-
-    
+  line-height: 16px;
 }
 .copy {
-    width: 100%;
+  width: 100%;
 }
 .success-title h2 {
-font-size: 32px;
-line-height: 32px;
+  font-size: 32px;
+  line-height: 32px;
 }
 .full-height-container {
-    min-height: 100vh;
-    max-width: 100%!important;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-    background-color: #2400FD;
-    background-image: url('/background-finish-page.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
+  min-height: 100vh;
+  max-width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  background-color: #2400fd;
+  background-image: url("/background-finish-page.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .main-animation {
-    margin: auto;
-    position: relative;
+  margin: auto;
+  position: relative;
 }
- .letter-animation {
-    position: absolute;
-    top: 0;
-    z-index: 5;
-  }
-  .star-animation {
-    position: absolute;
-    top: 0;
-    z-index: 3;
-  }
-  .urne-front {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+.letter-animation {
+  position: absolute;
+  top: 0;
+  z-index: 5;
+}
+.star-animation {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+}
+.urne-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .displayNone {
-    display: none!important;
+  display: none !important;
 }
 .displayBlock {
-    display: block!important;
+  display: block !important;
 }
 
+input[type="radio"],
+input[type="checkbox"] {
+  display: none;
+  visibility: hidden;
+}
+label,
+label:before,
+.radio-switch,
+.radio-switch:before {
+  -webkit-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+  cursor: pointer;
+}
+.radio-group label {
+  position: absolute;
+  width: 120px;
+  height: 44px;
+  line-height: 45px;
+}
+input[type="radio"]:checked + label {
+  z-index: -1;
+}
+.radio-switch {
+  position: absolute;
+  z-index: 3;
+  width: 40px;
+  height: 24px;
+  padding-left: 2px;
+  right: 0;
 
-
-
-input[type=radio], input[type=checkbox] {
-    display: none;
-    visibility: hidden;
- }
-  label, label:before, .radio-switch, .radio-switch:before {
-    -webkit-transition: all 500ms ease-in-out;
-    transition: all 500ms ease-in-out;
-    cursor: pointer; }
-  .radio-group label {
-    position: absolute;
-    width: 120px;
-    height: 44px;
-    line-height: 45px; }  
-  input[type=radio]:checked + label {  z-index: -1 }
-  .radio-switch {
-    position: absolute;
-z-index: 3;
-    width: 40px;
-    height: 24px;
-    padding-left: 2px;
-    right: 0;
-
-    
-    border-radius: 30px;
-    background-color: #C3BFD8;
-   }
-  .radio-switch:before {
-    position: absolute;
-    top: 2px;
-    display: block;
-    width:20px;
-    height: 20px;
-    content: '';
-    border-radius: 30px;
-    background-color: #FFF; }
-  input[type=radio]:last-of-type:checked ~ .radio-switch {  background-color: #2708E4;
-  }
-  input[type=radio]:last-of-type:checked ~ .radio-switch:before {  right: 2px }
+  border-radius: 30px;
+  background-color: #c3bfd8;
+}
+.radio-switch:before {
+  position: absolute;
+  top: 2px;
+  display: block;
+  width: 20px;
+  height: 20px;
+  content: "";
+  border-radius: 30px;
+  background-color: #fff;
+}
+input[type="radio"]:last-of-type:checked ~ .radio-switch {
+  background-color: #2708e4;
+}
+input[type="radio"]:last-of-type:checked ~ .radio-switch:before {
+  right: 2px;
+}
 
 .radio-group > label {
-    z-index: 5;
+  z-index: 5;
 }
 .componentMobile {
-    display: none;
+  display: none;
 }
 .to-reject {
-    color: #8F88BA!important;
-    text-decoration: line-through;
+  color: #8f88ba !important;
+  text-decoration: line-through;
 }
 
 #voting-time-label {
-    padding: 30px;
+  padding: 30px;
 }
 
 .customCheckmarckMobile {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 .customCheckmarck p {
-    margin: auto!important;
-    color: #0A004C;
-    opacity: 0.4;
-    font-weight: 500!important;
-font-size: 16px!important;
-line-height: 24px!important;
+  margin: auto !important;
+  color: #0a004c;
+  opacity: 0.4;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
 }
 .customCheckmarckMobile p {
-    margin: auto!important;
-    color: #0A004C;
-    opacity: 0.4;
-    font-weight: 700!important;
-font-size: 24px!important;
-line-height: 24px!important;
+  margin: auto !important;
+  color: #0a004c;
+  opacity: 0.4;
+  font-weight: 700 !important;
+  font-size: 24px !important;
+  line-height: 24px !important;
 }
 .form-control {
-    color: #0A004C;
-
+  color: #0a004c;
 }
 .time-container .form-control {
-    width: fit-content!important;
+  width: fit-content !important;
 }
 .mobile-title {
-    display: none;
+  display: none;
 }
 .opacity {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 .annuler {
-    display: flex!important;
+  display: flex !important;
 }
 .trashIcon {
-    color: #FF3E37!important;
+  color: #ff3e37 !important;
 }
 .rightColumn {
-    padding-left: 15px;
+  padding-left: 15px;
 }
 .react-multi-email {
-    border: none!important;
-    border-bottom: solid 2px #C3BFD8!important;
-    
-    border-radius: 0px!important;
+  border: none !important;
+  border-bottom: solid 2px #c3bfd8 !important;
+
+  border-radius: 0px !important;
 }
 .react-multi-email [data-tag] {
-    color: #2400FD!important;
-    font-weight: 700;
-font-size: 14px;
-line-height: 24px;
+  color: #2400fd !important;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
 }
 .react-datepicker__header {
-    background: none!important;
-    border: none!important;
+  background: none !important;
+  border: none !important;
 }
 .react-datepicker__navigation-icon::before {
-    top: 12px!important;
-    border-color: #2400FD!important;
+  top: 12px !important;
+  border-color: #2400fd !important;
 }
 .react-datepicker__day--selected {
-    background-color: #2400FD!important;
-    border-radius: 0px!important;
-    color: white!important;
+  background-color: #2400fd !important;
+  border-radius: 0px !important;
+  color: white !important;
 }
 .react-datepicker__day {
-    font-weight: 500!important;
-font-size: 18px!important;
-line-height: 100%!important;
-color: #0A004C;
-width: 44px;
-height: 44px;
-padding: 11px!important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  line-height: 100% !important;
+  color: #0a004c;
+  width: 44px;
+  height: 44px;
+  padding: 11px !important;
 }
 .react-datepicker__day-name {
-    font-weight: 700!important;
-font-size: 14px!important;
-line-height: 100%!important;
-color: #0A004C;
-width: 44px;
-opacity: 0.4;
-padding: 11px!important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 100% !important;
+  color: #0a004c;
+  width: 44px;
+  opacity: 0.4;
+  padding: 11px !important;
 }
 .recap-vote-content .badge:first-of-type {
-    color: #8F88BA!important;
-    text-decoration: line-through;
+  color: #8f88ba !important;
+  text-decoration: line-through;
 }
-  @media screen and (min-width: 619px) and (max-width: 1120px) {
-    .btn-return-candidates {
-        position: unset;
-        text-align: center;
-    }  
+@media screen and (min-width: 619px) and (max-width: 1120px) {
+  .btn-return-candidates {
+    position: unset;
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 930px) {
-    .form {
-        min-height: 100vh;
-    }
+  .form {
+    min-height: 100vh;
+  }
 }
 @media screen and (max-width: 619px) {
-    .stepForm {
-        width: auto;
-        padding: 20px 0px;
-    }
-    .form-control {
-        color: #2400FD;
-    }
-    .to-reject {
-        color: black!important;
-    }
-    .stepFormCol {
+  .stepForm {
+    width: auto;
+    padding: 20px 0px;
+  }
+  .form-control {
+    color: #2400fd;
+  }
+  .to-reject {
+    color: black !important;
+  }
+  .stepFormCol {
     flex-grow: unset;
     padding: 0;
     margin: 8px;
     width: 24px;
-    justify-content: flex-start!important;
-    }
-    .stepForm h4 {
-        display: none;
-    }
-    .ajouterCandidat {
-        width: 100%;
-        margin: 10px auto;
-    }
-    .addCandidateCard {
-        padding: 30px 0px;
-    }
-    .addCandidateHeader h6 {
-        font-size: 24px;
-        line-height: 28px;
-    }
-    .addCandidateHeader p {
-        font-size: 15px;
-        line-height: 20px;
-    }
-    .addCandidateHeader span {
-        white-space: initial;
-    }
-    .btn-return-candidates {
-       display: none;
-    }  
-    .modal-header-settings {
-        justify-content: flex-start;
-    }
-    .settings-modal-body > .row, .confirm-modal-body > .row {
-        padding: 15px 15px 0px;
-    }
-    .settings-modal-body, .confirm-modal-body, .settings-modal > .modal-content {
-        background: transparent;
-        width: 100%;
-    }
-    .row-label {
-        background-color: white;
-        padding: 12px;
-        justify-content: space-between;
-    }
-    .row-label > div {
-        padding: 0px;
-        margin-right: 0;
-    }
-    .settings-modal-body p {
-        font-size: 12px;
-        color: white;
-        padding: 8px 0px;
-    }
-    .settings-modal-body label {
-        font-size: 15px;
-        line-height: 24px;
+    justify-content: flex-start !important;
+  }
+  .stepForm h4 {
+    display: none;
+  }
+  .ajouterCandidat {
+    width: 100%;
+    margin: 10px auto;
+  }
+  .addCandidateCard {
+    padding: 30px 0px;
+  }
+  .addCandidateHeader h6 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+  .addCandidateHeader p {
+    font-size: 15px;
+    line-height: 20px;
+  }
+  .addCandidateHeader span {
+    white-space: initial;
+  }
+  .btn-return-candidates {
+    display: none;
+  }
+  .modal-header-settings {
+    justify-content: flex-start;
+  }
+  .settings-modal-body > .row,
+  .confirm-modal-body > .row {
+    padding: 15px 15px 0px;
+  }
+  .settings-modal-body,
+  .confirm-modal-body,
+  .settings-modal > .modal-content {
+    background: transparent;
+    width: 100%;
+  }
+  .row-label {
+    background-color: white;
+    padding: 12px;
+    justify-content: space-between;
+  }
+  .row-label > div {
+    padding: 0px;
+    margin-right: 0;
+  }
+  .settings-modal-body p {
+    font-size: 12px;
+    color: white;
+    padding: 8px 0px;
+  }
+  .settings-modal-body label {
+    font-size: 15px;
+    line-height: 24px;
+  }
+  .settings-modal-body label {
+    margin-bottom: 0px;
+  }
+  #voting-time-label {
+    width: 100%;
+    padding: 12px;
+  }
+  .settings-divider,
+  .confirmation-divider {
+    display: none;
+  }
 
-    }
-    .settings-modal-body label {
-        margin-bottom: 0px;
-    }
-    #voting-time-label {
-        width: 100%;
-        padding: 12px;
-       
-    }
-    .settings-divider, .confirmation-divider {
-        display: none;
-    }
-    
-    
-    .componentDesktop {
-        display: none;
-    }
-    .componentMobile {
-        display: block;
-    }
-    .componentMobile p {
-        display: block;
-    }
-    .grades-mobile {
-        margin: 0;
-    }
-    .grades-mobile > .row-label{
-        justify-content: space-between;
-    }
-    .grades-mobile > .modal-content {
-        min-height: 100vh;
-    }
-    .grades-mobile h5 {
-        font-size: 24px;
-line-height: 28px;
-color: #2400FD;
-    }
-    .grades-mobile p {
-        font-size: 15px;
+  .componentDesktop {
+    display: none;
+  }
+  .componentMobile {
+    display: block;
+  }
+  .componentMobile p {
+    display: block;
+  }
+  .grades-mobile {
+    margin: 0;
+  }
+  .grades-mobile > .row-label {
+    justify-content: space-between;
+  }
+  .grades-mobile > .modal-content {
+    min-height: 100vh;
+  }
+  .grades-mobile h5 {
+    font-size: 24px;
+    line-height: 28px;
+    color: #2400fd;
+  }
+  .grades-mobile p {
+    font-size: 15px;
     line-height: 20px;
     letter-spacing: -0.5px;
-    color: #0A004C;   
+    color: #0a004c;
     margin-bottom: 16px;
-    } 
-    .grades-mobile .modal-header {
-        border-bottom: none;
-        padding: 42px 32px 0px;  
-    } 
-    .grades-mobile .modal-body {
-        padding: 0px 32px;  
-    } 
-    .numGradesMobile {
+  }
+  .grades-mobile .modal-header {
+    border-bottom: none;
+    padding: 42px 32px 0px;
+  }
+  .grades-mobile .modal-body {
+    padding: 0px 32px;
+  }
+  .numGradesMobile {
     width: 15vw;
     height: 15vw;
-    }
-    .grades-mobile .btn-confirm-mobile {
-        width: 100%;
-        margin: 50px 12px;
-    }
-    .grades-mobile .close {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        font-size: 35px;
+  }
+  .grades-mobile .btn-confirm-mobile {
+    width: 100%;
+    margin: 50px 12px;
+  }
+  .grades-mobile .close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 35px;
     font-weight: 100;
-    }
-    
-   
-    .btn-confirm-mobile {
-        width: 100%;
-        background-color: #2400FD;
-        box-shadow: 0px 4px 0px 0px #FFFFFF;
-        opacity: 1;
-    }
-    .time-container {
-        margin: auto;
-    }
-    .mobile-title {
-        display: block;
-        font-size: 18px;
-        line-height: 24px;
-        color: white;
-        margin-bottom: 10px;
-    }
-    .recap-vote > div {
-        margin: 15px auto;
-    }
-    .recap-vote .row {
-        padding: 0px 15px;
-    }
-    .recap-vote-label {
-        padding-top: 15px!important;
-    }
-    .time-container .form-control {
-        margin: auto;
-    }
-    .rightColumn {
-        padding: 0px;
-    }
+  }
+
+  .btn-confirm-mobile {
+    width: 100%;
+    background-color: #2400fd;
+    box-shadow: 0px 4px 0px 0px #ffffff;
+    opacity: 1;
+  }
+  .time-container {
+    margin: auto;
+  }
+  .mobile-title {
+    display: block;
+    font-size: 18px;
+    line-height: 24px;
+    color: white;
+    margin-bottom: 10px;
+  }
+  .recap-vote > div {
+    margin: 15px auto;
+  }
+  .recap-vote .row {
+    padding: 0px 15px;
+  }
+  .recap-vote-label {
+    padding-top: 15px !important;
+  }
+  .time-container .form-control {
+    margin: auto;
+  }
+  .rightColumn {
+    padding: 0px;
+  }
 }
 @media screen and (max-width: 375px) {
-.removeAddButtons {
+  .removeAddButtons {
     flex-direction: column;
-}
-.removeAddButtons button {
+  }
+  .removeAddButtons button {
     width: 100%;
     text-align: center;
     margin: 15px auto;
-}
+  }
 
-.numGradesMobile {
-width: 30vw;
-height: 30vw;
-}
+  .numGradesMobile {
+    width: 30vw;
+    height: 30vw;
+  }
 }

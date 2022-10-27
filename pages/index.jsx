@@ -1,148 +1,197 @@
-
 import {useState} from "react";
-import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useTranslation} from "next-i18next";
 import {Container, Row, Col, Button, Input} from "reactstrap";
 import config from "../next-i18next.config.js";
 import Footer from '@components/layouts/Footer';
-import VoteBallot from './vote/[pid]/[[...tid]]';
-import CandidatesField from '../components/form/CandidatesField';
+import Logo from '@components/Logo.jsx';
+import ballotBox from '../public/urne.svg'
+import email from '../public/email.svg'
+import respect from '../public/respect.svg'
+import vote from '../public/vote.svg'
+import twitter from '../public/twitter.svg'
+import facebook from '../public/facebook.svg'
+import arrowRight from '../public/arrow-white.svg'
+
 export const getStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, [], config)),
   },
 });
-
-const Home = () => {
+const StartForm = () => {
+  const {t} = useTranslation('resource');
   const [title, setTitle] = useState(null);
-  const {t} = useTranslation();
-  return (
 
-    <Container className="homePage">
-      <section>
-        <form className="sectionOneHomeForm" autoComplete="off">
-          <Row className="sectionOneHomeRowOne">
-            <Col className="sectionOneHomeContent">
-              <Row>
-                <img
-                  src="/logos/logo.svg"
-                  alt="logo of Mieux Voter"
-                  height="128"
-                  className="d-block"
-                />
-              </Row>
-              <Row>
-                <h4>Simple et gratuit</h4>
-              </Row>
-              <Row>
-                <h2>Organisez un vote avec le Jugement Majoritaire</h2>
-              </Row>
-              <Row className="justify-content-end">
-                <Input
-                  placeholder={t("resource.writeQuestion")}
-                  autoFocus
-                  required
-                  className="mt-2 mb-0 sectionOneHomeInput"
-                  name="title"
-                  value={title ? title : ""}
-                  onChange={(e) => setTitle(e.target.value)}
-                  maxLength="250"
-                />
-                
-                <p className="pt-0 mt-0 mr-0 maxLength">250</p>
-                
-              </Row>
-              <Row>
-                <Link href={{pathname: "/new/", query: {title: title}}}>
-                  <Button
-                    type="submit"
-                    className="btn btn-block btn-secondary mt-2"
-                  >
-                    {t("resource.start")}
-                    <img src="/arrow-white.svg" className="mr-2" />
-                  </Button>
-                </Link>
-              </Row>
-              <Row className="noAds">
-                <p>{t("resource.noAds")}</p>
-              </Row>
-            </Col>
-            <Col></Col>
+  return (
+    <form className="sectionOneHomeForm" autoComplete="off">
+      <Row className="sectionOneHomeRowOne">
+        <Col className="sectionOneHomeContent">
+          <Row>
+            <Logo height="128" />
           </Row>
           <Row>
+            <h4>{t("motto")}</h4>
+          </Row>
+          <Row>
+            <h2>{t("slogan")}</h2>
+          </Row>
+          <Row className="justify-content-end">
+            <Input
+              placeholder={t("writeQuestion")}
+              autoFocus
+              required
+              className="mt-2 mb-0 sectionOneHomeInput"
+              name="title"
+              value={title ? title : ""}
+              onChange={(e) => setTitle(e.target.value)}
+              maxLength="250"
+            />
+
+            <p className="pt-0 mt-0 mr-0 maxLength">250</p>
 
           </Row>
-        </form>
-      </section>
+          <Row>
+            <Link href={{pathname: "/new/", query: {title: title}}}>
+              <Button type="submit">
+                <Row className="justify-content-md-center  p-2">
+                  <Col className='col-auto'>{t("start")}
+                  </Col><Col className='col-auto d-flex'>
+                    <Image src={arrowRight} width={22} height={22} className="align-self-center" />
+                  </Col>
+                </Row>
+              </Button>
+            </Link>
+          </Row>
+          <Row className="noAds">
+            <p>{t("noAds")}</p>
+          </Row>
+        </Col>
+        <Col></Col>
+      </Row>
+    </form>
+  );
+
+}
+
+const AdvantagesRow = () => {
+  const {t} = useTranslation('resource');
+  const resources = [
+    {
+      "src": ballotBox,
+      "alt": t("alt-icon-ballot-box"),
+      "title": t('advantage-1-title'),
+      "desc": t('advantage-1-desc'),
+    },
+    {
+      "src": email,
+      "alt": t("alt-icon-email"),
+      "title": t('advantage-2-title'),
+      "desc": t('advantage-2-desc'),
+    },
+    {
+      "src": respect,
+      "alt": t("alt-icon-respect"),
+      "title": t('advantage-3-title'),
+      "desc": t('advantage-3-desc'),
+    }
+  ]
+  return (<Row className="sectionTwoRowOne">
+    {resources.map((item, i) =>
+      <Col key={i} className="sectionTwoRowOneCol">
+        <Image
+          src={item.src}
+          alt={item.alt}
+          height="128"
+          className="d-block mx-auto"
+        />
+        <h4>{item.title}</h4>
+        <p>{item.desc}</p>
+      </Col>
+    )
+    }
+  </Row >
+  )
+}
+
+
+const ExperienceRow = () => {
+  const {t} = useTranslation('resource');
+  return (
+    <Row className="sectionTwoRowTwo">
+      <Row className="sectionTwoHomeImage">
+        <Image src={vote} alt={t('alt-icon-ballot')} />
+      </Row>
+      <Row className="sectionTwoRowTwoCol">
+        <h3 className="col-md-8">{t('experience-title')}</h3>
+      </Row>
+      <Row className="sectionTwoRowTwoCol">
+        <Col className="sectionTwoRowTwoColText col-md-4">
+          <h5 className="">{t('experience-1-title')}</h5>
+          <p>{t('experience-1-desc')}</p>
+        </Col>
+        <Col className="sectionTwoRowTwoColText col-md-4 offset-md-1">
+          <h5 className="">{t('experience-2-title')}</h5>
+          <p>{t('experience-2-desc')}</p>
+          <p></p>
+        </Col>
+      </Row>
+      <Row className="sectionTwoRowThreeCol mt-5">
+        <Col>
+          <Button
+            color="primary"
+          >
+            {t('experience-call-to-action')}
+            <Image src={arrowRight} width={22} height={22} className="mr-2" />
+          </Button>
+        </Col>
+      </Row>
+    </Row>
+  )
+};
+
+
+const ShareRow = () => {
+  const {t} = useTranslation('resource');
+  return (
+    <Row className="sharing justify-content-md-center">
+      <Col className="col-auto">
+        {t('share')}
+      </Col>
+      <Col className="col-auto">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.facebook.com/mieuxvoter.fr/">
+          <Image height={22} width={22}
+            src={facebook} />
+        </a>
+      </Col>
+      <Col className="col-auto">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://twitter.com/mieux_voter">
+          <Image height={22} width={22}
+            src={twitter} />
+        </a>
+      </Col>
+    </Row>
+  )
+}
+
+const Home = () => {
+  return (
+    <Container className="homePage">
+      <section><StartForm /></section>
       <section className="sectionTwoHome">
-        <Row className="sectionTwoRowOne">
-          <Col className="sectionTwoRowOneCol">
-            <img
-              src="/urne.svg"
-              alt="icone d'urne"
-              height="128"
-              className="d-block mx-auto"
-            />
-            <h4>Simple</h4>
-            <p>Créez un vote en moins d’une minute</p>
-          </Col>
-          <Col className="sectionTwoRowOneCol">
-            <img
-              src="/email.svg"
-              alt="icone d'enveloppe"
-              height="128"
-              className="d-block mx-auto"
-            />
-            <h4>Gratuit</h4>
-            <p>Envoyez des invitations par courriel sans limite d`&apos;`envoi</p>
-          </Col>
-          <Col className="sectionTwoRowOneCol">
-            <img
-              src="/respect.svg"
-              alt="icone de mains qui se serrent"
-              height="128"
-              className="d-block mx-auto"
-            />
-            <h4>Respect de votre vie privée</h4>
-            <p>Aucune donnée personnelle n'est enregistrée</p>
-          </Col>
-        </Row>
-        <Row className="sectionTwoRowTwo">
-          <Row className="sectionTwoHomeImage">
-            <img src="/vote.svg" />
-          </Row>
-          <Row className="sectionTwoRowTwoCol">
-            <h3 className="col-md-7">Une expérience de vote démocratique et intuitive</h3>
-          </Row>
-          <Row className="sectionTwoRowTwoCol">
-            <Col className="sectionTwoRowTwoColText col-md-4">
-              <h5 className="">Exprimez toute votre opinion</h5>
-              <p>Au jugement majoritaire, chaque candidat est évalué sur une grille de mention. Vous n’aurez plus besoin de faire un vote stratégique.</p>
-            </Col>
-            <Col className="sectionTwoRowTwoColText col-md-4 offset-md-1">
-              <h5 className="">Obtenez le meilleur consensus</h5>
-              <p>Le profil des mérites dresse un panorama précis de l’opinion des électeurs. Le gagnant du vote est celui qui est la meilleure mention majoritaire.</p>
-            </Col>
-          </Row>
-          <Row className="sectionTwoRowThreeCol">
-            <Button
-              className="btn btn-block btn-secondary btn-sectionTwoHome"
-            >
-              Découvrez le jugement majoritaire
-              <img src="/arrow-white.svg" className="mr-2" />
-            </Button>
-          </Row>
-        </Row>
-        <Row className="sharing">
-          <p>Partagez l’application Mieux voter</p>
-          <Link href="https://www.facebook.com/mieuxvoter.fr/"><img src="/facebook.svg" className="mr-2" /></Link>
-          <Link href="https://twitter.com/mieux_voter"><img src="/twitter.svg" className="mr-2" /></Link>
-        </Row>
+        <AdvantagesRow />
+        <ExperienceRow />
+        <ShareRow />
       </section>
       <Footer />
-    </Container>
+    </Container >
 
   );
 };

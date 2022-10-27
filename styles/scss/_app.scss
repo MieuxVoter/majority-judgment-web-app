@@ -1,21 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&display=swap");
 
-h1, h2, h3 {
-  font-family: "DM Serif Display", serif!important;
+h1,
+h2,
+h3 {
+  font-family: "DM Serif Display", serif !important;
 }
-body, h4, h5, p, button {
-  font-family: "DM Sans", sans-serif!important;
+body,
+h4,
+h5,
+p,
+button {
+  font-family: "DM Sans", sans-serif !important;
 }
 ::placeholder {
-  font-family: "DM Sans", sans-serif!important;
+  font-family: "DM Sans", sans-serif !important;
 }
 .rowNoMargin {
-  margin-left: 0px!important;
-  margin-right: 0px!important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 // mieux voter vars
-$mv-blue-color: #2400FD !default;
-$mv-dark-blue-color:  #0A004C!default;
+$mv-blue-color: #2400fd !default;
+$mv-dark-blue-color: #0a004c !default;
 $mv-light-color: #efefff !default;
 $mv-dark-color: #333 !default;
 
@@ -31,7 +37,7 @@ $theme-colors: (
   "danger": #990000,
   "success": #009900,
   "info": #2b8299,
-  "warning": #ff6e11
+  "warning": #ff6e11,
 ) !default;
 
 .logo-text > h1 {
@@ -127,8 +133,6 @@ li.sortable {
   border-top: 1px solid $mv-dark-color;
   margin: 10px 0;
 }
-
-
 
 /* checkbox  */
 /* The radio */
@@ -290,8 +294,6 @@ li.sortable {
   transform-style: 2s;
 }
 
-
-
 /** table profiles **/
 .profiles thead,
 .profiles tbody,
@@ -302,7 +304,6 @@ li.sortable {
   border-color: $mv-blue-color;
   color: $mv-blue-color;
 }
-
 
 /** react multi email **/
 .react-multi-email > span[data-placeholder] {
@@ -328,10 +329,6 @@ li.sortable {
   top: 0;
 }
 
-
-
-
-
 /** GLOBALS **/
 section {
   width: 100%;
@@ -355,37 +352,37 @@ h5 {
   font-weight: bold;
 }
 .btn {
-  width: 165px;
-  padding: 16px 24px;
-  background: $mv-blue-color;
-  border: 2px solid #FFFFFF;
+  //width: 165px;
+  padding: 8px 24px;
+  // background: $mv-blue-color;
+  border: 2px solid #ffffff;
   border-radius: 0px;
   box-sizing: border-box;
-  box-shadow: 0px 4px 0px #FFFFFF;
+  box-shadow: 0px 4px 0px #ffffff;
   font-family: DM Sans;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: -0.5px;
-  color: #FFFFFF;
+  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.btn img {
-  width: 24px!important;
-  height: 24px!important;
+/*.btn img {
+  width: 24px !important;
+  height: 24px !important;
   margin: 0px 16px;
-}
+}*/
 
 .footerRow > .col {
-  flex-basis: auto!important;
-  width: auto!important;
+  flex-basis: auto !important;
+  width: auto !important;
   align-self: center;
 }
 .footerLogo {
- padding-right: 0px;
+  padding-right: 0px;
 }
 .footerButton {
   padding-right: 0px;
@@ -395,7 +392,7 @@ h5 {
   padding: 7px;
   border: none;
   box-shadow: none;
-  background: #4A2FEF;
+  background: #4a2fef;
   color: white;
   font-size: 14px;
   width: 100%;
@@ -404,71 +401,23 @@ h5 {
   cursor: pointer;
 }
 .ReactFlagsSelect-module_selectFlag__2q5gC {
-  display: none!important;
+  display: none !important;
 }
 .ReactFlagsSelect-module_selectBtn__19wW7 {
-  border: none!important;
+  border: none !important;
 }
 .menu-flags {
-  width: fit-content!important;
-  margin-left: 0px!important;
-  padding-bottom: 0px!important;
+  width: fit-content !important;
+  margin-left: 0px !important;
+  padding-bottom: 0px !important;
 }
 .footerRow div {
   margin: auto 8px;
 }
-.btn-opacity:hover {
-background-color: transparent;
-border-color: white;
-opacity: 1;
-}
-.btn-opacity {
-  background-color: transparent;
-  width: fit-content;
-  opacity: 0.4;
-  transition: 0.5s;
-}
-.btn-transparent:hover {
-  background-color: transparent;
-  border-color: white;
-  }
-  .btn-transparent {
-    background-color: transparent;
-    width: fit-content;
-    transition: 0.5s;
-    margin: auto;
-  }
-.btn-secondary {
-  width: fit-content;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .sectionAjouterCandidat {
-
   display: flex;
   flex-direction: column;
-
 }
 .ajouterCandidat {
   width: 50%;
@@ -500,8 +449,8 @@ opacity: 1;
 }
 .btnTrash {
   background-color: transparent;
-color: white;
-border: none;
+  color: white;
+  border: none;
 }
 .btnValidateCandidate {
   background: transparent;
@@ -512,20 +461,14 @@ border: none;
 
 @media screen and (min-width: 931px) {
   header {
-    display: none!important;
+    display: none !important;
   }
-
 }
 
-
-
-
-
-
 .result {
-display: flex;
-    margin: auto;
-    justify-content: space-around;
+  display: flex;
+  margin: auto;
+  justify-content: space-around;
 }
 
 ol.result > li {

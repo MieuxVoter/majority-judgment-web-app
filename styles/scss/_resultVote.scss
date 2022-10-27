@@ -1,159 +1,160 @@
 .resultPage {
-    background-image: url('/background-woman-left.svg'), url('/background-woman-right.svg');
-    background-position: left bottom, right bottom;
-    background-color: #1d0a93;
-    min-height: 100vh;
-    background-repeat: no-repeat;
-    background-size: auto 300px;
-    max-width: 100%;
-    padding: 0px;
-
+  background-image: url("/background-woman-left.svg"),
+    url("/background-woman-right.svg");
+  background-position: left bottom, right bottom;
+  background-color: #1d0a93;
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: auto 300px;
+  max-width: 100%;
+  padding: 0px;
 }
 .resultCard {
-   
-    margin: auto;
+  margin: auto;
 }
 .card-header h4 {
-    font-size: 15px;
-    line-height: 24px;
-    color: #2400FD;
+  font-size: 15px;
+  line-height: 24px;
+  color: #2400fd;
 }
 .sectionHeaderResult {
-    background-color: white;
-    max-width: 100%;
-    padding: 30px 70px;
-    justify-content: space-between;
+  background-color: white;
+  max-width: 100%;
+  padding: 30px 70px;
+  justify-content: space-between;
 }
 .sectionHeaderResultSideCol img {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 .sectionHeaderResultSideCol p {
-    color: #8F88BA;
-    font-size: 14px;
-    line-height: 16px;
-    margin-top: 16px;
+  color: #8f88ba;
+  font-size: 14px;
+  line-height: 16px;
+  margin-top: 16px;
 }
 .sectionHeaderResult h3 {
-    color: #0A004C;
-    font-size: 24px;
-    line-height: 28px;
-    text-align: center;
-    width: 100%;
+  color: #0a004c;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+  width: 100%;
 }
 .sectionHeaderResultSideCol {
-    display: flex;
+  display: flex;
 }
 .sectionHeaderResultMiddleCol {
-    align-items: center;
-    display: flex;
+  align-items: center;
+  display: flex;
 }
-.sectionHeaderResultLeftCol, .sectionHeaderResultMiddleCol, .sectionHeaderResultRightCol {
-    max-width: fit-content;
+.sectionHeaderResultLeftCol,
+.sectionHeaderResultMiddleCol,
+.sectionHeaderResultRightCol {
+  max-width: fit-content;
 }
 .sectionContentResult {
-    margin: auto;
-    width: 60%;
+  margin: auto;
+  width: 60%;
 }
 /** result **/
-ol.result > li{
-    font-size: 16px;
+ol.result > li {
+  font-size: 16px;
   line-height: 24px;
-    font-weight:normal;
-    display: flex;
-    flex-direction: column;
-  }
-  ol.result > li:nth-child(1){
-    font-size: 23px;
-line-height: 24px;
-    font-weight:bold;
-  }
-  .result .resultPosition {
-    font-size: 16px;
-width: 24px;
-height: 24px;
-    font-weight:bold;
-    background-color: #0A004C;
-    display: flex;
-    justify-content: center;
-    margin: auto;
-  }
-  ol.result > li:nth-child(1) > .resultPosition{
-    background-color: white;
-    color: #2400FD;
-  }
-  .resultPositionCard {
-    font-size: 16px;
-    width: 24px;
-    height: 24px;
-        font-weight:bold;
-        background-color: #0A004C;
-        display: flex;
-        justify-content: center;
-        color: white;
-  }
-  .card:first-of-type .resultPositionCard{
-    background-color: #2400FD;
-  }
-  .card:first-of-type .candidateName {
-    color: #2400FD;
+  font-weight: normal;
+  display: flex;
+  flex-direction: column;
 }
-  .candidateName {
-      color: #0A004C;
-  }
+ol.result > li:nth-child(1) {
+  font-size: 23px;
+  line-height: 24px;
+  font-weight: bold;
+}
+.result .resultPosition {
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  font-weight: bold;
+  background-color: #0a004c;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+ol.result > li:nth-child(1) > .resultPosition {
+  background-color: white;
+  color: #2400fd;
+}
+.resultPositionCard {
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  font-weight: bold;
+  background-color: #0a004c;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+.card:first-of-type .resultPositionCard {
+  background-color: #2400fd;
+}
+.card:first-of-type .candidateName {
+  color: #2400fd;
+}
+.candidateName {
+  color: #0a004c;
+}
 .collapsed > .panel-title .openIcon {
-    display: none;
+  display: none;
 }
 .collapsed > .panel-title .closeIcon {
-    display: inline-block;
+  display: inline-block;
 }
 .panel-title .closeIcon {
-    display: none;
+  display: none;
 }
 .median {
-    border-width: 0 3px 0 0;
-    border-style: dashed;
-    border-color: #000;
-    min-height: 40px;
-    width: 1px;
-    position: absolute;
-    left: 50%;
-    margin-top: -8px;
-  }
-  .linkResult a {
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 16px;
-    color: #8F88BA;
-    text-decoration: none;
-  }
+  border-width: 0 3px 0 0;
+  border-style: dashed;
+  border-color: #000;
+  min-height: 40px;
+  width: 1px;
+  position: absolute;
+  left: 50%;
+  margin-top: -8px;
+}
+.linkResult a {
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 16px;
+  color: #8f88ba;
+  text-decoration: none;
+}
 
 @media screen and (max-width: 620px) {
-    .resultPage {
-        background-image: none;
-    }
-    .sectionHeaderResult {
-        padding: 24px;
-    }
-    .sectionHeaderResult h3 {
-        text-align: left;
-    }
-    .sectionHeaderResult .row {
-        margin: 0px;
-    }
-    .sectionHeaderResultSideCol {
-        padding: 0px;
-    }
-    .sectionContentResult {
-        padding: 0px 24px;
-        width: 100%;
-    }
-    .btn-result {
-        margin: auto;
-    }
-    .btn-result p {
-        margin: auto;
-    }
-    .column {
-        flex-direction: column;
-    }
+  .resultPage {
+    background-image: none;
+  }
+  .sectionHeaderResult {
+    padding: 24px;
+  }
+  .sectionHeaderResult h3 {
+    text-align: left;
+  }
+  .sectionHeaderResult .row {
+    margin: 0px;
+  }
+  .sectionHeaderResultSideCol {
+    padding: 0px;
+  }
+  .sectionContentResult {
+    padding: 0px 24px;
+    width: 100%;
+  }
+  .btn-result {
+    margin: auto;
+  }
+  .btn-result p {
+    margin: auto;
+  }
+  .column {
+    flex-direction: column;
+  }
 }
