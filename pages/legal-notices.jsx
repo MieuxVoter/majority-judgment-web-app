@@ -1,17 +1,17 @@
 import Link from "next/link";
-import { Container, Row, Col } from "reactstrap";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import {Container, Row, Col} from "reactstrap";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import config from "../next-i18next.config.js";
 
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, [], config)),
   },
 });
 
 const LegalNotices = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Container>
       <Row>
@@ -70,7 +70,7 @@ const LegalNotices = (props) => {
       <Row className="mt-4">
         <Col className="text-center">
           <Link href="/" className="btn btn-secondary">
-            {t("common.backHomepage")}
+            {t("common.back-homepage")}
           </Link>
         </Col>
       </Row>

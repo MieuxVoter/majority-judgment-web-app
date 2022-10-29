@@ -4,9 +4,9 @@ import Image from "next/image";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useTranslation} from "next-i18next";
 import {Container, Row, Col, Button, Input} from "reactstrap";
-import config from "../next-i18next.config.js";
 import Footer from '@components/layouts/Footer';
 import Logo from '@components/Logo.jsx';
+import {CREATE_ELECTION} from '@services/routes';
 import ballotBox from '../public/urne.svg'
 import email from '../public/email.svg'
 import respect from '../public/respect.svg'
@@ -15,11 +15,14 @@ import twitter from '../public/twitter.svg'
 import facebook from '../public/facebook.svg'
 import arrowRight from '../public/arrow-white.svg'
 
+
 export const getStaticProps = async ({locale}) => ({
   props: {
-    ...(await serverSideTranslations(locale, [], config)),
+    ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
+
+
 const StartForm = () => {
   const {t} = useTranslation('resource');
   const [title, setTitle] = useState(null);
@@ -32,14 +35,14 @@ const StartForm = () => {
             <Logo height="128" />
           </Row>
           <Row>
-            <h4>{t("motto")}</h4>
+            <h4>{t("home.motto")}</h4>
           </Row>
           <Row>
-            <h2>{t("slogan")}</h2>
+            <h2>{t("home.slogan")}</h2>
           </Row>
           <Row className="justify-content-end">
             <Input
-              placeholder={t("writeQuestion")}
+              placeholder={t("home.writeQuestion")}
               autoFocus
               required
               className="mt-2 mb-0 sectionOneHomeInput"
@@ -53,19 +56,27 @@ const StartForm = () => {
 
           </Row>
           <Row>
-            <Link href={{pathname: "/new/", query: {title: title}}}>
+            <Link href={{pathname: CREATE_ELECTION, query: {title: title}}}>
               <Button type="submit">
                 <Row className="justify-content-md-center  p-2">
-                  <Col className='col-auto'>{t("start")}
-                  </Col><Col className='col-auto d-flex'>
-                    <Image src={arrowRight} width={22} height={22} className="align-self-center" />
+                  <Col className='col-auto'>
+                    {t("home.start")}
+                  </Col>
+                  <Col className='col-auto d-flex'>
+                    <Image
+                      src={arrowRight}
+                      width={22}
+                      height={22}
+                      alt={t("home.start")}
+                      className="align-self-center"
+                    />
                   </Col>
                 </Row>
               </Button>
             </Link>
           </Row>
           <Row className="noAds">
-            <p>{t("noAds")}</p>
+            <p>{t("home.noAds")}</p>
           </Row>
         </Col>
         <Col></Col>
@@ -75,26 +86,27 @@ const StartForm = () => {
 
 }
 
+
 const AdvantagesRow = () => {
   const {t} = useTranslation('resource');
   const resources = [
     {
       "src": ballotBox,
-      "alt": t("alt-icon-ballot-box"),
-      "title": t('advantage-1-title'),
-      "desc": t('advantage-1-desc'),
+      "alt": t("home.alt-icon-ballot-box"),
+      "title": t('home.advantage-1-title'),
+      "desc": t('home.advantage-1-desc'),
     },
     {
       "src": email,
-      "alt": t("alt-icon-email"),
-      "title": t('advantage-2-title'),
-      "desc": t('advantage-2-desc'),
+      "alt": t("home.alt-icon-envelop"),
+      "title": t('home.advantage-2-title'),
+      "desc": t('home.advantage-2-desc'),
     },
     {
       "src": respect,
-      "alt": t("alt-icon-respect"),
-      "title": t('advantage-3-title'),
-      "desc": t('advantage-3-desc'),
+      "alt": t("home.alt-icon-respect"),
+      "title": t('home.advantage-3-title'),
+      "desc": t('home.advantage-3-desc'),
     }
   ]
   return (<Row className="sectionTwoRowOne">
@@ -121,19 +133,19 @@ const ExperienceRow = () => {
   return (
     <Row className="sectionTwoRowTwo">
       <Row className="sectionTwoHomeImage">
-        <Image src={vote} alt={t('alt-icon-ballot')} />
+        <Image src={vote} alt={t('home.alt-icon-ballot')} />
       </Row>
       <Row className="sectionTwoRowTwoCol">
-        <h3 className="col-md-8">{t('experience-title')}</h3>
+        <h3 className="col-md-8">{t('home.experience-title')}</h3>
       </Row>
       <Row className="sectionTwoRowTwoCol">
         <Col className="sectionTwoRowTwoColText col-md-4">
-          <h5 className="">{t('experience-1-title')}</h5>
-          <p>{t('experience-1-desc')}</p>
+          <h5 className="">{t('home.experience-1-title')}</h5>
+          <p>{t('home.experience-1-desc')}</p>
         </Col>
         <Col className="sectionTwoRowTwoColText col-md-4 offset-md-1">
-          <h5 className="">{t('experience-2-title')}</h5>
-          <p>{t('experience-2-desc')}</p>
+          <h5 className="">{t('home.experience-2-title')}</h5>
+          <p>{t('home.experience-2-desc')}</p>
           <p></p>
         </Col>
       </Row>
@@ -142,7 +154,7 @@ const ExperienceRow = () => {
           <Button
             color="primary"
           >
-            {t('experience-call-to-action')}
+            {t('home.experience-call-to-action')}
             <Image src={arrowRight} width={22} height={22} className="mr-2" />
           </Button>
         </Col>
@@ -157,7 +169,7 @@ const ShareRow = () => {
   return (
     <Row className="sharing justify-content-md-center">
       <Col className="col-auto">
-        {t('share')}
+        {t('home.share')}
       </Col>
       <Col className="col-auto">
         <a
@@ -182,6 +194,7 @@ const ShareRow = () => {
 }
 
 const Home = () => {
+  const {t} = useTranslation('resource');
   return (
     <Container className="homePage">
       <section><StartForm /></section>

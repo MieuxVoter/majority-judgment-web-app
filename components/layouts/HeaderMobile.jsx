@@ -20,31 +20,28 @@ const Header = () => {
       <Head><title>{t("title")}</title></Head>
       <header>
         <Navbar color="light" light expand="md">
-          <Link href="/">
-            <a className="navbar-brand">
-              <div className="d-flex flex-row">
-                <div className="align-self-center">
-                  <img src="/logos/logo-color.svg" alt="logo" height="32" />
-                </div>
-                <div className="align-self-center ml-2">
-                  <div className="logo-text">
-                    <h1>
-                      {t("Voting platform")}
-                      <small>{t("Majority Judgment")}</small>
-                    </h1>
-                  </div>
+          <Link href="/" className="navbar-brand">
+
+            <div className="d-flex flex-row">
+              <div className="align-self-center">
+                <img src="/logos/logo-color.svg" alt="logo" height="32" />
+              </div>
+              <div className="align-self-center ml-2">
+                <div className="logo-text">
+                  <h1>
+                    {t("Voting platform")}
+                    <small>{t("Majority Judgment")}</small>
+                  </h1>
                 </div>
               </div>
-            </a>
+            </div>
           </Link>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Link href="/new/">
-                  <a className="text-primary nav-link"> <FontAwesomeIcon icon={faRocket} className="mr-2" />
-                    {t("Start an election")}
-                  </a>
+                <Link href="/new/" className="text-primary nav-link"> <FontAwesomeIcon icon={faRocket} className="mr-2" />
+                  {t("Start an election")}
                 </Link>
               </NavItem>
               <NavItem style={{width: "80px"}}>

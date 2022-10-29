@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { Container, Row, Col } from "reactstrap";
-import { useTranslation } from "next-i18next";
+import {Container, Row, Col} from "reactstrap";
+import {useTranslation} from "next-i18next";
+import {CONTACT_MAIL} from '@services/constants';
 
-const Error = (props) => {
-  const { t } = useTranslation();
+const Error = ({msg}) => {
+  const {t} = useTranslation();
   return (
     <Container className="full-height-container">
       <Row>
@@ -15,25 +16,25 @@ const Error = (props) => {
       </Row>
       <Row className="mt-4">
         <Col className="text-center">
-          <h4>{props.value}</h4>
+          <h4>{t(msg)}</h4>
         </Col>
       </Row>
       <Row className="mt-4">
         <Col className="my-3" sm="6">
           <Link href="/">
-            <a className="btn btn-secondary m-auto">{t("common.backHomepage")}</a>
+            <a className="btn btn-secondary m-auto">{t("common.back-homepage")}</a>
           </Link>
         </Col>
         <Col className="my-3" sm="6">
           <a
-            href="mailto:app@mieuxvoter.fr?subject=[HELP]"
+            href={`mailto:${CONTACT_MAIL}?subject=[HELP]`}
             className="btn btn-success m-auto"
           >
-            {t("resource.help")}
+            {t("error.help")}
           </a>
         </Col>
       </Row>
-    </Container>
+    </Container >
   );
 };
 

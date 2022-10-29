@@ -16,7 +16,7 @@ const Logo = props => {
   return (
     <Image
       src={src}
-      alt={t('logo-alt')}
+      alt={t('logo.alt')}
       className="d-block"
       {...props}
     />

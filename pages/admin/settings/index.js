@@ -3,42 +3,42 @@ import Head from "next/head";
 import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {
-  Collapse,
-  Container,
-  Row,
-  Col,
-  Input,
-  Label,
-  InputGroup,
-  InputGroupAddon,
-  Button,
-  Card,
-  CardBody,
-  Modal, ModalHeader, ModalBody, ModalFooter, CustomInput
-} from "reactstrap";
-import {ReactMultiEmail, isEmail} from "react-multi-email";
-import "react-multi-email/style.css";
-import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import queryString from "query-string";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faTrashAlt,
-  faCheck,
-  faCogs,
-  faExclamationTriangle,
-  faArrowLeft,
-  faExclamationCircle
-} from "@fortawesome/free-solid-svg-icons";
-import {useAppContext} from "@services/context";
-import {createElection} from "@services/api";
-import {translateGrades} from "@services/grades";
-import HelpButton from "@components/form/HelpButton";
-import Loader from "@components/wait";
-import CandidatesField from "@components/form/CandidatesField";
-import ConfirmModal from "@components/form/ConfirmModal";
+// import {
+//   Collapse,
+//   Container,
+//   Row,
+//   Col,
+//   Input,
+//   Label,
+//   InputGroup,
+//   InputGroupAddon,
+//   Button,
+//   Card,
+//   CardBody,
+//   Modal, ModalHeader, ModalBody, ModalFooter, CustomInput
+// } from "reactstrap";
+// import {ReactMultiEmail, isEmail} from "react-multi-email";
+// import "react-multi-email/style.css";
+// import {toast, ToastContainer} from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import queryString from "query-string";
+// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+// import {
+//   faPlus,
+//   faTrashAlt,
+//   faCheck,
+//   faCogs,
+//   faExclamationTriangle,
+//   faArrowLeft,
+//   faExclamationCircle
+// } from "@fortawesome/free-solid-svg-icons";
+// import {useAppContext} from "@services/context";
+// import {createElection} from "@services/api";
+// import {translateGrades} from "@services/grades";
+// import HelpButton from "@components/form/HelpButton";
+// import Loader from "@components/wait";
+// import CandidatesField from "@components/form/CandidatesField";
+// import ConfirmModal from "@components/form/ConfirmModal";
 // import config from "../../next-i18next.config.js";
 
 

@@ -139,23 +139,6 @@
   display: flex;
   justify-content: flex-start;
 }
-.menu-flags {
-  width: 25%;
-  margin-left: 15px;
-  margin-top: 12px;
-}
-.menu-flags button {
-  border-color: white;
-  color: white;
-}
-.menu-flags button:after {
-  border-top: 5px solid white;
-  color: white;
-}
-.menu-flags button[aria-expanded="true"]:after {
-  border-bottom: 5px solid white;
-  color: white;
-}
 .navbar,
 body {
   scrollbar-width: none; /* Firefox */

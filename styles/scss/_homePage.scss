@@ -26,11 +26,6 @@ $desktop: 1680px;
   padding-right: 8%;
   flex-basis: auto;
 }
-.sectionOneHomeContent img {
-  width: 200px;
-  height: auto;
-  margin: 7% 0%;
-}
 .sectionOneHomeContent h2 {
   margin-bottom: 10%;
 }
@@ -108,20 +103,6 @@ $desktop: 1680px;
   margin: 0% 15px;
   display: flex;
 }
-.sharing img {
-  margin: 16px 15px 0px;
-  width: 22px;
-}
-
-/*    @include media-breakpoint-up('md') {
-      .sectionOneHomeForm {
-        background-image: url('/chevron-bicolore.svg');
-        background-size: contain;
-        background-position: 120% center;
-        background-repeat: no-repeat;
-      }
-    }
-   */
 
 @include media-breakpoint-up("md") {
   .sectionOneHomeForm {

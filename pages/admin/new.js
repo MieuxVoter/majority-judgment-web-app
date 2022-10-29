@@ -1,137 +1,87 @@
-import { useState, useEffect } from "react";
+import {useReducer, useState, useEffect} from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {
-  Collapse,
   Container,
   Row,
   Col,
   Input,
   Label,
-  InputGroup,
-  InputGroupAddon,
   Button,
-  Card,
-  CardBody,
-  Modal, ModalHeader, ModalBody, ModalFooter, CustomInput
+  Modal, ModalHeader, ModalBody
 } from "reactstrap";
-import { ReactMultiEmail, isEmail } from "react-multi-email";
-import "react-multi-email/style.css";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import queryString from "query-string";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-  faPlus,
-  faTrashAlt,
   faCheck,
-  faCogs,
-  faExclamationTriangle,
   faArrowLeft,
   faExclamationCircle,
   faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
-import { useAppContext } from "@services/context";
-import { createElection } from "@services/api";
-import { translateGrades } from "@services/grades";
-import HelpButton from "@components/form/HelpButton";
+import {createElection} from "@services/api";
+import {translateGrades} from "@services/grades";
+import {extractTime, extractDay} from "@services/date";
+import {DEFAULT_NUM_GRADES} from '@services/constants';
 import Loader from "@components/wait";
 import CandidatesField from "@components/form/CandidatesField";
 import ConfirmModal from "@components/form/ConfirmModal";
-import config from "../../next-i18next.config.js";
 import Footer from '@components/layouts/Footer'
-import DatePicker from "react-datepicker";
-
-// Error messages
-const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
-const NO_TITLE_ERROR = "Please add a title.";
-
-const isValidDate = (date) => date instanceof Date && !isNaN(date);
-const getOnlyValidDate = (date) => (isValidDate(date) ? date : new Date());
-
-// Convert a Date object into YYYY-MM-DD
-const dateToISO = (date) =>
-  getOnlyValidDate(date).toISOString().substring(0, 10);
+// import DatePicker from "react-datepicker";
+// 
 
 
-// Retrieve the current hour, minute, sec, ms, time into a timestamp
-const hours = (date) => getOnlyValidDate(date).getHours() * 3600 * 1000;
-const minutes = (date) => getOnlyValidDate(date).getMinutes() * 60 * 1000;
-const seconds = (date) => getOnlyValidDate(date).getSeconds() * 1000;
-const ms = (date) => getOnlyValidDate(date).getMilliseconds();
-const time = (date) =>
-  hours(getOnlyValidDate(date)) +
-  minutes(getOnlyValidDate(date)) +
-  seconds(getOnlyValidDate(date)) +
-  ms(getOnlyValidDate(date));
 
-// Retrieve the time part from a timestamp and remove the day. Return a int.
-const timeMinusDate = (date) => time(getOnlyValidDate(date));
-
-// Retrieve the day and remove the time. Return a Date
-const dateMinusTime = (date) =>
-  new Date(getOnlyValidDate(date).getTime() - time(getOnlyValidDate(date)));
-
-const displayClockOptions = () =>
-  Array(24)
-    .fill(1)
-    .map((x, i) => (
-      <option value={i} key={i}>
-        {i}h00
-      </option>
-    ));
-
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps = async ({locale}) => ({
   props: {
-    ...(await serverSideTranslations(locale, [], config)),
+    ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
 
-const CreateElection = (props) => {
-  const { t } = useTranslation();
+/** 
+ * Manage the election data structure
+ */
+const electionReducer = (election, action) => {
+  election[action.type] = action.value;
+}
+
+const CreateElectionForm = (props) => {
+  const {t} = useTranslation();
 
   // default value : start at the last hour
-  const now = new Date();
-  const [title, setTitle] = useState("");
-  const [candidates, setCandidates] = useState([{ label: "" }, { description: "" }]);
-  const [numGrades, setNumGrades] = useState(6);
+  const [election, dispatch] = useReducer(electionReducer, {
+    title: "",
+    description: "",
+    candidates: [],
+    grades: DEFAULT_NUM_GRADES,
+    isTimeLimited: false,
+    isRandomOrder: false,
+    restrictResult: false,
+    restrictVote: false,
+    startVote: null,
+    endVote: null,
+    emails: [],
+  });
   const [waiting, setWaiting] = useState(false);
-  const [isGradesOpen, setGradesOpen] = useState(false);
   const [isAddCandidateMOpen, setAddCandidateMOpen] = useState(false);
-  const [isTimeLimited, setTimeLimited] = useState(false);
-  const [restrictResult, setRestrictResult] = useState(false);
-  const [restrictVote, setRestrictVote] = useState(false);
-  const [start, setStart] = useState(
-    new Date(now.getTime() - minutes(now) - seconds(now) - ms(now))
-  );
-  const [finish, setFinish] = useState(
-    new Date(start.getTime() + 7 * 24 * 3600 * 1000)
-  );
-  const [emails, setEmails] = useState([]);
 
-  // set the title on loading
+  // At the initialization, set the title using GET param
   const router = useRouter();
   useEffect(() => {
     if (!router.isReady) return;
 
-    const { title: urlTitle } = router.query;
-    setTitle(urlTitle || "");
+    dispatch({'type': title, 'value': router.query.title || ""})
   }, [router.isReady]);
 
-  const handleIsTimeLimited = (event) => {
-    setTimeLimited(event.target.value === "1");
-  };
+  /**
+   * Handle change to an input
+   */
+  const handleEvent = (e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    dispatch({'type': e.target.name, 'value': value});
 
-  const handleRestrictResultCheck = (event) => {
-    setRestrictResult(event.target.value === "1");
-  };
-  const handleRestrictVote = (event) => {
-    setRestrictVote(event.target.value === "1");
-  };
+  }
 
-  const toggleMails = () => setVisibilityMails(!visibledMails)
   const toggleGrades = () => setVisibilityGrades(!visibledGrades)
   const toggle = () => setVisibility(!visibled)
 
@@ -142,14 +92,14 @@ const CreateElection = (props) => {
 
   const addCandidate = () => {
     if (candidates.length < 1000) {
-      candidates.push({ label: "" });
+      candidates.push({label: ""});
       setCandidates(candidates);
     }
   };
 
   const checkFields = () => {
     if (!candidates) {
-      return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
+      return {ok: false, msg: 'error.at-least-2-candidates'};
     }
 
     let numCandidates = 0;
@@ -157,14 +107,14 @@ const CreateElection = (props) => {
       if (c.label !== "") numCandidates += 1;
     });
     if (numCandidates < 2) {
-      return { ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR };
+      return {ok: false, msg: AT_LEAST_2_CANDIDATES_ERROR};
     }
 
     if (!title || title === "") {
-      return { ok: false, msg: NO_TITLE_ERROR };
+      return {ok: false, msg: 'error.no-title'};
     }
 
-    return { ok: true, msg: "OK" };
+    return {ok: true, msg: "OK"};
   };
 
   const handleSubmit = () => {
@@ -204,7 +154,6 @@ const CreateElection = (props) => {
   };
 
   const [visibled, setVisibility] = useState(false);
-  const [visibledGrades, setVisibilityGrades] = useState(false);
   const [visibledMails, setVisibilityMails] = useState(false);
   const handleSendNotReady = (msg) => {
     toast.error(t(msg), {
@@ -243,6 +192,7 @@ const CreateElection = (props) => {
 
   };
   const [startDate, setStartDate] = useState(new Date());
+
   return (
     <Container className="addCandidatePage">
       <Head>
@@ -257,7 +207,8 @@ const CreateElection = (props) => {
           content={t("resource.valueProp")}
         />
       </Head>
-      <ToastContainer />
+      { //<ToastContainer />
+      }
       {waiting ? <Loader /> : ""}
       <form className="form" onSubmit={handleSubmit} autoComplete="off">
         <div className={displayNone}>
@@ -391,8 +342,8 @@ const CreateElection = (props) => {
                   (isTimeLimited ? "d-block " : "d-none")
                 }
               >
-               <DatePicker selected={startDate} onChange=
-              {(date) => setStartDate(date)} />
+                { // <DatePicker selected={startDate} onChange= {(date) => setStartDate(date)} />
+                }
                 {/* <Row className="displayNone">
                   <Col xs="12" md="3" lg="3">
                     <span className="label">- {t("Starting date")}</span>
@@ -628,7 +579,7 @@ const CreateElection = (props) => {
                     <Row>
                       <p className="mr-2 my-auto">{t("À ")}</p>
 
-                      <ReactMultiEmail
+                      { /* <ReactMultiEmail
                         placeholder={t("Add here participants' emails")}
                         emails={emails}
                         onChange={setEmails}
@@ -652,6 +603,7 @@ const CreateElection = (props) => {
                         }}
 
                       />
+                      */}
                     </Row>
                     <Row>
                       <Button
@@ -673,7 +625,7 @@ const CreateElection = (props) => {
               <Col xs="12">
                 <Label>{t("Participants")}</Label>
                 <p>{t("If you list voters' emails, only them will be able to access the election")}</p>
-                <ReactMultiEmail
+                { /* <ReactMultiEmail
                   placeholder={t("Add here participants' emails")}
                   emails={emails}
                   onChange={setEmails}
@@ -693,7 +645,7 @@ const CreateElection = (props) => {
                       </div>
                     );
                   }}
-                />
+                />*/}
                 <div className="mt-2 mailMutedText">
                   <small className="text-muted">
                     <FontAwesomeIcon icon={faExclamationCircle} className="mr-2" />
@@ -743,4 +695,47 @@ const CreateElection = (props) => {
   );
 };
 
-export default CreateElection;
+export default CreateElectionForm;
+//
+  // const handleIsTimeLimited = (event) => {
+  //   setTimeLimited(event.target.value === "1");
+  // };
+
+  // const handleRestrictResultCheck = (event) => {
+  //   setRestrictResult(event.target.value === "1");
+  // };
+  // const handleRestrictVote = (event) => {
+  //   setRestrictVote(event.target.value === "1");
+  // };
+//
+// import {ReactMultiEmail, isEmail} from "react-multi-email";
+// import "react-multi-email/style.css";
+// import {toast, ToastContainer} from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+//
+//
+// 
+// // Retrieve the day and remove the time. Return a Date
+// const dateMinusTime = (date) =>
+//   new Date(getOnlyValidDate(date).getTime() - time(getOnlyValidDate(date)));
+// 
+// const displayClockOptions = () =>
+//   Array(24)
+//     .fill(1)
+//     .map((x, i) => (
+//       <option value={i} key={i}>
+//         {i}h00
+//       </option>
+//     ));
+//
+  //   switch (action.type) {
+  //     case 'title': {
+  //       election.title = action.value;
+  //       return election;
+  //     }
+  //     case 'time': {
+  //       election.endTime = action.value;
+  //       return election;
+  //     }
+  //
+  //   }

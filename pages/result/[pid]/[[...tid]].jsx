@@ -1,8 +1,8 @@
-import { useState } from "react";
+import {useState} from "react";
 import Head from "next/head";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useRouter} from "next/router";
 import Link from "next/link";
 import {
   Container,
@@ -15,18 +15,18 @@ import {
   Table,
   Button
 } from "reactstrap";
-import { getResults, getDetails, apiErrors } from "@services/api";
-import { grades } from "@services/grades";
-import { translateGrades } from "@services/grades";
+import {getResults, getDetails, apiErrors} from "@services/api";
+import {grades} from "@services/grades";
+import {translateGrades} from "@services/grades";
 import Facebook from "@components/banner/Facebook";
 import Error from "@components/Error";
 import config from "../../../next-i18next.config.js";
 import Footer from '@components/layouts/Footer'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronRight, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronDown, faChevronRight, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
-export async function getServerSideProps({ query, locale }) {
-  const { pid, tid } = query;
+export async function getServerSideProps({query, locale}) {
+  const {pid, tid} = query;
 
   const [res, details, translations] = await Promise.all([
     getResults(pid),
@@ -35,15 +35,15 @@ export async function getServerSideProps({ query, locale }) {
   ]);
 
   if (typeof res === "string" || res instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return {props: {err: res.slice(1, -1), ...translations}};
   }
 
   if (typeof details === "string" || details instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return {props: {err: res.slice(1, -1), ...translations}};
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
-    return { props: { err: "Unknown error", ...translations } };
+    return {props: {err: "Unknown error", ...translations}};
   }
 
   return {
@@ -58,8 +58,8 @@ export async function getServerSideProps({ query, locale }) {
   };
 }
 
-const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
-  const { t } = useTranslation();
+const Result = ({candidates, numGrades, title, pid, err, finish}) => {
+  const {t} = useTranslation();
 
   const newstart = new Date(finish * 1000).toLocaleDateString("fr-FR");
 
@@ -227,21 +227,21 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
                     <CardBody className="pt-5">
                       <Row className="column">
                         <Col>
-                   
-                            {t("Preference profile")}
-                           
+
+                          {t("Preference profile")}
+
                           <div>
                             <div
                               className="median"
-                              style={{ height: "40px" }}
+                              style={{height: "40px"}}
                             />
-                            <div style={{ width: "100%" }}>
+                            <div style={{width: "100%"}}>
 
                               <div key={i}>
 
                                 {/*candidate.label*/}
 
-                                <div style={{ width: "100%" }}>
+                                <div style={{width: "100%"}}>
 
                                   {gradeIds
                                     .slice(0)
@@ -277,7 +277,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
 
                       </Row>
                       <Row className="linkResult my-3">
-                        <Link href="/"><a className="mx-auto">{t("Comment interpréter les résultats")}<FontAwesomeIcon icon={faChevronRight} className="ml-2 closeIcon" /></a></Link>
+                        <Link href="/" className="mx-auto">{t("Comment interpréter les résultats")}<FontAwesomeIcon icon={faChevronRight} className="ml-2 closeIcon" /></Link>
                       </Row>
                     </CardBody>
                   </Collapse>
@@ -286,13 +286,13 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
             })}
           </Col>
         </Row>
-<div className="componentMobile mt-5">
-        <Row>
-          <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary"><img src="/arrowUpload.svg" /><p>Télécharger les résultats</p></Button>
-        </Row>
-        <Row>
-        <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary"><img src="/arrowL.svg" /><p>Partagez les résultats</p></Button>
-        </Row>
+        <div className="componentMobile mt-5">
+          <Row>
+            <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary"><img src="/arrowUpload.svg" /><p>Télécharger les résultats</p></Button>
+          </Row>
+          <Row>
+            <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary"><img src="/arrowL.svg" /><p>Partagez les résultats</p></Button>
+          </Row>
         </div>
       </section>
       <Footer />
