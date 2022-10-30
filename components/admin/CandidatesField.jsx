@@ -1,5 +1,5 @@
 import {useState, useEffect, createRef} from 'react'
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import CandidateField from './CandidateField'
 import Alert from '@components/Alert'
 import {MAX_NUM_CANDIDATES} from '@services/constants';

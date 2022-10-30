@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Image from 'next/image'
 import logoWithText from '../public/logos/logo.svg'
 import logo from '../public/logos/logo-footer.svg'
@@ -21,6 +22,10 @@ const Logo = props => {
       {...props}
     />
   )
+};
+
+Logo.propTypes = {
+  title: PropTypes.bool
 };
 
 Logo.defaultProps = {

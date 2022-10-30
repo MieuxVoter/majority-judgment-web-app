@@ -11,6 +11,7 @@ $body-color: $mv-light-color;
 
 $modal-content-border-radius: 0px;
 $modal-header-border-width: 0px;
+$badge-border-radius: 0px;
 
 $theme-colors: (
   "primary": $mv-blue-color,
@@ -31,6 +32,6 @@ $theme-colors: (
 @import "_modal.scss";
 @import "_homePage.scss";
 @import "_vote.scss";
-@import "_newVote.scss";
+// @import "_newVote.scss";
 @import "_resultVote.scss";
 @import "_admin.scss";

@@ -5,7 +5,7 @@ import {useState} from 'react'
 import Image from 'next/image'
 import TrashButton from "./TrashButton";
 import {Row, Col} from "reactstrap";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import {useElection, useElectionDispatch} from './ElectionContext';
 import defaultAvatar from '../../public/avatar.svg'
 import addIcon from '../../public/add.svg'

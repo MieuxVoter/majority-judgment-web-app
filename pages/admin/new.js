@@ -50,11 +50,11 @@ const CreateElectionForm = (props) => {
   // at which creation step are we?
   const [step, setStep] = useState('candidate');
 
-  let form;
+  let Form;
   if (step == 'candidate') {
-    form = <CandidatesField />;
+    Form = CandidatesField;
   } else if (step == 'confirm') {
-    form = <ConfirmModal />;
+    Form = ConfirmModal;
   } else {
     throw Error(`Unknown step ${step}`);
   }
@@ -63,7 +63,7 @@ const CreateElectionForm = (props) => {
     <ElectionProvider>
       <CreationSteps step={step} className='m-5 justify-content-center d-flex' />
 
-      {form}
+      <CandidatesField />
     </ElectionProvider>
 
   );
