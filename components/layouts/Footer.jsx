@@ -1,8 +1,6 @@
 import Link from "next/link";
 import {useTranslation} from "next-i18next";
 import {Button, Row, Col} from "reactstrap";
-import {useBbox} from "@components/layouts/useBbox";
-import Paypal from "@components/banner/Paypal";
 import Logo from '@components/Logo.jsx';
 import LanguageSelector from "@components/layouts/LanguageSelector";
 
@@ -57,7 +55,7 @@ const Footer = () => {
     {
       component: (
         <a href="mailto:app@mieuxvoter.fr?subject=[HELP]" style={linkStyle}>
-          Nous contacter
+          {t('menu.contact-us')}
         </a>
       )
     },
@@ -84,7 +82,7 @@ const Footer = () => {
         <Col className="col-auto">
           <Button className="btn-info">
             <a href="/">
-              Soutenez-nous
+              {t('common.support-us')}
             </a>
           </Button>
         </Col>

@@ -1,36 +1,35 @@
-import { useState, useCallback, useEffect } from "react";
+import {useState, useCallback, useEffect} from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import { Button, Col, Container, Row, Modal, ModalHeader, ModalBody, } from "reactstrap";
+import {useRouter} from "next/router";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
+import {Button, Col, Container, Row, Modal, ModalHeader, ModalBody, } from "reactstrap";
 import Link from "next/link";
-import { toast, ToastContainer } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { getDetails, castBallot, apiErrors } from "@services/api";
+// import {toast, ToastContainer} from "react-toastify";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import {getDetails, castBallot, apiErrors} from "@services/api";
 import Error from "@components/Error";
-import { translateGrades } from "@services/grades";
-import config from "../../../next-i18next.config.js";
+import {translateGrades} from "@services/grades";
 import Footer from '@components/layouts/Footer'
-import useEmblaCarousel from 'embla-carousel-react'
-import { DotButton, PrevButton, NextButton } from "../../../components/form/EmblaCarouselButtons";
-import VoteButtonWithConfirm from "../../../components/form/VoteButtonWithConfirm";
+// import useEmblaCarousel from 'embla-carousel-react'
+import {DotButton, PrevButton, NextButton} from "@components/admin/EmblaCarouselButtons";
+import VoteButtonWithConfirm from "@components/admin/VoteButtonWithConfirm";
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
-export async function getServerSideProps({ query: { pid, tid }, locale }) {
+export async function getServerSideProps({query: {pid, tid}, locale}) {
   const [details, translations] = await Promise.all([
     getDetails(pid),
-    serverSideTranslations(locale, [], config),
+    serverSideTranslations(locale, ['resource']),
   ]);
 
   if (typeof details === "string" || details instanceof String) {
-    return { props: { err: details, ...translations } };
+    return {props: {err: details, ...translations}};
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
-    return { props: { err: "Unknown error", ...translations } };
+    return {props: {err: "Unknown error", ...translations}};
   }
 
   shuffle(details.candidates);
@@ -40,7 +39,7 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
       ...translations,
       invitationOnly: details.on_invitation_only,
       restrictResults: details.restrict_results,
-      candidates: details.candidates.map((name, i, infos) => ({ id: i, label: name, description: infos })),
+      candidates: details.candidates.map((name, i, infos) => ({id: i, label: name, description: infos})),
       title: details.title,
       numGrades: details.num_grades,
       pid: pid,
@@ -49,8 +48,8 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
   };
 }
 
-const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
-  const { t } = useTranslation();
+const VoteBallot = ({candidates, title, numGrades, pid, err, token}) => {
+  const {t} = useTranslation();
 
   if (err) {
     return <Error value={apiErrors(err, t)}></Error>;
@@ -111,7 +110,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
   const toggleDesktop = () => setVisibilityDesktop(!visibledDesktop)
   const [visibledDesktop, setVisibilityDesktop] = useState(false);
 
-  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false });
+  const [viewportRef, embla] = useEmblaCarousel({skipSnaps: false});
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -323,7 +322,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                       })
                                     );
                                   })
-                                    ? { backgroundColor: grade.color, color: "#fff" }
+                                    ? {backgroundColor: grade.color, color: "#fff"}
                                     : {
                                       backgroundColor: "transparent",
                                       color: "#000",
@@ -362,7 +361,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                       })
                                     );
                                   })
-                                    ? { backgroundColor: grade.color, color: "#fff" }
+                                    ? {backgroundColor: grade.color, color: "#fff"}
                                     : {
                                       backgroundColor: "#C3BFD8",
                                       color: "#000",
@@ -371,7 +370,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                               >
                                 <small
                                   className="nowrap bold badge"
-                                  style={{ backgroundColor: "transparent", color: "#fff" }}
+                                  style={{backgroundColor: "transparent", color: "#fff"}}
                                 >
                                   {grade.label}
                                 </small>
@@ -460,7 +459,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                             })
                                           );
                                         })
-                                          ? { backgroundColor: grade.color, color: "#fff" }
+                                          ? {backgroundColor: grade.color, color: "#fff"}
                                           : {
                                             backgroundColor: "transparent",
                                             color: "#000",
@@ -499,7 +498,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                             })
                                           );
                                         })
-                                          ? { backgroundColor: grade.color, color: "#fff" }
+                                          ? {backgroundColor: grade.color, color: "#fff"}
                                           : {
                                             backgroundColor: "#C3BFD8",
                                             color: "#000",
@@ -508,7 +507,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                     >
                                       <small
                                         className="nowrap bold badge"
-                                        style={{ backgroundColor: "transparent", color: "#fff" }}
+                                        style={{backgroundColor: "transparent", color: "#fff"}}
                                       >
                                         {grade.label}
                                       </small>

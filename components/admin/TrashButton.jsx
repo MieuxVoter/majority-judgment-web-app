@@ -6,7 +6,7 @@ import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useTranslation} from "next-i18next";
 
-const TrashButton = ({className, label, onDelete}) => {
+const TrashButton = ({className, label, onClick}) => {
   const [visibled, setVisibility] = useState(false);
   const {t} = useTranslation();
 
@@ -14,7 +14,7 @@ const TrashButton = ({className, label, onDelete}) => {
 
   return (
     <div className="input-group-append cancelButton">
-      <FontAwesomeIcon  onClick={toggle} icon={faTrashAlt} className="mr-2 cursorPointer" />
+      <FontAwesomeIcon onClick={toggle} icon={faTrashAlt} className="mr-2 cursorPointer" />
       <Modal
         isOpen={visibled}
         toggle={toggle}
@@ -34,14 +34,14 @@ const TrashButton = ({className, label, onDelete}) => {
             type="button"
             className={className}
             onClick={toggle}>
-              <div className="annuler"><img src="/arrow-dark-left.svg" /> {t("No")}</div>
-           
+            <div className="annuler"><img src="/arrow-dark-left.svg" /> {t("No")}</div>
+
           </Button>
           <Button
-          className="new-btn-confirm"
-            onClick={() => {toggle(); onDelete();}}
+            className="new-btn-confirm"
+            onClick={() => {toggle(); onClick();}}
           >
-            <FontAwesomeIcon icon={faTrashAlt} className="mr-2"/>
+            <FontAwesomeIcon icon={faTrashAlt} className="mr-2" />
             {t("Yes")}
           </Button>
         </ModalFooter>

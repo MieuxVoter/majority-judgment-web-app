@@ -1,0 +1,31 @@
+.modal .overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.modal .body {
+  background: white;
+  width: 500px;
+  height: 600px;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.modal .body {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 25px;
+}
+
+.modal {
+	border-radius: unset;
+}
+
+h4.modal-title {
+	color: $mv-blue-color;
+}

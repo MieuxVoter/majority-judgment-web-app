@@ -4,7 +4,6 @@ import Image from "next/image";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useTranslation} from "next-i18next";
 import {Container, Row, Col, Button, Input} from "reactstrap";
-import Footer from '@components/layouts/Footer';
 import Logo from '@components/Logo.jsx';
 import {CREATE_ELECTION} from '@services/routes';
 import ballotBox from '../public/urne.svg'
@@ -203,7 +202,6 @@ const Home = () => {
         <ExperienceRow />
         <ShareRow />
       </section>
-      <Footer />
     </Container >
 
   );

@@ -1,3 +1,22 @@
+.btn {
+  //width: 165px;
+  padding: 8px 24px;
+  // background: $mv-blue-color;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 0px;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 0px;
+  font-family: DM Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .btn-opacity:hover {
   background-color: transparent;
   border-color: white;
@@ -22,6 +41,8 @@
 .btn-secondary {
   width: fit-content;
   background-color: transparent;
+  border-color: white;
+  color: white;
 }
 .btn-primary {
   box-sizing: border-box;
@@ -39,7 +60,6 @@
   box-shadow: 0px 5px 0px #7a64f9;
 }
 .btn:hover {
-background-color: rgb(255,255,255,0.2);
-border-color: white;
+  background-color: rgb(255, 255, 255, 0.2);
+  border-color: white;
 }
-

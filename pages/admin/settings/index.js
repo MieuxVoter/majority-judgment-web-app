@@ -35,10 +35,10 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 // import {useAppContext} from "@services/context";
 // import {createElection} from "@services/api";
 // import {translateGrades} from "@services/grades";
-// import HelpButton from "@components/form/HelpButton";
+// import HelpButton from "@components/admin/HelpButton";
 // import Loader from "@components/wait";
-// import CandidatesField from "@components/form/CandidatesField";
-// import ConfirmModal from "@components/form/ConfirmModal";
+// import CandidatesField from "@components/admin/CandidatesField";
+// import ConfirmModal from "@components/admin/ConfirmModal";
 // import config from "../../next-i18next.config.js";
 
 

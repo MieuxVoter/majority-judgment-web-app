@@ -1,63 +1,163 @@
-import {createContext, useContext, useReducer} from 'react';
+/**
+ * This file provides a context and a reducer to manage an election
+ */
+import {createContext, useContext, useReducer, useEffect} from 'react';
+import {useRouter} from "next/router";
+import {DEFAULT_NUM_GRADES} from '@services/constants';
 
-const TasksContext = createContext(null);
-const TasksDispatchContext = createContext(null);
+// Store data about an election
+const ElectionContext = createContext(null);
+// Store the dispatch function that can modify an election
+const ElectionDispatchContext = createContext(null);
 
-export function TasksProvider({children}) {
-  const [tasks, dispatch] = useReducer(
-    tasksReducer,
-    initialTasks
+
+
+export function ElectionProvider({children}) {
+  /**
+   * Provide the election and the dispatch to all children components
+   */
+  const [election, dispatch] = useReducer(
+    electionReducer,
+    initialElection
   );
 
+  // At the initialization, set the title using GET param
+  const router = useRouter();
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    dispatch({
+      'type': 'set',
+      'field': 'title',
+      'value': router.query.title || ""
+    })
+  }, [router.isReady]);
+
+
   return (
-    <TasksContext.Provider value={tasks}>
-      <TasksDispatchContext.Provider
+    <ElectionContext.Provider value={election}>
+      <ElectionDispatchContext.Provider
         value={dispatch}
       >
         {children}
-      </TasksDispatchContext.Provider>
-    </TasksContext.Provider>
+      </ElectionDispatchContext.Provider>
+    </ElectionContext.Provider>
   );
 }
 
-export function useTasks() {
-  return useContext(TasksContext);
+export function useElection() {
+  /**
+   * A simple hook to read the election
+   */
+  return useContext(ElectionContext);
 }
 
-export function useTasksDispatch() {
-  return useContext(TasksDispatchContext);
+export function useElectionDispatch() {
+  /**
+   * A simple hook to modify the election
+   */
+  return useContext(ElectionDispatchContext);
 }
 
-function tasksReducer(tasks, action) {
+function electionReducer(election, action) {
+  /** 
+   * Manage all types of action doable on an election
+   */
   switch (action.type) {
-    case 'added': {
-      return [...tasks, {
-        id: action.id,
-        text: action.text,
-        done: false
-      }];
+    case 'set': {
+      election[action.field] = action.value;
+      return election;
     }
-    case 'changed': {
-      return tasks.map(t => {
-        if (t.id === action.task.id) {
-          return action.task;
-        } else {
-          return t;
-        }
-      });
+    case 'commit': {
+      throw Error('Not implemented yet')
     }
-    case 'deleted': {
-      return tasks.filter(t => t.id !== action.id);
+    case 'remove': {
+      throw Error('Not implemented yet')
+    }
+    case 'candidate-push': {
+      const candidate = action.value === 'default' ? {...defaultCandidate} : action.value;
+      election.candidates.push(candidate)
+      return election;
+    }
+    case 'candidate-rm': {
+      if (typeof action.value !== "number") {
+        throw Error(`Unexpected candidate position ${action.value}`)
+      }
+      election.candidates.split(action.value)
+      return election;
     }
     default: {
-      throw Error('Unknown action: ' + action.type);
+      throw Error(`Unknown action: ${action.type}`);
     }
   }
 }
 
-const initialTasks = [
-  {id: 0, text: 'Philosopher’s Path', done: true},
-  {id: 1, text: 'Visit the temple', done: false},
-  {id: 2, text: 'Drink matcha', done: false}
-];
+const defaultCandidate = {
+  name: "",
+  description: "",
+  active: false,
+}
 
+const initialElection = {
+  title: "",
+  description: "",
+  candidates: [{...defaultCandidate}, {...defaultCandidate}],
+  grades: DEFAULT_NUM_GRADES,
+  isTimeLimited: false,
+  isRandomOrder: false,
+  restrictResult: false,
+  restrictVote: false,
+  startVote: null,
+  endVote: null,
+  emails: [],
+};
+
+
+//  const checkFields = () => {
+//    const numCandidates = candidates ? candidates.filter(c => c.label !== '') : 0;
+//    if (numCandidates < 2) {
+//      return {ok: false, msg: 'error.at-least-2-candidates'};
+//    }
+//
+//    if (!title || title === "") {
+//      return {ok: false, msg: 'error.no-title'};
+//    }
+//
+//    return {ok: true, msg: "OK"};
+//  };
+//
+//  const handleSubmit = () => {
+//    const check = checkFields();
+//    if (!check.ok) {
+//      toast.error(t(check.msg), {
+//        position: toast.POSITION.TOP_CENTER,
+//      });
+//      return;
+//    }
+//
+//    setWaiting(true);
+//
+//    createElection(
+//      title,
+//      candidates.map((c) => c.label).filter((c) => c !== ""),
+//      {
+//        mails: emails,
+//        numGrades,
+//        start: start.getTime() / 1000,
+//        finish: finish.getTime() / 1000,
+//        restrictResult: restrictResult,
+//        restrictVote: restrictVote,
+//        locale: router.locale.substring(0, 2).toLowerCase(),
+//      },
+//      (result) => {
+//        if (result.id) {
+//          router.push(`/new/confirm/${result.id}`);
+//        } else {
+//          toast.error(t("Unknown error. Try again please."), {
+//            position: toast.POSITION.TOP_CENTER,
+//          });
+//          setWaiting(false);
+//        }
+//      }
+//    );
+//  };

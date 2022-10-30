@@ -24,10 +24,16 @@ function Application({Component, pageProps}) {
       key="og:image"
     />
   </Head>
-    <Header />
-    <main className="d-flex flex-column justify-content-center">
-      <Component {...pageProps} />
-    </main></AppProvider>);
+    <main className='d-flex flex-column justify-content-between'>
+      <div>
+        <Header />
+        <div className="d-flex flex-column justify-content-center">
+          <Component {...pageProps} />
+        </div>
+      </div>
+      <Footer />
+    </main>
+  </AppProvider>);
 
 
 }

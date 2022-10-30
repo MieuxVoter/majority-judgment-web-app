@@ -1,0 +1,37 @@
+.creation-step {
+	color: rgb(255,255,255,0.64);
+	.name {
+    font-weight: 500;
+    font-size: 16px;
+    }
+
+.badge {
+    width: 24px;
+    height: 24px;
+
+    background-color: rgb(0,0,0, 0.2);
+    }
+
+}
+.creation-step.active {
+  .badge {
+    background-color: white;
+    color: $mv-blue-color;
+  }
+  .name {
+	color: white;
+  }
+}
+
+.candidate, .creation-steps {
+	max-width:  500px;
+}
+
+.default-avatar {
+	background-color: rgba(255, 255, 255, 0.16);
+	width: inherit!important;
+	position: inherit!important;
+	padding: 4px;
+	margin-right: 10px;
+
+}
