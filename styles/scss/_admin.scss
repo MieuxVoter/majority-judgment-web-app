@@ -35,26 +35,41 @@
 	margin-right: 10px;
 }
 
-input[type="file"] {
-  display: none;
-}
-.inputfile {
-  background: transparent;
-  color: #0a004c;
-  border: 2px solid #0a004c;
-  box-shadow: 0px 2px 0px 0px #0a004c;
-  padding: 8px 20px;
-  font-size: 14px;
-  line-height: 24px;
-  display: inline-block;
-  cursor: pointer;
+.creation-steps * > input[type="file"] {
+	  display: none;
+	}
+.creation-steps * > .inputfile {
+	  background: transparent;
+	  color: #0a004c;
+	  border: 2px solid #0a004c;
+	  box-shadow: 0px 2px 0px 0px #0a004c;
+	  padding: 8px 20px;
+	  font-size: 14px;
+	  line-height: 24px;
+	  display: inline-block;
+	  cursor: pointer;
+	}
+// .creation-steps > * .form-control, .creation-steps * > input[type='text']:focus,.creation-steps * > input[type='text']::placeholder {
+
+.modal_candidate > * :is(
+	input[type='text'],
+	input[type='text']:focus,
+	input[type='text']::placeholder) 
+{
+    background: white;
+    border-radius: 0px;
+    color: black!important;
+    opacity: 0.5;
+    box-shadow: 0px 2px 0px #C3BFD8;
+    margin-bottom: 20px;
 }
 
-input[type='text'], input[type='text']:focus {
-	background: white;
-	border-radius: 0px;
-	color: black;
-	opacity: 0.8;
-box-shadow: 0px 2px 0px #C3BFD8;
-margin-bottom: 20px;
+.modal_candidate > * input[type='text']:focus
+{
+    opacity: 0.8;
 }
+.modal_candidate > * input[type='text']:placeholder
+{
+    opacity: 0.4;
+}
+

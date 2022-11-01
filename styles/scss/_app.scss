@@ -358,12 +358,13 @@ h5 {
 .form-control {
   height: auto;
   background: transparent;
-  color: white;
+//  color: white;
   border: none;
 }
+/*
 .form-control::placeholder {
   color: white;
-}
+}*/
 .btnTrash {
   background-color: transparent;
   color: white;
@@ -399,4 +400,12 @@ ol.result > li {
 .text-muted {
 	color: inherit;
 	opacity: 0.5;
+}
+
+.cursor-pointer { 
+	cursor: pointer;
+}
+
+.hide {
+	display: none;
 }

@@ -195,7 +195,7 @@ const ShareRow = () => {
 const Home = () => {
   const {t} = useTranslation('resource');
   return (
-    <Container className="homePage">
+    <Container fluid={true} className='p-0'>
       <section><StartForm /></section>
       <section className="sectionTwoHome">
         <AdvantagesRow />

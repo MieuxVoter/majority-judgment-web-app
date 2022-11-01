@@ -76,15 +76,29 @@ function electionReducer(election, action) {
     }
     case 'candidate-push': {
       const candidate = action.value === 'default' ? {...defaultCandidate} : action.value;
-      election.candidates.push(candidate)
-      return election;
+      const candidates = [...election.candidates, candidate];
+      return {...election, candidates}
     }
     case 'candidate-rm': {
-      if (typeof action.value !== "number") {
+      if (typeof action.position !== "number") {
+        throw Error(`Unexpected candidate position ${action.position}`)
+      }
+      const candidates = [...election.candidates];
+      candidates.splice(action.position)
+      return {...election, candidates}
+    }
+    case 'candidate-set': {
+      if (typeof action.position !== "number") {
         throw Error(`Unexpected candidate position ${action.value}`)
       }
-      election.candidates.split(action.value)
-      return election;
+      if (action.field === "active") {
+        throw Error("You are not allowed the set the active flag")
+      }
+      const candidates = [...election.candidates];
+      const candidate = candidates[action.position]
+      candidate[action.field] = action.value
+      candidate['active'] = true;
+      return {...election, candidates}
     }
     default: {
       throw Error(`Unknown action: ${action.type}`);

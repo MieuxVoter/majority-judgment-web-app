@@ -3,13 +3,17 @@
  */
 import {useState} from 'react'
 import Image from 'next/image'
-import TrashButton from "./TrashButton";
-import {Row, Col} from "reactstrap";
 import {useTranslation} from "next-i18next";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {
+  faPlus,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
+import {Row, Col} from "reactstrap";
 import {useElection, useElectionDispatch} from './ElectionContext';
 import defaultAvatar from '../../public/avatar.svg'
-import addIcon from '../../public/add.svg'
-import CandidateModal from './CandidateModal';
+import CandidateModalSet from './CandidateModalSet';
+import CandidateModalDel from './CandidateModalDel';
 
 
 const CandidateField = ({position, className, ...inputProps}) => {
@@ -21,41 +25,46 @@ const CandidateField = ({position, className, ...inputProps}) => {
   const image = candidate && candidate.image ? candidate.image : defaultAvatar;
   const active = candidate && candidate.active === true
 
-  const [modal, setModal] = useState(false);
+  const [modalDel, setModalDel] = useState(false);
+  const [modalSet, setModalSet] = useState(false);
 
   const addCandidate = () => {
     dispatch({'type': 'candidate-push', 'value': "default"})
   };
 
-  const removeCandidate = () => {
-    dispatch({'type': 'candidate-rm', 'value': position})
-  }
-
-  const toggle = () => setModal(m => !m)
+  const toggleSet = () => setModalSet(m => !m)
+  const toggleDel = () => setModalDel(m => !m)
 
   return (
     <Row
-      className={`${className} p-2 my-3 border border-dashed border-dark border-opacity-50 align-items-center ${active ? "active" : ""}`}
+      className={`${className || ""} p-2 my-3 border border-dashed border-dark border-opacity-50 align-items-center ${active ? "active" : ""}`}
       {...inputProps}
     >
-      <Col onClick={toggle} className='col-auto me-auto'>
+      <Col onClick={toggleSet} className='cursor-pointer col-auto me-auto'>
         <Row className='gx-3'>
           <Col className='col-auto'>
-            <Image fill src={image} className={image == defaultAvatar ? "default-avatar" : ""} alt={t('common.thumbnail')} />
+            <Image src={image} width={24} height={24} className={image == defaultAvatar ? "default-avatar" : ""} alt={t('common.thumbnail')} />
           </Col>
           <Col className='col-auto fw-bold'>
             {t("admin.add-candidate")}
           </Col>
         </Row>
       </Col>
-      <Col className='col-auto'>
+      <Col className='col-auto cursor-pointer'>
         {active ?
-          <div className={trashIcon}><TrashButton onClick={removeCandidate} /></div> :
-          <Image src={addIcon} onClick={addCandidate} alt={t('admin.add-candidate')} />
+          <FontAwesomeIcon
+            icon={faTrashCan}
+            onClick={() => setModalDel(m => !m)}
+          /> :
+          <FontAwesomeIcon
+            icon={faPlus}
+            onClick={addCandidate}
+          />
         }
 
       </Col>
-      <CandidateModal toggle={toggle} isOpen={modal} position={position} />
+      <CandidateModalSet toggle={toggleSet} isOpen={modalSet} position={position} />
+      <CandidateModalDel toggle={toggleDel} isOpen={modalDel} position={position} />
     </Row >
   );
 }

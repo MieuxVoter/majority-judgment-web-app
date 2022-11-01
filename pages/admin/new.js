@@ -63,7 +63,7 @@ const CreateElectionForm = (props) => {
     <ElectionProvider>
       <CreationSteps step={step} className='m-5 justify-content-center d-flex' />
 
-      <CandidatesField />
+      <Form />
     </ElectionProvider>
 
   );
