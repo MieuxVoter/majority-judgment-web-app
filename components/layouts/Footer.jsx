@@ -80,7 +80,7 @@ const Footer = () => {
           </Row>
         </Col>
         <Col className="col-auto">
-          <Button className="btn-info">
+          <Button outline={false} color="info" className='noshadow'>
             <a href="/">
               {t('common.support-us')}
             </a>

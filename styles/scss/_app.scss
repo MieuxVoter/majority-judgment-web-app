@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&display=swap");
 
+body{
+	background-color: $mv-blue-color;
+}
 h1,
 h2,
 h3 {
@@ -19,27 +22,6 @@ button {
   margin-left: 0px !important;
   margin-right: 0px !important;
 }
-// mieux voter vars
-$mv-blue-color: #2400fd !default;
-$mv-dark-blue-color: #0a004c !default;
-$mv-light-color: #efefff !default;
-$mv-dark-color: #333 !default;
-
-// Override default variables before the import bootstrap
-$body-bg: #000000 !default;
-$body-color: $mv-light-color !default;
-
-$theme-colors: (
-  "primary": $mv-blue-color,
-  "secondary": $mv-dark-blue-color,
-  "light": $mv-light-color,
-  "dark": $mv-dark-color,
-  "danger": #990000,
-  "success": #009900,
-  "info": #2b8299,
-  "warning": #ff6e11,
-) !default;
-
 .logo-text > h1 {
   font-size: 16px;
   font-weight: bold;
@@ -69,11 +51,7 @@ main > .div {
 }
 
 main {
-  background-size: 100%;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-color: $mv-dark-blue-color;
-  overflow: hidden;
+  background: url('../../public/back.svg'), rgb(10, 0, 76, 0.64);
 }
 
 header {
@@ -409,3 +387,4 @@ ol.result > li {
 .hide {
 	display: none;
 }
+.noshadow{ box-shadow: unset!important;}

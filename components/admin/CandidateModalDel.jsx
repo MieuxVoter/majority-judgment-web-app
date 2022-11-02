@@ -3,7 +3,6 @@ import {
   Col,
   Label,
   Input,
-  Button,
   Modal,
   ModalBody,
   Form
@@ -17,6 +16,7 @@ import {
 import {useTranslation} from "next-i18next";
 import Image from 'next/image';
 import {useElection, useElectionDispatch} from './ElectionContext';
+import Button from '@components/Button'
 import {upload} from '@services/imgpush';
 import {IMGPUSH_URL} from '@services/constants';
 import defaultAvatar from '../../public/default-avatar.svg'
@@ -54,27 +54,13 @@ const CandidateModal = ({isOpen, position, toggle}) => {
         {candidate.name ? <h4 className='text-center'>{candidate.name}</h4> : null}
         <Row className='mt-5 mb-3'>
           <Col className='col-auto me-auto'>
-            <Button onClick={toggle} color='dark' outline={true}>
-              <Row className='gx-2 align-items-end'>
-                <Col className='col-auto'>
-                  <FontAwesomeIcon icon={faArrowLeft} />
-                </Col>
-                <Col className='col-auto'>
-                  {t('admin.candidate-confirm-back')}
-                </Col>
-              </Row>
+            <Button onClick={toggle} color='dark' icon={faArrowLeft} outline={true}>
+              {t('admin.candidate-confirm-back')}
             </Button>
           </Col>
           <Col className='col-auto '>
-            <Button outline={true} color="primary" onClick={removeCandidate}>
-              <Row className='gx-2 align-items-end'>
-                <Col className='col-auto'>
-                  <FontAwesomeIcon icon={faTrashAlt} />
-                </Col>
-                <Col className='col-auto'>
-                  {t('admin.candidate-confirm-ok')}
-                </Col>
-              </Row>
+            <Button icon={faTrashAlt} outline={true} color="primary" onClick={removeCandidate}>
+              {t('admin.candidate-confirm-ok')}
             </Button>
           </Col>
 

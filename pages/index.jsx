@@ -56,7 +56,7 @@ const StartForm = () => {
           </Row>
           <Row>
             <Link href={{pathname: CREATE_ELECTION, query: {title: title}}}>
-              <Button type="submit">
+              <Button color="secondary" outline={true} type="submit">
                 <Row className="justify-content-md-center  p-2">
                   <Col className='col-auto'>
                     {t("home.start")}
@@ -152,6 +152,7 @@ const ExperienceRow = () => {
         <Col>
           <Button
             color="primary"
+            className="p-4 fs-5"
           >
             {t('home.experience-call-to-action')}
             <Image src={arrowRight} width={22} height={22} className="mr-2" />

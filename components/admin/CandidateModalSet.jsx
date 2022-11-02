@@ -4,7 +4,6 @@ import {
   Col,
   Label,
   Input,
-  Button,
   Modal,
   ModalBody,
   Form
@@ -17,6 +16,7 @@ import {
 import {useTranslation} from "next-i18next";
 import Image from 'next/image';
 import {useElection, useElectionDispatch} from './ElectionContext';
+import Button from '@components/Button'
 import {upload} from '@services/imgpush';
 import {IMGPUSH_URL} from '@services/constants';
 import defaultAvatar from '../../public/default-avatar.svg'
@@ -146,27 +146,13 @@ const CandidateModal = ({isOpen, position, toggle}) => {
             </div>
             <Row className='mt-5 mb-3'>
               <Col className='col-auto me-auto'>
-                <Button onClick={toggle} color='dark' outline={true}>
-                  <Row className='gx-2 align-items-end'>
-                    <Col>
-                      <FontAwesomeIcon icon={faArrowLeft} />
-                    </Col>
-                    <Col>
-                      {t('common.cancel')}
-                    </Col>
-                  </Row>
+                <Button onClick={toggle} color='dark' outline={true} icon={faArrowLeft} >
+                  {t('common.cancel')}
                 </Button>
               </Col>
               <Col className='col-auto '>
-                <Button outline={true} color="primary" onClick={save}>
-                  <Row className='gx-2 align-items-end'>
-                    <Col>
-                      <FontAwesomeIcon icon={faPlus} />
-                    </Col>
-                    <Col>
-                      {t('common.save')}
-                    </Col>
-                  </Row>
+                <Button outline={true} color="primary" onClick={save} icon={faPlus}>
+                  {t('common.save')}
                 </Button>
               </Col>
 

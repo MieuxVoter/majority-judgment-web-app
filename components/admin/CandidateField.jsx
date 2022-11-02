@@ -37,7 +37,7 @@ const CandidateField = ({position, className, ...inputProps}) => {
 
   return (
     <Row
-      className={`${className || ""} p-2 my-3 border border-dashed border-dark border-opacity-50 align-items-center ${active ? "active" : ""}`}
+      className={`${className || ""} p-2 my-3 border border-dashed border-2 border-light border-opacity-25 align-items-center ${active ? "active" : ""}`}
       {...inputProps}
     >
       <Col onClick={toggleSet} className='cursor-pointer col-auto me-auto'>
