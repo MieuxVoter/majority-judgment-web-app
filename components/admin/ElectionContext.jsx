@@ -65,8 +65,7 @@ function electionReducer(election, action) {
    */
   switch (action.type) {
     case 'set': {
-      election[action.field] = action.value;
-      return election;
+      return {...election, [action.field]: action.value};
     }
     case 'commit': {
       throw Error('Not implemented yet')
@@ -119,7 +118,7 @@ const initialElection = {
   grades: DEFAULT_NUM_GRADES,
   isTimeLimited: false,
   isRandomOrder: false,
-  restrictResult: false,
+  restrictResult: true,
   restrictVote: false,
   startVote: null,
   endVote: null,

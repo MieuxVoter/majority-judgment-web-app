@@ -46,7 +46,7 @@ const CandidateField = ({position, className, ...inputProps}) => {
             <Image src={image} width={24} height={24} className={image == defaultAvatar ? "default-avatar" : ""} alt={t('common.thumbnail')} />
           </Col>
           <Col className='col-auto fw-bold'>
-            {t("admin.add-candidate")}
+            {candidate.name ? candidate.name : t("admin.add-candidate")}
           </Col>
         </Row>
       </Col>

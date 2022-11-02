@@ -1,5 +1,8 @@
+.creation-step.disabled {
+	opacity: 0.5;
+}
 .creation-step {
-	color: rgb(255,255,255,0.64);
+	color: rgb(255,255,255);
 	.name {
     font-weight: 500;
     font-size: 16px;
@@ -8,11 +11,10 @@
 .badge {
     width: 24px;
     height: 24px;
-
-    background-color: rgb(0,0,0, 0.2);
-    }
-
+    background-color: black; // , 0.2);
 }
+}
+
 .creation-step.active {
   .badge {
     background-color: white;
@@ -23,7 +25,7 @@
   }
 }
 
-.candidate, .creation-steps {
+.candidate {
 	max-width:  500px;
 }
 
@@ -35,10 +37,10 @@
 	margin-right: 10px;
 }
 
-.creation-steps * > input[type="file"] {
+.candidate * > input[type="file"] {
 	  display: none;
 	}
-.creation-steps * > .inputfile {
+.candidate * > .inputfile {
 	  background: transparent;
 	  color: #0a004c;
 	  border: 2px solid #0a004c;
@@ -73,3 +75,7 @@
     opacity: 0.4;
 }
 
+
+.params {
+	max-width: 1070px;
+}

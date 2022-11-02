@@ -1,10 +1,12 @@
 import {useState, useEffect, createRef} from 'react'
 import {useTranslation} from "next-i18next";
-import CandidateField from './CandidateField'
-import Alert from '@components/Alert'
+import {Container} from 'reactstrap';
+import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {MAX_NUM_CANDIDATES} from '@services/constants';
-import {Container, Button} from 'reactstrap';
+import Alert from '@components/Alert'
+import Button from '@components/Button'
 import {useElection, useElectionDispatch} from './ElectionContext';
+import CandidateField from './CandidateField'
 
 
 const CandidatesField = ({onSubmit}) => {
@@ -42,8 +44,8 @@ const CandidatesField = ({onSubmit}) => {
         })}
       </div>
       <div className="mb-5 d-flex justify-content-center">
-        <Button outline={true} color="secondary" onClick={onSubmit} disabled={disabled}>
-          {t('Valider les candidats')}
+        <Button outline={true} color="secondary" onClick={onSubmit} disabled={disabled} icon={faArrowRight} position="right">
+          {t('admin.candidates-submit')}
         </Button>
       </div>
     </Container >

@@ -87,11 +87,9 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
       : "http://localhost";
-  console.log("origin", origin);
   const urlVote = new URL(`/vote/${pid}`, origin);
 
   const collapsee = (candidates[0].title);
-  console.log(collapsee);
   const [collapseProfiles, setCollapseProfiles] = useState(false);
   const [collapseGraphics, setCollapseGraphics] = useState(false);
 

@@ -2,30 +2,11 @@ import {useReducer, useState, useEffect} from "react";
 import Head from "next/head";
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {
-  Container,
-  Row,
-  Col,
-  Input,
-  Label,
-  Button,
-  Modal, ModalHeader, ModalBody
-} from "reactstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faArrowLeft,
-  faExclamationCircle,
-  faChevronRight
-} from "@fortawesome/free-solid-svg-icons";
-import {createElection} from "@services/api";
-import {translateGrades} from "@services/grades";
-import {extractTime, extractDay} from "@services/date";
-import Loader from "@components/wait";
 import CandidatesField from "@components/admin/CandidatesField";
+import ParamsField from "@components/admin/ParamsField";
 import ConfirmModal from "@components/admin/ConfirmModal";
 import {ElectionProvider, useElection} from '@components/admin/ElectionContext';
-import CreationSteps from "@components/CreationSteps";
+import {ProgressSteps, creationSteps} from "@components/CreationSteps";
 // import DatePicker from "react-datepicker";
 // 
 
@@ -47,23 +28,38 @@ const CreateElectionForm = (props) => {
   // load the election
   const election = useElection();
 
-  // at which creation step are we?
-  const [step, setStep] = useState('candidate');
+  const handleSubmit = () => {
+    if (stepId < 2) {
+      setStepId(i => i + 1);
+    }
+    else { // TODO
+    }
+  }
 
-  let Form;
+  // at which creation step are we?
+  const [stepId, setStepId] = useState(0);
+  const step = creationSteps[stepId];
+
+  let Step;
   if (step == 'candidate') {
-    Form = CandidatesField;
+    Step = <CandidatesField onSubmit={handleSubmit} />
+  } else if (step == 'params') {
+    Step = <ParamsField onSubmit={handleSubmit} />;
   } else if (step == 'confirm') {
-    Form = ConfirmModal;
+    Step = <>
+      <ParamsField />
+      <ConfirmModal onSubmit={handleSubmit} />
+    </>;
   } else {
     throw Error(`Unknown step ${step}`);
   }
 
+
   return (
     <ElectionProvider>
-      <CreationSteps step={step} className='m-5 justify-content-center d-flex' />
+      <ProgressSteps step={step} />
+      {Step}
 
-      <Form />
     </ElectionProvider>
 
   );

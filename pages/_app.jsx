@@ -27,7 +27,7 @@ function Application({Component, pageProps}) {
     <main className='d-flex flex-column justify-content-between'>
       <div className='d-flex flex-grow-1 justify-content-center'>
         <Header />
-        <div className="d-flex flex-column align-items-start">
+        <div className="d-flex flex-column w-100 align-items-start">
           <Component {...pageProps} />
         </div>
       </div>

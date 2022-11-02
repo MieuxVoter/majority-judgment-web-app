@@ -2,38 +2,59 @@
  * This component displays a bar releaving the current step
  */
 import {useTranslation} from "next-i18next";
-const {Row, Col} = require("reactstrap")
+import {faArrowLeft, faCheck} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+const {Row, Col, Container} = require("reactstrap")
 
 
-const Step = ({name, position, active}) => {
+const Step = ({name, position, active, check}) => {
   const {t} = useTranslation();
+  const disabled = !active && !check
   return <Col
     className="col-auto">
-    <Row className={`align-items-center creation-step ${active ? 'active' : ''}`}>
+    <Row className={`align-items-center creation-step ${active ? 'active' : ''} ${disabled ? 'disabled' : ''}`}>
       <Col className='col-auto badge align-items-center justify-content-center d-flex'>
-        <div>{position}</div>
+        <div>{check ? <FontAwesomeIcon icon={faCheck} /> : position}</div>
       </Col>
       <Col className='col-auto name'>
         {t(`admin.step-${name}`)}
       </Col>
-    </Row>
+    </Row >
   </Col >
 }
 
-const CreationSteps = ({step, ...props}) => {
-  const steps = ['candidate', 'params', 'confirm'];
+export const creationSteps = ['candidate', 'params', 'confirm'];
 
-  if (!steps.includes(step)) {
+export const ProgressSteps = ({step, className, ...props}) => {
+  const {t} = useTranslation();
+
+  if (!creationSteps.includes(step)) {
     throw Error(`Unknown step {step}`);
   }
+  const stepId = creationSteps.indexOf(step);
 
-  return <div {...props}>
-    <Row className='justify-content-between creation-steps'>
-      {steps.map((name, i) => <Step name={name} active={step === name} key={i} position={i + 1} />
-      )}
-    </Row >
-  </div >
-
+  return <Row className={`w-100 m-5 d-flex ${className}`} {...props}>
+    <Col className='col-3'>
+      {step === 'candidate' ? null : (
+        <Row className='gx-2 align-items-end'>
+          <Col className='col-auto'>
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </Col>
+          <Col className='col-auto'>
+            {t('admin.candidates-back-step')}
+          </Col>
+        </Row>
+      )
+      }
+    </Col>
+    <Col className='col-6'>
+      <Row className='w-100 gx-5 justify-content-center'>
+        {creationSteps.map((name, i) => <Step name={name} active={step === name} check={i < stepId} key={i} position={i + 1} />
+        )}
+      </Row >
+    </Col>
+    <Col className='col-3'>
+    </Col>
+  </Row >
 }
 
-export default CreationSteps;

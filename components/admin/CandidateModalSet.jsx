@@ -8,7 +8,6 @@ import {
   ModalBody,
   Form
 } from "reactstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   faPlus,
   faArrowLeft,
@@ -29,7 +28,6 @@ const CandidateModal = ({isOpen, position, toggle}) => {
   const dispatch = useElectionDispatch();
   const candidate = election.candidates[position];
   const [state, setState] = useState(candidate);
-  console.log('state', state);
   const image = state.image && state.image != "" ? state.image : defaultAvatar;
 
   const handleFile = async (event) => {
