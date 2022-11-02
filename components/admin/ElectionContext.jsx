@@ -3,7 +3,7 @@
  */
 import {createContext, useContext, useReducer, useEffect} from 'react';
 import {useRouter} from "next/router";
-import {DEFAULT_NUM_GRADES} from '@services/constants';
+import {DEFAULT_GRADES} from '@services/constants';
 
 // Store data about an election
 const ElectionContext = createContext(null);
@@ -115,7 +115,7 @@ const initialElection = {
   title: "",
   description: "",
   candidates: [{...defaultCandidate}, {...defaultCandidate}],
-  grades: DEFAULT_NUM_GRADES,
+  grades: DEFAULT_GRADES,
   isTimeLimited: false,
   isRandomOrder: false,
   restrictResult: true,
