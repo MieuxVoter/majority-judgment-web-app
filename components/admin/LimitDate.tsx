@@ -37,10 +37,13 @@ const LimitDate = () => {
       <Col className='col-auto d-flex align-items-center'>
         <Switch toggle={toggle} state={hasDate} />
       </Col>
-      {hasDate ?
-        <DatePicker icon={null} date={endDate} setDate={setEndDate} />
-        : null}
     </Row>
+    {hasDate ?
+      <>
+        <DatePicker icon={null} date={endDate} setDate={setEndDate} />
+        <span className="badge text-bg-light text-black-50">{t("Starting date")}</span>
+      </>
+      : null}
   </Container>)
 }
 

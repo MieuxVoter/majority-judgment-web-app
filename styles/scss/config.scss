@@ -26,7 +26,9 @@ $theme-colors: (
 
 @import "_bootstrap.scss";
 @import "app.scss";
-@import "_buttons.scss";
+@import "_button.scss";
+@import "_badge.scss";
+@import "_datepicker.scss";
 @import "_header.scss";
 @import "_footer.scss";
 @import "_modal.scss";
