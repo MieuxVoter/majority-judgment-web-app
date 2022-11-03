@@ -4,6 +4,7 @@ import {Container, Row, Col} from 'reactstrap';
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {MAX_NUM_CANDIDATES} from '@services/constants';
 import Button from '@components/Button'
+import DatePicker from '@components/DatePicker'
 import {useElection, useElectionDispatch} from './ElectionContext';
 
 
@@ -31,7 +32,7 @@ const AccessResults = () => {
     <Row>
       <Col className='col-auto me-auto'>
         <h4 className='text-dark'>{t('admin.access-results')}</h4>
-        <p className='text-dark-50'>{t('admin.access-results-desc')}</p>
+        <p className='text-muted'>{t('admin.access-results-desc')}</p>
       </Col>
       <Col className='col-auto d-flex align-items-center'>
         <Switch toggle={toggle} state={election.restrictResult} />
@@ -42,29 +43,37 @@ const AccessResults = () => {
 
 const LimitDate = () => {
   const {t} = useTranslation();
+  const defaultEndDate = new Date();
+  defaultEndDate.setUTCDate(endDate.getUTCDate() + 15)
+  const [endDate, setStartDate] = useState(defaultEndDate);
 
   const election = useElection();
   const dispatch = useElectionDispatch();
 
+  const hasDate = () => {
+    return election.endVote !== null;
+  }
+
   const toggle = () => {
     dispatch({
       'type': 'set',
-      'field': 'restrictResult',
-      'value': !election.restrictResult
+      'field': 'endVote',
+      'value': hasDate() ? null : endVote,
     })
   }
 
-  const desc = t('admin.limit-diration-desc');
-  return (<Container className='bg-white container-fluid p-4'>
+  const desc = t('admin.limit-duration-desc');
+  return (<Container className='bg-white container-fluid p-4 mt-1'>
     <Row>
       <Col className='col-auto me-auto'>
         <h4 className='text-dark'>{t('admin.limit-duration')}</h4>
         {desc === "" ? null :
-          <p className='text-dark-50'>{desc}</p>
+          <p className='text-muted'>{desc}</p>
         }
       </Col>
       <Col className='col-auto d-flex align-items-center'>
-        <Switch toggle={toggle} state={election.restrictResult} />
+        <Switch toggle={toggle} state={endVote} />
+        <DatePicker />
       </Col>
     </Row>
   </Container>)

@@ -34,7 +34,7 @@ export const ProgressSteps = ({step, className, ...props}) => {
   const stepId = creationSteps.indexOf(step);
 
   return <Row className={`w-100 m-5 d-flex ${className}`} {...props}>
-    <Col className='col-3'>
+    <Col className='col-lg-3 col-6 mb-3'>
       {step === 'candidate' ? null : (
         <Row className='gx-2 align-items-end'>
           <Col className='col-auto'>
@@ -47,7 +47,7 @@ export const ProgressSteps = ({step, className, ...props}) => {
       )
       }
     </Col>
-    <Col className='col-6'>
+    <Col className='col-lg-6 col-12'>
       <Row className='w-100 gx-5 justify-content-center'>
         {creationSteps.map((name, i) => <Step name={name} active={step === name} check={i < stepId} key={i} position={i + 1} />
         )}

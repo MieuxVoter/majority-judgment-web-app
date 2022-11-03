@@ -10,9 +10,8 @@ export const getStaticProps = async ({locale}) => ({
   },
 });
 
-const Logo = props => {
+const Logo = ({title, ...props}) => {
   const {t} = useTranslation();
-  const {title} = props;
   const src = title ? logoWithText : logo;
   return (
     <Image

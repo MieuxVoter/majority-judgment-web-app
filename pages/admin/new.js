@@ -29,7 +29,7 @@ const CreateElectionForm = (props) => {
   const election = useElection();
 
   const handleSubmit = () => {
-    if (stepId < 2) {
+    if (stepId < creationSteps.length - 1) {
       setStepId(i => i + 1);
     }
     else { // TODO
@@ -37,7 +37,7 @@ const CreateElectionForm = (props) => {
   }
 
   // at which creation step are we?
-  const [stepId, setStepId] = useState(0);
+  const [stepId, setStepId] = useState(1);
   const step = creationSteps[stepId];
 
   let Step;
