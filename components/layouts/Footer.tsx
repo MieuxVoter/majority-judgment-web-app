@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {useTranslation} from "next-i18next";
 import {Button, Row, Col} from "reactstrap";
-import Logo from '@components/Logo.jsx';
+import Logo from '@components/Logo';
 import LanguageSelector from "@components/layouts/LanguageSelector";
 
 const Footer = () => {

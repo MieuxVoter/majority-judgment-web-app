@@ -4,7 +4,7 @@ import Image from "next/image";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useTranslation} from "next-i18next";
 import {Container, Row, Col, Button, Input} from "reactstrap";
-import Logo from '@components/Logo.jsx';
+import Logo from '@components/Logo';
 import {CREATE_ELECTION} from '@services/routes';
 import ballotBox from '../public/urne.svg'
 import email from '../public/email.svg'

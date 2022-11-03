@@ -44,8 +44,8 @@ const AccessResults = () => {
 const LimitDate = () => {
   const {t} = useTranslation();
   const defaultEndDate = new Date();
-  defaultEndDate.setUTCDate(endDate.getUTCDate() + 15)
-  const [endDate, setStartDate] = useState(defaultEndDate);
+  defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15)
+  const [endDate, setEndDate] = useState(defaultEndDate);
 
   const election = useElection();
   const dispatch = useElectionDispatch();
@@ -58,7 +58,7 @@ const LimitDate = () => {
     dispatch({
       'type': 'set',
       'field': 'endVote',
-      'value': hasDate() ? null : endVote,
+      'value': hasDate() ? null : endDate,
     })
   }
 
@@ -72,7 +72,7 @@ const LimitDate = () => {
         }
       </Col>
       <Col className='col-auto d-flex align-items-center'>
-        <Switch toggle={toggle} state={endVote} />
+        <Switch toggle={toggle} state={endDate} />
         <DatePicker />
       </Col>
     </Row>

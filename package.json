@@ -17,6 +17,8 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.24",
     "bootstrap": "^5.2.2",
     "bootstrap-scss": "^5.2.2",
     "clipboard": "^2.0.10",
@@ -36,7 +38,8 @@
     "react-i18next": "^12.0.0",
     "react-toastify": "^9.1.0",
     "reactstrap": "^9.1.4",
-    "sass": "^1.32.13"
+    "sass": "^1.32.13",
+    "typescript": "^4.8.4"
   },
   "devDependencies": {
     "eslint": "^8.11.0",

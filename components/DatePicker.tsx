@@ -5,7 +5,10 @@ import DatePicker from 'react-datepicker'
 
 
 const CustomDatePicker = ({icon, date, setDate}) => {
-  return (<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />);
+  return (<DatePicker
+    selected={date}
+    onChange={(date) => setDate(date)}
+  />);
   //   const ExampleCustomInput = forwardRef(({value, onClick}, ref) => (
   //     <Button onClick={onClick} ref={ref}>
   //       <Row className='gx-2 align-items-end'>
