@@ -1,5 +1,5 @@
-import { useTranslation } from "next-i18next";
-import { useState } from "react";
+import {useTranslation} from "next-i18next";
+import {useState} from "react";
 import Footer from "@components/layouts/Footer";
 import TrashButton from "./TrashButton";
 import {
@@ -8,12 +8,12 @@ import {
   faArrowLeft,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, Label, Input } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, Label, Input} from "reactstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const ConfirmModal = ({ CreateElection, handleRestrictResultCheck, handleIsTimeLimited, tabIndex, title, candidates, grades, isTimeLimited, start, finish, emails, restrictResult, className, confirmCallback }) => {
+const ConfirmModal = ({CreateElection, handleRestrictResultCheck, handleIsTimeLimited, tabIndex, title, candidates, grades, isTimeLimited, start, finish, emails, restrictResult, className, confirmCallback, onSubmit}) => {
   const [visibled, setVisibility] = useState(false);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const toggle = () => setVisibility(!visibled)
 
   const isValidDate = (date) => date instanceof Date && !isNaN(date);
@@ -390,7 +390,7 @@ const ConfirmModal = ({ CreateElection, handleRestrictResultCheck, handleIsTimeL
         </ModalBody>
         <ModalFooter>
 
-          <Button onClick={() => { confirmCallback(); }} className="cursorPointer btn-transparent btn-validation mb-5 ml-auto mr-auto" >{t("Start the election")}<img src="/arrow-white.svg" /></Button>
+          <Button onClick={() => {confirmCallback();}} className="cursorPointer btn-transparent btn-validation mb-5 ml-auto mr-auto" >{t("Start the election")}<img src="/arrow-white.svg" /></Button>
         </ModalFooter>
         <Footer />
       </Modal>

@@ -1,17 +1,18 @@
-import { Col, Container, Row } from "reactstrap";
-import { useTranslation } from "next-i18next";
+import {Col, Container, Row} from "reactstrap";
+import {useTranslation} from "next-i18next";
 import Link from "next/link";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import config from "../next-i18next.config.js";
+import {GetStaticProps} from "next";
 
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, [], config)),
   },
 });
 
 const PrivacyPolicy = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Container>
       <Row>

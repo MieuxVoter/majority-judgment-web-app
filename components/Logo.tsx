@@ -4,11 +4,6 @@ import logoWithText from '../public/logos/logo.svg'
 import logo from '../public/logos/logo-footer.svg'
 import {useTranslation} from "next-i18next";
 
-export const getStaticProps = async ({locale}) => ({
-  props: {
-    ...(await serverSideTranslations(locale, [], config)),
-  },
-});
 
 const Logo = ({title, ...props}) => {
   const {t} = useTranslation();

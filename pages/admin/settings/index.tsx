@@ -17,6 +17,7 @@ import {
   CardBody,
   Modal, ModalHeader, ModalBody, ModalFooter, CustomInput
 } from "reactstrap";
+import {GetStaticProps} from "next";
 // import {ReactMultiEmail, isEmail} from "react-multi-email";
 // import "react-multi-email/style.css";
 // import {toast, ToastContainer} from "react-toastify";
@@ -80,7 +81,7 @@ import {
 //       </option>
 //     ));
 
-export const getStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },

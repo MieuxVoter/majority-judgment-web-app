@@ -1,6 +1,7 @@
 import {useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
+import {GetStaticProps} from 'next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useTranslation} from "next-i18next";
 import {Container, Row, Col, Button, Input} from "reactstrap";
@@ -15,7 +16,7 @@ import facebook from '../public/facebook.svg'
 import arrowRight from '../public/arrow-white.svg'
 
 
-export const getStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },

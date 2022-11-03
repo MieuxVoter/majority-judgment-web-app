@@ -7,12 +7,13 @@ import ParamsField from "@components/admin/ParamsField";
 import ConfirmModal from "@components/admin/ConfirmModal";
 import {ElectionProvider, useElection} from '@components/admin/ElectionContext';
 import {ProgressSteps, creationSteps} from "@components/CreationSteps";
+import {GetStaticProps} from "next";
 // import DatePicker from "react-datepicker";
 // 
 
 
 
-export const getStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },
@@ -22,7 +23,7 @@ export const getStaticProps = async ({locale}) => ({
 /** 
  * Manage the steps for creating an election
  */
-const CreateElectionForm = (props) => {
+const CreateElectionForm = () => {
   const {t} = useTranslation();
 
   // load the election
@@ -47,7 +48,7 @@ const CreateElectionForm = (props) => {
     Step = <ParamsField onSubmit={handleSubmit} />;
   } else if (step == 'confirm') {
     Step = <>
-      <ParamsField />
+      <ParamsField onSubmit={null} />
       <ConfirmModal onSubmit={handleSubmit} />
     </>;
   } else {

@@ -3,8 +3,9 @@ import {Container, Row, Col} from "reactstrap";
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import config from "../next-i18next.config.js";
+import {GetStaticProps} from "next";
 
-export const getStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, [], config)),
   },
