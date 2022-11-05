@@ -67,7 +67,11 @@
   "admin.optional": "optional",
   "admin.photo-import": "Import a picture",
   "admin.photo-type": "Supported type:",
-  "admin.grades-desc": "You can choose to customize the name and the number of mentions. In case of doubt, keep the default mentions.",
+  "admin.grades-desc": "You can choose to customize the name and the number of mentions. If in doubt, leave the grades as is.",
   "admin.ending-in": "In",
-  "admin.until": "Until"
+  "admin.until": "Until",
+  "admin.private-title": "Private vote",
+  "admin.private-desc": "Only participants who received an invite by email will be able to vote",
+  "admin.private-tip": "You can copy-paste a list of emails from a spreadsheet.",
+  "admin.private-placeholder": "Add here the emails of the participants."
 }

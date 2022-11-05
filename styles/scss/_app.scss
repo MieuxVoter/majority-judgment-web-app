@@ -376,8 +376,12 @@ ol.result > li {
 }
 
 .text-muted {
-  color: inherit;
+  color: #8F88BA!important;
   opacity: 0.5;
+}
+
+	.text-bg-light {
+  background: #F2F0FF!important;
 }
 
 .cursor-pointer {
@@ -390,3 +394,8 @@ ol.result > li {
 .noshadow {
   box-shadow: unset !important;
 }
+
+.list-input input[type="text"]:focus {
+	outline: none;
+}
+

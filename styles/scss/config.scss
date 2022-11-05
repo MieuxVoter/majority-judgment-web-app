@@ -24,6 +24,19 @@ $theme-colors: (
   "warning": #ff6e11,
 );
 
+
+  
+// $grade-colors: (
+// "to-reject": #F2F0FF,
+// "insufficient": #C23D13,
+// "passable": #C27C13,
+// "fair": #C2B113,
+// "good": #D3D715,
+// "very-good": #A0CF1C,
+// "excellent": #3A9918,
+// );
+
+
 @import "_bootstrap.scss";
 @import "app.scss";
 @import "_button.scss";
@@ -34,7 +47,6 @@ $theme-colors: (
 @import "_modal.scss";
 @import "_homePage.scss";
 @import "_vote.scss";
-// @import "_newVote.scss";
 @import "_resultVote.scss";
 @import "_admin.scss";
 @import "_switch.scss";

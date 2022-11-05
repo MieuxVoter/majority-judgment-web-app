@@ -1,15 +1,12 @@
-import { useState } from "react";
-import {
-  faTrashAlt,
-  faCheck
-} from "@fortawesome/free-solid-svg-icons";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslation } from "next-i18next";
+import {useState} from "react";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from "reactstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useTranslation} from "next-i18next";
 
-const VoteButtonWithConfirm = ({ action }) => {
+const VoteButtonWithConfirm = ({action}) => {
   const [visibled, setVisibility] = useState(false);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const toggle = () => setVisibility(!visibled)
 
@@ -32,9 +29,9 @@ const VoteButtonWithConfirm = ({ action }) => {
       >
         <ModalHeader>{t("Attention vous n’avez pas votez pour tous les candidats")}</ModalHeader>
         <ModalBody>
-        {t("Si vous validez votre vote, les candidats sans vote auront la mention la plus basse du scrutin.")}
-     
-     
+          {t("Si vous validez votre vote, les candidats sans vote auront la mention la plus basse du scrutin.")}
+
+
           <Button
             className="addButton warningVote my-4"
             onClick={() => {action();}}>

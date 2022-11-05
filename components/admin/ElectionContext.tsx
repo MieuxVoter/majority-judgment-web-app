@@ -99,6 +99,28 @@ function electionReducer(election, action) {
       candidate['active'] = true;
       return {...election, candidates}
     }
+    case 'grade-push': {
+      const grade = action.value === 'default' ? {...defaultCandidate} : action.value;
+      const grades = [...election.grades, grade];
+      return {...election, grades}
+    }
+    case 'grade-rm': {
+      if (typeof action.position !== "number") {
+        throw Error(`Unexpected grade position ${action.position}`)
+      }
+      const grades = [...election.grades];
+      grades.splice(action.position)
+      return {...election, grades}
+    }
+    case 'grade-set': {
+      if (typeof action.position !== "number") {
+        throw Error(`Unexpected grade position ${action.value}`)
+      }
+      const grades = [...election.grades];
+      const grade = grades[action.position]
+      grade[action.field] = action.value;
+      return {...election, grades}
+    }
     default: {
       throw Error(`Unknown action: ${action.type}`);
     }
@@ -115,7 +137,7 @@ const initialElection = {
   title: "",
   description: "",
   candidates: [{...defaultCandidate}, {...defaultCandidate}],
-  grades: DEFAULT_GRADES,
+  grades: [],
   isTimeLimited: false,
   isRandomOrder: false,
   restrictResult: true,
@@ -124,53 +146,3 @@ const initialElection = {
   endVote: null,
   emails: [],
 };
-
-
-//  const checkFields = () => {
-//    const numCandidates = candidates ? candidates.filter(c => c.label !== '') : 0;
-//    if (numCandidates < 2) {
-//      return {ok: false, msg: 'error.at-least-2-candidates'};
-//    }
-//
-//    if (!title || title === "") {
-//      return {ok: false, msg: 'error.no-title'};
-//    }
-//
-//    return {ok: true, msg: "OK"};
-//  };
-//
-//  const handleSubmit = () => {
-//    const check = checkFields();
-//    if (!check.ok) {
-//      toast.error(t(check.msg), {
-//        position: toast.POSITION.TOP_CENTER,
-//      });
-//      return;
-//    }
-//
-//    setWaiting(true);
-//
-//    createElection(
-//      title,
-//      candidates.map((c) => c.label).filter((c) => c !== ""),
-//      {
-//        mails: emails,
-//        numGrades,
-//        start: start.getTime() / 1000,
-//        finish: finish.getTime() / 1000,
-//        restrictResult: restrictResult,
-//        restrictVote: restrictVote,
-//        locale: router.locale.substring(0, 2).toLowerCase(),
-//      },
-//      (result) => {
-//        if (result.id) {
-//          router.push(`/new/confirm/${result.id}`);
-//        } else {
-//          toast.error(t("Unknown error. Try again please."), {
-//            position: toast.POSITION.TOP_CENTER,
-//          });
-//          setWaiting(false);
-//        }
-//      }
-//    );
-//  };

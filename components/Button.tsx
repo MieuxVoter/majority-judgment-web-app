@@ -1,7 +1,14 @@
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Row, Col, Button} from "reactstrap";
 
-const ButtonWithIcon = ({icon, children, position, ...props}) => {
+interface ButtonProps {
+  children?: React.ReactNode;
+  icon?: IconProp;
+  position?: 'left' | 'right';
+  [props: string]: any;
+}
+const ButtonWithIcon = ({icon, children, position = 'left', ...props}: ButtonProps) => {
   if (icon && position === 'left') {
     return <Button {...props}>
       <Row className='gx-2 align-items-end'>
@@ -32,7 +39,4 @@ const ButtonWithIcon = ({icon, children, position, ...props}) => {
   }
 }
 
-ButtonWithIcon.defaultProps = {
-  position: 'left'
-}
 export default ButtonWithIcon

@@ -69,5 +69,10 @@
   "admin.photo-type": "Format supporté :",
   "admin.grades-desc": "Vous pouvez choisir de personaliser le nom et le nombre de mentions. En cas de doute, gardez les mentions par défaut.",
   "admin.ending-in": "Dans",
-  "admin.until": "Jusqu'au"
+  "admin.until": "Jusqu'au",
+  "admin.private-title": "Vote privé",
+  "admin.private-desc": "Uniquement les personnes invités par mail pourront participé au vote",
+  "admin.private-tip": "Vous pouvez copier-coller une liste d'emails depuis un tableur.",
+  "admin.private-placeholder": "Ajoutez ici les emails des participants."
+
 }
