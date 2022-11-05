@@ -1,14 +1,24 @@
-import {useState, forwardRef} from 'react'
+import {useState, forwardRef, ReactNode} from 'react'
 import {Button, Row, Col} from 'reactstrap'
 import {useTranslation} from "next-i18next";
 import {faCalendarDays, faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import DatePicker from 'react-datepicker'
 
+
+
+interface InputProps {
+  children?: ReactNode;
+  value: string;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+export type ButtonRef = HTMLButtonElement;
+
+
 const CustomDatePicker = ({date, setDate}) => {
   const {t} = useTranslation();
 
-  const ExampleCustomInput = forwardRef(({value, onClick}, ref) => (
+  const ExampleCustomInput = forwardRef<ButtonRef, InputProps>(({value, onClick}, ref) => (
     <button onClick={onClick} ref={ref}>
       <Row className='p-2 align-items-end'>
         <Col className='col-auto me-auto'>
@@ -30,7 +40,7 @@ const CustomDatePicker = ({date, setDate}) => {
 
   return (<DatePicker
     selected={date}
-    customInput={<ExampleCustomInput />}
+    customInput={<ExampleCustomInput value={null} onClick={null} />}
     onChange={(date) => setDate(date)}
   />);
   //   {/*<Button className="example-custom-input" 

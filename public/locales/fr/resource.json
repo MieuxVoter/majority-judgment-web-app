@@ -35,6 +35,7 @@
   "common.description": "Description",
   "common.cancel": "Annuler",
   "common.grades": "Mentions",
+  "common.days": "jours",
   "error.help": "Besoin d'aide ?",
   "error.at-least-2-candidates": "Ajoutez au moins deux candidats.",
   "error.no-title": "Ajoutez un titre à l'élection.",
@@ -67,5 +68,6 @@
   "admin.photo-import": "Importer une photo",
   "admin.photo-type": "Format supporté :",
   "admin.grades-desc": "Vous pouvez choisir de personaliser le nom et le nombre de mentions. En cas de doute, gardez les mentions par défaut.",
+  "admin.ending-in": "Dans",
   "admin.until": "Jusqu'au"
 }

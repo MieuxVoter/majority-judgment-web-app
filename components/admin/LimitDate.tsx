@@ -26,10 +26,20 @@ const LimitDate = () => {
   }
 
   const desc = t('admin.limit-duration-desc');
+  const now = new Date();
+  const oneDay = 24 * 60 * 60 * 1000;
+  const remainingDays = Math.ceil((endDate.getTime() - now.getTime()) / oneDay);
+
+
   return (<Container className='bg-white container-fluid p-4 mt-1'>
     <Row>
       <Col className='col-auto me-auto'>
-        <h4 className='text-dark'>{t('admin.limit-duration')}</h4>
+        <h4 className='text-dark'>
+          {t('admin.limit-duration')}
+          {hasDate ? <> {' '} <div className="badge ml-3 text-bg-light text-black-50">
+            {`${t("admin.ending-in")} ${remainingDays} ${t("common.days")}`}
+          </div> </> : null}
+        </h4>
         {desc === "" ? null :
           <p className='text-muted'>{desc}</p>
         }
@@ -38,13 +48,18 @@ const LimitDate = () => {
         <Switch toggle={toggle} state={hasDate} />
       </Col>
     </Row>
-    {hasDate ?
-      <>
-        <DatePicker icon={null} date={endDate} setDate={setEndDate} />
-        <span className="badge text-bg-light text-black-50">{t("Starting date")}</span>
-      </>
-      : null}
-  </Container>)
+    {
+      hasDate ?
+        <Row>
+          <Col className='col-auto'>
+            <DatePicker date={endDate} setDate={setEndDate} />
+          </Col>
+          <Col className='col-auto'>
+          </Col>
+        </Row>
+        : null
+    }
+  </Container >)
 }
 
 
