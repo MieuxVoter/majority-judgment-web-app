@@ -7,7 +7,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 // import nextI18NextConfig from '../next-i18next.config.js'
 
 import {appWithTranslation} from 'next-i18next'
-import {AppProvider} from '@services/context.js'
+import {AppProvider} from '@services/context'
 import Header from '@components/layouts/Header'
 import Footer from '@components/layouts/Footer'
 

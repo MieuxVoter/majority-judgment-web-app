@@ -1,13 +1,17 @@
 import {createContext, useContext} from 'react';
 
-const AppContext = createContext();
+interface AppContextInterface {
+
+}
+
+const AppContext = createContext<AppContextInterface | null>(null);
 
 export function AppProvider({children}) {
   let state = {}
 
   return (
     <AppContext.Provider value={state}>
-      { children}
+      {children}
     </AppContext.Provider>
   );
 }

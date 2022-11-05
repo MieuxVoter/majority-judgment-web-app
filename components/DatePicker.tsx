@@ -17,7 +17,7 @@ const CustomDatePicker = ({date, setDate}) => {
               <FontAwesomeIcon icon={faCalendarDays} />
             </Col>
             <Col className='col-auto'>
-              {t('admin.until')}{' '}{value}
+              {t('admin.until')}{' '}{new Date(value).toDateString()}
             </Col>
           </Row>
         </Col>

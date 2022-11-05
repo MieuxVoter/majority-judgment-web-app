@@ -34,6 +34,7 @@
   "common.name": "Name",
   "common.description": "Description",
   "common.cancel": "Cancel",
+  "common.grades": "Grades",
   "error.help": "Ask for our help",
   "error.at-least-2-candidates": "At least two candidates are required.",
   "error.no-title": "Please add a title to your election.",
@@ -64,5 +65,7 @@
   "admin.photo": "Picture",
   "admin.optional": "optional",
   "admin.photo-import": "Import a picture",
-  "admin.photo-type": "Supported type:"
+  "admin.photo-type": "Supported type:",
+  "admin.grades-desc": "You can choose to customize the name and the number of mentions. In case of doubt, keep the default mentions.",
+  "admin.until": "Until"
 }
