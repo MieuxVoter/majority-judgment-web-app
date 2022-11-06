@@ -16,7 +16,7 @@ import CandidateModalSet from './CandidateModalSet';
 import CandidateModalDel from './CandidateModalDel';
 
 
-const CandidateField = ({position, className, ...inputProps}) => {
+const CandidateField = ({position, className = '', ...inputProps}) => {
   const {t} = useTranslation();
 
   const election = useElection();

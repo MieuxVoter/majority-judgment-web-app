@@ -36,6 +36,7 @@
   "common.cancel": "Annuler",
   "common.grades": "Mentions",
   "common.days": "jours",
+  "common.the-vote": "Le vote",
   "error.help": "Besoin d'aide ?",
   "error.at-least-2-candidates": "Ajoutez au moins deux candidats.",
   "error.no-title": "Ajoutez un titre à l'élection.",
@@ -73,6 +74,7 @@
   "admin.private-title": "Vote privé",
   "admin.private-desc": "Uniquement les personnes invités par mail pourront participé au vote",
   "admin.private-tip": "Vous pouvez copier-coller une liste d'emails depuis un tableur.",
-  "admin.private-placeholder": "Ajoutez ici les emails des participants."
+  "admin.private-placeholder": "Ajoutez ici les emails des participants.",
+  "admin.confirm-question": "Question de votre vote"
 
 }

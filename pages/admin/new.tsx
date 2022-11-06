@@ -1,15 +1,11 @@
-import {useReducer, useState, useEffect} from "react";
-import Head from "next/head";
-import {useTranslation} from "next-i18next";
+import {useState} from "react";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import CandidatesField from "@components/admin/CandidatesField";
 import ParamsField from "@components/admin/ParamsField";
-import ConfirmModal from "@components/admin/ConfirmModal";
+import ConfirmField from "@components/admin/ConfirmField";
 import {ElectionProvider, useElection} from '@components/admin/ElectionContext';
 import {ProgressSteps, creationSteps} from "@components/CreationSteps";
 import {GetStaticProps} from "next";
-// import DatePicker from "react-datepicker";
-// 
 
 
 
@@ -24,8 +20,6 @@ export const getStaticProps: GetStaticProps = async ({locale}) => ({
  * Manage the steps for creating an election
  */
 const CreateElectionForm = () => {
-  const {t} = useTranslation();
-
   // load the election
   const election = useElection();
 
@@ -38,19 +32,20 @@ const CreateElectionForm = () => {
   }
 
   // at which creation step are we?
-  const [stepId, setStepId] = useState(1);
+  const [stepId, setStepId] = useState(2);
   const step = creationSteps[stepId];
 
-  let Step;
+  let Step: JSX.Element;
   if (step == 'candidate') {
     Step = <CandidatesField onSubmit={handleSubmit} />
   } else if (step == 'params') {
     Step = <ParamsField onSubmit={handleSubmit} />;
   } else if (step == 'confirm') {
-    Step = <>
-      <ParamsField onSubmit={null} />
-      <ConfirmModal onSubmit={handleSubmit} />
-    </>;
+    Step = <ConfirmField
+      onSubmit={handleSubmit}
+      goToCandidates={() => setStepId(0)}
+      goToParams={() => setStepId(1)}
+    />;
   } else {
     throw Error(`Unknown step ${step}`);
   }

@@ -20,7 +20,7 @@ const ParamsField = ({onSubmit}) => {
         <Grades />
         <Private />
       </div>
-      <div className="my-3 d-flex justify-content-center">
+      <div className="my-4 d-flex justify-content-center">
         <Button
           outline={true}
           color="secondary"
