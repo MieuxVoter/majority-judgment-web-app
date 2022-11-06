@@ -1,13 +1,13 @@
 /* eslint react/prop-types: 0 */
-import React from "react";
-import { Button, UncontrolledTooltip } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import { Button, UncontrolledTooltip } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faClone,
   faVoteYea,
   faExclamationTriangle,
   faExternalLinkAlt,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 import ClipboardJS from 'clipboard';
 const CopyField = (props) => {
   const ref = React.createRef();
@@ -17,17 +17,15 @@ const CopyField = (props) => {
   };
   const { t, value, iconCopy, text } = props;
 
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     new ClipboardJS('.btn');
   }
-
-  
 
   return (
     <div className="input-group my-4 ">
       <input
         type="text"
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         className="form-control"
         ref={ref}
         value={value}
@@ -36,7 +34,6 @@ const CopyField = (props) => {
       />
 
       <div className="input-group-append copy">
-
         {/* <Button
           href={value}
           target="_blank"
@@ -60,11 +57,9 @@ const CopyField = (props) => {
           <FontAwesomeIcon icon={iconCopy} className="ml-2" />
         </Button>
       </div>
-      <UncontrolledTooltip
-        placement="top"
-        target="tooltip"
-        trigger="click"
-      >Lien copié</UncontrolledTooltip>
+      <UncontrolledTooltip placement="top" target="tooltip" trigger="click">
+        Lien copié
+      </UncontrolledTooltip>
     </div>
   );
 };

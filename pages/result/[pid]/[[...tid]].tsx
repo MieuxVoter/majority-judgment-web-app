@@ -1,9 +1,9 @@
-import {useState} from "react";
-import Head from "next/head";
-import {useTranslation} from "next-i18next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {useRouter} from "next/router";
-import Link from "next/link";
+import { useState } from 'react';
+import Head from 'next/head';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import {
   Container,
   Row,
@@ -13,20 +13,24 @@ import {
   CardHeader,
   CardBody,
   Table,
-  Button
-} from "reactstrap";
-import {getResults, getDetails, apiErrors} from "@services/api";
-import {grades} from "@services/grades";
-import {translateGrades} from "@services/grades";
-import Facebook from "@components/banner/Facebook";
-import Error from "@components/Error";
-import config from "../../../next-i18next.config.js";
-import Footer from '@components/layouts/Footer'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronDown, faChevronRight, faChevronUp} from "@fortawesome/free-solid-svg-icons";
+  Button,
+} from 'reactstrap';
+import { getResults, getDetails, apiErrors } from '@services/api';
+import { grades } from '@services/grades';
+import { translateGrades } from '@services/grades';
+import Facebook from '@components/banner/Facebook';
+import Error from '@components/Error';
+import config from '../../../next-i18next.config.js';
+import Footer from '@components/layouts/Footer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faChevronDown,
+  faChevronRight,
+  faChevronUp,
+} from '@fortawesome/free-solid-svg-icons';
 
-export async function getServerSideProps({query, locale}) {
-  const {pid, tid} = query;
+export async function getServerSideProps({ query, locale }) {
+  const { pid, tid } = query;
 
   const [res, details, translations] = await Promise.all([
     getResults(pid),
@@ -34,16 +38,16 @@ export async function getServerSideProps({query, locale}) {
     serverSideTranslations(locale, [], config),
   ]);
 
-  if (typeof res === "string" || res instanceof String) {
-    return {props: {err: res.slice(1, -1), ...translations}};
+  if (typeof res === 'string' || res instanceof String) {
+    return { props: { err: res.slice(1, -1), ...translations } };
   }
 
-  if (typeof details === "string" || details instanceof String) {
-    return {props: {err: res.slice(1, -1), ...translations}};
+  if (typeof details === 'string' || details instanceof String) {
+    return { props: { err: res.slice(1, -1), ...translations } };
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
-    return {props: {err: "Unknown error", ...translations}};
+    return { props: { err: 'Unknown error', ...translations } };
   }
 
   return {
@@ -58,13 +62,12 @@ export async function getServerSideProps({query, locale}) {
   };
 }
 
-const Result = ({candidates, numGrades, title, pid, err, finish}) => {
-  const {t} = useTranslation();
+const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
+  const { t } = useTranslation();
 
-  const newstart = new Date(finish * 1000).toLocaleDateString("fr-FR");
+  const newstart = new Date(finish * 1000).toLocaleDateString('fr-FR');
 
-
-  if (err && err !== "") {
+  if (err && err !== '') {
     return <Error value={apiErrors(err, t)} />;
   }
 
@@ -84,12 +87,12 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
   const colSizeGradeXs = 1;
 
   const origin =
-    typeof window !== "undefined" && window.location.origin
+    typeof window !== 'undefined' && window.location.origin
       ? window.location.origin
-      : "http://localhost";
+      : 'http://localhost';
   const urlVote = new URL(`/vote/${pid}`, origin);
 
-  const collapsee = (candidates[0].title);
+  const collapsee = candidates[0].title;
   const [collapseProfiles, setCollapseProfiles] = useState(false);
   const [collapseGraphics, setCollapseGraphics] = useState(false);
 
@@ -113,11 +116,14 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
           <Row>
             <Col className="sectionHeaderResultSideCol">
               <img src="/calendar.svg" />
-              <p>{newstart}</p></Col>
+              <p>{newstart}</p>
+            </Col>
           </Row>
           <Row>
-            <Col className="sectionHeaderResultSideCol"><img src="/avatarBlue.svg" />
-              <p>{" " + numVotes} votants</p></Col>
+            <Col className="sectionHeaderResultSideCol">
+              <img src="/avatarBlue.svg" />
+              <p>{' ' + numVotes} votants</p>
+            </Col>
           </Row>
         </Col>
 
@@ -127,14 +133,19 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
 
         <Col className="col-md-3 sectionHeaderResultRightCol">
           <Row>
-            <Col className="sectionHeaderResultSideCol"><img src="/arrowUpload.svg" /><p>Télécharger les résultats</p></Col>
+            <Col className="sectionHeaderResultSideCol">
+              <img src="/arrowUpload.svg" />
+              <p>Télécharger les résultats</p>
+            </Col>
           </Row>
           <Row>
-            <Col className="sectionHeaderResultSideCol"><img src="/arrowL.svg" /><p>Partagez les résultats</p></Col>
+            <Col className="sectionHeaderResultSideCol">
+              <img src="/arrowL.svg" />
+              <p>Partagez les résultats</p>
+            </Col>
           </Row>
         </Col>
       </Row>
-
 
       <Row className="sectionHeaderResult componentMobile mx-0">
         <Col className="px-0">
@@ -143,9 +154,12 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
         <Row>
           <Col className="sectionHeaderResultSideCol">
             <img src="/calendar.svg" />
-            <p>{newstart}</p></Col>
-          <Col className="sectionHeaderResultSideCol"><img src="/avatarBlue.svg" />
-            <p>{" " + numVotes} votants</p></Col>
+            <p>{newstart}</p>
+          </Col>
+          <Col className="sectionHeaderResultSideCol">
+            <img src="/avatarBlue.svg" />
+            <p>{' ' + numVotes} votants</p>
+          </Col>
         </Row>
       </Row>
 
@@ -165,12 +179,11 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
                         backgroundColor: grades.slice(0).reverse()[
                           candidate.grade
                         ].color,
-                        color: "#fff",
+                        color: '#fff',
                       }}
                     >
                       {allGrades.slice(0).reverse()[gradeValue].label}
                     </span>
-
                   </li>
                 );
               })}
@@ -181,9 +194,7 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
         <Row className="mt-5">
           <Col>
             <h5>
-              <small>
-                {t("Détails des résultats")}
-              </small>
+              <small>{t('Détails des résultats')}</small>
             </h5>
             {candidates.map((candidate, i) => {
               const gradeValue = candidate.grade + offsetGrade;
@@ -194,14 +205,19 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
                     onClick={() => setCollapseGraphics(!collapseGraphics)}
                   >
                     <h4
-                      className={
-                        "m-0 " + (collapseGraphics ? "collapsed" : "")
-                      }
+                      className={'m-0 ' + (collapseGraphics ? 'collapsed' : '')}
                     >
-                      <span key={i} className="d-flex panel-title justify-content-between">
+                      <span
+                        key={i}
+                        className="d-flex panel-title justify-content-between"
+                      >
                         <div className="d-flex">
-                          <span className="resultPositionCard mr-2">{i + 1}</span>
-                          <span className="candidateName">{candidate.name}</span>
+                          <span className="resultPositionCard mr-2">
+                            {i + 1}
+                          </span>
+                          <span className="candidateName">
+                            {candidate.name}
+                          </span>
                         </div>
                         <div>
                           <span
@@ -210,13 +226,19 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
                               backgroundColor: grades.slice(0).reverse()[
                                 candidate.grade
                               ].color,
-                              color: "#fff",
+                              color: '#fff',
                             }}
                           >
                             {allGrades.slice(0).reverse()[gradeValue].label}
                           </span>
-                          <FontAwesomeIcon icon={faChevronDown} className="ml-2 openIcon" />
-                          <FontAwesomeIcon icon={faChevronUp} className="ml-2 closeIcon" />
+                          <FontAwesomeIcon
+                            icon={faChevronDown}
+                            className="ml-2 openIcon"
+                          />
+                          <FontAwesomeIcon
+                            icon={faChevronUp}
+                            className="ml-2 closeIcon"
+                          />
                         </div>
                       </span>
                     </h4>
@@ -225,22 +247,18 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
                     <CardBody className="pt-5">
                       <Row className="column">
                         <Col>
-
-                          {t("Preference profile")}
+                          {t('Preference profile')}
 
                           <div>
                             <div
                               className="median"
-                              style={{height: "40px"}}
+                              style={{ height: '40px' }}
                             />
-                            <div style={{width: "100%"}}>
-
+                            <div style={{ width: '100%' }}>
                               <div key={i}>
-
                                 {/*candidate.label*/}
 
-                                <div style={{width: "100%"}}>
-
+                                <div style={{ width: '100%' }}>
                                   {gradeIds
                                     .slice(0)
                                     .reverse()
@@ -248,17 +266,16 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
                                       const value = candidate.profile[id];
                                       if (value > 0) {
                                         let percent =
-                                          (value * 100) / numVotes + "%";
+                                          (value * 100) / numVotes + '%';
                                         if (i === 0) {
-                                          percent = "auto";
+                                          percent = 'auto';
                                         }
                                         return (
                                           <div
                                             key={i}
                                             style={{
                                               width: percent,
-                                              backgroundColor:
-                                                grades[i].color,
+                                              backgroundColor: grades[i].color,
                                             }}
                                           >
                                             &nbsp;
@@ -268,14 +285,23 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
                                         return null;
                                       }
                                     })}
-                                </div></div></div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </Col>
-                        <Col><p>Graph bulles</p></Col>
-
+                        <Col>
+                          <p>Graph bulles</p>
+                        </Col>
                       </Row>
                       <Row className="linkResult my-3">
-                        <Link href="/" className="mx-auto">{t("Comment interpréter les résultats")}<FontAwesomeIcon icon={faChevronRight} className="ml-2 closeIcon" /></Link>
+                        <Link href="/" className="mx-auto">
+                          {t('Comment interpréter les résultats')}
+                          <FontAwesomeIcon
+                            icon={faChevronRight}
+                            className="ml-2 closeIcon"
+                          />
+                        </Link>
                       </Row>
                     </CardBody>
                   </Collapse>
@@ -286,10 +312,16 @@ const Result = ({candidates, numGrades, title, pid, err, finish}) => {
         </Row>
         <div className="componentMobile mt-5">
           <Row>
-            <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary"><img src="/arrowUpload.svg" /><p>Télécharger les résultats</p></Button>
+            <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary">
+              <img src="/arrowUpload.svg" />
+              <p>Télécharger les résultats</p>
+            </Button>
           </Row>
           <Row>
-            <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary"><img src="/arrowL.svg" /><p>Partagez les résultats</p></Button>
+            <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary">
+              <img src="/arrowL.svg" />
+              <p>Partagez les résultats</p>
+            </Button>
           </Row>
         </div>
       </section>

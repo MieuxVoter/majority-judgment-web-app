@@ -1,22 +1,22 @@
-import {useState} from "react";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import CandidatesField from "@components/admin/CandidatesField";
-import ParamsField from "@components/admin/ParamsField";
-import ConfirmField from "@components/admin/ConfirmField";
-import {ElectionProvider, useElection} from '@components/admin/ElectionContext';
-import {ProgressSteps, creationSteps} from "@components/CreationSteps";
-import {GetStaticProps} from "next";
+import { useState } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import CandidatesField from '@components/admin/CandidatesField';
+import ParamsField from '@components/admin/ParamsField';
+import ConfirmField from '@components/admin/ConfirmField';
+import {
+  ElectionProvider,
+  useElection,
+} from '@components/admin/ElectionContext';
+import { ProgressSteps, creationSteps } from '@components/CreationSteps';
+import { GetStaticProps } from 'next';
 
-
-
-export const getStaticProps: GetStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
 
-
-/** 
+/**
  * Manage the steps for creating an election
  */
 const CreateElectionForm = () => {
@@ -25,11 +25,11 @@ const CreateElectionForm = () => {
 
   const handleSubmit = () => {
     if (stepId < creationSteps.length - 1) {
-      setStepId(i => i + 1);
+      setStepId((i) => i + 1);
+    } else {
+      // TODO
     }
-    else { // TODO
-    }
-  }
+  };
 
   // at which creation step are we?
   const [stepId, setStepId] = useState(2);
@@ -37,29 +37,28 @@ const CreateElectionForm = () => {
 
   let Step: JSX.Element;
   if (step == 'candidate') {
-    Step = <CandidatesField onSubmit={handleSubmit} />
+    Step = <CandidatesField onSubmit={handleSubmit} />;
   } else if (step == 'params') {
     Step = <ParamsField onSubmit={handleSubmit} />;
   } else if (step == 'confirm') {
-    Step = <ConfirmField
-      onSubmit={handleSubmit}
-      goToCandidates={() => setStepId(0)}
-      goToParams={() => setStepId(1)}
-    />;
+    Step = (
+      <ConfirmField
+        onSubmit={handleSubmit}
+        goToCandidates={() => setStepId(0)}
+        goToParams={() => setStepId(1)}
+      />
+    );
   } else {
     throw Error(`Unknown step ${step}`);
   }
-
 
   return (
     <ElectionProvider>
       <ProgressSteps step={step} />
       {Step}
-
     </ElectionProvider>
-
   );
-}
+};
 //         <Container className="addCandidatePage">
 //           { //<ToastContainer />
 //           }
@@ -78,27 +77,27 @@ const CreateElectionForm = () => {
 //                 <Col className="stepFormCol opacity">
 //                   <img src="/icone-three-dark.svg" />
 //                   <h4>Confirmation</h4>
-// 
+//
 //                 </Col>
 //               </Row>
-// 
+//
 //               <Row>
 //                 <Col xs="12">
 //                   <CandidatesField onChange={setCandidates} />
 //                 </Col>
 //               </Row>
-// 
+//
 //               <Row className="justify-content-center">
 //                 <div className="mx-auto mt-5">
-// 
+//
 //                   <Button onClick={handleFirstSubmit} className="cursorPointer btn-opacity btn-validation mb-5" >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
 //                 </div>
 //               </Row>
 //             </div>
-// 
-// 
-// 
-// 
+//
+//
+//
+//
 //             <div className={displayBlock}>
 //               <div onClick={changeDisplay} className="btn-return-candidates"><FontAwesomeIcon icon={faArrowLeft} className="mr-2" />Retour aux candidats</div>
 //               <Row className="stepForm">
@@ -113,7 +112,7 @@ const CreateElectionForm = () => {
 //                 <Col className="stepFormCol opacity">
 //                   <img src="/icone-three-dark.svg" />
 //                   <h4>Confirmation</h4>
-// 
+//
 //                 </Col>
 //               </Row>
 //               <div className="settings-modal-body ">
@@ -123,7 +122,7 @@ const CreateElectionForm = () => {
 //                     <Row className="row-label">
 //                       <Col xs="10" lg="10">
 //                         <Label htmlFor="title">{t("Access to results")} {t("Immediately")}</Label>
-// 
+//
 //                       </Col>
 //                       <Col l xs="2" lg="2">
 //                         <div className="radio-group">
@@ -161,7 +160,7 @@ const CreateElectionForm = () => {
 //                 <hr className="settings-divider" />
 //                 <div className="row-label" id="voting-time-label">
 //                   <Row>
-// 
+//
 //                     <Col xs="10">
 //                       <Label htmlFor="title">{t("Voting time")}</Label>
 //                     </Col>
@@ -189,7 +188,7 @@ const CreateElectionForm = () => {
 //                         <div className="radio-switch"></div>
 //                       </div>
 //                     </Col>
-// 
+//
 //                   </Row>
 //                   <div
 //                     className={
@@ -203,7 +202,7 @@ const CreateElectionForm = () => {
 //                     <span className="label">- {t("Starting date")}</span>
 //                   </Col>
 //                   <Col xs="6" md="4" lg="3">
-//                     
+//
 //                     <input
 //                       className="form-control"
 //                       type="date"
@@ -235,9 +234,9 @@ const CreateElectionForm = () => {
 //                     </select>
 //                   </Col>
 //                 </Row>
-// 
+//
 //                 <Row className="mt-2">
-// 
+//
 //                   <Col xs="6" md="4" lg="3" className="time-container">
 //                     <input
 //                       className="form-control"
@@ -278,14 +277,14 @@ const CreateElectionForm = () => {
 //                     <Row className="row-label">
 //                       <Label>{t("Grades")}</Label>
 //                       <FontAwesomeIcon onClick={toggleGrades} icon={faChevronRight} className="ml-2 my-auto" />
-// 
+//
 //                     </Row>
 //                     <Row className="mx-0">
 //                       <p className="m-0">{t("You can select here the number of grades for your election")}</p>
 //                     </Row>
 //                   </Col>
 //                 </Row>
-// 
+//
 //                 <Modal
 //                   isOpen={visibledGrades}
 //                   toggle={toggleGrades}
@@ -296,9 +295,9 @@ const CreateElectionForm = () => {
 //                   <ModalBody>
 //                     <p>{t("Choisissez le nombre de mentions des votes.")}</p>
 //                     <div className="numGradesContainer justify-content-center" tabIndex={candidates.length + 3}>
-// 
+//
 //                       {badgesValues.map(f => (
-// 
+//
 //                         <Label className="numGrades numGradesMobile">
 //                           <Input type="radio" name="radio" value={f} checked={badgesValue === f}
 //                             onChange={e => setNumGrades(e.currentTarget.value)} />
@@ -331,11 +330,11 @@ const CreateElectionForm = () => {
 //                         {t("Valider les mentions")}
 //                       </Button>
 //                     </Row>
-// 
+//
 //                   </ModalBody>
 //                 </Modal>
-// 
-// 
+//
+//
 //                 <Row className="componentDesktop">
 //                   <Col xs="9">
 //                     <Label>{t("Grades")}</Label>
@@ -344,14 +343,14 @@ const CreateElectionForm = () => {
 //                   <Col xs="3">
 //                     <div className="numGradesContainer justify-content-end" tabIndex={candidates.length + 3}>
 //                       {badgesValues.map(f => (
-// 
+//
 //                         <Label className="numGrades ">
 //                           <Input type="radio" name="radio" value={f} checked={badgesValue === f}
 //                             onChange={e => setNumGrades(e.currentTarget.value)} />
 //                           <div className="customCheckmarck"><p>{f}</p></div>
 //                         </Label>
 //                       ))}
-// 
+//
 //                     </div>
 //                   </Col>
 //                   <Col
@@ -382,7 +381,7 @@ const CreateElectionForm = () => {
 //                     <Row className="row-label">
 //                       <Col xs="10" lg="10">
 //                         <Label htmlFor="title">{t("Vote privée")}</Label>
-// 
+//
 //                       </Col>
 //                       <Col l xs="2" lg="2">
 //                         <div className="radio-group">
@@ -410,7 +409,7 @@ const CreateElectionForm = () => {
 //                         </div>
 //                       </Col>
 //                     </Row>
-// 
+//
 //                     <Row className="mx-0"><p className="mx-0">{t("Uniquement les personnes invités par mail pourront participé au vote")}</p></Row>
 //                   </Col></Row>
 //                 <hr className="settings-divider" />
@@ -432,7 +431,7 @@ const CreateElectionForm = () => {
 //                       <ModalBody>
 //                         <Row>
 //                           <p className="mr-2 my-auto">{t("À ")}</p>
-// 
+//
 //                           { /* <ReactMultiEmail
 //                         placeholder={t("Add here participants' emails")}
 //                         emails={emails}
@@ -450,12 +449,12 @@ const CreateElectionForm = () => {
 //                               >
 //                                 ×
 //                               </span>
-// 
+//
 //                             </div>
-// 
+//
 //                           );
 //                         }}
-// 
+//
 //                       />
 //                       */}
 //                         </Row>
@@ -470,9 +469,9 @@ const CreateElectionForm = () => {
 //                         </Row>
 //                       </ModalBody>
 //                     </Modal>
-// 
-// 
-// 
+//
+//
+//
 //                   </Col>
 //                 </Row>
 //                 <Row className="componentDesktop">
@@ -510,7 +509,7 @@ const CreateElectionForm = () => {
 //                 </Row>
 //                 <hr className="settings-divider" />
 //                 <Col xs="12" md="3">
-// 
+//
 //                 </Col>
 //               </div>
 //               <div className="justify-content-center">
@@ -533,7 +532,7 @@ const CreateElectionForm = () => {
 //                   <div>
 //                     <Button onClick={handleSendNotReady} className="mt-5 componentDesktop btn-transparent cursorPointer btn-validation mb-5 mx-auto" >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
 //                     <Button
-// 
+//
 //                       className="componentMobile btn-confirm-mobile mb-5"
 //                       onClick={handleSendNotReady}>
 //                       <FontAwesomeIcon className="mr-2" icon={faCheck} />
@@ -551,16 +550,16 @@ const CreateElectionForm = () => {
 
 export default CreateElectionForm;
 //
-  // const handleIsTimeLimited = (event) => {
-  //   setTimeLimited(event.target.value === "1");
-  // };
+// const handleIsTimeLimited = (event) => {
+//   setTimeLimited(event.target.value === "1");
+// };
 
-  // const handleRestrictResultCheck = (event) => {
-  //   setRestrictResult(event.target.value === "1");
-  // };
-  // const handleRestrictVote = (event) => {
-  //   setRestrictVote(event.target.value === "1");
-  // };
+// const handleRestrictResultCheck = (event) => {
+//   setRestrictResult(event.target.value === "1");
+// };
+// const handleRestrictVote = (event) => {
+//   setRestrictVote(event.target.value === "1");
+// };
 //
 // import {ReactMultiEmail, isEmail} from "react-multi-email";
 // import "react-multi-email/style.css";
@@ -568,11 +567,11 @@ export default CreateElectionForm;
 // import "react-toastify/dist/ReactToastify.css";
 //
 //
-// 
+//
 // // Retrieve the day and remove the time. Return a Date
 // const dateMinusTime = (date) =>
 //   new Date(getOnlyValidDate(date).getTime() - time(getOnlyValidDate(date)));
-// 
+//
 // const displayClockOptions = () =>
 //   Array(24)
 //     .fill(1)
@@ -582,14 +581,14 @@ export default CreateElectionForm;
 //       </option>
 //     ));
 //
-  //   switch (action.type) {
-  //     case 'title': {
-  //       election.title = action.value;
-  //       return election;
-  //     }
-  //     case 'time': {
-  //       election.endTime = action.value;
-  //       return election;
-  //     }
-  //
-  //   }
+//   switch (action.type) {
+//     case 'title': {
+//       election.title = action.value;
+//       return election;
+//     }
+//     case 'time': {
+//       election.endTime = action.value;
+//       return election;
+//     }
+//
+//   }

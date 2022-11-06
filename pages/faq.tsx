@@ -1,19 +1,19 @@
-import Link from "next/link";
-import {Container, Row, Col} from "reactstrap";
-import {useTranslation} from "next-i18next";
-import Paypal from "@components/banner/Paypal";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import config from "../next-i18next.config.js";
-import {GetStaticProps} from "next";
+import Link from 'next/link';
+import { Container, Row, Col } from 'reactstrap';
+import { useTranslation } from 'next-i18next';
+import Paypal from '@components/banner/Paypal';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import config from '../next-i18next.config.js';
+import { GetStaticProps } from 'next';
 
-export const getStaticProps: GetStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, [], config)),
   },
 });
 
 const FAQ = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Container>
       <Row>
@@ -23,7 +23,7 @@ const FAQ = () => {
       </Row>
       <Row className="mt-4">
         <Col className="text-center">
-          <h1>{t("FAQ")}</h1>
+          <h1>{t('FAQ')}</h1>
         </Col>
       </Row>
       <Row className="mt-4">
@@ -38,7 +38,7 @@ const FAQ = () => {
             l’électorat (celui qui obtient la meilleure mention « majoritaire
             »).
           </p>
-          <div style={{maxWidth: "445px"}}>
+          <div style={{ maxWidth: '445px' }}>
             <video width="100%" height="250" controls="controls">
               <source
                 src="/video/Le_Jugement_Majoritaire_en_1_minute.mp4"
@@ -106,7 +106,7 @@ const FAQ = () => {
           <p>
             Cette application ne convient pas pour les votes à plus de 1000
             votants. Si c’est votre cas, nous vous invitons à nous contacter par
-            email à l’adresse{" "}
+            email à l’adresse{' '}
             <a href="mailto:contact@mieuxvoter.fr" className="text-light">
               contact@mieuxvoter.fr
             </a>

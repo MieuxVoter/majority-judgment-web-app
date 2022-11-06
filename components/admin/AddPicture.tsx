@@ -1,6 +1,4 @@
-import {useState} from "react";
-
-
+import { useState } from 'react';
 
 export default function AddPicture(props) {
   const [image, setImage] = useState(null);
@@ -23,15 +21,28 @@ export default function AddPicture(props) {
         </div>
       </div>
       <div className="avatar-text">
-        <h4>Photo <span> (facultatif)</span></h4>
+        <h4>
+          Photo <span> (facultatif)</span>
+        </h4>
 
-        <p>Importer une photo.<br />format : jpg, png, pdf</p>
+        <p>
+          Importer une photo.
+          <br />
+          format : jpg, png, pdf
+        </p>
         <div className="btn-ajout-avatar">
-          <input type="file" name="myImage" id="myImage" onChange={uploadToClient} />
-          <label className="inputfile" htmlFor="myImage">Importer une photo</label>ddpi
+          <input
+            type="file"
+            name="myImage"
+            id="myImage"
+            onChange={uploadToClient}
+          />
+          <label className="inputfile" htmlFor="myImage">
+            Importer une photo
+          </label>
+          ddpi
         </div>
       </div>
     </div>
-
   );
 }

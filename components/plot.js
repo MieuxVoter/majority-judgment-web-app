@@ -13,6 +13,6 @@ const plot = () => (
   //   ]}
   //   layout={{width: 1000, height: 500, title: 'Nombre de voix par candidat'}}
   // />
-)
+);
 
 export default plot;

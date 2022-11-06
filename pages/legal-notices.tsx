@@ -1,18 +1,18 @@
-import Link from "next/link";
-import {Container, Row, Col} from "reactstrap";
-import {useTranslation} from "next-i18next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import config from "../next-i18next.config.js";
-import {GetStaticProps} from "next";
+import Link from 'next/link';
+import { Container, Row, Col } from 'reactstrap';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import config from '../next-i18next.config.js';
+import { GetStaticProps } from 'next';
 
-export const getStaticProps: GetStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, [], config)),
   },
 });
 
 const LegalNotices = (props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Container>
       <Row>
@@ -22,14 +22,14 @@ const LegalNotices = (props) => {
       </Row>
       <Row className="mt-4">
         <Col className="text-center">
-          <h1>{t("resource.legalNotices")}</h1>
+          <h1>{t('resource.legalNotices')}</h1>
         </Col>
       </Row>
       <Row className="mt-4">
         <Col>
           <h3 className="bold">Editeur</h3>
           <p>
-            Cette Application est éditée par l’association loi 1901{" "}
+            Cette Application est éditée par l’association loi 1901{' '}
             <a
               href="https://mieuxvoter.fr/"
               target="_blank"
@@ -43,7 +43,7 @@ const LegalNotices = (props) => {
           </p>
 
           <p>
-            Adresse email :{" "}
+            Adresse email :{' '}
             <a href="mailto:app@mieuxvoter.fr" className="text-light">
               app@mieuxvoter.fr
             </a>
@@ -71,7 +71,7 @@ const LegalNotices = (props) => {
       <Row className="mt-4">
         <Col className="text-center">
           <Link href="/" className="btn btn-secondary">
-            {t("common.back-homepage")}
+            {t('common.back-homepage')}
           </Link>
         </Col>
       </Row>

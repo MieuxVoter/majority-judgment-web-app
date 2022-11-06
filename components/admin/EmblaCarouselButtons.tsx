@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react';
 
 export const DotButton = ({ selected, onClick, value }) => (
   <button
-    className={`embla__dot ${selected ? "is-selected" : ""}`}
+    className={`embla__dot ${selected ? 'is-selected' : ''}`}
     type="button"
     onClick={onClick}
-  >{value}</button>
+  >
+    {value}
+  </button>
 );
 
 export const PrevButton = ({ enabled, onClick }) => (

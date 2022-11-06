@@ -2,12 +2,17 @@ import React from 'react';
 // import Plot from 'react-plotly.js';
 
 function Bulles(props) {
-
   // récupération des résultats de l'élection et stockage en tableau
-  const votesBrut = (Object.values(props))[0];
+  const votesBrut = Object.values(props)[0];
 
   // déclaration et initialisation des mentions et couleurs
-  const mentionsBrut = ['Passable', 'Assez bien', 'Bien', 'Très bien', 'Excellent'];
+  const mentionsBrut = [
+    'Passable',
+    'Assez bien',
+    'Bien',
+    'Très bien',
+    'Excellent',
+  ];
   const couleursBrut = ['#BB9C42', '#AABA44', '#DCDF44', '#B3D849', '#61AD45'];
 
   //----------- Traitement des données -----------//
@@ -37,11 +42,10 @@ function Bulles(props) {
     nvTab[0] = 100;
 
     for (i = 1; i < tab.length; i++) {
-      nvTab[i] = ((1 + ((tab[i] / tab[(i - 1)]) / 40)) * nvTab[(i - 1)]);
+      nvTab[i] = (1 + tab[i] / tab[i - 1] / 40) * nvTab[i - 1];
     }
     return nvTab;
   }
-
 
   // déclaration de l'objet votes-mention et votes-couleur
   var votesMentionNonOrdonnes = {};
@@ -58,15 +62,21 @@ function Bulles(props) {
   var votesCouleurOrdonnes = inverse(votesCouleurNonOrdonnes);
 
   // vérification du nombre de votes classés par ordre croissant et passés initialement en propriétés au composant
-  console.log("Les données transmises au composant concernant le nombre de votes par mention sont : ");
+  console.log(
+    'Les données transmises au composant concernant le nombre de votes par mention sont : '
+  );
   console.log(votesBrut);
 
   // vérification des mentions destinées à être associées aux votes et ordonnées initialement par ordre mélioratif
-  console.log("Les mentions des votes sont classées initialement par ordre mélioratif de la façon suivante :");
+  console.log(
+    'Les mentions des votes sont classées initialement par ordre mélioratif de la façon suivante :'
+  );
   console.log(mentionsBrut);
 
   // vérification du nombre de votes classés par ordre croissant
-  console.log("Les mentions-votes classées par ordre croissant de votes sont : ");
+  console.log(
+    'Les mentions-votes classées par ordre croissant de votes sont : '
+  );
   console.log(votesMentionOrdonnes);
 
   // séparation des mentions et des votes
@@ -75,38 +85,40 @@ function Bulles(props) {
   const couleurs = Object.keys(votesCouleurOrdonnes);
 
   // vérification des mentions et des votes prêts à être traités pour la représentation graphique
-  console.log('La liste des mentions issue du classement par ordre croissant de votes est :');
+  console.log(
+    'La liste des mentions issue du classement par ordre croissant de votes est :'
+  );
   console.log(mentions);
-  console.log('La liste du nombre de votes correspondant, classée par ordre croissant, est :');
+  console.log(
+    'La liste du nombre de votes correspondant, classée par ordre croissant, est :'
+  );
   console.log(votes);
 
   // déclaration et initialisation des rayons de bulle pour la représentation graphique
   var rayons = [];
-  rayons = redAmpli(votes)
+  rayons = redAmpli(votes);
 
   // vérification des rayons
-  console.log('La liste des rayons à représenter graphiquement est la suivante :');
+  console.log(
+    'La liste des rayons à représenter graphiquement est la suivante :'
+  );
   console.log(rayons);
 
   // déclaration et initialisation des textes des bulles
-  const texteBulle1 = (mentions[0] + "<br>" + votes[0] + " votes").toString();
-  const texteBulle2 = (mentions[1] + "<br>" + votes[1] + " votes").toString();
-  const texteBulle3 = (mentions[2] + "<br>" + votes[2] + " votes").toString();
-  const texteBulle4 = (mentions[3] + "<br>" + votes[3] + " votes").toString();
-  const texteBulle5 = (mentions[4] + "<br>" + votes[4] + " votes").toString();
-
+  const texteBulle1 = (mentions[0] + '<br>' + votes[0] + ' votes').toString();
+  const texteBulle2 = (mentions[1] + '<br>' + votes[1] + ' votes').toString();
+  const texteBulle3 = (mentions[2] + '<br>' + votes[2] + ' votes').toString();
+  const texteBulle4 = (mentions[3] + '<br>' + votes[3] + ' votes').toString();
+  const texteBulle5 = (mentions[4] + '<br>' + votes[4] + ' votes').toString();
 
   //---------------------------------------------//
-
-
 
   //----------- Affichage des données -----------//
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     setTimeout(() => setLoading(false), 3000);
-  })
+  });
   return (
-
     <div>TBD</div>
 
     // <div>
@@ -156,8 +168,8 @@ function Bulles(props) {
     // ) : (
     //     <LoadingScreen />
     //   )}
-    //     </div> 
-  )
+    //     </div>
+  );
 }
 
 export default Bulles;

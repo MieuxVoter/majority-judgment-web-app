@@ -1,8 +1,8 @@
-import {UncontrolledAlert} from 'reactstrap';
-import {useTranslation} from "next-i18next";
+import { UncontrolledAlert } from 'reactstrap';
+import { useTranslation } from 'next-i18next';
 
-const AlertDismissible = ({msg, color}) => {
-  const {t} = useTranslation();
+const AlertDismissible = ({ msg, color }) => {
+  const { t } = useTranslation();
 
   if (msg) {
     return (
@@ -13,18 +13,17 @@ const AlertDismissible = ({msg, color}) => {
             href={`mailto:${CONTACT_MAIL}?subject=[HELP]`}
             className="btn btn-success m-auto"
           >
-            {t("error.help")}
+            {t('error.help')}
           </a>
         </p>
-      </UncontrolledAlert >
+      </UncontrolledAlert>
     );
   }
   return null;
-}
-
+};
 
 AlertDismissible.defaultProps = {
-  color: 'danger'
+  color: 'danger',
 };
 
 export default AlertDismissible;

@@ -1,8 +1,8 @@
-import {useState, useEffect} from "react";
-import Head from "next/head";
-import {useRouter} from "next/router";
-import {useTranslation} from "next-i18next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import { useState, useEffect } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import {
   Collapse,
   Container,
@@ -15,9 +15,13 @@ import {
   Button,
   Card,
   CardBody,
-  Modal, ModalHeader, ModalBody, ModalFooter, CustomInput
-} from "reactstrap";
-import {GetStaticProps} from "next";
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  CustomInput,
+} from 'reactstrap';
+import { GetStaticProps } from 'next';
 // import {ReactMultiEmail, isEmail} from "react-multi-email";
 // import "react-multi-email/style.css";
 // import {toast, ToastContainer} from "react-toastify";
@@ -42,18 +46,17 @@ import {GetStaticProps} from "next";
 // import ConfirmModal from "@components/admin/ConfirmModal";
 // import config from "../../next-i18next.config.js";
 
-
 // Error messages
 // const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
 // const NO_TITLE_ERROR = "Please add a title.";
-// 
+//
 // const isValidDate = (date) => date instanceof Date && !isNaN(date);
 // const getOnlyValidDate = (date) => (isValidDate(date) ? date : new Date());
-// 
+//
 // // Convert a Date object into YYYY-MM-DD
 // const dateToISO = (date) =>
 //   getOnlyValidDate(date).toISOString().substring(0, 10);
-// 
+//
 // // Retrieve the current hour, minute, sec, ms, time into a timestamp
 // const hours = (date) => getOnlyValidDate(date).getHours() * 3600 * 1000;
 // const minutes = (date) => getOnlyValidDate(date).getMinutes() * 60 * 1000;
@@ -64,14 +67,14 @@ import {GetStaticProps} from "next";
 //   minutes(getOnlyValidDate(date)) +
 //   seconds(getOnlyValidDate(date)) +
 //   ms(getOnlyValidDate(date));
-// 
+//
 // // Retrieve the time part from a timestamp and remove the day. Return a int.
 // const timeMinusDate = (date) => time(getOnlyValidDate(date));
-// 
+//
 // // Retrieve the day and remove the time. Return a Date
 // const dateMinusTime = (date) =>
 //   new Date(getOnlyValidDate(date).getTime() - time(getOnlyValidDate(date)));
-// 
+//
 // const displayClockOptions = () =>
 //   Array(24)
 //     .fill(1)
@@ -81,7 +84,7 @@ import {GetStaticProps} from "next";
 //       </option>
 //     ));
 
-export const getStaticProps: GetStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },
@@ -212,9 +215,8 @@ const CreateElection = (props) => {
 
   const [showModal, setShowModal] = useState(false);
 
-  return (
-    <p>FOO</p>);
-}
+  return <p>FOO</p>;
+};
 //     <Container className="addCandidatePage">
 //       <Head>
 //         <meta
@@ -243,10 +245,10 @@ const CreateElection = (props) => {
 //           <Col className="stepFormCol">
 //             <img src="/icone-three-dark.svg" />
 //             <h4>Confirmation</h4>
-// 
+//
 //           </Col>
 //         </Row>
-// 
+//
 //         <div className="settings-modal-body">
 //           <Row>
 //             <Col xs="10" lg="10">
@@ -316,7 +318,7 @@ const CreateElection = (props) => {
 //                 </select>
 //               </Col>
 //             </Row>
-// 
+//
 //             <Row className="mt-2">
 //               <Col xs="12" md="3" lg="3">
 //                 <span className="label">- {t("Ending date")}</span>
@@ -450,7 +452,7 @@ const CreateElection = (props) => {
 //           </Row>
 //           <hr className="mt-2 mb-2" />
 //           <Col xs="12" md="3">
-// 
+//
 //           </Col>
 //         </div>
 //         <div className="justify-content-center">
@@ -470,13 +472,13 @@ const CreateElection = (props) => {
 //               confirmCallback={handleSubmit}
 //             />
 //           ) : (
-// 
+//
 //             <Button onClick={toggle} className="cursorPointer btn-validation mb-5" >{t("Confirm")}<img src="/arrow-white.svg" /></Button>
-// 
+//
 //           )}
 //         </div></form>
-// 
-// 
+//
+//
 //     </Container >
 //   );
 // };
