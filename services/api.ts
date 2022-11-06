@@ -57,22 +57,20 @@ const sendInviteMail = (res) => {
 };
 
 const createElection = (
-  title,
-  candidates,
-  {
-    /**
-     * Create an election from its title, its candidates and a bunch of options
-     */
-    mails,
-    numGrades,
-    start,
-    finish,
-    restrictResult,
-    locale,
-  },
-  successCallback,
-  failureCallback
+  title: string,
+  candidates: Array<string>,
+  description?: string,
+  mails?: Array<string>,
+  numGrades?: number,
+  finish?: string,
+  restrictResult?: boolean,
+  locale?: string,
+  successCallback = null,
+  failureCallback = null
 ) => {
+  /**
+   * Create an election from its title, its candidates and a bunch of options
+   */
   const endpoint = new URL(api.routesServer.setElection, api.urlServer);
 
   console.log(endpoint.href);
@@ -89,7 +87,7 @@ const createElection = (
       on_invitation_only: onInvitationOnly,
       num_grades: numGrades,
       elector_emails: mails || [],
-      start_at: start,
+      // start_at: start,
       finish_at: finish,
       select_language: locale || 'en',
       front_url: window.location.origin,
@@ -202,33 +200,25 @@ export const INVITATION_ONLY_ERROR = 'E6:';
 export const UNKNOWN_TOKEN_ERROR = 'E7:';
 export const USED_TOKEN_ERROR = 'E8:';
 export const WRONG_ELECTION_ERROR = 'E9:';
+export const API_ERRORS = [
+  UNKNOWN_TOKEN_ERROR,
+  ONGOING_ELECTION_ERROR,
+  NO_VOTE_ERROR,
+  ELECTION_NOT_STARTED_ERROR,
+  ELECTION_FINISHED_ERROR,
+  INVITATION_ONLY_ERROR,
+  UNKNOWN_TOKEN_ERROR,
+  USED_TOKEN_ERROR,
+  WRONG_ELECTION_ERROR,
+];
 
-export const apiErrors = (error, t) => {
-  if (error.includes(UNKNOWN_ELECTION_ERROR)) {
-    return t('error.e1');
-  }
-  if (error.includes(ONGOING_ELECTION_ERROR)) {
-    return t('error.e2');
-  }
-  if (error.includes(NO_VOTE_ERROR)) {
-    return t('error.e3');
-  }
-  if (error.includes(ELECTION_NOT_STARTED_ERROR)) {
-    return t('error.e4');
-  }
-  if (error.includes(ELECTION_FINISHED_ERROR)) {
-    return t('error.e5');
-  }
-  if (error.includes(INVITATION_ONLY_ERROR)) {
-    return t('error.e6');
-  }
-  if (error.includes(USED_TOKEN_ERROR)) {
-    return t('error.e7');
-  }
-  if (error.includes(WRONG_ELECTION_ERROR)) {
-    return t('error.e8');
+export const apiErrors = (error: string): string => {
+  const errorCode = `${error.split(':')[0]}:`;
+
+  if (API_ERRORS.includes(errorCode)) {
+    return `error.${error.split(':')[0].toLowerCase()}`;
   } else {
-    return t('error.catch22');
+    return 'error.catch22';
   }
 };
 

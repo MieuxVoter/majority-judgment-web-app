@@ -62,14 +62,10 @@ const Private = () => {
               inputs={election.emails}
               validator={validateEmail}
             />
-            <Row className="text-bg-light bt-3 p-2 text-muted fw-bold  d-none d-md-block">
-              <Col className="col-auto">
-                <FontAwesomeIcon icon={faCircleInfo} />
-              </Col>
-              <Col className="col-auto d-flex align-items-center">
-                {t('admin.private-tip')}
-              </Col>
-            </Row>
+            <div className="bg-light bt-3 p-2 text-muted fw-bold d-none d-md-flex align-items-center ">
+              <FontAwesomeIcon icon={faCircleInfo} />
+              <div className="ms-3">{t('admin.private-tip')}</div>
+            </div>
           </>
         ) : null}
       </Container>

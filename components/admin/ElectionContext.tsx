@@ -3,7 +3,6 @@
  */
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { DEFAULT_GRADES } from '@services/constants';
 
 // Store data about an election
 const ElectionContext = createContext(null);
@@ -14,7 +13,7 @@ export function ElectionProvider({ children }) {
   /**
    * Provide the election and the dispatch to all children components
    */
-  const [election, dispatch] = useReducer(electionReducer, initialElection);
+  const [election, dispatch] = useReducer(electionReducer, defaultElection);
 
   // At the initialization, set the title using GET param
   const router = useRouter();
@@ -51,7 +50,7 @@ export function useElectionDispatch() {
   return useContext(ElectionDispatchContext);
 }
 
-function electionReducer(election, action) {
+function electionReducer(election: Election, action) {
   /**
    * Manage all types of action doable on an election
    */
@@ -121,22 +120,43 @@ function electionReducer(election, action) {
   }
 }
 
-const defaultCandidate = {
+interface Candidate {
+  name: string;
+  description: string;
+  active: boolean;
+}
+
+interface Grade {
+  name: string;
+  active: boolean;
+}
+
+interface Election {
+  title: string;
+  description: string;
+  candidates: Array<Candidate>;
+  grades: Array<Grade>;
+  isRandomOrder: boolean;
+  restrictResult: boolean;
+  restrictVote: boolean;
+  endVote: string;
+  emails: Array<string>;
+}
+
+const defaultCandidate: Candidate = {
   name: '',
   description: '',
   active: false,
 };
 
-const initialElection = {
+const defaultElection: Election = {
   title: '',
   description: '',
   candidates: [{ ...defaultCandidate }, { ...defaultCandidate }],
   grades: [],
-  isTimeLimited: false,
   isRandomOrder: false,
   restrictResult: true,
   restrictVote: false,
-  startVote: null,
   endVote: null,
   emails: [],
 };
