@@ -8,7 +8,7 @@ interface LogoProps {
   [props: string]: any;
 }
 
-const Logo = ({ title = false, ...props }: LogoProps) => {
+const Logo = ({ title = true, ...props }: LogoProps) => {
   const { t } = useTranslation();
   const src = title ? logoWithText : logo;
   return <Image src={src} alt={t('logo.alt')} className="d-block" {...props} />;

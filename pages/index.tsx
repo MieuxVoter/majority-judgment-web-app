@@ -29,9 +29,7 @@ const StartForm = () => {
     <form className="sectionOneHomeForm" autoComplete="off">
       <Row className="sectionOneHomeRowOne">
         <Col className="sectionOneHomeContent">
-          <Row>
-            <Logo height="128" />
-          </Row>
+          <Logo height="128" />
           <Row>
             <h4>{t('home.motto')}</h4>
           </Row>
