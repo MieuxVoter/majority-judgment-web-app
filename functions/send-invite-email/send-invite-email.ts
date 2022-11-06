@@ -1,21 +1,17 @@
-const fs = require('fs');
-const Mailgun = require('mailgun.js');
+import fs from 'fs';
+// const Mailgun = require('mailgun.js');
 // const formData = require('form-data');
-const dotenv = require('dotenv');
-const i18next = require('i18next');
-const Backend = require('i18next-chained-backend');
-const FSBackend = require('i18next-fs-backend');
-const HttpApi = require('i18next-http-backend');
+import dotenv from 'dotenv';
 // const Handlebars = require("handlebars");
 
 dotenv.config();
-const {
-  MAILGUN_API_KEY,
-  MAILGUN_DOMAIN,
-  MAILGUN_URL,
-  FROM_EMAIL_ADDRESS,
-  CONTACT_TO_EMAIL_ADDRESS,
-} = process.env;
+// const {
+//   MAILGUN_API_KEY,
+//   MAILGUN_DOMAIN,
+//   MAILGUN_URL,
+//   FROM_EMAIL_ADDRESS,
+//   CONTACT_TO_EMAIL_ADDRESS,
+// } = process.env;
 
 // const mailgun = new Mailgun(formData);
 // const mg = mailgun.client({
@@ -87,19 +83,17 @@ const txtStr = {
   fr: fs.readFileSync(__dirname + '/invite-fr.txt').toString(),
 };
 const txtTemplate = {
-  en: Handlebars.compile(txtStr.en),
-  fr: Handlebars.compile(txtStr.fr),
+  en: '', //  Handlebars.compile(txtStr.en),
+  fr: '', //  Handlebars.compile(txtStr.fr),
 };
 const htmlStr = {
   en: fs.readFileSync(__dirname + '/invite-en.html').toString(),
   fr: fs.readFileSync(__dirname + '/invite-fr.html').toString(),
 };
 const htmlTemplate = {
-  en: Handlebars.compile(htmlStr.en),
-  fr: Handlebars.compile(htmlStr.fr),
+  en: '', // Handlebars.compile(htmlStr.en),
+  fr: '', // Handlebars.compile(htmlStr.fr),
 };
-
-const test = Handlebars.compile('test');
 
 const sendMail = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -127,8 +121,8 @@ const sendMail = async (event) => {
     // from: `${i18next.t("Mieux Voter")} <mailgun@mg.app.mieuxvoter.fr>`,
     from: '"Mieux Voter" <postmaster@mg.app.mieuxvoter.fr>',
     to: Object.keys(data.recipientVariables),
-    text: txtTemplate.fr(templateData),
-    html: htmlTemplate.fr(templateData),
+    text: '', // txtTemplate.fr(templateData),
+    html: '', // htmlTemplate.fr(templateData),
     subject: data.title,
     'h:Reply-To': 'app@mieuxvoter.fr',
     'recipient-variables': JSON.stringify(data.recipientVariables),
