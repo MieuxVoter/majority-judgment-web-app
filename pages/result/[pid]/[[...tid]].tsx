@@ -66,7 +66,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
   const newstart = new Date(finish * 1000).toLocaleDateString('fr-FR');
 
   if (err && err !== '') {
-    return <Error msg={apiErrors(err, t)} />;
+    return <Error msg={t(apiErrors(err))} />;
   }
 
   const router = useRouter();

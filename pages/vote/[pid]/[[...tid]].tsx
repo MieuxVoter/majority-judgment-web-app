@@ -68,7 +68,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
   const { t } = useTranslation();
 
   if (err) {
-    return <Error msg={apiErrors(err, t)}></Error>;
+    return <Error msg={t(apiErrors(err))} />;
   }
 
   const [judgments, setJudgments] = useState([]);

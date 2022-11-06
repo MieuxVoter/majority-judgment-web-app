@@ -42,7 +42,7 @@ export async function getServerSideProps({ query: { pid }, locale }) {
 const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
   const { t } = useTranslation();
   if (err && err !== '') {
-    return <Error msg={apiErrors(err, t)} />;
+    return <Error msg={t(apiErrors(err))} />;
   }
 
   return (

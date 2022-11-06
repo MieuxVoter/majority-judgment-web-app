@@ -63,7 +63,7 @@ const ConfirmElection = ({
   const { t } = useTranslation();
 
   if (err) {
-    return <Error msg={apiErrors(err, t)} />;
+    return <Error msg={t(apiErrors(err))} />;
   }
 
   const origin =
