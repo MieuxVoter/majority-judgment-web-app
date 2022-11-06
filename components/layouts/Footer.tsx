@@ -39,11 +39,7 @@ const Footer = () => {
       ),
     },
     {
-      component: (
-        <div>
-          <LanguageSelector />
-        </div>
-      ),
+      component: <LanguageSelector selectedSize={14} />,
     },
   ];
 

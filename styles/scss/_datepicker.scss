@@ -14,7 +14,7 @@
   background-color: #fff;
   color: $datepicker__text-color;
   border: 2px solid $datepicker__border-color;
-  box-shadow: 0px 8px 8px rgba(143, 136, 186, 0.11);
+  box-shadow: $box-shadow-lg; // 0px 8px 8px rgba(143, 136, 186, 0.11);
   border-radius: $datepicker__border-radius;
   display: inline-block;
   position: relative;
@@ -409,6 +409,7 @@
 }
 
 .react-datepicker__input-container {
+  width: 100%;
   position: relative;
   display: inline-block;
   /* Inside auto layout */

@@ -16,13 +16,7 @@ const Twitter = (props) => {
       'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700'
     );
   };
-  return (
-    <img
-      src="/twitter.svg"
-      onClick={handleClick}
-      className="cursorPointer mr-2"
-    />
-  );
+  return <img src="/twitter.svg" onClick={handleClick} role="button" />;
 };
 
 export default Twitter;

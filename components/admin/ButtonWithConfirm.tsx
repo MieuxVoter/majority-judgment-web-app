@@ -14,8 +14,8 @@ const ButtonWithConfirm = ({ className, label, onDelete }) => {
     <div className="input-group-append cancelButton">
       <button type="button" className={'btn ' + className} onClick={toggle}>
         <div className="annuler">
-          <img className="ml-0" src="/arrow-dark-left.svg" />
-          <p className="ml-0">Annuler</p>
+          <img src="/arrow-dark-left.svg" />
+          <p>Annuler</p>
         </div>
       </button>
       <Modal
@@ -44,7 +44,7 @@ const ButtonWithConfirm = ({ className, label, onDelete }) => {
               onDelete();
             }}
           >
-            <FontAwesomeIcon icon={faTrashAlt} className="mr-2" />
+            <FontAwesomeIcon icon={faTrashAlt} />
             {t('Yes')}
           </Button>
         </ModalFooter>

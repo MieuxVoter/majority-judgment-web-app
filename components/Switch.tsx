@@ -1,6 +1,6 @@
-const Switch = ({ toggle, state }) => {
+const Switch = ({ toggle, state, className = '' }) => {
   return (
-    <div className="form-check form-switch">
+    <div className={`${className} form-check form-switch`}>
       <input
         onChange={toggle}
         className="form-check-input"

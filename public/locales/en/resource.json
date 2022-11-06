@@ -61,6 +61,7 @@
   "admin.candidates-submit": "Validate the candidates",
   "admin.candidates-back-step": "Back to candidates",
   "admin.params-submit": "Validate the parameters",
+  "admin.params-title": "Your parameters",
   "admin.access-results": "Immediate access to the results",
   "admin.access-results-desc": "No one can access to the results as long as the vote is not closed.",
   "admin.limit-duration": "Limit the length of the vote",
@@ -78,5 +79,6 @@
   "admin.private-placeholder": "Add here the emails of the participants.",
   "admin.confirm-question": "Question of your vote",
   "admin.confirm-candidates": "Candidates",
-  "admin.confirm-submit": "Start the vote"
+  "admin.confirm-submit": "Start the vote",
+  "admin.confirm-title": "Confirm your vote"
 }

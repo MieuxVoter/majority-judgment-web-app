@@ -200,7 +200,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                     onClick={toggleDesktop}
                   >
                     {t('Je participe au vote')}
-                    <img src="/arrow-white.svg" className="mr-2" />
+                    <img src="/arrow-white.svg" />
                   </Button>
                   <Button
                     type="submit"
@@ -208,7 +208,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                     onClick={toggleMobile}
                   >
                     {t('Je participe au vote')}
-                    <img src="/arrow-white.svg" className="mr-2" />
+                    <img src="/arrow-white.svg" />
                   </Button>
                 </Row>
                 <Row className="noAds my-0">
@@ -290,17 +290,17 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
             <Row className="sectionTwoRowThreeCol">
               <Button className="btn btn-block btn-secondary btn-sectionTwoHome">
                 Découvrez le jugement majoritaire
-                <img src="/arrow-white.svg" className="mr-2" />
+                <img src="/arrow-white.svg" />
               </Button>
             </Row>
           </Row>
           <Row className="sharing">
             <p>Partagez l’application Mieux voter</p>
             <Link href="https://www.facebook.com/mieuxvoter.fr/">
-              <img src="/facebook.svg" className="mr-2" />
+              <img src="/facebook.svg" />
             </Link>
             <Link href="https://twitter.com/mieux_voter">
-              <img src="/twitter.svg" className="mr-2" />
+              <img src="/twitter.svg" />
             </Link>
           </Row>
         </section>
@@ -341,7 +341,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                               className="check"
                             >
                               <small
-                                className="nowrap d-lg-none ml-2 bold badge"
+                                className="nowrap d-lg-none bold badge"
                                 style={
                                   judgments.find((judgment) => {
                                     return (
@@ -436,7 +436,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                     />
                   ) : (
                     <Button type="submit" className="mt-5 btn btn-transparent">
-                      <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                      <FontAwesomeIcon icon={faCheck} />
                       {t('Submit my vote')}
                     </Button>
                   )}
@@ -486,7 +486,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                     className="check"
                                   >
                                     <small
-                                      className="nowrap d-lg-none ml-2 bold badge"
+                                      className="nowrap d-lg-none bold badge"
                                       style={
                                         judgments.find((judgment) => {
                                           return (
@@ -610,7 +610,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
               <VoteButtonWithConfirm action={handleSubmitWithoutAllRate} />
             ) : (
               <Button type="submit" className="my-3 btn btn-transparent">
-                <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                <FontAwesomeIcon icon={faCheck} />
                 {t('Submit my vote')}
               </Button>
             )}

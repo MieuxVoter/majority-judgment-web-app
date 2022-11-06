@@ -141,28 +141,20 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 // maxLength="250"
               />
             </div>
-            <Row className="mt-5 mb-3">
-              <Col className="col-auto me-auto">
-                <Button
-                  onClick={toggle}
-                  color="dark"
-                  outline={true}
-                  icon={faArrowLeft}
-                >
-                  {t('common.cancel')}
-                </Button>
-              </Col>
-              <Col className="col-auto ">
-                <Button
-                  outline={true}
-                  color="primary"
-                  onClick={save}
-                  icon={faPlus}
-                >
-                  {t('common.save')}
-                </Button>
-              </Col>
-            </Row>
+            <div className="mt-5 gap-2 d-grid mb-3 d-md-flex">
+              <Button
+                onClick={toggle}
+                color="dark"
+                className="me-md-auto"
+                outline={true}
+                icon={faArrowLeft}
+              >
+                {t('common.cancel')}
+              </Button>
+              <Button color="primary" onClick={save} icon={faPlus}>
+                {t('common.save')}
+              </Button>
+            </div>
           </Form>
         </Col>
       </ModalBody>

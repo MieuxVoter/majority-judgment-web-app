@@ -8,11 +8,12 @@
     font-size: 16px;
   }
 
-  .badge {
-    width: 24px;
-    height: 24px;
-    background-color: black; // , 0.2);
-  }
+}
+
+.creation-step-icon {
+width: 24px;
+height: 24px;
+background-color: black; // , 0.2);
 }
 
 .creation-step.active {
@@ -70,4 +71,15 @@
 
 .params {
   max-width: 1070px;
+}
+
+.desktop_step {
+	width: 24px;
+height: 24px;}
+.mobile_step {
+	width: 32px;
+height: 32px;}
+
+.disabled {
+	opacity: 0.6;
 }

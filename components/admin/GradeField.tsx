@@ -45,7 +45,7 @@ const GradeField = ({ value }) => {
     <div
       style={style}
       onClick={toggle}
-      className="p-2 m-1 fw-bold rounded-1 d-flex justify-content-between gap-3"
+      className="py-2 px-3 m-1 fw-bold rounded-1 d-flex justify-content-between gap-3"
     >
       <div className={grade.active ? '' : 'text-decoration-line-through'}>
         {grade.name}

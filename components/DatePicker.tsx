@@ -15,34 +15,37 @@ interface InputProps {
 }
 export type ButtonRef = HTMLButtonElement;
 
-const CustomDatePicker = ({ date, setDate }) => {
+const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
   const { t } = useTranslation();
 
   const ExampleCustomInput = forwardRef<ButtonRef, InputProps>(
     ({ value, onClick }, ref) => (
-      <button onClick={onClick} ref={ref}>
-        <Row className="p-2 align-items-end">
-          <Col className="col-auto me-auto">
-            <Row className="gx-3 align-items-end">
-              <Col className="col-auto">
-                <FontAwesomeIcon icon={faCalendarDays} />
-              </Col>
-              <Col className="col-auto">
-                {t('admin.until')} {new Date(value).toDateString()}
-              </Col>
-            </Row>
-          </Col>
-          <Col className="col-auto">
-            <FontAwesomeIcon className="text-muted" icon={faChevronDown} />
-          </Col>
-        </Row>
-      </button>
+      <div className="d-grid">
+        <button onClick={onClick} ref={ref}>
+          <Row className="p-2 align-items-end">
+            <Col className="col-auto me-auto">
+              <Row className="gx-3 align-items-end">
+                <Col className="col-auto">
+                  <FontAwesomeIcon icon={faCalendarDays} />
+                </Col>
+                <Col className="col-auto">
+                  {t('admin.until')} {new Date(value).toDateString()}
+                </Col>
+              </Row>
+            </Col>
+            <Col className="col-auto">
+              <FontAwesomeIcon className="text-muted" icon={faChevronDown} />
+            </Col>
+          </Row>
+        </button>
+      </div>
     )
   );
 
   return (
     <DatePicker
       selected={date}
+      className={className}
       customInput={<ExampleCustomInput value={null} onClick={null} />}
       onChange={(date) => setDate(date)}
     />

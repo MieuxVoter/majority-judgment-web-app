@@ -9,7 +9,7 @@ const Error = ({ msg }) => {
     <Container className="full-height-container">
       <Row>
         <Link href="/">
-          <a className="d-block ml-auto mr-auto mb-4">
+          <a className="d-block mx-auto mb-4">
             <img src="/logos/logo.svg" alt="logo" height="128" />
           </a>
         </Link>

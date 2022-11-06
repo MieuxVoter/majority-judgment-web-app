@@ -16,7 +16,7 @@ const LegalNotices = (props) => {
   return (
     <Container>
       <Row>
-        <Link href="/" className="d-block ml-auto mr-auto mb-4">
+        <Link href="/" className="d-block  mb-4">
           <img src="/logos/logo-line-white.svg" alt="logo" height="128" />
         </Link>
       </Row>

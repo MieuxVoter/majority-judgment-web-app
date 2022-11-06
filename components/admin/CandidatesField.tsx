@@ -29,18 +29,28 @@ const CandidatesField = ({ onSubmit }) => {
   }, [candidates]);
 
   return (
-    <Container className="candidate flex-grow-1 mt-5 flex-column d-flex justify-content-between">
+    <Container className="candidate flex-grow-1 my-5 flex-column d-flex justify-content-between">
       <div className="d-flex flex-column">
         <h4 className="mb-4">{t('admin.add-candidates')}</h4>
         <Alert msg={error} />
-        {candidates.map((candidate, index) => {
-          return <CandidateField key={index} position={index} />;
-        })}
+        <div className="d-flex flex-column mx-2 mx-md-0">
+          {candidates.map((candidate, index) => {
+            return (
+              <CandidateField
+                key={index}
+                position={index}
+                className="px-1 py-3  my-3"
+              />
+            );
+          })}
+        </div>
       </div>
-      <div className="mb-5 d-flex justify-content-center">
+
+      <Container className="my-5 d-md-flex d-grid justify-content-md-center">
         <Button
           outline={true}
           color="secondary"
+          className="bg-blue"
           onClick={onSubmit}
           disabled={disabled}
           icon={faArrowRight}
@@ -48,7 +58,7 @@ const CandidatesField = ({ onSubmit }) => {
         >
           {t('admin.candidates-submit')}
         </Button>
-      </div>
+      </Container>
     </Container>
   );
 };

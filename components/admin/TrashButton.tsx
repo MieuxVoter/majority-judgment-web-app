@@ -12,11 +12,7 @@ const TrashButton = ({ className, label, onClick }) => {
 
   return (
     <div className="input-group-append cancelButton">
-      <FontAwesomeIcon
-        onClick={toggle}
-        icon={faTrashAlt}
-        className="mr-2 cursorPointer"
-      />
+      <FontAwesomeIcon onClick={toggle} icon={faTrashAlt} role="button" />
       <Modal
         isOpen={visibled}
         toggle={toggle}
@@ -43,7 +39,7 @@ const TrashButton = ({ className, label, onClick }) => {
               onClick();
             }}
           >
-            <FontAwesomeIcon icon={faTrashAlt} className="mr-2" />
+            <FontAwesomeIcon icon={faTrashAlt} />
             {t('Yes')}
           </Button>
         </ModalFooter>

@@ -318,7 +318,7 @@ const CreateElection = (props) => {
 //             className="text-white mt-3 mb-1"
 //             onClick={toggleAdvancedOptions}
 //           >
-//             <FontAwesomeIcon icon={faCogs} className="mr-2" />
+//             <FontAwesomeIcon icon={faCogs}  />
 //             {t("resource.advancedOptions")}
 //           </Button>
 //         </Col>
@@ -351,7 +351,7 @@ const CreateElection = (props) => {
 //                     <span className="text-dark">
 //                       {t("At the end of the election")}
 //                     </span>
-//                     <HelpButton className="ml-2">
+//                     <HelpButton >
 //                       {t(
 //                         "No one will be able to see the result until the end date is reached or until all participants have voted."
 //                       )}
@@ -529,7 +529,7 @@ const CreateElection = (props) => {
 //                   return (
 //                     <span
 //                       key={i}
-//                       className="badge badge-light mr-2 mt-2 "
+//                       className="badge badge-light mt-2 "
 //                       style={{
 //                         backgroundColor: mention.color,
 //                         color: "#fff",
@@ -605,7 +605,7 @@ const CreateElection = (props) => {
 //               className="btn btn-dark float-right btn-block"
 //               onClick={handleSendNotReady}
 //             >
-//               <FontAwesomeIcon icon={faCheck} className="mr-2" />
+//               <FontAwesomeIcon icon={faCheck}  />
 //               {t("Confirm")}
 //             </Button>
 //           )}

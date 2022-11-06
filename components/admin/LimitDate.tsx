@@ -30,15 +30,15 @@ const LimitDate = () => {
   const remainingDays = Math.ceil((endDate.getTime() - now.getTime()) / oneDay);
 
   return (
-    <Container className="bg-white container-fluid p-4 mt-1">
-      <Row>
-        <Col className="col-auto me-auto">
-          <h4 className="text-dark">
+    <Container className="bg-white p-3 p-md-4 mt-1">
+      <div className="d-flex">
+        <div className="me-auto">
+          <h4 className="text-dark mb-0">
             {t('admin.limit-duration')}
             {hasDate ? (
               <>
                 {' '}
-                <div className="badge ml-3 text-bg-light text-black-50">
+                <div className="badge text-bg-light text-black-50">
                   {`${t('admin.ending-in')} ${remainingDays} ${t(
                     'common.days'
                   )}`}
@@ -47,18 +47,15 @@ const LimitDate = () => {
             ) : null}
           </h4>
           {desc === '' ? null : <p className="text-muted">{desc}</p>}
-        </Col>
-        <Col className="col-auto d-flex align-items-center">
+        </div>
+        <div className="col-auto d-flex align-items-center">
           <Switch toggle={toggle} state={hasDate} />
-        </Col>
-      </Row>
+        </div>
+      </div>
       {hasDate ? (
-        <Row>
-          <Col className="col-auto">
-            <DatePicker date={endDate} setDate={setEndDate} />
-          </Col>
-          <Col className="col-auto"></Col>
-        </Row>
+        <div className="mt-3">
+          <DatePicker date={endDate} setDate={setEndDate} />
+        </div>
       ) : null}
     </Container>
   );

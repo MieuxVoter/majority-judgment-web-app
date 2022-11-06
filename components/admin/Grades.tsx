@@ -59,22 +59,16 @@ const Grades = () => {
   const dispatch = useElectionDispatch();
 
   return (
-    <Container className="bg-white container-fluid p-4 mt-1">
-      <Row>
-        <Col className="col-auto me-auto">
-          <h4 className="text-dark">{t('common.grades')}</h4>
-          <p className="text-muted">{t('admin.grades-desc')}</p>
-        </Col>
-        <Col className="col-auto d-flex align-items-center">
-          <Row className="gx-1">
-            {grades.map((_, i) => (
-              <Col className="col-auto">
-                <GradeField value={i} key={i} />
-              </Col>
-            ))}
-            {/* <AddField /> */}
-          </Row>
-        </Col>
+    <Container className="bg-white p-3 p-md-4 mt-1">
+      <h4 className="text-dark mb-0">{t('common.grades')}</h4>
+      <p className="text-muted">{t('admin.grades-desc')}</p>
+      <Row className="gx-1">
+        {grades.map((_, i) => (
+          <Col className="col-auto">
+            <GradeField value={i} key={i} />
+          </Col>
+        ))}
+        {/* <AddField /> */}
       </Row>
     </Container>
   );

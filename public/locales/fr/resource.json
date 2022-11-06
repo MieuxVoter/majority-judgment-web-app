@@ -61,6 +61,7 @@
   "admin.candidates-submit": "Valider les candidats",
   "admin.candidates-back-step": "Retour aux candidats",
   "admin.params-submit": "Valider les paramètres",
+  "admin.params-title": "Vos paramètres",
   "admin.access-results": "Accès immédiat aux résultats",
   "admin.access-results-desc": "Personne ne pourra accéder aux résultats tant que le vote n'est pas clôturé.",
   "admin.limit-duration": "Limiter la durée du vote",
@@ -78,5 +79,6 @@
   "admin.private-placeholder": "Ajoutez ici les emails des participants.",
   "admin.confirm-question": "Question de votre vote",
   "admin.confirm-candidates": "Candidats",
-  "admin.confirm-submit": "Démarrer le vote"
+  "admin.confirm-submit": "Démarrer le vote",
+  "admin.confirm-title": "Confirmer votre vote"
 }

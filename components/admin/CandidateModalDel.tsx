@@ -44,28 +44,20 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
         {candidate.name ? (
           <h4 className="text-center">{candidate.name}</h4>
         ) : null}
-        <Row className="mt-5 mb-3">
-          <Col className="col-auto me-auto">
-            <Button
-              onClick={toggle}
-              color="dark"
-              icon={faArrowLeft}
-              outline={true}
-            >
-              {t('admin.candidate-confirm-back')}
-            </Button>
-          </Col>
-          <Col className="col-auto ">
-            <Button
-              icon={faTrashAlt}
-              outline={true}
-              color="primary"
-              onClick={removeCandidate}
-            >
-              {t('admin.candidate-confirm-ok')}
-            </Button>
-          </Col>
-        </Row>
+        <div className="mt-5 gap-2 d-grid mb-3 d-md-flex">
+          <Button
+            onClick={toggle}
+            color="dark"
+            icon={faArrowLeft}
+            outline={true}
+            className="me-md-auto"
+          >
+            {t('admin.candidate-confirm-back')}
+          </Button>
+          <Button icon={faTrashAlt} color="danger" onClick={removeCandidate}>
+            {t('admin.candidate-confirm-ok')}
+          </Button>
+        </div>
       </ModalBody>
     </Modal>
   );

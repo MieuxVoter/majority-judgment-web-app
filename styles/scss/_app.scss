@@ -2,6 +2,7 @@
 
 body {
   background-color: $mv-blue-color;
+  font-weight: 500;
 }
 h1,
 h2,
@@ -384,9 +385,6 @@ ol.result > li {
   background: #F2F0FF!important;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
 
 .hide {
   display: none;
@@ -399,3 +397,11 @@ ol.result > li {
 	outline: none;
 }
 
+
+a, a:hover {
+	text-decoration: none;
+}
+
+.bg-blue {
+	background-color: $mv-blue-color!important;
+}

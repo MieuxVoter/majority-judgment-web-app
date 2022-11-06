@@ -109,10 +109,10 @@ const ConfirmElection = ({
   );
   const participate = invitationOnly ? null : (
     <>
-      <Col className="col-lg-3 text-center mr-10">
+      <Col className="col-lg-3 text-center">
         <Link href={`/vote/${pid}`}>
           <a target="_blank" rel="noreferrer" className="btn btn-success">
-            <FontAwesomeIcon icon={faVoteYea} className="mr-2" />
+            <FontAwesomeIcon icon={faVoteYea} />
             {t('resource.participateBtn')}
           </a>
         </Link>
@@ -222,7 +222,7 @@ const ConfirmElection = ({
         <Col className="text-center col-lg-3">
           <Link href={`/result/${pid}`}>
             <a target="_blank" rel="noreferrer" className="btn btn-secondary">
-              <FontAwesomeIcon icon={faPollH} className="mr-2" />
+              <FontAwesomeIcon icon={faPollH}  />
               {t("resource.resultsBtn")}
             </a>
           </Link>

@@ -18,7 +18,7 @@ const VoteButtonWithConfirm = ({ action }) => {
         onClick={toggle}
       >
         <div className="annuler">
-          <FontAwesomeIcon icon={faCheck} className="mr-2 my-auto" />
+          <FontAwesomeIcon icon={faCheck} className="my-auto" />
           {t('Submit my vote')}
         </div>
       </button>

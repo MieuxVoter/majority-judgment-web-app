@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import ReactFlagsSelect from 'react-flags-select';
 
-const LanguageSelector = () => {
+const LanguageSelector = (props) => {
   const router = useRouter();
   let localeShort = router.locale.substring(0, 2).toUpperCase();
   if (localeShort === 'EN') localeShort = 'GB';
@@ -20,8 +20,8 @@ const LanguageSelector = () => {
       }
       selected={localeShort}
       customLabels={{ GB: 'English', FR: 'Francais' }}
+      {...props}
       className="menu-flags"
-      selectedSize={14}
     />
   );
 };

@@ -2,11 +2,13 @@
 import { useState } from 'react';
 import { Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
 import Link from 'next/link';
+import Image from 'next/image';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRocket } from '@fortawesome/free-solid-svg-icons';
 import LanguageSelector from './LanguageSelector';
+import logoColor from '../public/logos/logo-color.svg';
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
@@ -24,9 +26,9 @@ const Header = () => {
           <Link href="/" className="navbar-brand">
             <div className="d-flex flex-row">
               <div className="align-self-center">
-                <img src="/logos/logo-color.svg" alt="logo" height="32" />
+                <Image src={logoColor} alt="logo" height="32" />
               </div>
-              <div className="align-self-center ml-2">
+              <div className="align-self-center">
                 <div className="logo-text">
                   <h1>
                     {t('Voting platform')}
@@ -38,11 +40,11 @@ const Header = () => {
           </Link>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="ml-auto" navbar>
+            <Nav className="me-auto" navbar>
               <NavItem>
                 <Link href="/new/" className="text-primary nav-link">
                   {' '}
-                  <FontAwesomeIcon icon={faRocket} className="mr-2" />
+                  <FontAwesomeIcon icon={faRocket} />
                   {t('Start an election')}
                 </Link>
               </NavItem>

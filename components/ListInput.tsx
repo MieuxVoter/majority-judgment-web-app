@@ -8,7 +8,7 @@ import Button from '@components/Button';
 const InputField = ({ value, onDelete }) => {
   return (
     <Button
-      icon={faXmark}
+      customIcon={<FontAwesomeIcon icon={faXmark} onClick={onDelete} />}
       className="bg-light text-primary border-0"
       outline={true}
       style={{ boxShadow: 'unset' }}
@@ -24,7 +24,9 @@ const ListInput = ({ onEdit, inputs, validator }) => {
   const { t } = useTranslation();
 
   const handleDelete = (position: number) => {
-    onEdit({ ...inputs }.splice(position));
+    const inputCopy = [...inputs];
+    inputCopy.splice(position, 1);
+    onEdit(inputCopy);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

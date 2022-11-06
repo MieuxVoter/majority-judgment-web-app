@@ -47,7 +47,7 @@ const StartForm = () => {
               onChange={(e) => setTitle(e.target.value)}
             />
 
-            <p className="pt-0 mt-0 mr-0 maxLength">250</p>
+            <p className="pt-0 mt-0 maxLength">250</p>
           </Row>
           <Row>
             <Link href={{ pathname: CREATE_ELECTION, query: { title: title } }}>
@@ -146,7 +146,6 @@ const ExperienceRow = () => {
               src={arrowRight}
               width={22}
               height={22}
-              className="mr-2"
               alt="icon arrow right"
             />
           </Button>

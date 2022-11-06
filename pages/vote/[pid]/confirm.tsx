@@ -123,11 +123,11 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
             <h2 className="confirmH2">{t('resource.voteSuccess')}</h2>
             <Button className="voteDesktop mx-auto mt-4 mb-5">
               {t('Voir les résultats')}
-              <img src="/arrow-white.svg" className="mr-2" />
+              <img src="/arrow-white.svg" />
             </Button>
             <Button className="voteMobile mx-auto mt-4 mb-5">
               {t('Voir les résultats')}
-              <img src="/arrow-white.svg" className="mr-2" />
+              <img src="/arrow-white.svg" />
             </Button>
           </Col>
         </Row>
@@ -144,7 +144,7 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
             <Link href="/">
               <div>
                 {t('En savoir plus')}
-                <FontAwesomeIcon icon={faChevronRight} className="ml-2" />
+                <FontAwesomeIcon icon={faChevronRight} />
               </div>
             </Link>
           </Col>
@@ -178,7 +178,7 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
         <div className="mx-auto my-5">
           <Row className="justify-content-center">
             <Link href="https://www.facebook.com/mieuxvoter.fr/">
-              <img src="/facebook.svg" className="mr-2" />
+              <img src="/facebook.svg" />
             </Link>
             <p className="m-0">
               {t('Faites découvrir l’application a vos amis')}

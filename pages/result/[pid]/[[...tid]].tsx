@@ -211,9 +211,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
                         className="d-flex panel-title justify-content-between"
                       >
                         <div className="d-flex">
-                          <span className="resultPositionCard mr-2">
-                            {i + 1}
-                          </span>
+                          <span className="resultPositionCard ">{i + 1}</span>
                           <span className="candidateName">
                             {candidate.name}
                           </span>
@@ -232,11 +230,11 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
                           </span>
                           <FontAwesomeIcon
                             icon={faChevronDown}
-                            className="ml-2 openIcon"
+                            className="openIcon"
                           />
                           <FontAwesomeIcon
                             icon={faChevronUp}
-                            className="ml-2 closeIcon"
+                            className="closeIcon"
                           />
                         </div>
                       </span>
@@ -298,7 +296,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
                           {t('Comment interpréter les résultats')}
                           <FontAwesomeIcon
                             icon={faChevronRight}
-                            className="ml-2 closeIcon"
+                            className="closeIcon"
                           />
                         </Link>
                       </Row>

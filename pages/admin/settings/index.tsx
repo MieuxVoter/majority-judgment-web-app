@@ -387,7 +387,7 @@ const CreateElection = (props) => {
 //                 return (
 //                   <span
 //                     key={i}
-//                     className="badge badge-light mr-2 mt-2 "
+//                     className="badge badge-light mt-2 "
 //                     style={{
 //                       backgroundColor: mention.color,
 //                       color: "#fff",
@@ -442,7 +442,7 @@ const CreateElection = (props) => {
 //               />
 //               <div className="mt-2 mailMutedText">
 //                 <small className="text-muted">
-//                   <FontAwesomeIcon icon={faExclamationCircle} className="mr-2" />
+//                   <FontAwesomeIcon icon={faExclamationCircle}  />
 //                   {t("Copier-coller les emails des participants depuis un fichier Excel")}
 //                 </small>
 //               </div>

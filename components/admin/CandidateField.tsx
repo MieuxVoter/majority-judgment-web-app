@@ -43,16 +43,16 @@ const CandidateField = ({
   const toggleSet = () => setModalSet((m) => !m);
   const toggleDel = () => setModalDel((m) => !m);
 
+  const activeClass = active
+    ? 'bg-white text-secondary'
+    : 'border border-dashed border-2 border-light border-opacity-25';
+
   return (
     <Row
-      className={`${
-        className || ''
-      } p-2 my-3 border border-dashed border-2 border-light border-opacity-25 align-items-center ${
-        active ? 'active' : ''
-      }`}
+      className={`${activeClass} align-items-center ${className}`}
       {...props}
     >
-      <Col onClick={toggleSet} className="cursor-pointer col-10 me-auto">
+      <Col onClick={toggleSet} role="button" className="col-10 me-auto">
         <Row className="gx-3">
           <Col className="col-2 justify-content-start align-items-center d-flex">
             <Image
@@ -74,6 +74,7 @@ const CandidateField = ({
         {active ? (
           <FontAwesomeIcon
             icon={faTrashCan}
+            className="text-warning"
             onClick={() => setModalDel((m) => !m)}
           />
         ) : (

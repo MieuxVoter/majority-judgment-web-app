@@ -41,7 +41,7 @@ const CopyField = (props) => {
           className="btn btn-success"
           type="button"
         >
-          <FontAwesomeIcon icon={iconOpen} className="mr-2" />
+          <FontAwesomeIcon icon={iconOpen}  />
           {t("Go")}
         </Button> */}
 
@@ -54,7 +54,7 @@ const CopyField = (props) => {
           type="button"
         >
           {text}
-          <FontAwesomeIcon icon={iconCopy} className="ml-2" />
+          <FontAwesomeIcon icon={iconCopy} />
         </Button>
       </div>
       <UncontrolledTooltip placement="top" target="tooltip" trigger="click">

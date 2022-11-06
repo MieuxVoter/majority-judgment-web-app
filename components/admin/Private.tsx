@@ -44,34 +44,41 @@ const Private = () => {
   };
 
   return (
-    <Container className="bg-white container-fluid p-4 mt-1">
-      <Row>
-        <Col className="col-auto me-auto">
-          <h4 className="text-dark">{t('admin.private-title')}</h4>
-          <p className="text-muted">{t('admin.private-desc')}</p>
-        </Col>
-        <Col className="col-auto d-flex align-items-center">
+    <>
+      <Container className="bg-white  p-3 p-md-4 mt-1">
+        <div className="d-flex">
+          <div className="me-auto">
+            <h4 className="mb-0 text-dark">{t('admin.private-title')}</h4>
+            <p className="text-muted d-none d-md-block">
+              {t('admin.private-desc')}
+            </p>
+          </div>
           <Switch toggle={toggle} state={election.restrictVote} />
-        </Col>
-      </Row>
+        </div>
+        {election.restrictVote ? (
+          <>
+            <ListInput
+              onEdit={handleEmails}
+              inputs={election.emails}
+              validator={validateEmail}
+            />
+            <Row className="text-bg-light bt-3 p-2 text-muted fw-bold  d-none d-md-block">
+              <Col className="col-auto">
+                <FontAwesomeIcon icon={faCircleInfo} />
+              </Col>
+              <Col className="col-auto d-flex align-items-center">
+                {t('admin.private-tip')}
+              </Col>
+            </Row>
+          </>
+        ) : null}
+      </Container>
       {election.restrictVote ? (
-        <>
-          <ListInput
-            onEdit={handleEmails}
-            inputs={election.emails}
-            validator={validateEmail}
-          />
-          <Row className="text-bg-light bt-3 p-2 text-muted fw-bold">
-            <Col className="col-auto">
-              <FontAwesomeIcon icon={faCircleInfo} />
-            </Col>
-            <Col className="col-auto d-flex align-items-center">
-              {t('admin.private-tip')}
-            </Col>
-          </Row>
-        </>
+        <Container className="text-white d-md-none p-3">
+          {t('admin.access-results-desc')}
+        </Container>
       ) : null}
-    </Container>
+    </>
   );
 };
 

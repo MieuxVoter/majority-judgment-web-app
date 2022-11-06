@@ -1,3 +1,5 @@
+@use "sass:map";
+
 .btn {
   //width: 165px;
   padding: 8px 24px;
@@ -56,6 +58,21 @@
 }
 .btn:not([class*="btn-outline-"]):hover {
   background-color: rgb(255, 255, 255, 0.2);
-  border-color: white;
+  color: inherit;
+  border-color: inherit;
+  border-width: 2px;
   box-shadow: unset;
+}
+.btn.btn-danger:hover {
+  color: map.get($theme-colors, "danger");
+  border-color: map.get($theme-colors, "danger");
+  border-width: 2px;
+  box-shadow: unset;
+}
+
+
+.btn_menu {
+   position: absolute;
+   top: 20px;
+   right: 20px;
 }

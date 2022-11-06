@@ -18,17 +18,24 @@ const AccessResults = () => {
   };
 
   return (
-    <Container className="bg-white container-fluid p-4">
-      <Row>
-        <Col className="col-auto me-auto">
-          <h4 className="text-dark">{t('admin.access-results')}</h4>
-          <p className="text-muted">{t('admin.access-results-desc')}</p>
-        </Col>
-        <Col className="col-auto d-flex align-items-center">
+    <>
+      <Container className="bg-white p-3 p-md-4">
+        <div className="d-flex">
+          <div className="me-auto">
+            <h4 className="text-dark mb-0">{t('admin.access-results')}</h4>
+            <p className="text-muted d-none d-md-block">
+              {t('admin.access-results-desc')}
+            </p>
+          </div>
           <Switch toggle={toggle} state={election.restrictResult} />
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </Container>
+      {election.restrictResult ? (
+        <Container className="text-white d-md-none p-3">
+          {t('admin.access-results-desc')}
+        </Container>
+      ) : null}
+    </>
   );
 };
 

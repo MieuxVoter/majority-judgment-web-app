@@ -46,7 +46,7 @@ const CandidatesField = () => {
   const { t } = useTranslation();
   const election = useElection();
   return (
-    <Container className="bg-white p-4">
+    <Container className="bg-white p-4 mt-3 mt-md-0">
       <Row>
         <Col className="col-auto me-auto">
           <h5 className="text-dark">{t('admin.confirm-candidates')}</h5>
@@ -56,7 +56,11 @@ const CandidatesField = () => {
         </Col>
       </Row>
       {election.candidates.map((_, i) => (
-        <CandidateField position={i} key={i} className="text-primary" />
+        <CandidateField
+          position={i}
+          key={i}
+          className="text-primary m-0 py-2"
+        />
       ))}
     </Container>
   );
@@ -71,16 +75,19 @@ const ConfirmField = ({ onSubmit, goToCandidates, goToParams }) => {
       fluid="xl"
       className="my-5 flex-column d-flex justify-content-center"
     >
+      <Container className="px-0 d-md-none mb-5">
+        <h4>{t('admin.confirm-title')}</h4>
+      </Container>
       <Row>
         <Col className="col-lg-3 col-12">
-          <Container className="py-4">
+          <Container className="py-4 d-none d-md-block">
             <h4>{t('common.the-vote')}</h4>
           </Container>
           <TitleField />
           <CandidatesField />
         </Col>
-        <Col className="col-lg-9 col-12">
-          <Container className="py-4">
+        <Col className="col-lg-9 col-12 mt-3 mt-md-0">
+          <Container className="py-4 d-none d-md-block">
             <h4>{t('common.the-params')}</h4>
           </Container>
           <AccessResults />
@@ -89,17 +96,18 @@ const ConfirmField = ({ onSubmit, goToCandidates, goToParams }) => {
           <Private />
         </Col>
       </Row>
-      <div className="my-5 d-flex justify-content-center">
+      <Container className="my-5 d-md-flex d-grid justify-content-md-center">
         <Button
           outline={true}
           color="secondary"
+          className="bg-blue"
           onClick={onSubmit}
           icon={faArrowRight}
           position="right"
         >
           {t('admin.confirm-submit')}
         </Button>
-      </div>
+      </Container>
     </Container>
   );
 };
