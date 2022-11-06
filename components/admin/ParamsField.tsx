@@ -11,7 +11,7 @@ const ParamsField = ({ onSubmit }) => {
   const { t } = useTranslation();
 
   return (
-    <Container className="params flex-grow-1 my-5 mt-5 flex-column d-flex justify-content-between">
+    <Container className="params flex-grow-1 my-5 flex-column d-flex justify-content-between">
       <div className="d-flex flex-column">
         <AccessResults />
         <LimitDate />

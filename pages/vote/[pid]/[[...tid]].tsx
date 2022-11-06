@@ -20,7 +20,7 @@ import { getDetails, castBallot, apiErrors } from '@services/api';
 import Error from '@components/Error';
 import { translateGrades } from '@services/grades';
 import Footer from '@components/layouts/Footer';
-// import useEmblaCarousel from 'embla-carousel-react'
+import useEmblaCarousel from 'embla-carousel-react';
 import {
   DotButton,
   PrevButton,
@@ -68,7 +68,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
   const { t } = useTranslation();
 
   if (err) {
-    return <Error value={apiErrors(err, t)}></Error>;
+    return <Error msg={apiErrors(err, t)}></Error>;
   }
 
   const [judgments, setJudgments] = useState([]);
@@ -166,7 +166,9 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
           content={t('common.application')}
         />
       </Head>
-      <ToastContainer />
+      {
+        // <ToastContainer />
+      }
       <Container className="homePage">
         <section>
           <div className="sectionOneHomeForm pb-5">
@@ -430,9 +432,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                 <Col className="text-center">
                   {judgments.length !== candidates.length ? (
                     <VoteButtonWithConfirm
-                      className="btn btn-transparent my-3"
                       action={handleSubmitWithoutAllRate}
-                      onClick={toggle}
                     />
                   ) : (
                     <Button type="submit" className="mt-5 btn btn-transparent">
@@ -607,11 +607,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
         <Row className="btn-background mx-0">
           <Col className="text-center">
             {judgments.length !== candidates.length ? (
-              <VoteButtonWithConfirm
-                className="btn btn-transparent my-3"
-                action={handleSubmitWithoutAllRate}
-                onClick={toggle}
-              />
+              <VoteButtonWithConfirm action={handleSubmitWithoutAllRate} />
             ) : (
               <Button type="submit" className="my-3 btn btn-transparent">
                 <FontAwesomeIcon icon={faCheck} className="mr-2" />

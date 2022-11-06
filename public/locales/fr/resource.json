@@ -37,6 +37,7 @@
   "common.grades": "Mentions",
   "common.days": "jours",
   "common.the-vote": "Le vote",
+  "common.the-params": "Les paramètres",
   "error.help": "Besoin d'aide ?",
   "error.at-least-2-candidates": "Ajoutez au moins deux candidats.",
   "error.no-title": "Ajoutez un titre à l'élection.",
@@ -75,6 +76,7 @@
   "admin.private-desc": "Uniquement les personnes invités par mail pourront participé au vote",
   "admin.private-tip": "Vous pouvez copier-coller une liste d'emails depuis un tableur.",
   "admin.private-placeholder": "Ajoutez ici les emails des participants.",
-  "admin.confirm-question": "Question de votre vote"
-
+  "admin.confirm-question": "Question de votre vote",
+  "admin.confirm-candidates": "Candidats",
+  "admin.confirm-submit": "Démarrer le vote"
 }

@@ -26,7 +26,7 @@ import config from '../../../next-i18next.config.js';
 import { AnimatePresence, motion } from 'framer-motion';
 export async function getServerSideProps({ query: { pid }, locale }) {
   let [details, translations] = await Promise.all([
-    getDetails(pid),
+    getDetails(pid, console.log, console.log),
     serverSideTranslations(locale, [], config),
   ]);
 
@@ -63,7 +63,7 @@ const ConfirmElection = ({
   const { t } = useTranslation();
 
   if (err) {
-    return <Error value={apiErrors(err, t)} />;
+    return <Error msg={apiErrors(err, t)} />;
   }
 
   const origin =

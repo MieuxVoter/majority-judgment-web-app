@@ -1,5 +1,6 @@
 import { UncontrolledAlert } from 'reactstrap';
 import { useTranslation } from 'next-i18next';
+import { CONTACT_MAIL } from '@services/constants';
 
 const AlertDismissible = ({ msg, color }) => {
   const { t } = useTranslation();

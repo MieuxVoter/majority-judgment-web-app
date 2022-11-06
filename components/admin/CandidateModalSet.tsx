@@ -122,7 +122,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 tabIndex={position + 1}
                 value={state.name}
                 onChange={handleName}
-                maxLength="250"
+                // maxLength="250"
                 autoFocus
                 required
               />
@@ -138,7 +138,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 placeholder={t('admin.candidate-desc-placeholder')}
                 onChange={handleDescription}
                 value={state.description}
-                maxLength="250"
+                // maxLength="250"
               />
             </div>
             <Row className="mt-5 mb-3">

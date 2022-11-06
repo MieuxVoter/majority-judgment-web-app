@@ -47,7 +47,6 @@ const StartForm = () => {
               name="title"
               value={title ? title : ''}
               onChange={(e) => setTitle(e.target.value)}
-              maxLength="250"
             />
 
             <p className="pt-0 mt-0 mr-0 maxLength">250</p>
@@ -145,7 +144,13 @@ const ExperienceRow = () => {
         <Col>
           <Button color="primary" className="p-4 fs-5">
             {t('home.experience-call-to-action')}
-            <Image src={arrowRight} width={22} height={22} className="mr-2" />
+            <Image
+              src={arrowRight}
+              width={22}
+              height={22}
+              className="mr-2"
+              alt="icon arrow right"
+            />
           </Button>
         </Col>
       </Row>
@@ -164,7 +169,7 @@ const ShareRow = () => {
           rel="noopener noreferrer"
           href="https://www.facebook.com/mieuxvoter.fr/"
         >
-          <Image height={22} width={22} src={facebook} />
+          <Image height={22} width={22} src={facebook} alt="icon facebook" />
         </a>
       </Col>
       <Col className="col-auto">
@@ -173,7 +178,7 @@ const ShareRow = () => {
           rel="noopener noreferrer"
           href="https://twitter.com/mieux_voter"
         >
-          <Image height={22} width={22} src={twitter} />
+          <Image height={22} width={22} src={twitter} alt="icon twitter" />
         </a>
       </Col>
     </Row>

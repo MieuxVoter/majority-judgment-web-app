@@ -11,7 +11,6 @@ import {
   Input,
   Label,
   InputGroup,
-  InputGroupAddon,
   Button,
   Card,
   CardBody,
@@ -19,7 +18,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  CustomInput,
 } from 'reactstrap';
 import { GetStaticProps } from 'next';
 // import {ReactMultiEmail, isEmail} from "react-multi-email";

@@ -22,7 +22,6 @@ const LanguageSelector = () => {
       customLabels={{ GB: 'English', FR: 'Francais' }}
       className="menu-flags"
       selectedSize={14}
-      selectedSize={14}
     />
   );
 };

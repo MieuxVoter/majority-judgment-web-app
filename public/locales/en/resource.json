@@ -37,6 +37,7 @@
   "common.grades": "Grades",
   "common.days": "days",
   "common.the-vote": "The vote",
+  "common.the-params": "The parameters",
   "error.help": "Ask for our help",
   "error.at-least-2-candidates": "At least two candidates are required.",
   "error.no-title": "Please add a title to your election.",
@@ -75,5 +76,7 @@
   "admin.private-desc": "Only participants who received an invite by email will be able to vote",
   "admin.private-tip": "You can copy-paste a list of emails from a spreadsheet.",
   "admin.private-placeholder": "Add here the emails of the participants.",
-  "admin.confirm-question": "Question of your vote"
+  "admin.confirm-question": "Question of your vote",
+  "admin.confirm-candidates": "Candidates",
+  "admin.confirm-submit": "Start the vote"
 }

@@ -87,7 +87,7 @@ const Header = () => {
               </NavItem>
 
               <NavItem>
-                <LanguageSelector style={{ width: '80px' }} />
+                <LanguageSelector />
               </NavItem>
             </div>
 

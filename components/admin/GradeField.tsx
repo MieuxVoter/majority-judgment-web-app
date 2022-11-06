@@ -42,18 +42,21 @@ const GradeField = ({ value }) => {
   };
 
   return (
-    <Row style={style} onClick={toggle} className="p-2 m-1 rounded-1">
-      <Col
-        className={`${
-          grade.active ? '' : 'text-decoration-line-through'
-        } col-auto fw-bold`}
-      >
+    <div
+      style={style}
+      onClick={toggle}
+      className="p-2 m-1 fw-bold rounded-1 d-flex justify-content-between gap-3"
+    >
+      <div className={grade.active ? '' : 'text-decoration-line-through'}>
         {grade.name}
-      </Col>
-      <Col onClick={handleActive} className="col-auto">
-        <FontAwesomeIcon icon={grade.active ? faXmark : faRotateLeft} />
-      </Col>
-    </Row>
+      </div>
+      <div>
+        <FontAwesomeIcon
+          onClick={handleActive}
+          icon={grade.active ? faXmark : faRotateLeft}
+        />
+      </div>
+    </div>
   );
 };
 

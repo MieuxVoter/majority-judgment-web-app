@@ -19,7 +19,7 @@ export async function getServerSideProps({ query: { pid }, locale }) {
   ]);
 
   if (typeof details === 'string' || details instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return { props: { err: details.slice(1, -1), ...translations } };
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
@@ -42,7 +42,7 @@ export async function getServerSideProps({ query: { pid }, locale }) {
 const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
   const { t } = useTranslation();
   if (err && err !== '') {
-    return <Error value={apiErrors(err, t)} />;
+    return <Error msg={apiErrors(err, t)} />;
   }
 
   return (

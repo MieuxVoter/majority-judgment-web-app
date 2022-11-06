@@ -16,9 +16,7 @@ import {
   Button,
 } from 'reactstrap';
 import { getResults, getDetails, apiErrors } from '@services/api';
-import { grades } from '@services/grades';
 import { translateGrades } from '@services/grades';
-import Facebook from '@components/banner/Facebook';
 import Error from '@components/Error';
 import config from '../../../next-i18next.config.js';
 import Footer from '@components/layouts/Footer';
@@ -68,7 +66,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
   const newstart = new Date(finish * 1000).toLocaleDateString('fr-FR');
 
   if (err && err !== '') {
-    return <Error value={apiErrors(err, t)} />;
+    return <Error msg={apiErrors(err, t)} />;
   }
 
   const router = useRouter();
@@ -96,7 +94,8 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
   const [collapseProfiles, setCollapseProfiles] = useState(false);
   const [collapseGraphics, setCollapseGraphics] = useState(false);
 
-  const sum = (seq) => Object.values(seq).reduce((a, b) => a + b, 0);
+  const sum = (seq: Array<number>) =>
+    Object.values(seq).reduce((a, b) => a + b, 0);
   const numVotes =
     candidates && candidates.length > 0 ? sum(candidates[0].profile) : 1;
   const gradeIds =

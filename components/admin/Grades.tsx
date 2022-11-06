@@ -66,10 +66,14 @@ const Grades = () => {
           <p className="text-muted">{t('admin.grades-desc')}</p>
         </Col>
         <Col className="col-auto d-flex align-items-center">
-          {grades.map((_, i) => (
-            <GradeField value={i} key={i} />
-          ))}
-          {/* <AddField /> */}
+          <Row className="gx-1">
+            {grades.map((_, i) => (
+              <Col className="col-auto">
+                <GradeField value={i} key={i} />
+              </Col>
+            ))}
+            {/* <AddField /> */}
+          </Row>
         </Col>
       </Row>
     </Container>

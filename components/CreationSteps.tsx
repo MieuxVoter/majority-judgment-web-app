@@ -6,11 +6,11 @@ import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const { Row, Col, Container } = require('reactstrap');
 
-const Step = ({ name, position, active, check }) => {
+const Step = ({ name, position, active, check, onClick }) => {
   const { t } = useTranslation();
   const disabled = !active && !check;
   return (
-    <Col className="col-auto">
+    <Col className="col-auto" role={onClick ? 'button' : ''} onClick={onClick}>
       <Row
         className={`align-items-center creation-step ${
           active ? 'active' : ''
@@ -27,13 +27,33 @@ const Step = ({ name, position, active, check }) => {
 
 export const creationSteps = ['candidate', 'params', 'confirm'];
 
-export const ProgressSteps = ({ step, className, ...props }) => {
+interface GoToStep {
+  (): void;
+}
+
+interface ProgressStepsProps {
+  step: string;
+  goToParams: GoToStep;
+  goToCandidates: GoToStep;
+  className?: string;
+  [props: string]: any;
+}
+
+export const ProgressSteps = ({
+  step,
+  goToParams,
+  goToCandidates,
+  className = '',
+  ...props
+}: ProgressStepsProps) => {
   const { t } = useTranslation();
 
   if (!creationSteps.includes(step)) {
     throw Error(`Unknown step {step}`);
   }
   const stepId = creationSteps.indexOf(step);
+
+  const gotosteps = [goToCandidates, goToParams];
 
   return (
     <Row className={`w-100 m-5 d-flex ${className}`} {...props}>
@@ -43,7 +63,9 @@ export const ProgressSteps = ({ step, className, ...props }) => {
             <Col className="col-auto">
               <FontAwesomeIcon icon={faArrowLeft} />
             </Col>
-            <Col className="col-auto">{t('admin.candidates-back-step')}</Col>
+            <Col role="button" onClick={goToCandidates} className="col-auto">
+              {t('admin.candidates-back-step')}
+            </Col>
           </Row>
         )}
       </Col>
@@ -56,6 +78,7 @@ export const ProgressSteps = ({ step, className, ...props }) => {
               check={i < stepId}
               key={i}
               position={i + 1}
+              onClick={gotosteps[i]}
             />
           ))}
         </Row>

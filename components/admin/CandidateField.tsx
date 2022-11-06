@@ -8,11 +8,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Row, Col } from 'reactstrap';
 import { useElection, useElectionDispatch } from './ElectionContext';
-import defaultAvatar from '../../public/avatar.svg';
+import whiteAvatar from '../../public/avatar.svg';
 import CandidateModalSet from './CandidateModalSet';
 import CandidateModalDel from './CandidateModalDel';
 
-const CandidateField = ({ position, className = '', ...inputProps }) => {
+interface CandidateProps {
+  position: number;
+  className?: string;
+  defaultAvatar?: any;
+  [props: string]: any;
+}
+
+const CandidateField = ({
+  position,
+  className = '',
+  defaultAvatar = whiteAvatar,
+  ...props
+}: CandidateProps) => {
   const { t } = useTranslation();
 
   const election = useElection();
@@ -38,25 +50,27 @@ const CandidateField = ({ position, className = '', ...inputProps }) => {
       } p-2 my-3 border border-dashed border-2 border-light border-opacity-25 align-items-center ${
         active ? 'active' : ''
       }`}
-      {...inputProps}
+      {...props}
     >
-      <Col onClick={toggleSet} className="cursor-pointer col-auto me-auto">
+      <Col onClick={toggleSet} className="cursor-pointer col-10 me-auto">
         <Row className="gx-3">
-          <Col className="col-auto">
+          <Col className="col-2 justify-content-start align-items-center d-flex">
             <Image
               src={image}
               width={24}
               height={24}
-              className={image == defaultAvatar ? 'default-avatar' : ''}
+              className={`${
+                image == defaultAvatar ? 'default-avatar' : ''
+              } bg-primary`}
               alt={t('common.thumbnail')}
             />
           </Col>
-          <Col className="col-auto fw-bold">
+          <Col className="col-10 fw-bold">
             {candidate.name ? candidate.name : t('admin.add-candidate')}
           </Col>
         </Row>
       </Col>
-      <Col className="col-auto cursor-pointer">
+      <Col role="button" className="col-2 text-end">
         {active ? (
           <FontAwesomeIcon
             icon={faTrashCan}

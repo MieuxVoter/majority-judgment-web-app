@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Container, Row, Col } from 'reactstrap';
 import { useTranslation } from 'next-i18next';
-import Paypal from '@components/banner/Paypal';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import config from '../next-i18next.config.js';
 import { GetStaticProps } from 'next';
@@ -39,7 +38,7 @@ const FAQ = () => {
             »).
           </p>
           <div style={{ maxWidth: '445px' }}>
-            <video width="100%" height="250" controls="controls">
+            <video width="100%" height="250" controls={true}>
               <source
                 src="/video/Le_Jugement_Majoritaire_en_1_minute.mp4"
                 type="video/mp4"
@@ -253,7 +252,6 @@ const FAQ = () => {
             Nous en sommes ravis ! Vous pouvez nous aider en faisant un don à
             l’association ici :
           </p>
-          <Paypal btnColor="btn-success" className="mt-1" />
         </Col>
       </Row>
     </Container>

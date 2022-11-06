@@ -27,7 +27,7 @@ const CopyField = (props) => {
         type="text"
         style={{ display: 'none' }}
         className="form-control"
-        ref={ref}
+        // ref={ref}
         value={value}
         readOnly
         onClick={handleClickOnField}

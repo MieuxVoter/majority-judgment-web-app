@@ -54,7 +54,11 @@ const CreateElectionForm = () => {
 
   return (
     <ElectionProvider>
-      <ProgressSteps step={step} />
+      <ProgressSteps
+        step={step}
+        goToCandidates={() => setStepId(0)}
+        goToParams={() => setStepId(1)}
+      />
       {Step}
     </ElectionProvider>
   );
