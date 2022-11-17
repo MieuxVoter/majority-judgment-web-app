@@ -3,7 +3,7 @@ import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
 import Image from 'next/image';
-import {useElection, useElectionDispatch} from '../../services/ElectionContext';
+import {useElection, useElectionDispatch} from '@services/ElectionContext';
 import Button from '@components/Button';
 import {upload} from '@services/imgpush';
 import {IMGPUSH_URL} from '@services/constants';
@@ -24,6 +24,10 @@ const CandidateModal = ({isOpen, position, toggle}) => {
 
   // to manage the hidden ugly file input
   const hiddenFileInput = useRef(null);
+
+
+  const names = election.candidates.filter((_, i) => i != position).map(c => c.name)
+  const disabled = state.name === "" || names.includes(state.name);
 
   useEffect(() => {
     setState(election.candidates[position]);
@@ -150,7 +154,12 @@ const CandidateModal = ({isOpen, position, toggle}) => {
               >
                 {t('common.cancel')}
               </Button>
-              <Button color="primary" onClick={save} icon={faPlus}>
+              <Button
+                color={disabled ? "light" : "primary"}
+                disabled={disabled}
+                onClick={save}
+                icon={faPlus}
+              >
                 {t('common.save')}
               </Button>
             </div>

@@ -5,7 +5,7 @@ import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {MAX_NUM_CANDIDATES} from '@services/constants';
 import Alert from '@components/Alert';
 import Button from '@components/Button';
-import {useElection, useElectionDispatch} from '../../services/ElectionContext';
+import {useElection, useElectionDispatch} from '@services/ElectionContext';
 import CandidateField from './CandidateField';
 
 const CandidatesField = ({onSubmit}) => {

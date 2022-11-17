@@ -12,8 +12,7 @@ const ParamsField = ({onSubmit}) => {
   const {t} = useTranslation();
 
   const election = useElection();
-  const checkDisability = election.restricted && (typeof election.emails === "undefined" || election.emails.length === 0);
-  console.log(election.restricted, typeof election.emails === "undefined", election.emails.length === 0)
+  const checkDisability = election.restricted && (typeof election.emails === "undefined" || election.emails.length === 0) || election.grades.filter(g => g.active).length < 2;
 
   return (
     <Container className="params d-flex flex-column flex-grow-1 my-5">

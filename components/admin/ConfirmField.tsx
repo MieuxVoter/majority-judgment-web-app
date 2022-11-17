@@ -20,12 +20,17 @@ import {
   Container,
 } from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useElection} from '../../services/ElectionContext';
+import {useElection, ElectionContextInterface} from '@services/ElectionContext';
 import CandidateField from './CandidateField';
 import AccessResults from './AccessResults';
 import LimitDate from './LimitDate';
 import Grades from './Grades';
 import Private from './Private';
+import {createElection, ElectionPayload} from '@services/api';
+import {getUrlVote, getUrlResult} from '@services/routes';
+import {GradeItem, CandidateItem} from '@services/type';
+import {sendInviteMails} from '@services/mail';
+
 
 const TitleField = () => {
   const {t} = useTranslation();
@@ -66,9 +71,52 @@ const CandidatesField = () => {
   );
 };
 
-const ConfirmField = ({onSubmit, goToCandidates, goToParams}) => {
+
+const submitElection = (election: ElectionContextInterface, callback) => {
+  const candidates = election.candidates.filter(c => c.active).map((c: CandidateItem) => ({name: c.name, description: c.description, image: c.image}))
+  const grades = election.grades.filter(c => c.active).map((g: GradeItem, i: number) => ({name: g.name, value: i}))
+
+  createElection(
+    election.name,
+    candidates,
+    grades,
+    election.description,
+    election.emails.length,
+    election.hideResults,
+    election.forceClose,
+    election.restricted,
+    async (payload: ElectionPayload) => {
+      const id = payload.id;
+      const tokens = payload.tokens;
+      if (typeof election.emails !== 'undefined' && election.emails.length > 0) {
+        if (typeof payload.tokens === 'undefined' || payload.tokens.length === election.emails.length) {
+          throw Error('Can not send invite emails');
+        }
+        const urlVotes = payload.tokens.map((token: string) => getUrlVote(id.toString(), token));
+        const urlResult = getUrlResult(id.toString());
+        await sendInviteMails(
+          election.emails,
+          election.name,
+          urlVotes,
+          urlResult,
+        );
+      }
+      callback();
+    }
+  )
+}
+
+
+const ConfirmField = ({onSubmit, onCreatedElection, goToCandidates, goToParams}) => {
   const {t} = useTranslation();
   const election = useElection();
+
+  const handleSubmit = () => {
+
+    onSubmit();
+
+    submitElection(election, onCreatedElection);
+  }
 
   return (
     <Container
@@ -101,7 +149,7 @@ const ConfirmField = ({onSubmit, goToCandidates, goToParams}) => {
           outline={true}
           color="secondary"
           className="bg-blue"
-          onClick={onSubmit}
+          onClick={handleSubmit}
           icon={faArrowRight}
           position="right"
         >

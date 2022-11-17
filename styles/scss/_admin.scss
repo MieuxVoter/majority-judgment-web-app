@@ -51,7 +51,7 @@ background-color: black; // , 0.2);
 }
 // .creation-steps > * .form-control, .creation-steps * > input[type='text']:focus,.creation-steps * > input[type='text']::placeholder {
 
-.modal_candidate
+.modal
   > *
   :is(input[type="text"], input[type="text"]:focus, input[type="text"]::placeholder) {
   background: white;
@@ -62,10 +62,10 @@ background-color: black; // , 0.2);
   margin-bottom: 20px;
 }
 
-.modal_candidate > * input[type="text"]:focus {
+.modal> * input[type="text"]:focus {
   opacity: 0.8;
 }
-.modal_candidate > * input[type="text"]:placeholder {
+.modal> * input[type="text"]:placeholder {
   opacity: 0.4;
 }
 
@@ -82,4 +82,19 @@ height: 32px;}
 
 .disabled {
 	opacity: 0.6;
+}
+
+
+/* Waiting page */
+.waiting {
+  background-color: #2400fd;
+background-image: url("/back.svg");
+background-size: auto 100%;
+// background-position: top right -260px;
+background-repeat: no-repeat;
+}
+@include media-breakpoint-up("xxl") {
+  .waiting {
+background-size: 100% auto;
+  }
 }

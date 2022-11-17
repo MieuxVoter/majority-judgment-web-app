@@ -2,7 +2,7 @@ import {Candidate, Grade} from './type';
 
 export const api = {
   urlServer:
-    process.env.NEXT_PUBLIC_SERVER_URL || 'https://apiv2.mieuxvoter.fr/',
+    process.env.NEXT_PUBLIC_SERVER_URL || 'https://api.mieuxvoter.fr/',
   feedbackForm:
     process.env.NEXT_PUBLIC_FEEDBACK_FORM ||
     'https://docs.google.com/forms/d/e/1FAIpQLScuTsYeBXOSJAGSE_AFraFV7T2arEYua7UCM4NRBSCQQfRB6A/viewform',
@@ -44,8 +44,8 @@ export const createElection = async (
     body: JSON.stringify({
       name,
       description,
-      candidates: candidates,
-      grades: grades,
+      candidates,
+      grades,
       hide_results: hideResults,
       force_close: forceClose,
       private: restricted,

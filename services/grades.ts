@@ -1,5 +1,5 @@
 export const gradeColors = [
-  "#F2F0FF",
+  "#990000",
   "#C23D13",
   "#C27C13",
   "#C2B113",
@@ -8,7 +8,7 @@ export const gradeColors = [
   "#3A9918"
 ];
 
-const gradeNames = [
+export const gradeNames = [
   "To reject",
   "Insufficient",
   "Passable",
@@ -18,7 +18,7 @@ const gradeNames = [
   "Excellent"
 ];
 
-const gradeClass = [
+export const gradeClass = [
   "to-reject",
   "insufficient",
   "passable",
@@ -28,13 +28,4 @@ const gradeClass = [
   "excellent"
 ];
 
-const gradeValues = [0, 1, 2, 3, 4, 5, 6, 7];
-
-export const translateGrades = (t) => {
-  return gradeNames.map((name, i) => ({
-    label: t(name),
-    color: colors[i],
-    value: gradeValues[i],
-    class: gradeClass[i]
-  }));
-};
+export const gradeValues = [0, 1, 2, 3, 4, 5, 6, 7];

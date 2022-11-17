@@ -36,3 +36,9 @@ export const getUrlResult = (electionId: string): URL => {
   const origin = getWindowUrl();
   return new URL(`/result/${electionId}`, origin);
 }
+
+export const getUrlConfirm = (electionId: string): URL => {
+  const origin = getWindowUrl();
+  return new URL(`/admin/confirm/${electionId}`, origin);
+}
+

@@ -3,7 +3,7 @@ import {useTranslation} from 'next-i18next';
 import {Container, Row, Col} from 'reactstrap';
 import DatePicker from '@components/DatePicker';
 import Switch from '@components/Switch';
-import {useElection, useElectionDispatch} from '../../services/ElectionContext';
+import {useElection, useElectionDispatch} from '@services/ElectionContext';
 
 const LimitDate = () => {
   const {t} = useTranslation();

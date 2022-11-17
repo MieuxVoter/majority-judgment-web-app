@@ -2,9 +2,8 @@ import {getLocaleShort} from './utils';
 
 export const sendInviteMails = async (
   mails: Array<string>,
-  tokens: Array<string>,
   name: string,
-  urlVote: string | URL,
+  urlVotes: Array<string | URL>,
   urlResult: string | URL,
 
 ) => {
@@ -15,14 +14,14 @@ export const sendInviteMails = async (
     throw new Error('No emails are provided.');
   }
 
-  if (mails.length !== tokens.length) {
+  if (mails.length !== urlVotes.length) {
     throw new Error('The number of emails differ from the number of tokens');
   }
 
   const recipientVariables = {};
-  tokens.forEach((token, index) => {
+  mails.forEach((_, index: number) => {
     recipientVariables[mails[index]] = {
-      urlVote: urlVote,
+      urlVote: urlVotes[index],
       urlResult: urlResult,
     };
   });

@@ -7,7 +7,7 @@ import {useTranslation} from 'next-i18next';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import {Row, Col} from 'reactstrap';
-import {useElection, useElectionDispatch} from '../../services/ElectionContext';
+import {useElection, useElectionDispatch} from '@services/ElectionContext';
 import whiteAvatar from '../../public/avatar.svg';
 import CandidateModalSet from './CandidateModalSet';
 import CandidateModalDel from './CandidateModalDel';

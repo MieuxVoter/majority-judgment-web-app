@@ -1,6 +1,5 @@
 
 
 export default ({children}) => {
-
-  return <p>{children}</p>
+  return <div className="waiting flex-grow-1 w-100">{children}</div>
 }

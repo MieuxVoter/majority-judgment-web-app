@@ -1,5 +1,5 @@
 import {useTranslation} from 'next-i18next';
-import {useElection, useElectionDispatch} from '../../services/ElectionContext';
+import {useElection, useElectionDispatch} from '@services/ElectionContext';
 import {Container, Row, Col} from 'reactstrap';
 import Switch from '@components/Switch';
 
