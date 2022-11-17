@@ -1,16 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
-import { Row, Col, Label, Input, Modal, ModalBody, Form } from 'reactstrap';
-import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useTranslation } from 'next-i18next';
+import {useState, useEffect, useRef} from 'react';
+import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
+import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {useTranslation} from 'next-i18next';
 import Image from 'next/image';
-import { useElection, useElectionDispatch } from './ElectionContext';
+import {useElection, useElectionDispatch} from '../../services/ElectionContext';
 import Button from '@components/Button';
-import { upload } from '@services/imgpush';
-import { IMGPUSH_URL } from '@services/constants';
+import {upload} from '@services/imgpush';
+import {IMGPUSH_URL} from '@services/constants';
 import defaultAvatar from '../../public/default-avatar.svg';
 
-const CandidateModal = ({ isOpen, position, toggle }) => {
-  const { t } = useTranslation();
+const CandidateModal = ({isOpen, position, toggle}) => {
+  const {t} = useTranslation();
   const election = useElection();
   const dispatch = useElectionDispatch();
   const candidate = election.candidates[position];
@@ -19,7 +19,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
 
   const handleFile = async (event) => {
     const payload = await upload(event.target.files[0]);
-    setState((s) => ({ ...s, image: `${IMGPUSH_URL}/${payload['filename']}` }));
+    setState((s) => ({...s, image: `${IMGPUSH_URL}/${payload['filename']}`}));
   };
 
   // to manage the hidden ugly file input
@@ -27,7 +27,6 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
 
   useEffect(() => {
     setState(election.candidates[position]);
-    console.log('effect election', election);
   }, [election]);
 
   const save = () => {
@@ -53,11 +52,11 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
   };
 
   const handleName = (e) => {
-    setState((s) => ({ ...s, name: e.target.value }));
+    setState((s) => ({...s, name: e.target.value}));
   };
 
   const handleDescription = (e) => {
-    setState((s) => ({ ...s, description: e.target.value }));
+    setState((s) => ({...s, description: e.target.value}));
   };
 
   return (
@@ -138,7 +137,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 placeholder={t('admin.candidate-desc-placeholder')}
                 onChange={handleDescription}
                 value={state.description}
-                // maxLength="250"
+              // maxLength="250"
               />
             </div>
             <div className="mt-5 gap-2 d-grid mb-3 d-md-flex">

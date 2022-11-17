@@ -1,10 +1,10 @@
-import { useTranslation } from 'next-i18next';
-import { useElection, useElectionDispatch } from './ElectionContext';
-import { Container, Row, Col } from 'reactstrap';
+import {useTranslation} from 'next-i18next';
+import {useElection, useElectionDispatch} from '../../services/ElectionContext';
+import {Container, Row, Col} from 'reactstrap';
 import Switch from '@components/Switch';
 
 const AccessResults = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const election = useElection();
   const dispatch = useElectionDispatch();
@@ -13,7 +13,7 @@ const AccessResults = () => {
     dispatch({
       type: 'set',
       field: 'restrictResult',
-      value: !election.restrictResult,
+      value: !election.hideResults,
     });
   };
 
@@ -27,10 +27,10 @@ const AccessResults = () => {
               {t('admin.access-results-desc')}
             </p>
           </div>
-          <Switch toggle={toggle} state={election.restrictResult} />
+          <Switch toggle={toggle} state={election.hideResults} />
         </div>
       </Container>
-      {election.restrictResult ? (
+      {election.hideResults ? (
         <Container className="text-white d-md-none p-3">
           {t('admin.access-results-desc')}
         </Container>

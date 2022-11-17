@@ -1,29 +1,66 @@
 /**
  * This file provides a context and a reducer to manage an election
  */
-import { createContext, useContext, useReducer, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import {createContext, useContext, useReducer, useEffect, Dispatch, SetStateAction} from 'react';
+import {useRouter} from 'next/router';
+import {CandidateItem, GradeItem} from './type';
+
+interface ElectionContextInterface {
+  name: string;
+  description: string;
+  candidates: Array<CandidateItem>;
+  grades: Array<GradeItem>;
+  isRandomOrder: boolean;
+  hideResults: boolean;
+  forceClose: boolean;
+  restricted: boolean;
+  endVote: string;
+  emails: Array<string>;
+}
+
+const defaultCandidate: CandidateItem = {
+  name: '',
+  image: '',
+  description: '',
+  active: false,
+};
+
+const defaultElection: ElectionContextInterface = {
+  name: '',
+  description: '',
+  candidates: [{...defaultCandidate}, {...defaultCandidate}],
+  grades: [],
+  isRandomOrder: false,
+  hideResults: true,
+  forceClose: false,
+  restricted: false,
+  endVote: null,
+  emails: [],
+};
+
+type DispatchType = Dispatch<SetStateAction<ElectionContextInterface>>;
 
 // Store data about an election
-const ElectionContext = createContext(null);
+const ElectionContext = createContext<ElectionContextInterface>(defaultElection);
 // Store the dispatch function that can modify an election
+// const ElectionDispatchContext = createContext<DispatchType | null>(null);
 const ElectionDispatchContext = createContext(null);
 
-export function ElectionProvider({ children }) {
+export function ElectionProvider({children}) {
   /**
    * Provide the election and the dispatch to all children components
    */
   const [election, dispatch] = useReducer(electionReducer, defaultElection);
 
-  // At the initialization, set the title using GET param
+  // At the initialization, set the name using GET param
   const router = useRouter();
   useEffect(() => {
     if (!router.isReady) return;
 
     dispatch({
       type: 'set',
-      field: 'title',
-      value: router.query.title || '',
+      field: 'name',
+      value: router.query.name || '',
     });
   }, [router.isReady]);
 
@@ -50,13 +87,13 @@ export function useElectionDispatch() {
   return useContext(ElectionDispatchContext);
 }
 
-function electionReducer(election: Election, action) {
+function electionReducer(election: ElectionContextInterface, action) {
   /**
    * Manage all types of action doable on an election
    */
   switch (action.type) {
     case 'set': {
-      return { ...election, [action.field]: action.value };
+      return {...election, [action.field]: action.value};
     }
     case 'commit': {
       throw Error('Not implemented yet');
@@ -66,9 +103,9 @@ function electionReducer(election: Election, action) {
     }
     case 'candidate-push': {
       const candidate =
-        action.value === 'default' ? { ...defaultCandidate } : action.value;
+        action.value === 'default' ? {...defaultCandidate} : action.value;
       const candidates = [...election.candidates, candidate];
-      return { ...election, candidates };
+      return {...election, candidates};
     }
     case 'candidate-rm': {
       if (typeof action.position !== 'number') {
@@ -76,7 +113,7 @@ function electionReducer(election: Election, action) {
       }
       const candidates = [...election.candidates];
       candidates.splice(action.position);
-      return { ...election, candidates };
+      return {...election, candidates};
     }
     case 'candidate-set': {
       if (typeof action.position !== 'number') {
@@ -89,13 +126,13 @@ function electionReducer(election: Election, action) {
       const candidate = candidates[action.position];
       candidate[action.field] = action.value;
       candidate['active'] = true;
-      return { ...election, candidates };
+      return {...election, candidates};
     }
     case 'grade-push': {
       const grade =
-        action.value === 'default' ? { ...defaultCandidate } : action.value;
+        action.value === 'default' ? {...defaultCandidate} : action.value;
       const grades = [...election.grades, grade];
-      return { ...election, grades };
+      return {...election, grades};
     }
     case 'grade-rm': {
       if (typeof action.position !== 'number') {
@@ -103,7 +140,7 @@ function electionReducer(election: Election, action) {
       }
       const grades = [...election.grades];
       grades.splice(action.position);
-      return { ...election, grades };
+      return {...election, grades};
     }
     case 'grade-set': {
       if (typeof action.position !== 'number') {
@@ -112,7 +149,7 @@ function electionReducer(election: Election, action) {
       const grades = [...election.grades];
       const grade = grades[action.position];
       grade[action.field] = action.value;
-      return { ...election, grades };
+      return {...election, grades};
     }
     default: {
       throw Error(`Unknown action: ${action.type}`);
@@ -120,43 +157,3 @@ function electionReducer(election: Election, action) {
   }
 }
 
-interface Candidate {
-  name: string;
-  description: string;
-  active: boolean;
-}
-
-interface Grade {
-  name: string;
-  active: boolean;
-}
-
-interface Election {
-  title: string;
-  description: string;
-  candidates: Array<Candidate>;
-  grades: Array<Grade>;
-  isRandomOrder: boolean;
-  restrictResult: boolean;
-  restrictVote: boolean;
-  endVote: string;
-  emails: Array<string>;
-}
-
-const defaultCandidate: Candidate = {
-  name: '',
-  description: '',
-  active: false,
-};
-
-const defaultElection: Election = {
-  title: '',
-  description: '',
-  candidates: [{ ...defaultCandidate }, { ...defaultCandidate }],
-  grades: [],
-  isRandomOrder: false,
-  restrictResult: true,
-  restrictVote: false,
-  endVote: null,
-  emails: [],
-};

@@ -1,15 +1,15 @@
-import { useState, useEffect, createRef } from 'react';
-import { useTranslation } from 'next-i18next';
-import { Container } from 'reactstrap';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { MAX_NUM_CANDIDATES } from '@services/constants';
+import {useState, useEffect, createRef} from 'react';
+import {useTranslation} from 'next-i18next';
+import {Container} from 'reactstrap';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {MAX_NUM_CANDIDATES} from '@services/constants';
 import Alert from '@components/Alert';
 import Button from '@components/Button';
-import { useElection, useElectionDispatch } from './ElectionContext';
+import {useElection, useElectionDispatch} from '../../services/ElectionContext';
 import CandidateField from './CandidateField';
 
-const CandidatesField = ({ onSubmit }) => {
-  const { t } = useTranslation();
+const CandidatesField = ({onSubmit}) => {
+  const {t} = useTranslation();
 
   const election = useElection();
   const dispatch = useElectionDispatch();
@@ -21,7 +21,7 @@ const CandidatesField = ({ onSubmit }) => {
   useEffect(() => {
     // Initialize the list with at least two candidates
     if (candidates.length < 2) {
-      dispatch({ type: 'candidate-push', value: 'default' });
+      dispatch({type: 'candidate-push', value: 'default'});
     }
     if (candidates.length > MAX_NUM_CANDIDATES) {
       setError('error.too-many-candidates');

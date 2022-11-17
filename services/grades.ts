@@ -1,4 +1,4 @@
-const colors = [
+export const gradeColors = [
   "#F2F0FF",
   "#C23D13",
   "#C27C13",

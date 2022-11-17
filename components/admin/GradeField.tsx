@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Row, Col } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {useState} from 'react';
+import {Row, Col} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faPlus,
   faPen,
@@ -8,9 +8,9 @@ import {
   faCheck,
   faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
-import { useElection, useElectionDispatch } from './ElectionContext';
+import {useElection, useElectionDispatch} from '../../services/ElectionContext';
 
-const GradeField = ({ value }) => {
+const GradeField = ({value}) => {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal((m) => !m);
 

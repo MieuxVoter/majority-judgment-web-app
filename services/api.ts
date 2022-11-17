@@ -1,117 +1,69 @@
-const api = {
+import {Candidate, Grade} from './type';
+
+export const api = {
   urlServer:
-    process.env.NEXT_PUBLIC_SERVER_URL || 'https://demo.mieuxvoter.fr/api/',
+    process.env.NEXT_PUBLIC_SERVER_URL || 'https://apiv2.mieuxvoter.fr/',
   feedbackForm:
     process.env.NEXT_PUBLIC_FEEDBACK_FORM ||
     'https://docs.google.com/forms/d/e/1FAIpQLScuTsYeBXOSJAGSE_AFraFV7T2arEYua7UCM4NRBSCQQfRB6A/viewform',
   routesServer: {
-    setElection: 'election/',
-    getElection: 'election/get/:slug/',
-    getResults: 'election/results/:slug',
-    voteElection: 'election/vote/',
+    setElection: 'elections',
+    getElection: 'elections/:slug',
+    getResults: 'results/:slug',
+    voteElection: 'votes',
   },
 };
 
-const sendInviteMail = (res) => {
-  /**
-   * Send an invitation mail using a micro-service with Netlify
-   */
-  const { id, title, mails, tokens, locale } = res;
 
-  if (!mails || !mails.length) {
-    throw new Error('No emails are provided.');
-  }
-
-  if (mails.length !== tokens.length) {
-    throw new Error('The number of emails differ from the number of tokens');
-  }
-
-  const origin =
-    typeof window !== 'undefined' && window.location.origin
-      ? window.location.origin
-      : 'http://localhost';
-  const urlVote = (pid, token) => new URL(`/vote/${pid}/${token}`, origin);
-  const urlResult = (pid) => new URL(`/result/${pid}`, origin);
-
-  const recipientVariables = {};
-  tokens.forEach((token, index) => {
-    recipientVariables[mails[index]] = {
-      urlVote: urlVote(id, token),
-      urlResult: urlResult(id),
-    };
-  });
-
-  const req = fetch('/.netlify/functions/send-invite-email/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      recipientVariables,
-      title,
-      locale,
-    }),
-  });
-
-  return req.then((any) => res);
-};
-
-const createElection = (
-  title: string,
-  candidates: Array<string>,
-  description?: string,
-  mails?: Array<string>,
-  numGrades?: number,
-  finish?: string,
-  restrictResult?: boolean,
-  locale?: string,
+export const createElection = async (
+  name: string,
+  candidates: Array<Candidate>,
+  grades: Array<Grade>,
+  description: string = "",
+  numVoters: number = 0,
+  hideResults: boolean = true,
+  forceClose: boolean = false,
+  restricted: boolean = false,
   successCallback = null,
-  failureCallback = null
+  failureCallback = console.log
 ) => {
   /**
    * Create an election from its title, its candidates and a bunch of options
    */
   const endpoint = new URL(api.routesServer.setElection, api.urlServer);
 
-  console.log(endpoint.href);
-  const onInvitationOnly = mails && mails.length > 0;
+  if (!restricted && numVoters > 0) {
+    throw Error("Set the election as not private!");
+  }
 
-  fetch(endpoint.href, {
+  const req = await fetch(endpoint.href, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      title,
-      candidates,
-      on_invitation_only: onInvitationOnly,
-      num_grades: numGrades,
-      elector_emails: mails || [],
-      // start_at: start,
-      finish_at: finish,
-      select_language: locale || 'en',
-      front_url: window.location.origin,
-      restrict_results: restrictResult,
-      send_mail: false,
+      name,
+      description,
+      candidates: candidates,
+      grades: grades,
+      hide_results: hideResults,
+      force_close: forceClose,
+      private: restricted,
     }),
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-      return response.json();
-    })
-    .then((res) => {
-      if (onInvitationOnly) {
-        return sendInviteMail({ locale, mails: mails, ...res });
-      }
-      return res;
-    })
-    .then(successCallback)
-    .catch(failureCallback || console.log);
+
+  if (!req.ok) {
+    if (successCallback) {
+      const payload = await req.json();
+      successCallback(payload);
+    }
+  } else if (failureCallback) {
+    failureCallback(req.statusText)
+  }
 };
 
-const getResults = (
+
+export const getResults = (
   pid: string,
   successCallback = null,
   failureCallback = null
@@ -136,7 +88,8 @@ const getResults = (
     .catch(failureCallback || ((err) => err));
 };
 
-const getDetails = (
+
+export const getElectionDetails = (
   pid: string,
   successCallback = null,
   failureCallback = null
@@ -161,7 +114,8 @@ const getDetails = (
     .then((res) => res);
 };
 
-const castBallot = (
+
+export const castBallot = (
   judgments: Array<number>,
   pid: string,
   token: string,
@@ -184,7 +138,7 @@ const castBallot = (
 
   fetch(endpoint.href, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(payload),
   })
     .then(callbackSuccess || ((res) => res))
@@ -222,11 +176,38 @@ export const apiErrors = (error: string): string => {
   }
 };
 
-export {
-  api,
-  getDetails,
-  getResults,
-  createElection,
-  sendInviteMail,
-  castBallot,
-};
+
+export interface GradePayload {
+  name: string;
+  description: string;
+  id: number;
+  value: number;
+}
+
+
+export interface CandidatePayload {
+  name: string;
+  description: string;
+  id: number;
+  image: string;
+}
+
+
+export interface ElectionPayload {
+  name: string;
+  description: string;
+  ref: string;
+  date_create: string;
+  date_modified: string;
+  num_voters: number;
+  date_start: string;
+  date_end: string;
+  hide_results: boolean;
+  force_close: boolean;
+  private: boolean;
+  id: number;
+  grades: Array<GradePayload>;
+  candidates: Array<CandidatePayload>;
+  tokens: Array<string>;
+  admin: string;
+}

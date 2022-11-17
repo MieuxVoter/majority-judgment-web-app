@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useTranslation } from 'next-i18next';
-import { Container, Row, Col } from 'reactstrap';
+import {useState} from 'react';
+import {useTranslation} from 'next-i18next';
+import {Container, Row, Col} from 'reactstrap';
 import DatePicker from '@components/DatePicker';
 import Switch from '@components/Switch';
-import { useElection, useElectionDispatch } from './ElectionContext';
+import {useElection, useElectionDispatch} from '../../services/ElectionContext';
 
 const LimitDate = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const defaultEndDate = new Date();
   defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
   const [endDate, setEndDate] = useState(defaultEndDate);

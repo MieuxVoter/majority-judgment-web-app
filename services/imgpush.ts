@@ -12,5 +12,6 @@ export const upload = async (photo) => {
     {method: "POST", body: formData}
   )
     .then(ans => {return ans.json();})
+    .catch(console.log)
 }
 

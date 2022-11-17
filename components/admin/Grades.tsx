@@ -1,22 +1,22 @@
 /**
  * A field to update the grades
  */
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'next-i18next';
-import { Container, Row, Col } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {useState, useEffect} from 'react';
+import {useTranslation} from 'next-i18next';
+import {Container, Row, Col} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faPlus,
   faPen,
   faXmark,
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
-import { DEFAULT_GRADES, GRADE_COLORS } from '@services/constants';
-import { useElection, useElectionDispatch } from './ElectionContext';
+import {DEFAULT_GRADES, GRADE_COLORS} from '@services/constants';
+import {useElection, useElectionDispatch} from '../../services/ElectionContext';
 import GradeField from './GradeField';
 
 const AddField = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const [modal, setModal] = useState(false);
   const toggle = () => setModal((m) => !m);
@@ -36,7 +36,7 @@ const AddField = () => {
 };
 
 const Grades = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const defaultEndDate = new Date();
   defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
   const [endDate, setEndDate] = useState(defaultEndDate);

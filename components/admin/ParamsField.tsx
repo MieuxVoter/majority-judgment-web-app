@@ -1,14 +1,19 @@
-import { useTranslation } from 'next-i18next';
-import { Container } from 'reactstrap';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import {useTranslation} from 'next-i18next';
+import {Container} from 'reactstrap';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import Button from '@components/Button';
 import Grades from './Grades';
 import LimitDate from './LimitDate';
 import AccessResults from './AccessResults';
 import Private from './Private';
+import {useElection} from '@services/ElectionContext';
 
-const ParamsField = ({ onSubmit }) => {
-  const { t } = useTranslation();
+const ParamsField = ({onSubmit}) => {
+  const {t} = useTranslation();
+
+  const election = useElection();
+  const checkDisability = election.restricted && (typeof election.emails === "undefined" || election.emails.length === 0);
+  console.log(election.restricted, typeof election.emails === "undefined", election.emails.length === 0)
 
   return (
     <Container className="params d-flex flex-column flex-grow-1 my-5">
@@ -28,6 +33,7 @@ const ParamsField = ({ onSubmit }) => {
             color="secondary"
             className="bg-blue"
             onClick={onSubmit}
+            disabled={checkDisability}
             icon={faArrowRight}
             position="right"
           >

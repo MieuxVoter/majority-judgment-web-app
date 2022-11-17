@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { GetStaticProps } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
-import { Container, Row, Col, Button, Input } from 'reactstrap';
+import {GetStaticProps} from 'next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useTranslation} from 'next-i18next';
+import {Container, Row, Col, Button, Input} from 'reactstrap';
 import Logo from '@components/Logo';
-import { CREATE_ELECTION } from '@services/routes';
+import {CREATE_ELECTION} from '@services/routes';
 import ballotBox from '../public/urne.svg';
 import email from '../public/email.svg';
 import respect from '../public/respect.svg';
@@ -15,15 +15,15 @@ import twitter from '../public/twitter.svg';
 import facebook from '../public/facebook.svg';
 import arrowRight from '../public/arrow-white.svg';
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
 
 const StartForm = () => {
-  const { t } = useTranslation('resource');
-  const [title, setTitle] = useState(null);
+  const {t} = useTranslation('resource');
+  const [name, setName] = useState(null);
 
   return (
     <form className="sectionOneHomeForm" autoComplete="off">
@@ -42,15 +42,15 @@ const StartForm = () => {
               autoFocus
               required
               className="mt-2 mb-0 sectionOneHomeInput"
-              name="title"
-              value={title ? title : ''}
-              onChange={(e) => setTitle(e.target.value)}
+              name="name"
+              value={name ? name : ''}
+              onChange={(e) => setName(e.target.value)}
             />
 
             <p className="pt-0 mt-0 maxLength">250</p>
           </Row>
           <Row>
-            <Link href={{ pathname: CREATE_ELECTION, query: { title: title } }}>
+            <Link href={{pathname: CREATE_ELECTION, query: {name: name}}}>
               <Button color="secondary" outline={true} type="submit">
                 <Row className="justify-content-md-center  p-2">
                   <Col className="col-auto">{t('home.start')}</Col>
@@ -78,24 +78,24 @@ const StartForm = () => {
 };
 
 const AdvantagesRow = () => {
-  const { t } = useTranslation('resource');
+  const {t} = useTranslation('resource');
   const resources = [
     {
       src: ballotBox,
       alt: t('home.alt-icon-ballot-box'),
-      title: t('home.advantage-1-title'),
+      name: t('home.advantage-1-name'),
       desc: t('home.advantage-1-desc'),
     },
     {
       src: email,
       alt: t('home.alt-icon-envelop'),
-      title: t('home.advantage-2-title'),
+      name: t('home.advantage-2-name'),
       desc: t('home.advantage-2-desc'),
     },
     {
       src: respect,
       alt: t('home.alt-icon-respect'),
-      title: t('home.advantage-3-title'),
+      name: t('home.advantage-3-name'),
       desc: t('home.advantage-3-desc'),
     },
   ];
@@ -109,7 +109,7 @@ const AdvantagesRow = () => {
             height="128"
             className="d-block mx-auto"
           />
-          <h4>{item.title}</h4>
+          <h4>{item.name}</h4>
           <p>{item.desc}</p>
         </Col>
       ))}
@@ -118,22 +118,22 @@ const AdvantagesRow = () => {
 };
 
 const ExperienceRow = () => {
-  const { t } = useTranslation('resource');
+  const {t} = useTranslation('resource');
   return (
     <Row className="sectionTwoRowTwo">
       <Row className="sectionTwoHomeImage">
         <Image src={vote} alt={t('home.alt-icon-ballot')} />
       </Row>
       <Row className="sectionTwoRowTwoCol">
-        <h3 className="col-md-8">{t('home.experience-title')}</h3>
+        <h3 className="col-md-8">{t('home.experience-name')}</h3>
       </Row>
       <Row className="sectionTwoRowTwoCol">
         <Col className="sectionTwoRowTwoColText col-md-4">
-          <h5 className="">{t('home.experience-1-title')}</h5>
+          <h5 className="">{t('home.experience-1-name')}</h5>
           <p>{t('home.experience-1-desc')}</p>
         </Col>
         <Col className="sectionTwoRowTwoColText col-md-4 offset-md-1">
-          <h5 className="">{t('home.experience-2-title')}</h5>
+          <h5 className="">{t('home.experience-2-name')}</h5>
           <p>{t('home.experience-2-desc')}</p>
           <p></p>
         </Col>
@@ -156,7 +156,7 @@ const ExperienceRow = () => {
 };
 
 const ShareRow = () => {
-  const { t } = useTranslation('resource');
+  const {t} = useTranslation('resource');
   return (
     <Row className="sharing justify-content-md-center">
       <Col className="col-auto">{t('home.share')}</Col>
@@ -183,7 +183,7 @@ const ShareRow = () => {
 };
 
 const Home = () => {
-  const { t } = useTranslation('resource');
+  const {t} = useTranslation('resource');
   return (
     <Container fluid={true} className="p-0">
       <section>

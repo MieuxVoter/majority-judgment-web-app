@@ -1,13 +1,13 @@
 /**
  * This is the candidate field used during election creation
  */
-import { useState } from 'react';
+import {useState} from 'react';
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { Row, Col } from 'reactstrap';
-import { useElection, useElectionDispatch } from './ElectionContext';
+import {useTranslation} from 'next-i18next';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons';
+import {Row, Col} from 'reactstrap';
+import {useElection, useElectionDispatch} from '../../services/ElectionContext';
 import whiteAvatar from '../../public/avatar.svg';
 import CandidateModalSet from './CandidateModalSet';
 import CandidateModalDel from './CandidateModalDel';
@@ -25,7 +25,7 @@ const CandidateField = ({
   defaultAvatar = whiteAvatar,
   ...props
 }: CandidateProps) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const election = useElection();
   const dispatch = useElectionDispatch();
@@ -37,7 +37,7 @@ const CandidateField = ({
   const [modalSet, setModalSet] = useState(false);
 
   const addCandidate = () => {
-    dispatch({ type: 'candidate-push', value: 'default' });
+    dispatch({type: 'candidate-push', value: 'default'});
   };
 
   const toggleSet = () => setModalSet((m) => !m);
@@ -59,9 +59,8 @@ const CandidateField = ({
               src={image}
               width={24}
               height={24}
-              className={`${
-                image == defaultAvatar ? 'default-avatar' : ''
-              } bg-primary`}
+              className={`${image == defaultAvatar ? 'default-avatar' : ''
+                } bg-primary`}
               alt={t('common.thumbnail')}
             />
           </Col>

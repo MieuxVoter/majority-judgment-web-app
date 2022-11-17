@@ -1,4 +1,4 @@
-import { useTranslation } from 'next-i18next';
+import {useTranslation} from 'next-i18next';
 import Footer from '@components/layouts/Footer';
 import TrashButton from './TrashButton';
 import {
@@ -19,8 +19,8 @@ import {
   Label,
   Container,
 } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useElection } from './ElectionContext';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {useElection} from '../../services/ElectionContext';
 import CandidateField from './CandidateField';
 import AccessResults from './AccessResults';
 import LimitDate from './LimitDate';
@@ -28,7 +28,7 @@ import Grades from './Grades';
 import Private from './Private';
 
 const TitleField = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const election = useElection();
   return (
     <Container className="bg-white p-4">
@@ -37,13 +37,13 @@ const TitleField = () => {
           <h5 className="text-dark">{t('admin.confirm-question')}</h5>
         </Col>
       </Row>
-      <h4 className="text-primary">{election.title}</h4>
+      <h4 className="text-primary">{election.name}</h4>
     </Container>
   );
 };
 
 const CandidatesField = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const election = useElection();
   return (
     <Container className="bg-white p-4 mt-3 mt-md-0">
@@ -66,8 +66,8 @@ const CandidatesField = () => {
   );
 };
 
-const ConfirmField = ({ onSubmit, goToCandidates, goToParams }) => {
-  const { t } = useTranslation();
+const ConfirmField = ({onSubmit, goToCandidates, goToParams}) => {
+  const {t} = useTranslation();
   const election = useElection();
 
   return (

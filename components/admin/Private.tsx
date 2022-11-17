@@ -1,14 +1,14 @@
 /**
  * A field to update the grades
  */
-import { useState } from 'react';
-import { useTranslation } from 'next-i18next';
-import { Container, Row, Col } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import {useState} from 'react';
+import {useTranslation} from 'next-i18next';
+import {Container, Row, Col} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import Switch from '@components/Switch';
 import ListInput from '@components/ListInput';
-import { useElection, useElectionDispatch } from './ElectionContext';
+import {useElection, useElectionDispatch} from '../../services/ElectionContext';
 
 const validateEmail = (email) => {
   // https://stackoverflow.com/a/46181/4986615
@@ -20,7 +20,7 @@ const validateEmail = (email) => {
 };
 
 const Private = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const [emails, setEmails] = useState([]);
 
@@ -30,8 +30,8 @@ const Private = () => {
   const toggle = () => {
     dispatch({
       type: 'set',
-      field: 'restrictVote',
-      value: !election.restrictVote,
+      field: 'restricted',
+      value: !election.restricted,
     });
   };
 
@@ -53,9 +53,9 @@ const Private = () => {
               {t('admin.private-desc')}
             </p>
           </div>
-          <Switch toggle={toggle} state={election.restrictVote} />
+          <Switch toggle={toggle} state={election.restricted} />
         </div>
-        {election.restrictVote ? (
+        {election.restricted ? (
           <>
             <ListInput
               onEdit={handleEmails}
@@ -69,7 +69,7 @@ const Private = () => {
           </>
         ) : null}
       </Container>
-      {election.restrictVote ? (
+      {election.restricted ? (
         <Container className="text-white d-md-none p-3">
           {t('admin.access-results-desc')}
         </Container>
