@@ -1,11 +1,15 @@
 import Link from 'next/link';
-import { useTranslation } from 'next-i18next';
-import { Button, Row, Col } from 'reactstrap';
+import {useTranslation} from 'next-i18next';
+import {Button, Row, Col} from 'reactstrap';
 import Logo from '@components/Logo';
 import LanguageSelector from '@components/layouts/LanguageSelector';
+import {useAppContext} from '@services/context';
 
 const Footer = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
+  const {app} = useAppContext();
+
+  if (!app.footer) {return null;}
 
   const menu = [
     {

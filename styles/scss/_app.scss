@@ -405,3 +405,7 @@ a, a:hover {
 .bg-blue {
 	background-color: $mv-blue-color!important;
 }
+
+.no-shadow {
+	box-shadow: unset!important;
+}

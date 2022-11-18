@@ -7,13 +7,11 @@ import WaitingBallot from '@components/WaitingBallot';
 import PatternedBackground from '@components/PatternedBackground';
 import {
   ElectionProvider,
-  useElection,
 } from '@services/ElectionContext';
 import {ProgressSteps, creationSteps} from '@components/CreationSteps';
 import {GetStaticProps} from 'next';
 import {ElectionPayload} from '@services/api';
-import {getUrlConfirm} from '@services/utils';
-import {useRouter} from 'next/router';
+
 
 export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
@@ -25,9 +23,8 @@ const CreateElectionForm = () => {
   /**
    * Manage the steps for creating an election
    */
-  const [wait, setWait] = useState(true);
-
-  const router = useRouter();
+  const [wait, setWait] = useState(false);
+  const [payload, setPayload] = useState<ElectionPayload | null>(null);
 
   const handleSubmit = () => {
     if (stepId < creationSteps.length - 1) {
@@ -37,14 +34,9 @@ const CreateElectionForm = () => {
     }
   };
 
-  const onCreatedElection = (election: ElectionPayload) => {
-    console.log("ready");
-    // router.push(getUrlConfirm(election.id.toString()))
-  }
-
   if (wait) {
     return <PatternedBackground>
-      <WaitingBallot />;
+      <WaitingBallot election={payload} />
     </PatternedBackground>
   }
 
@@ -61,7 +53,7 @@ const CreateElectionForm = () => {
     Step = (
       <ConfirmField
         onSubmit={handleSubmit}
-        onCreatedElection={onCreatedElection}
+        onCreatedElection={setPayload}
         goToCandidates={() => setStepId(0)}
         goToParams={() => setStepId(1)}
       />

@@ -17,7 +17,6 @@
   "home.experience-2-title": "Obtenez le meilleur consensus.",
   "home.experience-2-desc": "Le profil des mérites dresse un panorama précis de l’opinion des électeurs. Le gagnant du vote est celui qui est la meilleure mention majoritaire.",
   "home.experience-call-to-action": "Découvrez le jugement majoritaire",
-  "home.share": "Partagez l’application Mieux voter",
   "home.alt-icon-ballot-box": "icone d'urne",
   "home.alt-icon-envelop": "icone d'enveloppe",
   "home.alt-icon-respect": "icone de mains qui se serrent",
@@ -27,6 +26,8 @@
   "menu.faq": "FAQ",
   "menu.news": "Actualités",
   "menu.contact-us": "Nous contacter",
+  "common.share": "Partagez l'application Mieux voter",
+  "common.share-short": "Partagez l'application",
   "common.back-homepage": "Revenir sur la page d'accueil",
   "common.support-us": "Soutenez nous",
   "common.save": "Sauvegarder",
@@ -84,5 +85,8 @@
   "admin.confirm-question": "Question de votre vote",
   "admin.confirm-candidates": "Candidats",
   "admin.confirm-submit": "Démarrer le vote",
-  "admin.confirm-title": "Confirmer votre vote"
+  "admin.confirm-title": "Confirmer votre vote",
+  "admin.success-election": "Le vote a été créé avec succès",
+  "admin.success-emails": "Le lien du vote a été envoyé par courriel aux participants.",
+  "admin.go-to-admin": "Administrez le vote"
 }

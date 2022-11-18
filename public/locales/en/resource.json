@@ -21,12 +21,13 @@
   "home.alt-icon-envelop": "icon of an envelop",
   "home.alt-icon-respect": "icon of hands holding each other",
   "home.alt-icon-ballot": "icon of a ballot",
-  "home.share": "Share the application Better Vote",
   "menu.majority-judgment": "Majority judgment",
   "menu.whoarewe": "Who are we?",
   "menu.faq": "FAQ",
   "menu.news": "News",
   "menu.contact-us": "Contact us",
+  "common.share": "Share the application Better Vote",
+  "common.share-short": "Share the application",
   "common.save": "Save",
   "common.back-homepage": "Return to home page",
   "common.support-us": "Support us",
@@ -84,5 +85,8 @@
   "admin.confirm-question": "Question of your vote",
   "admin.confirm-candidates": "Candidates",
   "admin.confirm-submit": "Start the vote",
-  "admin.confirm-title": "Confirm your vote"
+  "admin.confirm-title": "Confirm your vote",
+  "admin.success-election": "The vote has been created with success!",
+  "admin.success-emails": "The voting link has been sent by emails to the participants.",
+  "admin.go-to-admin": "Manage the vote"
 }

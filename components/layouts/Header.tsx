@@ -1,18 +1,22 @@
 /* eslint react/prop-types: 0 */
-import { useState } from 'react';
-import { Collapse, Nav, NavItem, Button } from 'reactstrap';
+import {useState} from 'react';
+import {Collapse, Nav, NavItem, Button} from 'reactstrap';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
+import {useTranslation} from 'next-i18next';
+import {useAppContext} from '@services/context';
 import LanguageSelector from './LanguageSelector';
 import openMenuIcon from '../../public/open-menu-icon.svg';
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
+  const {app} = useAppContext();
 
   const toggle = () => setOpen(!isOpen);
 
-  const { t } = useTranslation('resource');
+  const {t} = useTranslation('resource');
+
+  if (!app.footer) {return null;}
 
   return (
     <>

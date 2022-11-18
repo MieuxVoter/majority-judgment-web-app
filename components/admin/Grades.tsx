@@ -39,7 +39,7 @@ const AddField = () => {
       <Col className="col-auto">
         <FontAwesomeIcon icon={faPlus} />
       </Col>
-      <GradeModalAdd isOpen={modal} toggle={toggle} />
+      <GradeModalAdd key={election.grades.length} isOpen={modal} toggle={toggle} />
     </Row>
   );
 };

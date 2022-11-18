@@ -6,13 +6,12 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {useTranslation} from 'next-i18next';
 import {Container, Row, Col, Button, Input} from 'reactstrap';
 import Logo from '@components/Logo';
+import Share from '@components/Share';
 import {CREATE_ELECTION} from '@services/routes';
 import ballotBox from '../public/urne.svg';
 import email from '../public/email.svg';
 import respect from '../public/respect.svg';
 import vote from '../public/vote.svg';
-import twitter from '../public/twitter.svg';
-import facebook from '../public/facebook.svg';
 import arrowRight from '../public/arrow-white.svg';
 
 export const getStaticProps: GetStaticProps = async ({locale}) => ({
@@ -155,33 +154,6 @@ const ExperienceRow = () => {
   );
 };
 
-const ShareRow = () => {
-  const {t} = useTranslation('resource');
-  return (
-    <Row className="sharing justify-content-md-center">
-      <Col className="col-auto">{t('home.share')}</Col>
-      <Col className="col-auto">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.facebook.com/mieuxvoter.fr/"
-        >
-          <Image height={22} width={22} src={facebook} alt="icon facebook" />
-        </a>
-      </Col>
-      <Col className="col-auto">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://twitter.com/mieux_voter"
-        >
-          <Image height={22} width={22} src={twitter} alt="icon twitter" />
-        </a>
-      </Col>
-    </Row>
-  );
-};
-
 const Home = () => {
   const {t} = useTranslation('resource');
   return (
@@ -192,7 +164,7 @@ const Home = () => {
       <section className="sectionTwoHome">
         <AdvantagesRow />
         <ExperienceRow />
-        <ShareRow />
+        <Share />
       </section>
     </Container>
   );
