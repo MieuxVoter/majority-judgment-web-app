@@ -5,7 +5,9 @@ import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Button from '@components/Button';
 import Share from '@components/Share';
-import {ElectionPayload} from '@services/api';
+import ErrorMessage from '@components/Error';
+import AdminModalEmail from '@components/admin/AdminModalEmail';
+import {ElectionPayload, ErrorPayload} from '@services/api';
 import {useAppContext} from '@services/context';
 import urne from '../public/urne.svg'
 import star from '../public/star.svg'
@@ -13,12 +15,17 @@ import {Container} from 'reactstrap';
 
 
 export interface WaitingBallotInterface {
-  election: ElectionPayload;
+  election?: ElectionPayload;
+  error?: ErrorPayload;
 }
 
 
-export default ({election}: WaitingBallotInterface) => {
+export default ({election, error}: WaitingBallotInterface) => {
   const {setApp} = useAppContext();
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(m => !m);
+  console.log("election", election)
+  console.log("error", error)
 
   const [urneProperties, setUrne] = useState<CSSProperties>({width: 0, height: 0, marginBottom: 0});
   const [starProperties, setStar] = useState<CSSProperties>({width: 0, height: 0, marginLeft: 100, marginBottom: 0});
@@ -79,6 +86,8 @@ export default ({election}: WaitingBallotInterface) => {
 
   }, [])
 
+
+
   return (<Container
     className="d-flex h-100 w-100 align-items-center flex-column"
     style={{
@@ -131,25 +140,38 @@ export default ({election}: WaitingBallotInterface) => {
     }}
       className="d-flex flex-column align-items-center"
     >
-      <h4 className="text-center">
-        {t('admin.success-election')}
-      </h4>
+      {error && error.detail ?
+        <ErrorMessage msg={error.detail[0].msg} /> : null}
 
-      {election && election.private ?
-        <h5 className="text-center">
-          {t('admin.success-emails')}
-        </h5>
-        : null}
-      <Button
-        customIcon={<FontAwesomeIcon icon={faArrowRight} />}
-        position="right"
-        color="secondary"
-        outline={true}
-        className="mt-3 py-3 px-4"
-      >
-        {t('admin.go-to-admin')}
-      </Button>
-      <Share title={t('common.share-short')} />
+      {election && election.id ?
+        <>
+          <h4 className="text-center">
+            {t('admin.success-election')}
+          </h4>
+
+          {election && election.private ?
+            <h5 className="text-center">
+              {t('admin.success-emails')}
+            </h5>
+            : null}
+          <Button
+            customIcon={<FontAwesomeIcon icon={faArrowRight} />}
+            position="right"
+            color="secondary"
+            outline={true}
+            onClick={toggleModal}
+            className="mt-3 py-3 px-4"
+          >
+            {t('admin.go-to-admin')}
+          </Button>
+          <Share title={t('common.share-short')} />
+          <AdminModalEmail
+            toggle={toggleModal}
+            isOpen={modal}
+            electionId={election.id}
+            adminToken={election.admin}
+          />
+        </> : null}
     </div>
   </Container >)
 }

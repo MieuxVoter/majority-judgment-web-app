@@ -24,8 +24,8 @@ export const createElection = async (
   hideResults: boolean = true,
   forceClose: boolean = false,
   restricted: boolean = false,
-  successCallback = null,
-  failureCallback = console.log
+  successCallback: Function = null,
+  failureCallback: Function = console.log
 ) => {
   /**
    * Create an election from its title, its candidates and a bunch of options
@@ -36,30 +36,40 @@ export const createElection = async (
     throw Error("Set the election as not private!");
   }
 
-  const req = await fetch(endpoint.href, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      name,
-      description,
-      candidates,
-      grades,
-      hide_results: hideResults,
-      force_close: forceClose,
-      private: restricted,
-    }),
-  })
-
-  if (!req.ok) {
-    if (successCallback) {
-      const payload = await req.json();
-      successCallback(payload);
+  try {
+    const req = await fetch(endpoint.href, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        description,
+        candidates,
+        grades,
+        hide_results: hideResults,
+        force_close: forceClose,
+        private: restricted,
+      }),
+    })
+    if (req.ok && req.status === 200) {
+      if (successCallback) {
+        const payload = await req.json();
+        successCallback(payload);
+      }
+    } else if (failureCallback) {
+      try {
+        const payload = await req.json();
+        failureCallback(payload)
+      } catch (e) {
+        failureCallback(req.statusText)
+      }
     }
-  } else if (failureCallback) {
-    failureCallback(req.statusText)
   }
+  catch (e) {
+    return failureCallback && failureCallback(e);
+  }
+
 };
 
 
@@ -192,6 +202,17 @@ export interface CandidatePayload {
   image: string;
 }
 
+
+export interface ErrorMessage {
+  loc: Array<string>;
+  msg: string;
+  type: string;
+  ctx: any;
+}
+
+export interface ErrorPayload {
+  detail: Array<ErrorMessage>;
+}
 
 export interface ElectionPayload {
   name: string;

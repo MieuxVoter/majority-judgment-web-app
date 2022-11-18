@@ -15,3 +15,8 @@ export const getUrlResult = (electionId: string): URL => {
   const origin = getWindowUrl();
   return new URL(`/result/${electionId}`, origin);
 }
+
+export const getUrlAdmin = (electionId: string, adminToken: string): URL => {
+  const origin = getWindowUrl();
+  return new URL(`/admin/${electionId}?t=${adminToken}`, origin);
+}

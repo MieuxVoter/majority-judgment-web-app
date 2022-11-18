@@ -9,15 +9,7 @@ import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import Switch from '@components/Switch';
 import ListInput from '@components/ListInput';
 import {useElection, useElectionDispatch} from '@services/ElectionContext';
-
-const validateEmail = (email) => {
-  // https://stackoverflow.com/a/46181/4986615
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-};
+import {validateMail} from '@services/mail';
 
 const Private = () => {
   const {t} = useTranslation();
@@ -72,7 +64,7 @@ const Private = () => {
             <ListInput
               onEdit={handleEmails}
               inputs={election.emails}
-              validator={validateEmail}
+              validator={validateMail}
             />
             <div className="bg-light bt-3 p-2    text-muted fw-bold d-none d-md-flex align-items-center ">
               <FontAwesomeIcon icon={faCircleInfo} />

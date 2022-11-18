@@ -10,7 +10,7 @@ import {
 } from '@services/ElectionContext';
 import {ProgressSteps, creationSteps} from '@components/CreationSteps';
 import {GetStaticProps} from 'next';
-import {ElectionPayload} from '@services/api';
+import {ElectionPayload, ErrorPayload} from '@services/api';
 
 
 export const getStaticProps: GetStaticProps = async ({locale}) => ({
@@ -25,6 +25,7 @@ const CreateElectionForm = () => {
    */
   const [wait, setWait] = useState(false);
   const [payload, setPayload] = useState<ElectionPayload | null>(null);
+  const [error, setError] = useState<ErrorPayload | null>(null);
 
   const handleSubmit = () => {
     if (stepId < creationSteps.length - 1) {
@@ -48,7 +49,8 @@ const CreateElectionForm = () => {
     Step = (
       <ConfirmField
         onSubmit={handleSubmit}
-        onCreatedElection={setPayload}
+        onSuccess={setPayload}
+        onFailure={setError}
         goToCandidates={() => setStepId(0)}
         goToParams={() => setStepId(1)}
       />
@@ -59,7 +61,7 @@ const CreateElectionForm = () => {
 
   if (wait) {
     return <PatternedBackground>
-      <WaitingBallot election={payload} />
+      <WaitingBallot election={payload} error={error} />
     </PatternedBackground>
   }
 

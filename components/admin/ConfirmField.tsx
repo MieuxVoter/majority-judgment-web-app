@@ -1,31 +1,23 @@
+import {useState} from 'react'
 import {useTranslation} from 'next-i18next';
-import Footer from '@components/layouts/Footer';
-import TrashButton from './TrashButton';
 import {
-  faExclamationTriangle,
-  faCheck,
-  faArrowLeft,
   faPen,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Row,
   Col,
-  Label,
   Container,
 } from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useElection, ElectionContextInterface} from '@services/ElectionContext';
+import ErrorMessage from '@components/Error'
 import CandidateField from './CandidateField';
 import AccessResults from './AccessResults';
 import LimitDate from './LimitDate';
 import Grades from './Grades';
 import Private from './Private';
+import {useElection, ElectionContextInterface} from '@services/ElectionContext';
 import {createElection, ElectionPayload} from '@services/api';
 import {getUrlVote, getUrlResult} from '@services/routes';
 import {GradeItem, CandidateItem} from '@services/type';
@@ -73,7 +65,11 @@ const CandidatesField = () => {
 };
 
 
-const submitElection = (election: ElectionContextInterface, callback) => {
+const submitElection = (
+  election: ElectionContextInterface,
+  successCallback: Function,
+  failureCallback: Function,
+) => {
   const candidates = election.candidates.filter(c => c.active).map((c: CandidateItem) => ({name: c.name, description: c.description, image: c.image}))
   const grades = election.grades.filter(c => c.active).map((g: GradeItem, i: number) => ({name: g.name, value: i}))
 
@@ -102,13 +98,14 @@ const submitElection = (election: ElectionContextInterface, callback) => {
           urlResult,
         );
       }
-      callback(payload);
-    }
+      successCallback(payload);
+    },
+    failureCallback,
   )
 }
 
 
-const ConfirmField = ({onSubmit, onCreatedElection, goToCandidates, goToParams}) => {
+const ConfirmField = ({onSubmit, onSuccess, onFailure, goToCandidates, goToParams}) => {
   const {t} = useTranslation();
   const election = useElection();
 
@@ -116,7 +113,7 @@ const ConfirmField = ({onSubmit, onCreatedElection, goToCandidates, goToParams})
 
     onSubmit();
 
-    submitElection(election, onCreatedElection);
+    submitElection(election, onSuccess, onFailure);
   }
 
   return (
