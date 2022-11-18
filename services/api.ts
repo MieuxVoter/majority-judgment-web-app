@@ -89,7 +89,7 @@ export const getResults = (
 };
 
 
-export const getElectionDetails = (
+export const getElection = (
   pid: string,
   successCallback = null,
   failureCallback = null
@@ -211,3 +211,9 @@ export interface ElectionPayload {
   tokens: Array<string>;
   admin: string;
 }
+
+export interface ResultsPayload extends ElectionPayload {
+  ranking: {[key: string]: number};
+  votes: {[key: string]: Array<number>};
+}
+

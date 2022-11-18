@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import {
-  getDetails,
+  getElection,
   apiErrors,
   ELECTION_NOT_STARTED_ERROR,
 } from '@services/api';
@@ -26,7 +26,7 @@ import config from '../../../next-i18next.config.js';
 import { AnimatePresence, motion } from 'framer-motion';
 export async function getServerSideProps({ query: { pid }, locale }) {
   let [details, translations] = await Promise.all([
-    getDetails(pid, console.log, console.log),
+    getElection(pid, console.log, console.log),
     serverSideTranslations(locale, [], config),
   ]);
 

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Head from 'next/head';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useRouter } from 'next/router';
+import {useTranslation} from 'next-i18next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {
   Container,
@@ -15,37 +15,36 @@ import {
   Table,
   Button,
 } from 'reactstrap';
-import { getResults, getDetails, apiErrors } from '@services/api';
-import { translateGrades } from '@services/grades';
-import Error from '@components/Error';
+import {getResults, getElection, apiErrors, ResultsPayload} from '@services/api';
+import ErrorMessage from '@components/Error';
 import config from '../../../next-i18next.config.js';
 import Footer from '@components/layouts/Footer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
   faChevronRight,
   faChevronUp,
 } from '@fortawesome/free-solid-svg-icons';
 
-export async function getServerSideProps({ query, locale }) {
-  const { pid, tid } = query;
+export async function getServerSideProps({query, locale}) {
+  const {pid, tid} = query;
 
   const [res, details, translations] = await Promise.all([
     getResults(pid),
-    getDetails(pid),
+    getElection(pid),
     serverSideTranslations(locale, [], config),
   ]);
 
   if (typeof res === 'string' || res instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return {props: {err: res.slice(1, -1), ...translations}};
   }
 
   if (typeof details === 'string' || details instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return {props: {err: res.slice(1, -1), ...translations}};
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
-    return { props: { err: 'Unknown error', ...translations } };
+    return {props: {err: 'Unknown error', ...translations}};
   }
 
   return {
@@ -60,22 +59,22 @@ export async function getServerSideProps({ query, locale }) {
   };
 }
 
-const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
-  const { t } = useTranslation();
+interface ResultsInterface {
+  results: ResultsPayload;
+  err: string;
+}
 
-  const newstart = new Date(finish * 1000).toLocaleDateString('fr-FR');
+
+const Results = ({results, err}: ResultsInterface) => {
+  const {t} = useTranslation();
+
+  const newstart = new Date(results.date_end).toLocaleDateString();
 
   if (err && err !== '') {
-    return <Error msg={t(apiErrors(err))} />;
+    return <ErrorMessage msg={t(apiErrors(err))} />;
   }
 
   const router = useRouter();
-
-  const allGrades = translateGrades(t);
-  const grades = allGrades.filter(
-    (grade) => grade.value >= allGrades.length - numGrades
-  );
-  const offsetGrade = grades.length - numGrades;
 
   const colSizeCandidateLg = 4;
   const colSizeCandidateMd = 6;
@@ -88,27 +87,36 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
     typeof window !== 'undefined' && window.location.origin
       ? window.location.origin
       : 'http://localhost';
-  const urlVote = new URL(`/vote/${pid}`, origin);
+  const urlVote = new URL(`/vote/${results.id}`, origin);
 
-  const collapsee = candidates[0].title;
-  const [collapseProfiles, setCollapseProfiles] = useState(false);
+  if (typeof results.candidates === "undefined" || results.candidates.length === 0) {
+    throw Error("No candidates were loaded in this election")
+  }
+
+  // const collapsee = results.candidates[0].name;
+  // const [collapseProfiles, setCollapseProfiles] = useState(false);
   const [collapseGraphics, setCollapseGraphics] = useState(false);
 
   const sum = (seq: Array<number>) =>
     Object.values(seq).reduce((a, b) => a + b, 0);
-  const numVotes =
-    candidates && candidates.length > 0 ? sum(candidates[0].profile) : 1;
-  const gradeIds =
-    candidates && candidates.length > 0
-      ? Object.keys(candidates[0].profile)
-      : [];
+  const anyCandidateName = results.candidates[0].name;
+  const numVotes = sum(results.votes[anyCandidateName]);
+
+  // check each vote contains the same number of votes
+  // TODO move it to a more appropriate location
+  Object.values(results.votes).forEach(v => {
+    if (sum(v) !== numVotes) {
+      throw Error("The election does not contain the same numberof votes for each candidate")
+    }
+  })
+  const gradeIds = results.grades.map(g => g.value);
 
   return (
     <Container className="resultContainer resultPage">
       <Head>
-        <title>{title}</title>
+        <title>{results.name}</title>
         <link rel="icon" href="/favicon.ico" />
-        <meta property="og:title" content={title} />
+        <meta property="og:title" content={results.name} />
       </Head>
       <Row className="sectionHeaderResult componentDesktop mx-0">
         <Col className="col-md-3 sectionHeaderResultLeftCol">
@@ -127,7 +135,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
         </Col>
 
         <Col className="sectionHeaderResultMiddleCol">
-          <h3>{title}</h3>
+          <h3>{results.name}</h3>
         </Col>
 
         <Col className="col-md-3 sectionHeaderResultRightCol">
@@ -148,7 +156,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
 
       <Row className="sectionHeaderResult componentMobile mx-0">
         <Col className="px-0">
-          <h3>{title}</h3>
+          <h3>{results.name}</h3>
         </Col>
         <Row>
           <Col className="sectionHeaderResultSideCol">
@@ -166,7 +174,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
         <Row className="mt-5 componentDesktop">
           <Col>
             <ol className="result px-0">
-              {candidates.map((candidate, i) => {
+              { /*              {results.candidates.map((candidate, i) => {
                 const gradeValue = candidate.grade + offsetGrade;
                 return (
                   <li key={i} className="mt-2">
@@ -186,13 +194,14 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
                   </li>
                 );
               })}
+                */}
             </ol>
           </Col>
         </Row>
 
         <Row className="mt-5">
           <Col>
-            <h5>
+            {/* <h5>
               <small>{t('Détails des résultats')}</small>
             </h5>
             {candidates.map((candidate, i) => {
@@ -249,13 +258,12 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
                           <div>
                             <div
                               className="median"
-                              style={{ height: '40px' }}
+                              style={{height: '40px'}}
                             />
-                            <div style={{ width: '100%' }}>
+                            <div style={{width: '100%'}}>
                               <div key={i}>
-                                {/*candidate.label*/}
 
-                                <div style={{ width: '100%' }}>
+                                <div style={{width: '100%'}}>
                                   {gradeIds
                                     .slice(0)
                                     .reverse()
@@ -305,6 +313,7 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
                 </Card>
               );
             })}
+            */}
           </Col>
         </Row>
         <div className="componentMobile mt-5">
@@ -326,4 +335,5 @@ const Result = ({ candidates, numGrades, title, pid, err, finish }) => {
     </Container>
   );
 };
-export default Result;
+
+export default Results;

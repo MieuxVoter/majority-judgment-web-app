@@ -5,7 +5,7 @@ import {createContext, useContext, useReducer, useEffect, Dispatch, SetStateActi
 import {useRouter} from 'next/router';
 import {CandidateItem, GradeItem} from './type';
 
-interface ElectionContextInterface {
+export interface ElectionContextInterface {
   name: string;
   description: string;
   candidates: Array<CandidateItem>;

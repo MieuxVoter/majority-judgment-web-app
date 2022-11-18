@@ -1,8 +1,8 @@
-import { useState, useCallback, useEffect } from 'react';
+import {useState, useCallback, useEffect} from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
+import {useRouter} from 'next/router';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useTranslation} from 'next-i18next';
 import {
   Button,
   Col,
@@ -14,11 +14,10 @@ import {
 } from 'reactstrap';
 import Link from 'next/link';
 // import {toast, ToastContainer} from "react-toastify";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { getDetails, castBallot, apiErrors } from '@services/api';
-import Error from '@components/Error';
-import { translateGrades } from '@services/grades';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import {getElection, castBallot, apiErrors, ElectionPayload} from '@services/api';
+import ErrorMessage from '@components/Error';
 import Footer from '@components/layouts/Footer';
 import useEmblaCarousel from 'embla-carousel-react';
 import {
@@ -27,21 +26,22 @@ import {
   NextButton,
 } from '@components/admin/EmblaCarouselButtons';
 import VoteButtonWithConfirm from '@components/admin/VoteButtonWithConfirm';
+import {getGradeColor} from '@services/grades';
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
-export async function getServerSideProps({ query: { pid, tid }, locale }) {
+export async function getServerSideProps({query: {pid, tid}, locale}) {
   const [details, translations] = await Promise.all([
-    getDetails(pid),
+    getElection(pid),
     serverSideTranslations(locale, ['resource']),
   ]);
 
   if (typeof details === 'string' || details instanceof String) {
-    return { props: { err: details, ...translations } };
+    return {props: {err: details, ...translations}};
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
-    return { props: { err: 'Unknown error', ...translations } };
+    return {props: {err: 'Unknown error', ...translations}};
   }
 
   shuffle(details.candidates);
@@ -53,7 +53,7 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
       restrictResults: details.restrict_results,
       candidates: details.candidates.map((name, i, infos) => ({
         id: i,
-        label: name,
+        name: name,
         description: infos,
       })),
       title: details.title,
@@ -64,13 +64,20 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
   };
 }
 
-const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
-  const { t } = useTranslation();
+interface VoteInterface {
+  election: ElectionPayload;
+  err: string;
+  token?: string;
+}
+
+const VoteBallot = ({election, err, token}: VoteInterface) => {
+  const {t} = useTranslation();
 
   if (err) {
-    return <Error msg={t(apiErrors(err))} />;
+    return <ErrorMessage msg={t(apiErrors(err))} />;
   }
 
+  const numGrades = election.grades.length;
   const [judgments, setJudgments] = useState([]);
   const colSizeCandidateLg = 4;
   const colSizeCandidateMd = 6;
@@ -80,11 +87,6 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
   const colSizeGradeXs = Math.floor((12 - colSizeCandidateXs) / numGrades);
 
   const router = useRouter();
-
-  const allGrades = translateGrades(t);
-  const grades = allGrades.filter(
-    (grade) => grade.value >= allGrades.length - numGrades
-  );
 
   const handleGradeClick = (event) => {
     let data = {
@@ -115,8 +117,8 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
       gradesByCandidate.push(gradesById[id]);
     });
 
-    castBallot(gradesByCandidate, pid, token, () => {
-      router.push(`/vote/${pid}/confirm`);
+    castBallot(gradesByCandidate, election.id.toString(), token, () => {
+      router.push(`/vote/${election.id}/confirm`);
     });
   };
   const toggle = () => setVisibility(!visibled);
@@ -126,7 +128,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
   const toggleDesktop = () => setVisibilityDesktop(!visibledDesktop);
   const [visibledDesktop, setVisibilityDesktop] = useState(false);
 
-  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false });
+  const [viewportRef, embla] = useEmblaCarousel({skipSnaps: false});
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -156,10 +158,9 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
   return (
     <Container className="homePage">
       <Head>
-        <title>{title}</title>
+        <title>{election.name}</title>
 
-        <title>{title}</title>
-        <meta key="og:title" property="og:title" content={title} />
+        <meta key="og:title" property="og:title" content={election.name} />
         <meta
           property="og:description"
           key="og:description"
@@ -312,20 +313,21 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
         className="modalVote voteDesktop"
       >
         <div className="my-auto">
-          <ModalHeader className="modalVoteHeader">{title}</ModalHeader>
+          <ModalHeader className="modalVoteHeader">{election.name}</ModalHeader>
           <ModalBody className="modalVoteBody">
             <form onSubmit={handleSubmit} autoComplete="off">
-              {candidates.map((candidate, candidateId) => {
+              {election.candidates.map((candidate, candidateId) => {
                 return (
                   <Row key={candidateId} className="cardVote">
                     <Col className="cardVoteLabel">
-                      <h5 className="m-0">{candidate.label}</h5>
-                      <h5 className="m-0">{candidate.infos}</h5>
+                      <h5 className="m-0">{candidate.name}</h5>
+                      <h5 className="m-0">{candidate.description}</h5>
                     </Col>
                     <Col className="cardVoteGrades">
-                      {grades.map((grade, gradeId) => {
+                      {election.grades.map((grade, gradeId) => {
                         console.assert(gradeId < numGrades);
                         const gradeValue = grade.value;
+                        const color = getGradeColor(gradeId, numGrades);
                         return (
                           <Col
                             key={gradeId}
@@ -353,16 +355,16 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                     );
                                   })
                                     ? {
-                                        backgroundColor: grade.color,
-                                        color: '#fff',
-                                      }
+                                      backgroundColor: color,
+                                      color: '#fff',
+                                    }
                                     : {
-                                        backgroundColor: 'transparent',
-                                        color: '#000',
-                                      }
+                                      backgroundColor: 'transparent',
+                                      color: '#000',
+                                    }
                                 }
                               >
-                                {grade.label}
+                                {grade.name}
                               </small>
                               <input
                                 type="radio"
@@ -400,13 +402,13 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                     );
                                   })
                                     ? {
-                                        backgroundColor: grade.color,
-                                        color: '#fff',
-                                      }
+                                      backgroundColor: color,
+                                      color: '#fff',
+                                    }
                                     : {
-                                        backgroundColor: '#C3BFD8',
-                                        color: '#000',
-                                      }
+                                      backgroundColor: '#C3BFD8',
+                                      color: '#000',
+                                    }
                                 }
                               >
                                 <small
@@ -416,7 +418,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                     color: '#fff',
                                   }}
                                 >
-                                  {grade.label}
+                                  {grade.name}
                                 </small>
                               </span>
                             </label>
@@ -430,7 +432,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
 
               <Row>
                 <Col className="text-center">
-                  {judgments.length !== candidates.length ? (
+                  {judgments.length !== election.candidates.length ? (
                     <VoteButtonWithConfirm
                       action={handleSubmitWithoutAllRate}
                     />
@@ -454,23 +456,24 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
         className="modalVote voteMobile"
       >
         <div className="my-auto">
-          <ModalHeader className="modalVoteHeader">{title}</ModalHeader>
+          <ModalHeader className="modalVoteHeader">{election.name}</ModalHeader>
           <ModalBody className="modalVoteBody">
             <form onSubmit={handleSubmit} autoComplete="off">
               <div className="embla" ref={viewportRef}>
                 <div className="embla__container">
-                  {candidates.map((candidate, candidateId) => {
+                  {election.candidates.map((candidate, candidateId) => {
                     return (
                       <div className="embla__slide">
                         <Row key={candidateId} className="cardVote">
                           <Col className="cardVoteLabel mb-3">
-                            <h5 className="m-0">{candidate.label}</h5>
+                            <h5 className="m-0">{candidate.name}</h5>
                             <h5 className="m-0">{candidate.id + 1}</h5>
                           </Col>
                           <Col className="cardVoteGrades">
-                            {grades.map((grade, gradeId) => {
+                            {election.grades.map((grade, gradeId) => {
                               console.assert(gradeId < numGrades);
                               const gradeValue = grade.value;
+                              const color = getGradeColor(gradeId, numGrades);
                               return (
                                 <Col
                                   key={gradeId}
@@ -498,16 +501,16 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                           );
                                         })
                                           ? {
-                                              backgroundColor: grade.color,
-                                              color: '#fff',
-                                            }
+                                            backgroundColor: color,
+                                            color: '#fff',
+                                          }
                                           : {
-                                              backgroundColor: 'transparent',
-                                              color: '#000',
-                                            }
+                                            backgroundColor: 'transparent',
+                                            color: '#000',
+                                          }
                                       }
                                     >
-                                      {grade.label}
+                                      {grade.name}
                                     </small>
                                     <input
                                       type="radio"
@@ -547,13 +550,13 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                           );
                                         })
                                           ? {
-                                              backgroundColor: grade.color,
-                                              color: '#fff',
-                                            }
+                                            backgroundColor: color,
+                                            color: '#fff',
+                                          }
                                           : {
-                                              backgroundColor: '#C3BFD8',
-                                              color: '#000',
-                                            }
+                                            backgroundColor: '#C3BFD8',
+                                            color: '#000',
+                                          }
                                       }
                                     >
                                       <small
@@ -563,7 +566,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
                                           color: '#fff',
                                         }}
                                       >
-                                        {grade.label}
+                                        {grade.name}
                                       </small>
                                     </span>
                                   </label>
@@ -606,7 +609,7 @@ const VoteBallot = ({ candidates, title, numGrades, pid, err, token }) => {
         </div>
         <Row className="btn-background mx-0">
           <Col className="text-center">
-            {judgments.length !== candidates.length ? (
+            {judgments.length !== election.candidates.length ? (
               <VoteButtonWithConfirm action={handleSubmitWithoutAllRate} />
             ) : (
               <Button type="submit" className="my-3 btn btn-transparent">

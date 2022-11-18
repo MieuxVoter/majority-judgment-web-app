@@ -8,13 +8,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 // import PaypalNoLogo from "@components/banner/PaypalNoLogo";
 import Gform from '@components/banner/Gform';
 import Error from '@components/Error';
-import { getDetails, apiErrors } from '@services/api';
+import { getElection, apiErrors } from '@services/api';
 import config from '../../../next-i18next.config.js';
 import { motion } from 'framer-motion';
 
 export async function getServerSideProps({ query: { pid }, locale }) {
   const [details, translations] = await Promise.all([
-    getDetails(pid),
+    getElection(pid),
     serverSideTranslations(locale, [], config),
   ]);
 

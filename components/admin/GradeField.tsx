@@ -9,7 +9,7 @@ import {
   faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import {useElection, useElectionDispatch} from '@services/ElectionContext';
-import {gradeColors} from '@services/grades';
+import {getGradeColor, gradeColors} from '@services/grades';
 import {useSortable} from '@dnd-kit/sortable';
 
 
@@ -79,15 +79,3 @@ export default ({value}: GradeInterface) => {
 };
 
 
-const getGradeColor = (gradeIdx: number, numGrades: number): string => {
-  const extraColors = gradeColors.length - numGrades;
-  if (extraColors < 0) {
-    throw Error("More grades than available colors");
-  }
-  const startIndex = Math.floor(extraColors / 2);
-  const colors = gradeColors.slice(startIndex, gradeColors.length - (extraColors - startIndex));
-  if (colors.length < numGrades) {
-    throw Error("Issue with the number of colors");
-  }
-  return colors[colors.length - gradeIdx - 1]
-}
