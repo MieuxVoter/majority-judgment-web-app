@@ -50,6 +50,7 @@ const TitleField = () => {
 const CandidatesField = () => {
   const {t} = useTranslation();
   const election = useElection();
+
   return (
     <Container className="bg-white p-4 mt-3 mt-md-0">
       <Row>
@@ -101,7 +102,7 @@ const submitElection = (election: ElectionContextInterface, callback) => {
           urlResult,
         );
       }
-      callback();
+      callback(payload);
     }
   )
 }

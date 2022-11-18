@@ -51,15 +51,17 @@ const Grades = () => {
   const [endDate, setEndDate] = useState(defaultEndDate);
 
   useEffect(() => {
-    dispatch({
-      type: 'set',
-      field: 'grades',
-      value: DEFAULT_GRADES.map((g, i) => ({
-        name: t(g),
-        value: i,
-        active: true,
-      })),
-    });
+    if (election.grades.length < 2) {
+      dispatch({
+        type: 'set',
+        field: 'grades',
+        value: DEFAULT_GRADES.map((g, i) => ({
+          name: t(g),
+          value: i,
+          active: true,
+        })),
+      });
+    }
   }, []);
 
   const election = useElection();

@@ -34,11 +34,6 @@ const CreateElectionForm = () => {
     }
   };
 
-  if (wait) {
-    return <PatternedBackground>
-      <WaitingBallot election={payload} />
-    </PatternedBackground>
-  }
 
   // at which creation step are we?
   const [stepId, setStepId] = useState(0);
@@ -60,6 +55,12 @@ const CreateElectionForm = () => {
     );
   } else {
     throw Error(`Unknown step ${step}`);
+  }
+
+  if (wait) {
+    return <PatternedBackground>
+      <WaitingBallot election={payload} />
+    </PatternedBackground>
   }
 
   return (
