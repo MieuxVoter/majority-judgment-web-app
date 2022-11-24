@@ -1,7 +1,6 @@
-import { isValidElement } from 'react';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Row, Col, Button } from 'reactstrap';
+import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Row, Col, Button} from 'reactstrap';
 
 interface ButtonProps {
   children?: React.ReactNode;
@@ -31,7 +30,7 @@ const ButtonWithIcon = ({
   } else if ((icon || customIcon) && position === 'right') {
     return (
       <Button {...props}>
-        <Row className="gx-2 align-items-end">
+        <Row className="gx-2 align-items-end justify-content-between">
           <Col className="col-auto">{children}</Col>
           <Col className="col-auto">
             {customIcon ? customIcon : <FontAwesomeIcon icon={icon} />}

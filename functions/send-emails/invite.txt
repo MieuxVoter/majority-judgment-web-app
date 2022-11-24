@@ -4,7 +4,7 @@
 
 {{#i18n 'email.why'}}This email was sent to you because your email was filled out to participate in the vote on the subject:{{/i18n}}
 
-{{ title }}
+%recipient.title%
 
 {{#i18n 'email.linkVote' }}The link for the vote is as follows:{{/i18n}}
 

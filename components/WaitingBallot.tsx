@@ -4,11 +4,13 @@ import {CSSProperties, useEffect, useState} from 'react';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Button from '@components/Button';
+import ButtonCopy from '@components/ButtonCopy';
 import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
 import {ElectionPayload, ErrorPayload} from '@services/api';
 import {useAppContext} from '@services/context';
+import {getUrlVote, getUrlResults} from '@services/routes';
 import urne from '../public/urne.svg'
 import star from '../public/star.svg'
 import {Container} from 'reactstrap';
@@ -19,20 +21,82 @@ export interface WaitingBallotInterface {
   error?: ErrorPayload;
 }
 
+interface InfoElectionInterface extends WaitingBallotInterface {
+  display: string;
+}
+
+const InfoElection = ({election, error, display}: InfoElectionInterface) => {
+  const {t} = useTranslation();
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(m => !m);
+
+
+  if (!election) return null;
+
+  const urlVote = getUrlVote(election.id)
+  const urlResults = getUrlResults(election.id)
+
+  return (
+    <div style={{
+      display: display,
+      transition: "display 2s",
+    }}
+      className="d-flex flex-column align-items-center"
+    >
+      {error && error.detail ?
+        <ErrorMessage msg={error.detail[0].msg} /> : null}
+
+      {election && election.id ?
+        <>
+          <h4 className="text-center">
+            {t('admin.success-election')}
+          </h4>
+
+          {election && election.private ?
+            <h5 className="text-center">
+              {t('admin.success-emails')}
+            </h5>
+            : <div className="d-grid w-100">
+              <ButtonCopy
+                text={t('admin.modal-copy-vote')}
+                content={urlVote}
+              />
+              <ButtonCopy
+                text={t('admin.modal-copy-vote')}
+                content={urlResults}
+              />
+            </div>}
+          <Button
+            customIcon={<FontAwesomeIcon icon={faArrowRight} />}
+            position="right"
+            color="secondary"
+            outline={true}
+            onClick={toggleModal}
+            className="mt-3 py-3 px-4"
+          >
+            {t('admin.go-to-admin')}
+          </Button>
+          <Share title={t('common.share-short')} />
+          <AdminModalEmail
+            toggle={toggleModal}
+            isOpen={modal}
+            electionId={election.id}
+            adminToken={election.admin}
+          />
+        </> : null}
+    </div>
+  )
+}
 
 export default ({election, error}: WaitingBallotInterface) => {
   const {setApp} = useAppContext();
-  const [modal, setModal] = useState(false);
-  const toggleModal = () => setModal(m => !m);
-  console.log("election", election)
-  console.log("error", error)
 
   const [urneProperties, setUrne] = useState<CSSProperties>({width: 0, height: 0, marginBottom: 0});
   const [starProperties, setStar] = useState<CSSProperties>({width: 0, height: 0, marginLeft: 100, marginBottom: 0});
   const [urneContainerProperties, setUrneContainer] = useState<CSSProperties>({height: "100vh"});
   const [electionProperties, setElection] = useState<CSSProperties>({display: "none"});
 
-  const {t} = useTranslation();
 
   useEffect(() => {
     setApp({footer: false});
@@ -134,44 +198,6 @@ export default ({election, error}: WaitingBallotInterface) => {
         />
       </div>
     </div>
-    <div style={{
-      display: electionProperties.display,
-      transition: "display 2s",
-    }}
-      className="d-flex flex-column align-items-center"
-    >
-      {error && error.detail ?
-        <ErrorMessage msg={error.detail[0].msg} /> : null}
-
-      {election && election.id ?
-        <>
-          <h4 className="text-center">
-            {t('admin.success-election')}
-          </h4>
-
-          {election && election.private ?
-            <h5 className="text-center">
-              {t('admin.success-emails')}
-            </h5>
-            : null}
-          <Button
-            customIcon={<FontAwesomeIcon icon={faArrowRight} />}
-            position="right"
-            color="secondary"
-            outline={true}
-            onClick={toggleModal}
-            className="mt-3 py-3 px-4"
-          >
-            {t('admin.go-to-admin')}
-          </Button>
-          <Share title={t('common.share-short')} />
-          <AdminModalEmail
-            toggle={toggleModal}
-            isOpen={modal}
-            electionId={election.id}
-            adminToken={election.admin}
-          />
-        </> : null}
-    </div>
+    <InfoElection election={election} error={error} display={electionProperties.display} />
   </Container >)
 }

@@ -23,7 +23,7 @@ const Header = () => {
       <Image
         onClick={toggle}
         role="button"
-        className="btn_menu"
+        className="btn_menu d-md-none"
         src={openMenuIcon}
         alt="open menu icon"
         height="50"

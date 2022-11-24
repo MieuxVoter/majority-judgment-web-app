@@ -26,19 +26,3 @@ export const getWindowUrl = (): string => {
     : 'http://localhost';
 }
 
-
-export const getUrlVote = (electionId: string, token: string): URL => {
-  const origin = getWindowUrl();
-  return new URL(`/vote/${electionId}/${token}`, origin);
-}
-
-export const getUrlResult = (electionId: string): URL => {
-  const origin = getWindowUrl();
-  return new URL(`/result/${electionId}`, origin);
-}
-
-export const getUrlConfirm = (electionId: string): URL => {
-  const origin = getWindowUrl();
-  return new URL(`/admin/confirm/${electionId}`, origin);
-}
-

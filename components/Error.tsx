@@ -12,7 +12,7 @@ const Error = ({msg}) => {
   return (
     <Container className="full-height-container">
       <h4>{t("common.error")}</h4>
-      <div className="text-black text-center shadow-lg border-dark border-2 p-3 my-3 bg-white">{msg}</div>
+      <div className="text-black text-center shadow-lg border-dark border border-2 p-3 my-3 bg-white">{msg}</div>
 
       <a
         href={`mailto:${CONTACT_MAIL}?subject=[HELP]`}

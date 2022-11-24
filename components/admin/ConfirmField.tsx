@@ -19,7 +19,7 @@ import Grades from './Grades';
 import Private from './Private';
 import {useElection, ElectionContextInterface} from '@services/ElectionContext';
 import {createElection, ElectionPayload} from '@services/api';
-import {getUrlVote, getUrlResult} from '@services/routes';
+import {getUrlVote, getUrlResults} from '@services/routes';
 import {GradeItem, CandidateItem} from '@services/type';
 import {sendInviteMails} from '@services/mail';
 
@@ -90,7 +90,7 @@ const submitElection = (
           throw Error('Can not send invite emails');
         }
         const urlVotes = payload.tokens.map((token: string) => getUrlVote(id.toString(), token));
-        const urlResult = getUrlResult(id.toString());
+        const urlResult = getUrlResults(id.toString());
         await sendInviteMails(
           election.emails,
           election.name,
