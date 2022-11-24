@@ -3,9 +3,9 @@ import {Handler} from "@netlify/functions";
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import Handlebars from 'handlebars';
-import {i18n} from '../../next-i18next.config.js';
+import {i18n} from '../i18next.config';
 import i18next from 'i18next';
-import {MailgunMessageData} from "mailgun.js/interfaces/Messages.js";
+import {MailgunMessageData, MessagesSendResult} from "mailgun.js/interfaces/Messages.js";
 
 
 const {
@@ -15,6 +15,7 @@ const {
   FROM_EMAIL_ADDRESS,
   REPLY_TO_EMAIL_ADDRESS,
 } = process.env;
+console.log("MAILGUN URL", MAILGUN_URL)
 
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
@@ -23,15 +24,9 @@ const mg = mailgun.client({
   url: MAILGUN_URL
 });
 
-const txtStr = fs.readFileSync(__dirname + "/invite.txt").toString()
 
-
-i18next.init({
-  fallbackLng: 'en',
-  ns: ['file1', 'file2'],
-  defaultNS: 'file1',
-  debug: true
-}, (err, t) => {
+console.log("I18N config", i18n)
+i18next.init(i18n, (err, t) => {
   if (err) return console.log('something went wrong loading', err);
   t("foo");
 });
@@ -39,6 +34,8 @@ i18next.init({
 
 Handlebars.registerHelper('i18n',
   (str: string): string => {
+    console.log("I18N", str)
+    console.log("I18Next", i18next, i18next.t)
     return (i18next != undefined ? i18next.t(str) : str);
   }
 );
@@ -46,7 +43,6 @@ Handlebars.registerHelper('i18n',
 
 interface RequestPayload {
   recipients: {[email: string]: {[key: string]: string}};
-  options: any;
   locale: string;
   action: "invite" | "admin";
 }
@@ -55,6 +51,7 @@ const handler: Handler = async (event) => {
   /**
    * Send a mail using Mailgun
    */
+
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -63,7 +60,7 @@ const handler: Handler = async (event) => {
     };
   }
 
-  const {recipients, options, action, locale} = JSON.parse(event.body) as RequestPayload;
+  const {recipients, action, locale} = JSON.parse(event.body) as RequestPayload;
 
   if (!recipients) {
     return {
@@ -79,49 +76,72 @@ const handler: Handler = async (event) => {
     };
   }
 
-  if (!locale || !["fr", "gb"].includes(locale)) {
+  if (!locale || !["fr", "en"].includes(locale)) {
     return {
       statusCode: 422,
       body: 'Unknown locale.',
     };
   }
 
-  // TODO setup locale
+  const err = await i18next.changeLanguage(locale, (err, t) => {
 
-  const htmlTemplate = "FOO"; //fs.readFileSync(`${__dirname}/${action}.txt`).toString();
-  const htmlContent = Handlebars.compile(htmlTemplate);
+    if (err) return {"error": err}
+  });
+  if (err && err["error"]) {
+    return {statusCode: 200, ...err["error"]}
+  }
+
+  const templates = ["txt", "html"].map(ext =>
+    fs.readFileSync(`${__dirname}/${action}.${ext}`).toString());
+  const contents = templates.map(tpl => Handlebars.compile(tpl)({from_email_address: FROM_EMAIL_ADDRESS}));
 
   const payload: MailgunMessageData = {
-    // from: `${i18next.t("Mieux Voter")} <mailgun@mg.app.mieuxvoter.fr>`,
+    // from: `${i18next.t("Mieux Voter")} <mailgun@>`,
     from: FROM_EMAIL_ADDRESS || '"Mieux Voter" <postmaster@mg.app.mieuxvoter.fr>',
     to: Object.keys(recipients),
-    subject: i18next.t(`emails.subject-${action}`),
-    html: htmlContent({}),
+    subject: i18next.t(`email.${action}.subject`),
+    txt: contents[0],
+    html: contents[1],
     'h:Reply-To': REPLY_TO_EMAIL_ADDRESS || 'app@mieuxvoter.fr',
     'o:tag': action,
     'o:require-tls': true,
     'o:dkim': true,
     'recipient-variables': JSON.stringify(recipients),
   };
-  console.log(payload)
 
   try {
-    const res = await mg.messages.create(MAILGUN_DOMAIN, payload)
+    const res: MessagesSendResult = await mg.messages.create(MAILGUN_DOMAIN, payload)
+
+    if (res.status != 200) {
+      return {
+        statusCode: res.status,
+        body: JSON.stringify(
+          {
+            "message": res.message,
+            "details": res.details,
+          }
+        )
+      }
+
+    }
     return {
       statusCode: 200,
       body: JSON.stringify(
         {
-          ...res,
-          "status": `${recipients.length} emails were sent.`,
+          "message": res.message,
+          "details": res.details,
+          "status": "200",
+          "results": `${Object.keys(recipients).length} emails were sent.`,
         }
       )
     }
-  } catch {
+  } catch (error) {
     return {
       statusCode: 422,
       body: JSON.stringify(
         {
-          "status": "can not send the message"
+          "status": "423",
+          ...error
         }
       )
     }

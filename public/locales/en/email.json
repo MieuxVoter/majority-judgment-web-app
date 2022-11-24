@@ -1,0 +1,16 @@
+{
+	"email.hello": "Hi there! 🙂",
+	"email.invite.subject": "You are invited to vote",
+	"email.invite.happy": "We are happy to send you this email! You will be able to vote using majority judgment.",
+	"email.invite.why": "This email was sent to you because your email was filled out to participate in the vote on the subject:",
+	"email.invite.linkVote": "The link for the vote is as follows:",
+	"email.invite.linkResult": "The link that will give you the results when they are available is as follows:",
+	"email.invite.bye": "Good bye",
+	"email.admin.subject": "Manage your election",
+	"email.admin.happy": "We are happy to send you this email! You have created a vote using majority judgment.",
+	"email.admin.why": "This email was sent to you since you have asked us to send the admin link",
+	"email.admin.linkAdmin": "The below admin link allows you to manage your election.",
+	"email.bye": "Good bye",
+	"email.copyLink": "If that doesn't work, copy and paste the following link into your browser:",
+	"email.about-mj": "Need any further information?"
+}

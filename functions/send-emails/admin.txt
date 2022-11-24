@@ -1,0 +1,15 @@
+{{#i18n 'email.hello'}}{{/i18n}}
+
+{{#i18n 'email.admin.happy'}}{{/i18n}}
+
+{{#i18n 'email.admin.why'}}{{/i18n}}
+
+%recipient.title%
+
+{{#i18n 'email.admin.linkAdmin' }}{{/i18n}}
+
+%recipient.urlAdmin%
+
+{{#i18n 'email.bye'}}{{/i18n}}
+
+{{#i18n 'common.better-vote'}}{{/i18n}}

@@ -15,5 +15,20 @@ else
 fi
 
 
-netlify functions:invoke --port 9999 send-emails --payload '{"recipients"
-: {"pierrelouisguhur@gmail.com": {"title": "Test", "adminUrl": "foo"}}, "action": "invite", "locale": "gb"}'
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+send_emails () {
+	res=$(netlify functions:invoke --port 9999 send-emails --payload "$(cat $1)")
+	echo "$res"
+	# status=$(echo "$res" | head -n 1 | cut -d ','  -f 1 | cut -d ':' -f 2)
+	status=$(echo "$res" | jq '.["status"]')
+	if [ "$status" != '"200"' ]; then
+		echo "Issue with $1";
+		exit 2
+	fi
+}
+	
+send_emails $SCRIPT_DIR/invite-en.json # && \
+#send_emails $SCRIPT_DIR/invite-fr.json && \
+#send_emails $SCRIPT_DIR/admin-en.json && \
+#send_emails $SCRIPT_DIR/admin-fr.json

@@ -6,3 +6,6 @@
 [dev]
   command = "npm run dev"
 
+[functions]
+  included_files = ["functions/**"]
+
