@@ -17,11 +17,13 @@ import AccessResults from './AccessResults';
 import LimitDate from './LimitDate';
 import Grades from './Grades';
 import Private from './Private';
+import Order from './Order';
 import {useElection, ElectionContextInterface} from '@services/ElectionContext';
 import {createElection, ElectionPayload} from '@services/api';
 import {getUrlVote, getUrlResults} from '@services/routes';
 import {GradeItem, CandidateItem} from '@services/type';
 import {sendInviteMails} from '@services/mail';
+import {gradeColors} from '@services/grades';
 
 
 const TitleField = () => {
@@ -82,6 +84,7 @@ const submitElection = (
     election.hideResults,
     election.forceClose,
     election.restricted,
+    election.randomOrder,
     async (payload: ElectionPayload) => {
       const id = payload.id;
       const tokens = payload.tokens;
@@ -116,6 +119,14 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure, goToCandidates, goToParam
     submitElection(election, onSuccess, onFailure);
   }
 
+  const numCandidates = election.candidates.filter(c => c.active && c.name != "").length;
+  const numGrades = election.grades.filter(g => g.active && g.name != "").length;
+  const disabled = (
+    !election.name || election.name == "" ||
+    numCandidates < 2 ||
+    numGrades < 2 || numGrades > gradeColors.length
+  )
+
   return (
     <Container
       fluid="xl"
@@ -139,6 +150,7 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure, goToCandidates, goToParam
           <AccessResults />
           <LimitDate />
           <Grades />
+          <Order />
           <Private />
         </Col>
       </Row>
@@ -147,6 +159,7 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure, goToCandidates, goToParam
           outline={true}
           color="secondary"
           className="bg-blue"
+          disabled={disabled}
           onClick={handleSubmit}
           icon={faArrowRight}
           position="right"

@@ -28,7 +28,7 @@ send_emails () {
 	fi
 }
 	
-send_emails $SCRIPT_DIR/invite-en.json # && \
-#send_emails $SCRIPT_DIR/invite-fr.json && \
-#send_emails $SCRIPT_DIR/admin-en.json && \
-#send_emails $SCRIPT_DIR/admin-fr.json
+send_emails $SCRIPT_DIR/invite-en.json  && \
+send_emails $SCRIPT_DIR/invite-fr.json && \
+send_emails $SCRIPT_DIR/admin-en.json && \
+send_emails $SCRIPT_DIR/admin-fr.json

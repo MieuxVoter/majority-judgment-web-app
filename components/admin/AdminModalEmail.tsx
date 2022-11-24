@@ -6,6 +6,7 @@ import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
 import {sendAdminMail, validateMail} from '@services/mail';
 import {getUrlAdmin} from '@services/routes';
+import {useElection} from '@services/ElectionContext';
 
 
 interface AdminModalEmailInterface {
@@ -18,8 +19,8 @@ interface AdminModalEmailInterface {
 const AdminModalEmail = ({isOpen, toggle, electionId, adminToken}: AdminModalEmailInterface) => {
   const {t} = useTranslation();
   const [email, setEmail] = useState(undefined);
+  const election = useElection();
 
-  console.log(electionId)
   const adminUrl = electionId && adminToken ? getUrlAdmin(electionId.toString(), adminToken) : null;
 
   const handleEmail = (e) => {
@@ -27,10 +28,10 @@ const AdminModalEmail = ({isOpen, toggle, electionId, adminToken}: AdminModalEma
   }
 
   const handleSubmit = () => {
-    sendAdminMail(email, adminUrl);
+    sendAdminMail(email, election.name, adminUrl);
   };
 
-  const disabled = !email;
+  const disabled = !email || !validateMail(email);
 
   return (
     <Modal
@@ -52,7 +53,9 @@ const AdminModalEmail = ({isOpen, toggle, electionId, adminToken}: AdminModalEma
       <ModalBody className="p-4">
         <p>{t('admin.modal-desc')}</p>
         <p className="text-muted">{t('admin.modal-disclaimer')}</p>
-        <ButtonCopy text={t('admin.modal-copy')} content={adminUrl} />
+        <div className="d-grid w-100 mb-5">
+          <ButtonCopy text={t('admin.success-copy-admin')} content={adminUrl} />
+        </div>
         <Form className="container container-fluid">
           <div className="mb-3">
             <Input

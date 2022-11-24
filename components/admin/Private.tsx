@@ -1,5 +1,5 @@
 /**
- * A field to update the grades
+ * A field to set the privacy and add emails
  */
 import {useState} from 'react';
 import {useTranslation} from 'next-i18next';

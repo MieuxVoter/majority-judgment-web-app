@@ -19,11 +19,12 @@ export const createElection = async (
   name: string,
   candidates: Array<Candidate>,
   grades: Array<Grade>,
-  description: string = "",
-  numVoters: number = 0,
-  hideResults: boolean = true,
-  forceClose: boolean = false,
-  restricted: boolean = false,
+  description: string,
+  numVoters: number,
+  hideResults: boolean,
+  forceClose: boolean,
+  restricted: boolean,
+  randomOrder: boolean,
   successCallback: Function = null,
   failureCallback: Function = console.log
 ) => {
@@ -49,6 +50,7 @@ export const createElection = async (
         grades,
         hide_results: hideResults,
         force_close: forceClose,
+        random_order: randomOrder,
         private: restricted,
       }),
     })

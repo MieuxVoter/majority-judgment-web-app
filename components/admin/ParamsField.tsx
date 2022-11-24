@@ -5,6 +5,7 @@ import Button from '@components/Button';
 import Grades from './Grades';
 import LimitDate from './LimitDate';
 import AccessResults from './AccessResults';
+import Order from './Order';
 import Private from './Private';
 import {useElection} from '@services/ElectionContext';
 
@@ -24,6 +25,7 @@ const ParamsField = ({onSubmit}) => {
           <AccessResults />
           <LimitDate />
           <Grades />
+          <Order />
           <Private />
         </div>
         <Container className="my-5 d-md-flex d-grid justify-content-md-center">

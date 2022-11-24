@@ -86,6 +86,8 @@
 	"admin.grades-desc": "Vous pouvez choisir de personaliser le nom et le nombre de mentions. En cas de doute, gardez les mentions par défaut.",
 	"admin.ending-in": "Dans",
 	"admin.until": "Jusqu'au",
+	"admin.order-title": "Ordre aléatoire",
+	"admin.order-desc": "Pour éviter un biais cognitif, nous recommendons que les candidats apparaissent dans un ordre aléatoire sur le bulletin de vote.",
 	"admin.private-title": "Vote privé",
 	"admin.private-desc": "Uniquement les personnes invités par mail pourront participé au vote",
 	"admin.private-tip": "Vous pouvez copier-coller une liste d'emails depuis un tableur.",
@@ -96,5 +98,8 @@
 	"admin.confirm-title": "Confirmer votre vote",
 	"admin.success-election": "Le vote a été créé avec succès",
 	"admin.success-emails": "Le lien du vote a été envoyé par courriel aux participants.",
+	"admin.success-copy-vote": "Copier le lien du vote",
+	"admin.success-copy-result": "Copier le lien des résultats",
+	"admin.success-copy-admin": "Copier le lien d'administration",
 	"admin.go-to-admin": "Administrez le vote"
 }

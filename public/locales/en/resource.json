@@ -73,6 +73,8 @@
 	"admin.modal-desc": "This link allows you to modify your election. Keep it carefully, or fill out this form to receive a copy by mail.",
 	"admin.modal-disclaimer": "We do not store any mail. Thus, we will not send you any advertising content.",
 	"admin.modal-email-placeholder": "Your mail address",
+	"admin.order-title": "Random order",
+	"admin.order-desc": "To avoid cognitive bias, we recommend that candidates appear in random order on the ballot.",
 	"admin.params-submit": "Validate the parameters",
 	"admin.params-title": "Your parameters",
 	"admin.access-results": "Immediate access to the results",
@@ -96,5 +98,8 @@
 	"admin.confirm-title": "Confirm your vote",
 	"admin.success-election": "The vote has been created with success!",
 	"admin.success-emails": "The voting link has been sent by emails to the participants.",
+	"admin.success-copy-vote": "Copy the voting link",
+	"admin.success-copy-result": "Copy the result link",
+	"admin.success-copy-admin": "Copy the admin link",
 	"admin.go-to-admin": "Manage the vote"
 }

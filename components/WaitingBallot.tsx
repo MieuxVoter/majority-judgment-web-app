@@ -59,24 +59,26 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
             </h5>
             : <div className="d-grid w-100">
               <ButtonCopy
-                text={t('admin.modal-copy-vote')}
+                text={t('admin.success-copy-vote')}
                 content={urlVote}
               />
               <ButtonCopy
-                text={t('admin.modal-copy-vote')}
+                text={t('admin.success-copy-result')}
                 content={urlResults}
               />
             </div>}
-          <Button
-            customIcon={<FontAwesomeIcon icon={faArrowRight} />}
-            position="right"
-            color="secondary"
-            outline={true}
-            onClick={toggleModal}
-            className="mt-3 py-3 px-4"
-          >
-            {t('admin.go-to-admin')}
-          </Button>
+          <div className="d-grid w-100">
+            <Button
+              customIcon={<FontAwesomeIcon icon={faArrowRight} />}
+              position="right"
+              color="secondary"
+              outline={true}
+              onClick={toggleModal}
+              className="mt-3 py-3 px-4"
+            >
+              {t('admin.go-to-admin')}
+            </Button>
+          </div>
           <Share title={t('common.share-short')} />
           <AdminModalEmail
             toggle={toggleModal}
@@ -139,7 +141,7 @@ export default ({election, error}: WaitingBallotInterface) => {
     }, 3000);
 
     const timer3 = setTimeout(() => {
-      setElection({display: "block"});
+      setElection({display: "grid"});
     }, 4500);
 
     return () => {

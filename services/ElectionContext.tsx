@@ -10,10 +10,10 @@ export interface ElectionContextInterface {
   description: string;
   candidates: Array<CandidateItem>;
   grades: Array<GradeItem>;
-  isRandomOrder: boolean;
   hideResults: boolean;
   forceClose: boolean;
   restricted: boolean;
+  randomOrder: boolean;
   endVote: string;
   emails: Array<string>;
 }
@@ -30,7 +30,7 @@ const defaultElection: ElectionContextInterface = {
   description: '',
   candidates: [{...defaultCandidate}, {...defaultCandidate}],
   grades: [],
-  isRandomOrder: false,
+  randomOrder: true,
   hideResults: true,
   forceClose: false,
   restricted: false,

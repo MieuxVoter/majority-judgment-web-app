@@ -12,14 +12,12 @@ interface ButtonCopyInterface {
 
 const ButtonCopy = ({text, content}: ButtonCopyInterface) => {
   return (<Button
-    className="bg-white text-black my-2 shadow-lg border-dark border py-3 px-4 border-3 justify-content-between"
+    className="bg-white text-black my-2 shadow-lg border-dark border py-3 px-4 border-3 justify-content-between gx-2 align-items-end"
     onClick={() => navigator.clipboard.writeText(content)}>
 
-    <div className="gx-2 align-items-end justify-content-between">
-      <div>{text}</div>
-      <div>
-        <FontAwesomeIcon icon={faCopy} />
-      </div>
+    <div>{text}</div>
+    <div>
+      <FontAwesomeIcon icon={faCopy} />
     </div>
 
   </Button >)

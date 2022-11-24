@@ -18,9 +18,9 @@ export const sendInviteMails = async (
     throw new Error('The number of emails differ from the number of tokens');
   }
 
-  const recipientVariables = {};
+  const recipients = {};
   mails.forEach((_, index: number) => {
-    recipientVariables[mails[index]] = {
+    recipients[mails[index]] = {
       urlVote: urlVotes[index],
       urlResult: urlResult,
     };
@@ -28,14 +28,15 @@ export const sendInviteMails = async (
 
   const locale = getLocaleShort();
 
-  const req = await fetch('/.netlify/functions/send-invite-email/', {
+  const req = await fetch('/.netlify/functions/send-emails', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      recipientVariables,
-      name,
+      action: "invite",
+      recipients,
+      title: name,
       locale,
     }),
   });
@@ -46,7 +47,8 @@ export const sendInviteMails = async (
 
 export const sendAdminMail = async (
   mail: string,
-  adminUrl: URL,
+  name: string,
+  urlAdmin: URL,
 ) => {
   /**
    * Send an invitation mail using a micro-service with Netlify
@@ -55,15 +57,20 @@ export const sendAdminMail = async (
     throw new Error('Incorrect format for the email');
   }
 
-  const req = await fetch('/.netlify/functions/send-admin-email/', {
+  const req = await fetch('/.netlify/functions/send-emails/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      mail,
-      adminUrl,
-    }),
+      action: "admin",
+      recipients: {
+        [mail]: {
+          urlAdmin,
+          title: name,
+        },
+      }
+    })
   });
 
   return req;
