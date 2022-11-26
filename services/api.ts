@@ -61,6 +61,7 @@ export const createElection = async (
       if (successCallback) {
         const payload = await req.json();
         successCallback(payload);
+        return payload;
       }
     } else if (failureCallback) {
       try {
@@ -104,29 +105,31 @@ export const getResults = (
 };
 
 
-export const getElection = (
+export const getElection = async (
   pid: string,
   successCallback = null,
   failureCallback = null
-) => {
+): Promise<ElectionPayload> => {
   /**
    * Fetch data from external API
    */
-
   const detailsEndpoint = new URL(
     api.routesServer.getElection.replace(new RegExp(':slug', 'g'), pid),
     api.urlServer
   );
-  return fetch(detailsEndpoint.href)
-    .then((response) => {
-      if (!response.ok) {
-        return Promise.reject(response.text());
-      }
-      return response.json();
-    })
-    .then(successCallback || ((res) => res))
-    .catch(failureCallback || ((err) => err))
-    .then((res) => res);
+  try {
+    const res = await fetch(detailsEndpoint.href);
+
+    if (!res.ok) {
+      return failureCallback(res.text())
+    }
+
+    const payload: ElectionPayload = await res.json();
+    if (successCallback) successCallback(payload);
+    return payload;
+  } catch (error) {
+    return failureCallback && failureCallback(error);
+  }
 };
 
 

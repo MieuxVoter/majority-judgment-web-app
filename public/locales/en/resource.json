@@ -26,6 +26,7 @@
 	"menu.faq": "FAQ",
 	"menu.news": "News",
 	"menu.contact-us": "Contact us",
+	"common.about-mj": "Read more about Better Vote",
 	"common.error": "Oh no... An error has occured...",
 	"common.better-vote": "Better Vote",
 	"common.share": "Share the application Better Vote",
@@ -44,8 +45,10 @@
 	"common.vote": "Vote",
 	"common.the-vote": "The vote",
 	"common.the-params": "The parameters",
-	"error.help": "Ask for our help",
+	"common.welcome": "Welcome!",
 	"error.at-least-2-candidates": "At least two candidates are required.",
+	"error.catch22": "Erreur inconnue...",
+	"error.help": "Ask for our help",
 	"error.no-title": "Please add a title to your election.",
 	"grades.very-good": "Very good",
 	"grades.good": "Good",
@@ -102,5 +105,7 @@
 	"admin.success-copy-vote": "Copy the voting link",
 	"admin.success-copy-result": "Copy the result link",
 	"admin.success-copy-admin": "Copy the admin link",
-	"admin.go-to-admin": "Manage the vote"
+	"admin.go-to-admin": "Manage the vote",
+	"vote.home-desc": "Participate in the vote and discover majority judgment",
+	"vote.home-start": "I participate"
 }

@@ -26,6 +26,7 @@
 	"menu.faq": "FAQ",
 	"menu.news": "Actualités",
 	"menu.contact-us": "Nous contacter",
+	"common.about-mj": "En savoir plus sur Mieux voter",
 	"common.error": "Oh non ! Une erreur s'est produite...",
 	"common.better-vote": "Mieux Voter",
 	"common.share": "Partagez l'application Mieux voter",
@@ -44,9 +45,11 @@
 	"common.the-vote": "Le vote",
 	"common.the-params": "Les paramètres",
 	"common.vote": "Voter",
+	"common.welcome": "Bienvenue !",
 	"error.help": "Besoin d'aide ?",
 	"error.at-least-2-candidates": "Ajoutez au moins deux candidats.",
 	"error.no-title": "Ajoutez un titre à l'élection.",
+	"error.catch22": "Erreur inconnue...",
 	"grades.very-good": "Très bien",
 	"grades.good": "Bien",
 	"grades.passable": "Passable",
@@ -102,5 +105,7 @@
 	"admin.success-copy-vote": "Copier le lien du vote",
 	"admin.success-copy-result": "Copier le lien des résultats",
 	"admin.success-copy-admin": "Copier le lien d'administration",
-	"admin.go-to-admin": "Administrez le vote"
+	"admin.go-to-admin": "Administrez le vote",
+	"vote.home-desc": "Participez au vote et découvrez le jugement majoritaire.",
+	"vote.home-start": "Je participe"
 }
