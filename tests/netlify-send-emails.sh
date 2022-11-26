@@ -2,13 +2,15 @@
 # This file tests the netlify function for sending emails
 
 # Check if the port is already used or not
-is_using=$(lsof -i:9999 | awk -F '  ' '{ print $1 }')
+port=${1:-9999}
+
+is_using=$(lsof -i:$port | awk -F '  ' '{ print $1 }')
 if [ -z "$is_using" ]; then
-	echo "Starting a server on port 9999";
-	netlify functions:serve  --port 9999 &
+	echo "Starting a server on port $port";
+	netlify functions:serve  --port $port &
 elif ! [[ "$is_using" =~ .*"node".* ]]; then
 	echo "$is_using"
-	echo "The port 9999 is already used and not by us :-("
+	echo "The port $port is already used and not by us :-("
 	exit 1;
 else
 	echo "The server is running."
@@ -18,7 +20,7 @@ fi
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 send_emails () {
-	res=$(netlify functions:invoke --port 9999 send-emails --payload "$(cat $1)")
+	res=$(netlify functions:invoke --port $port send-emails --payload "$(cat $1)")
 	echo "$res"
 	# status=$(echo "$res" | head -n 1 | cut -d ','  -f 1 | cut -d ':' -f 2)
 	status=$(echo "$res" | jq '.["status"]')

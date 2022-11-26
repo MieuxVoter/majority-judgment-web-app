@@ -34,7 +34,7 @@ export const createElection = async (
   const endpoint = new URL(api.routesServer.setElection, api.urlServer);
 
   if (!restricted && numVoters > 0) {
-    throw Error("Set the election as not private!");
+    throw Error("Set the election as not restricted!");
   }
 
   try {
@@ -45,13 +45,16 @@ export const createElection = async (
       },
       body: JSON.stringify({
         name,
-        description,
+        description: JSON.stringify({
+          description: description,
+          randomOrder: randomOrder
+        }),
         candidates,
         grades,
+        num_voters: numVoters,
         hide_results: hideResults,
         force_close: forceClose,
-        random_order: randomOrder,
-        private: restricted,
+        restricted,
       }),
     })
     if (req.ok && req.status === 200) {
@@ -227,11 +230,11 @@ export interface ElectionPayload {
   date_end: string;
   hide_results: boolean;
   force_close: boolean;
-  private: boolean;
+  restricted: boolean;
   id: number;
   grades: Array<GradePayload>;
   candidates: Array<CandidatePayload>;
-  tokens: Array<string>;
+  invites: Array<string>;
   admin: string;
 }
 

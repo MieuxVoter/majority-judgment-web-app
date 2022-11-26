@@ -53,7 +53,7 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
             {t('admin.success-election')}
           </h4>
 
-          {election && election.private ?
+          {election && election.restricted ?
             <h5 className="text-center">
               {t('admin.success-emails')}
             </h5>

@@ -1,4 +1,4 @@
-import {useState, useEffect, createRef} from 'react';
+import {useState, useEffect, useRef, KeyboardEvent} from 'react';
 import {useTranslation} from 'next-i18next';
 import {Container} from 'reactstrap';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,7 @@ import CandidateField from './CandidateField';
 
 const CandidatesField = ({onSubmit}) => {
   const {t} = useTranslation();
+  const submitReference = useRef(null);
 
   const election = useElection();
   const dispatch = useElectionDispatch();
@@ -27,6 +28,20 @@ const CandidatesField = ({onSubmit}) => {
       setError('error.too-many-candidates');
     }
   }, [candidates]);
+
+  useEffect(() => {
+    if (!disabled && submitReference.current) {
+      submitReference.current.focus();
+    }
+  }, [disabled, submitReference]);
+
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    console.log(e.key)
+    if (e.key == "Enter" && !disabled) {
+      onSubmit();
+    }
+  }
 
   return (
     <Container className="candidate flex-grow-1 my-5 flex-column d-flex justify-content-between">
@@ -51,10 +66,12 @@ const CandidatesField = ({onSubmit}) => {
           outline={true}
           color="secondary"
           className="bg-blue"
+          ref={submitReference}
           onClick={onSubmit}
           disabled={disabled}
           icon={faArrowRight}
           position="right"
+          onKeyPress={handleKeyPress}
         >
           {t('admin.candidates-submit')}
         </Button>

@@ -2,11 +2,9 @@
  * This file contains several utils functions
  */
 
-import {useRouter} from 'next/router';
+import {NextRouter} from 'next/router';
 
-export const getLocaleShort = (): string => {
-  const router = useRouter();
-
+export const getLocaleShort = (router: NextRouter): string => {
   if (!router.locale) {
     return router.defaultLocale.substring(0, 2).toUpperCase();
   }

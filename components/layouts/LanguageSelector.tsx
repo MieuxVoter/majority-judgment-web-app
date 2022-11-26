@@ -5,7 +5,7 @@ import {getLocaleShort} from '@services/utils';
 
 const LanguageSelector = (props) => {
   const router = useRouter();
-  const localeShort = getLocaleShort();
+  const localeShort = getLocaleShort(router);
 
   const selectHandler = (e) => {
     let locale = e.toLowerCase();

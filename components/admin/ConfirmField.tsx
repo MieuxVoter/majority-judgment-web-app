@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import {useTranslation} from 'next-i18next';
+import {NextRouter, useRouter} from 'next/router';
 import {
   faPen,
   faArrowRight,
@@ -71,6 +72,7 @@ const submitElection = (
   election: ElectionContextInterface,
   successCallback: Function,
   failureCallback: Function,
+  router: NextRouter,
 ) => {
   const candidates = election.candidates.filter(c => c.active).map((c: CandidateItem) => ({name: c.name, description: c.description, image: c.image}))
   const grades = election.grades.filter(c => c.active).map((g: GradeItem, i: number) => ({name: g.name, value: i}))
@@ -87,18 +89,19 @@ const submitElection = (
     election.randomOrder,
     async (payload: ElectionPayload) => {
       const id = payload.id;
-      const tokens = payload.tokens;
+      const tokens = payload.invites;
       if (typeof election.emails !== 'undefined' && election.emails.length > 0) {
-        if (typeof payload.tokens === 'undefined' || payload.tokens.length === election.emails.length) {
+        if (typeof payload.invites === 'undefined' || payload.invites.length !== election.emails.length) {
           throw Error('Can not send invite emails');
         }
-        const urlVotes = payload.tokens.map((token: string) => getUrlVote(id.toString(), token));
+        const urlVotes = payload.invites.map((token: string) => getUrlVote(id.toString(), token));
         const urlResult = getUrlResults(id.toString());
         await sendInviteMails(
           election.emails,
           election.name,
           urlVotes,
           urlResult,
+          router,
         );
       }
       successCallback(payload);
@@ -111,12 +114,13 @@ const submitElection = (
 const ConfirmField = ({onSubmit, onSuccess, onFailure, goToCandidates, goToParams}) => {
   const {t} = useTranslation();
   const election = useElection();
+  const router = useRouter();
 
   const handleSubmit = () => {
 
     onSubmit();
 
-    submitElection(election, onSuccess, onFailure);
+    submitElection(election, onSuccess, onFailure, router);
   }
 
   const numCandidates = election.candidates.filter(c => c.active && c.name != "").length;

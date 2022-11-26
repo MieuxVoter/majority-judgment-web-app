@@ -28,7 +28,9 @@ const AdminModalEmail = ({isOpen, toggle, electionId, adminToken}: AdminModalEma
   }
 
   const handleSubmit = () => {
+    console.log(election);
     sendAdminMail(email, election.name, adminUrl);
+    toggle();
   };
 
   const disabled = !email || !validateMail(email);
@@ -52,10 +54,11 @@ const AdminModalEmail = ({isOpen, toggle, electionId, adminToken}: AdminModalEma
 
       <ModalBody className="p-4">
         <p>{t('admin.modal-desc')}</p>
-        <p className="text-muted">{t('admin.modal-disclaimer')}</p>
         <div className="d-grid w-100 mb-5">
           <ButtonCopy text={t('admin.success-copy-admin')} content={adminUrl} />
         </div>
+        <p>{t('admin.modal-email')}</p>
+        <p className="text-muted">{t('admin.modal-disclaimer')}</p>
         <Form className="container container-fluid">
           <div className="mb-3">
             <Input

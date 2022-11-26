@@ -1,3 +1,4 @@
+import {NextRouter} from 'next/router';
 import {getLocaleShort} from './utils';
 
 export const sendInviteMails = async (
@@ -5,6 +6,7 @@ export const sendInviteMails = async (
   name: string,
   urlVotes: Array<string | URL>,
   urlResult: string | URL,
+  router: NextRouter,
 
 ) => {
   /**
@@ -26,7 +28,7 @@ export const sendInviteMails = async (
     };
   });
 
-  const locale = getLocaleShort();
+  const locale = getLocaleShort(router);
 
   const req = await fetch('/.netlify/functions/send-emails', {
     method: 'POST',
@@ -57,7 +59,7 @@ export const sendAdminMail = async (
     throw new Error('Incorrect format for the email');
   }
 
-  const req = await fetch('/.netlify/functions/send-emails/', {
+  const req = await fetch('/.netlify/functions/send-emails', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

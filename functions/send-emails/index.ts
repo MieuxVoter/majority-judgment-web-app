@@ -15,7 +15,6 @@ const {
   FROM_EMAIL_ADDRESS,
   REPLY_TO_EMAIL_ADDRESS,
 } = process.env;
-console.log("MAILGUN URL", MAILGUN_URL)
 
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
@@ -25,7 +24,6 @@ const mg = mailgun.client({
 });
 
 
-console.log("I18N config", i18n)
 i18next.init(i18n, (err, t) => {
   if (err) return console.log('something went wrong loading', err);
   t("foo");
@@ -34,8 +32,6 @@ i18next.init(i18n, (err, t) => {
 
 Handlebars.registerHelper('i18n',
   (str: string): string => {
-    console.log("I18N", str)
-    console.log("I18Next", i18next, i18next.t)
     return (i18next != undefined ? i18next.t(str) : str);
   }
 );
@@ -60,6 +56,7 @@ const handler: Handler = async (event) => {
     };
   }
 
+  console.log("EVENT BODY", event.body)
   const {recipients, action, locale} = JSON.parse(event.body) as RequestPayload;
 
   if (!recipients) {
