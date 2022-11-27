@@ -107,5 +107,8 @@
 	"admin.success-copy-admin": "Copier le lien d'administration",
 	"admin.go-to-admin": "Administrez le vote",
 	"vote.home-desc": "Participez au vote et découvrez le jugement majoritaire.",
-	"vote.home-start": "Je participe"
+	"vote.home-start": "Je participe",
+	"vote.open-until": "Vote ouvert jusqu'au",
+	"vote.more-details": "Cliquez ici pour en savoir plus",
+	"vote.submit": "Déposer mon bulletin de vote"
 }

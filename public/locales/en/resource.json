@@ -47,7 +47,7 @@
 	"common.the-params": "The parameters",
 	"common.welcome": "Welcome!",
 	"error.at-least-2-candidates": "At least two candidates are required.",
-	"error.catch22": "Erreur inconnue...",
+	"error.catch22": "Unknown error...",
 	"error.help": "Ask for our help",
 	"error.no-title": "Please add a title to your election.",
 	"grades.very-good": "Very good",
@@ -107,5 +107,8 @@
 	"admin.success-copy-admin": "Copy the admin link",
 	"admin.go-to-admin": "Manage the vote",
 	"vote.home-desc": "Participate in the vote and discover majority judgment",
-	"vote.home-start": "I participate"
+	"vote.home-start": "I participate",
+	"vote.open-until": "Vote open until",
+	"vote.more-details": "More details...",
+	"vote.submit": "Cast my ballot"
 }

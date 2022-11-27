@@ -107,9 +107,7 @@ export const getResults = (
 
 export const getElection = async (
   pid: string,
-  successCallback = null,
-  failureCallback = null
-): Promise<ElectionPayload> => {
+): Promise<ElectionPayload | string> => {
   /**
    * Fetch data from external API
    */
@@ -121,14 +119,13 @@ export const getElection = async (
     const res = await fetch(detailsEndpoint.href);
 
     if (!res.ok) {
-      return failureCallback(res.text())
+      return res.text()
     }
 
     const payload: ElectionPayload = await res.json();
-    if (successCallback) successCallback(payload);
     return payload;
   } catch (error) {
-    return failureCallback && failureCallback(error);
+    return error;
   }
 };
 

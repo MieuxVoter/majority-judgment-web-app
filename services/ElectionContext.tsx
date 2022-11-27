@@ -144,7 +144,7 @@ function electionReducer(election: ElectionContextInterface, action) {
     }
     case 'grade-set': {
       if (typeof action.position !== 'number') {
-        throw Error(`Unexpected grade position ${action.value}`);
+        throw Error(`Unexpected grade position ${action.position}`);
       }
       const grades = [...election.grades];
       const grade = grades[action.position];
