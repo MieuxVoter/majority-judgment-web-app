@@ -105,14 +105,22 @@ function electionReducer(election: ElectionContextInterface, action) {
       const candidate =
         action.value === 'default' ? {...defaultCandidate} : action.value;
       const candidates = [...election.candidates, candidate];
-      return {...election, candidates};
+      console.log("NONACTIVE", candidates.filter(c => !c.active).length)
+      if (candidates.filter(c => !c.active).length === 0) {
+        return {
+          ...election, candidates: [...candidates, {...defaultCandidate}]
+        };
+      }
+      else {
+        return {...election, candidates};
+      }
     }
     case 'candidate-rm': {
       if (typeof action.position !== 'number') {
         throw Error(`Unexpected candidate position ${action.position}`);
       }
       const candidates = [...election.candidates];
-      candidates.splice(action.position);
+      candidates.splice(action.position, 1);
       return {...election, candidates};
     }
     case 'candidate-set': {
@@ -126,6 +134,11 @@ function electionReducer(election: ElectionContextInterface, action) {
       const candidate = candidates[action.position];
       candidate[action.field] = action.value;
       candidate['active'] = true;
+      if (candidates.filter(c => !c.active).length === 0) {
+        return {
+          ...election, candidates: [...candidates, {...defaultCandidate}]
+        };
+      }
       return {...election, candidates};
     }
     case 'grade-push': {

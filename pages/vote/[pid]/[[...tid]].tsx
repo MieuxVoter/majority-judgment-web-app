@@ -52,7 +52,7 @@ const GoToBallotConfirm = ({electionId, token}) => {
           </Row>
 
           <Row>
-            <Link href={{pathname: BALLOT, query: {electionId, token}}}>
+            <Link href={`${BALLOT}/${electionId}/${token ? token : ""}`}>
               <Button
                 color="secondary"
                 outline={true}
@@ -64,7 +64,7 @@ const GoToBallotConfirm = ({electionId, token}) => {
             </Link>
           </Row>
           <Row className="noAds my-0">
-            <p>{t('resource.noAds')}</p>
+            <p>{t('home.noAds')}</p>
           </Row>
           <Row>
             <Link href="https://mieuxvoter.fr/le-jugement-majoritaire">

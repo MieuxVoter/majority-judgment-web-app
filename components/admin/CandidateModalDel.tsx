@@ -23,6 +23,7 @@ const CandidateModal = ({isOpen, position, toggle}) => {
 
   const removeCandidate = () => {
     dispatch({type: 'candidate-rm', position: position});
+    toggle();
   };
 
   return (

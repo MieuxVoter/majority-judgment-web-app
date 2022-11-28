@@ -8,7 +8,7 @@ interface CandidateCardInterface {
 }
 const CandidateCard = ({candidate}: CandidateCardInterface) => {
   const {t} = useTranslation();
-  return (<div className="d-flex align-items-center">
+  return (<div className="d-flex align-items-center flex-fill">
     <Image
       src={defaultAvatar}
       width={32}

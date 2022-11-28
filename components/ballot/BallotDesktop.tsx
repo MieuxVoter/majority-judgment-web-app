@@ -38,13 +38,13 @@ const BallotDesktop = () => {
   };
 
   return (
-    <div className="w-100 h-100 display-none display-lg-block">
+    <div className="w-100 h-100 d-none d-lg-block">
       <TitleBar election={ballot.election} />
-      <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      <Container className="w-100 h-100 d-flex flex-column justify-content-center align-items-center" style={{maxWidth: "750px"}}>
         <h1 className="mb-5">{ballot.election.name}</h1>
         {ballot.election.candidates.map((candidate, candidateId) => {
           return (
-            <div key={candidateId} className="bg-white justify-content-between d-flex my-4 py-2 px-3">
+            <div key={candidateId} className="bg-white justify-content-between d-flex my-4 py-2 w-100 px-3">
               <CandidateCard candidate={candidate} />
               <div className="d-flex">
                 {ballot.election.grades.map((_, gradeId) => {
@@ -70,7 +70,7 @@ const BallotDesktop = () => {
             {t('vote.submit')}
           </Button>
         </Container>
-      </div>
+      </Container>
     </div>
   )
 }
