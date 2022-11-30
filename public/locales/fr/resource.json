@@ -28,6 +28,7 @@
 	"menu.contact-us": "Nous contacter",
 	"common.about": "En savoir plus...",
 	"common.about-mj": "En savoir plus sur Mieux voter",
+	"common.donation": "Faire une donation",
 	"common.error": "Oh non ! Une erreur s'est produite...",
 	"common.better-vote": "Mieux Voter",
 	"common.share": "Partagez l'application Mieux voter",
@@ -110,10 +111,15 @@
 	"vote.discover-mj": "Découvrez le jugement majoritaire",
 	"vote.discover-mj-desc": "Créé par des chercheurs français, le jugement majoritaire est un mode de scrutin qui améliore l'expressivité des électeurs  et fournit le meilleur consensus.",
 	"vote.go-to-results": "Voir les résultats",
+	"vote.form": "Votre avis nous intéresse",
+	"vote.form-desc": "Aidez nous à améliorer l’application en cliquant ci-dessous",
 	"vote.home-desc": "Participez au vote et découvrez le jugement majoritaire.",
 	"vote.home-start": "Je participe",
 	"vote.open-until": "Vote ouvert jusqu'au",
 	"vote.more-details": "Cliquez ici pour en savoir plus",
 	"vote.submit": "Déposer mon bulletin de vote",
-	"vote.success-ballot": "Votre vote a bien été pris en compte !"
+	"vote.success-ballot": "Votre vote a bien été pris en compte !",
+	"vote.support-better-vote": "Soutenez Mieux Voter",
+	"vote.support-desc": "Mieux Voter est une association transpartisane et sans but lucratif. En adhérant à l’association, vous contribuez à financer son fonctionnement et ses activités.",
+	"vote.thanks": "Merci de votre participation !"
 }

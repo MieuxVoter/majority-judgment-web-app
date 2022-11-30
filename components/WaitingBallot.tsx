@@ -14,6 +14,8 @@ import {useAppContext} from '@services/context';
 import {getUrlResults} from '@services/routes';
 import urne from '../public/urne.svg'
 import star from '../public/star.svg'
+import Logo from './Logo';
+import {FORM_FEEDBACK} from '@services/constants';
 
 
 export interface WaitingBallotInterface {
@@ -43,9 +45,9 @@ const ButtonResults = ({election}) => {
 const DiscoverMajorityJudgment = () => {
   const {t} = useTranslation();
   return (
-    <div className="bg-secondary p-4 text-white">
+    <div className="bg-secondary h-100 p-4 text-white me-3">
       <h5>{t('vote.discover-mj')}</h5>
-      <h5>{t('vote.discover-mj-desc')}</h5>
+      <p>{t('vote.discover-mj-desc')}</p>
       <a href="https://mieuxvoter.fr/le-jugement-majoritaire">
         <div className="d-flex">
           <div className="me-2">{t('common.about')}</div>
@@ -53,6 +55,40 @@ const DiscoverMajorityJudgment = () => {
         </div>
       </a>
     </div>)
+}
+
+const SupportBetterVote = () => {
+  const {t} = useTranslation();
+  return (
+    <div className="text-secondary h-100 p-4 bg-white">
+      <div className="d-flex justify-content-between">
+        <h5>{t('vote.support-better-vote')}</h5>
+        <Logo title={false} />
+      </div>
+      <p>{t('vote.support-desc')}</p>
+      <a href="https://mieuxvoter.fr/le-jugement-majoritaire">
+        <div className="d-flex">
+          <div className="me-2">{t('common.donation')}</div>
+          <FontAwesomeIcon icon={faArrowRight} />
+        </div>
+      </a>
+    </div>)
+}
+
+
+const Thanks = () => {
+  const {t} = useTranslation();
+  return (<>
+    <h5>{t('vote.thanks')}</h5>
+    <p>{t('vote.form-desc')}</p>
+    <a href={FORM_FEEDBACK} target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Button color="secondary" outline={true}>
+        {t('vote.form')}
+      </Button>
+    </a>
+  </>)
 }
 
 interface InfoInterface extends WaitingBallotInterface {
@@ -81,10 +117,12 @@ const Info = ({ballot, error, display}: InfoInterface) => {
       </h4>
 
       <ButtonResults election={ballot.election} />
-      <Container className="justify-content-between">
+      <Container className="d-flex m-4 justify-content-between">
         <DiscoverMajorityJudgment />
         <SupportBetterVote />
       </Container>
+      <Thanks />
+      <Share />
     </div >
   )
 }
@@ -154,9 +192,6 @@ export default ({ballot, error}: WaitingBallotInterface) => {
 
   return (<Container
     className="d-flex h-100 w-100 align-items-center flex-column"
-    style={{
-      maxWidth: "400px"
-    }}
   >
     <div
       style={{

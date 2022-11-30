@@ -1,13 +1,11 @@
-import {MouseEvent, useState} from 'react'
-import {useRouter} from 'next/router';
-import {useTranslation} from 'next-i18next';
-import Button from '@components/Button';
-import {Col, Row, Container} from 'reactstrap';
+import {useState} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCheck, faChevronLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons';
-import {useBallot, BallotTypes, BallotProvider} from '@services/BallotContext';
+import {faChevronLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons';
+import {useBallot} from '@services/BallotContext';
 import CandidateCard from '@components/ballot/CandidateCard'
 import GradeInput from '@components/ballot/GradeInput'
+import {CandidatePayload} from '@services/api';
+import CandidateModal from '@components/CandidateModalGet';
 
 
 interface TitleInterface {
@@ -23,19 +21,12 @@ const TitleName = ({name}: TitleInterface) => {
 }
 
 const BallotMobile = () => {
-  const {t} = useTranslation();
-
   const [ballot, _] = useBallot();
   const [offset, setOffset] = useState(0);
 
   const numGrades = ballot.election.grades.length;
-  const disabled = ballot.votes.length !== ballot.election.candidates.length;
-  const router = useRouter();
 
-  const handleSubmit = (event: MouseEvent) => {
-    event.preventDefault();
-    router.push(`/confirm/${ballot.election.id}`);
-  };
+  const [candidate, setCandidate] = useState<CandidatePayload | null>(null);
 
   const moveRight = (right: boolean) => {
     if (right) setOffset(o => o - 247);
@@ -43,8 +34,7 @@ const BallotMobile = () => {
   }
 
   return (
-    <div className="w-100 h-100 d-block d-md-none">
-
+    <div className="d-block d-md-none">
       <TitleName name={ballot.election.name} />
       <div className="w-100 d-flex">
         {ballot.election.candidates.map((candidate, candidateId) => {
@@ -57,7 +47,10 @@ const BallotMobile = () => {
                   >
                     <FontAwesomeIcon color="#0A004C" icon={faChevronLeft} />
                   </div> : null}
-                <CandidateCard candidate={candidate} />
+                <CandidateCard
+                  onClick={() => setCandidate(candidate)}
+                  candidate={candidate}
+                />
 
                 {candidateId !== ballot.election.candidates.length - 1 ?
                   <div className="ms-2" onClick={() => moveRight(true)}><FontAwesomeIcon color="#0A004C" icon={faChevronRight} /></div> : null}
@@ -77,20 +70,8 @@ const BallotMobile = () => {
             </div>
           );
         })}
+        <CandidateModal isOpen={candidate !== null} toggle={() => setCandidate(null)} candidate={candidate} />
       </div>
-      <Container className="my-5 d-md-flex d-grid justify-content-md-center">
-        <Button
-          outline={true}
-          color="secondary"
-          className="bg-blue"
-          onClick={handleSubmit}
-          disabled={disabled}
-          icon={faCheck}
-          position="left"
-        >
-          {t('vote.submit')}
-        </Button>
-      </Container>
     </div >
   )
 }

@@ -132,8 +132,7 @@ export const getElection = async (
 
 export const castBallot = (
   votes: Array<Vote>,
-  electionRef: string,
-  restricted: boolean,
+  election: ElectionPayload,
   token?: string,
 ) => {
   /**
@@ -143,11 +142,14 @@ export const castBallot = (
   const endpoint = new URL(api.routesServer.voteElection, api.urlServer);
 
   const payload = {
-    election_ref: electionRef,
-    votes: votes,
+    election_ref: election.ref,
+    votes: votes.map(v => ({
+      "candidate_id": election.candidates[v.candidateId].id,
+      "grade_id": election.grades[v.gradeId].id
+    }))
   };
 
-  if (!restricted) {
+  if (!election.restricted) {
     return fetch(endpoint.href, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},

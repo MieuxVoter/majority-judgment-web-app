@@ -28,6 +28,7 @@
 	"menu.contact-us": "Contact us",
 	"common.about": "Read more",
 	"common.about-mj": "Read more about Better Vote",
+	"common.donation": "Make a donation",
 	"common.error": "Oh no... An error has occured...",
 	"common.better-vote": "Better Vote",
 	"common.share": "Share the application Better Vote",
@@ -107,11 +108,18 @@
 	"admin.success-copy-result": "Copy the result link",
 	"admin.success-copy-admin": "Copy the admin link",
 	"admin.go-to-admin": "Manage the vote",
+	"vote.discover-mj": "Discover majority judgment",
+	"vote.discover-mj-desc": "Developed by French researchers, majority judgment is a voting system that improves voter expressiveness and provides the best consensus.",
+	"vote.form": "Your opinion is important to us",
+	"vote.form-desc": "Help us to improve the application by clicking below",
 	"vote.go-to-results": "Show results",
 	"vote.home-desc": "Participate in the vote and discover majority judgment",
 	"vote.home-start": "I participate",
 	"vote.open-until": "Vote open until",
 	"vote.more-details": "More details...",
 	"vote.submit": "Cast my ballot",
-	"vote.success-ballot": "Your vote has successfully been taken into account!"
+	"vote.success-ballot": "Your vote has successfully been taken into account!",
+	"vote.support-better-vote": "Support Better Vote",
+	"vote.support-desc": "Better Vote is a transparent and non-profit association. By joining the association, you contribute to finance its functioning and activities.",
+	"vote.thanks": "Thanks for your participation!"
 }

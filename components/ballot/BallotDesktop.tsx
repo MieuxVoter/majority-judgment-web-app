@@ -1,11 +1,6 @@
-import {MouseEvent, useState} from 'react'
-import {useRouter} from 'next/router';
-import {useTranslation} from 'next-i18next';
-import Button from '@components/Button';
-import {Col, Row, Container} from 'reactstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCalendarDays, faCheck} from '@fortawesome/free-solid-svg-icons';
-import {useBallot, BallotTypes, BallotProvider} from '@services/BallotContext';
+import {useState} from 'react'
+import {Container} from 'reactstrap';
+import {useBallot} from '@services/BallotContext';
 import CandidateCard from '@components/ballot/CandidateCard'
 import TitleBar from '@components/ballot/TitleBar'
 import GradeInput from '@components/ballot/GradeInput'
@@ -14,34 +9,12 @@ import CandidateModal from '@components/CandidateModalGet';
 
 
 const BallotDesktop = () => {
-  const {t} = useTranslation();
-
   const [ballot, dispatch] = useBallot();
   const numGrades = ballot.election.grades.length;
   const disabled = ballot.votes.length !== ballot.election.candidates.length;
 
-  const router = useRouter();
+  const [candidate, setCandidate] = useState<CandidatePayload | null>(null);
 
-  const [candidate, setCandidate] = useState(null);
-
-  const handleSubmit = (event: MouseEvent) => {
-    event.preventDefault();
-
-    // const gradesById = {};
-    // judgments.forEach((c) => {
-    //   gradesById[c.id] = c.value;
-    // });
-    // const gradesByCandidate = [];
-    // Object.keys(gradesById).forEach((id) => {
-    //   gradesByCandidate.push(gradesById[id]);
-    // });
-
-    // castBallot(gradesByCandidate, election.id.toString(), token, () => {
-    router.push(`/confirm/${ballot.election.id}`);
-    // });
-  };
-
-  console.log(candidate)
   return (
     <div className="w-100 h-100 d-none d-md-block">
       <TitleBar election={ballot.election} />
@@ -66,20 +39,7 @@ const BallotDesktop = () => {
           );
         })}
         <CandidateModal isOpen={candidate !== null} toggle={() => setCandidate(null)} candidate={candidate} />
-        <Container className="my-5 d-md-flex d-grid justify-content-md-center">
-          <Button
-            outline={true}
-            color="secondary"
-            className="bg-blue"
-            onClick={handleSubmit}
-            disabled={disabled}
-            icon={faCheck}
-            position="left"
-          >
-            {t('vote.submit')}
-          </Button>
-        </Container>
-      </Container>
+      </Container >
     </div>
   )
 }
