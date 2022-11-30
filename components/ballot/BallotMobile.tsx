@@ -43,7 +43,7 @@ const BallotMobile = () => {
   }
 
   return (
-    <div className="w-100 h-100 d-block d-lg-none">
+    <div className="w-100 h-100 d-block d-md-none">
 
       <TitleName name={ballot.election.name} />
       <div className="w-100 d-flex">

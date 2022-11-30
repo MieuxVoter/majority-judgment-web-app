@@ -63,7 +63,7 @@ $desktop: 1680px;
 .sectionTwoHome {
   background: $mv-dark-blue-color;
   padding: 10%;
-  background-image: url("/vote.svg");
+  background-image: url('/vote.svg');
   background-position: top 46% right;
   background-repeat: no-repeat;
 }
@@ -99,25 +99,25 @@ $desktop: 1680px;
   display: flex;
 }
 
-@include media-breakpoint-up("md") {
+@include media-breakpoint-up('md') {
   .sectionOneHomeForm {
-    background-image: url("/chevron-bicolore.svg");
+    background-image: url('/chevron-bicolore.svg');
     background-size: contain;
     background-position: top right -260px;
     background-repeat: no-repeat;
   }
 }
-@include media-breakpoint-up("lg") {
+@include media-breakpoint-up('lg') {
   .sectionOneHomeForm {
     background-position: top right -150px;
   }
 }
-@include media-breakpoint-up("xl") {
+@include media-breakpoint-up('xl') {
   .sectionOneHomeForm {
     background-position: top right -50px;
   }
 }
-@include media-breakpoint-down("sm") {
+@include media-breakpoint-down('sm') {
   .sectionOneHomeForm {
     background-image: unset;
   }
@@ -144,7 +144,7 @@ $desktop: 1680px;
     margin: 40px 13% 60px;
   }
 }
-@include media-breakpoint-up("md") {
+@include media-breakpoint-up('md') {
   .sectionOneHomeForm,
   .sectionOneHomeContent {
     min-height: 100vh;
@@ -153,7 +153,7 @@ $desktop: 1680px;
     margin-bottom: 70px;
   }
 }
-@include media-breakpoint-down("sm") {
+@include media-breakpoint-down('sm') {
   .sectionOneHomeContent {
     align-content: center;
 

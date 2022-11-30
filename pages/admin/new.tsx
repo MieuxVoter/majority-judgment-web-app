@@ -3,12 +3,13 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import CandidatesField from '@components/admin/CandidatesField';
 import ParamsField from '@components/admin/ParamsField';
 import ConfirmField from '@components/admin/ConfirmField';
-import WaitingBallot from '@components/WaitingBallot';
+import WaitingElection from '@components/WaitingElection';
 import PatternedBackground from '@components/PatternedBackground';
 import {
   ElectionProvider,
 } from '@services/ElectionContext';
 import {ProgressSteps, creationSteps} from '@components/CreationSteps';
+import Blur from '@components/Blur'
 import {GetStaticProps} from 'next';
 import {ElectionPayload, ErrorPayload} from '@services/api';
 
@@ -18,6 +19,8 @@ export const getStaticProps: GetStaticProps = async ({locale}) => ({
     ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
+
+
 
 const CreateElectionForm = () => {
   /**
@@ -60,13 +63,16 @@ const CreateElectionForm = () => {
   }
 
   if (wait) {
-    return <PatternedBackground>
-      <WaitingBallot election={payload} error={error} />
-    </PatternedBackground>
+    return (<> <Blur />
+      <PatternedBackground>
+        <WaitingElection election={payload} error={error} />
+      </PatternedBackground>
+    </>)
   }
 
   return (
     <ElectionProvider>
+      <Blur />
       <ProgressSteps
         step={step}
         goToCandidates={() => setStepId(0)}

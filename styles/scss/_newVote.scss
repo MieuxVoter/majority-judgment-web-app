@@ -5,7 +5,7 @@
 .addCandidatePage {
   max-width: 100% !important;
   background-color: #17048e;
-  background-image: url("/back.svg");
+  background-image: url('/back.svg');
   background-size: 100%;
   background-position: center;
   padding: 0px;
@@ -186,7 +186,7 @@
 .addButton span {
   margin-left: 20px;
 }
-input[type="file"] {
+input[type='file'] {
   display: none;
 }
 .inputfile {

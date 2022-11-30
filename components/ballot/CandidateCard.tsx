@@ -2,13 +2,17 @@ import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
 import defaultAvatar from '../../public/avatarBlue.svg';
 import {CandidatePayload} from '@services/api';
+import {MouseEventHandler} from 'react';
 
 interface CandidateCardInterface {
   candidate: CandidatePayload;
+  onClick: MouseEventHandler;
 }
-const CandidateCard = ({candidate}: CandidateCardInterface) => {
+const CandidateCard = ({candidate, onClick}: CandidateCardInterface) => {
   const {t} = useTranslation();
-  return (<div className="d-flex align-items-center flex-fill">
+  return (<div
+    onClick={onClick}
+    className="d-flex align-items-center flex-fill">
     <Image
       src={defaultAvatar}
       width={32}

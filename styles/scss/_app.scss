@@ -1,23 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&display=swap');
 
 body {
-  background-color: $mv-blue-color;
+  // background-color: $mv-blue-color;
+  // background-color: #110081;
   font-weight: 500;
 }
 h1,
 h2,
 h3 {
-  font-family: "DM Serif Display", serif !important;
+  font-family: 'DM Serif Display', serif !important;
 }
 body,
 h4,
 h5,
 p,
 button {
-  font-family: "DM Sans", sans-serif !important;
+  font-family: 'DM Sans', sans-serif !important;
 }
 ::placeholder {
-  font-family: "DM Sans", sans-serif !important;
+  font-family: 'DM Sans', sans-serif !important;
 }
 .rowNoMargin {
   margin-left: 0px !important;
@@ -51,8 +52,30 @@ main > .div {
   width: 100%;
 }
 
-main {
-  background: url("../../public/back.svg"), rgb(10, 0, 76, 0.64);
+/* main {
+  // background: url("../../public/back.svg"), rgb(10, 0, 76, 0.64);
+} */
+
+$blur-radius: 30px;
+#blur_background {
+  position: fixed;
+  top: -$blur-radius;
+  right: -$blur-radius;
+  bottom: -$blur-radius;
+  left: -$blur-radius;
+  z-index: -1;
+  background: url('../../public/back.svg'), #110081;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+
+  // filter: url('/media/blur.svg#blur');
+  -webkit-filter: blur($blur-radius);
+  filter: blur($blur-radius);
+}
+@include media-breakpoint-up('xxl') {
+  #blur_background {
+    background-size: 100% auto;
+  }
 }
 
 header {
@@ -150,7 +173,7 @@ li.sortable {
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkround:after {
-  content: "";
+  content: '';
   position: absolute;
   display: none;
 }
@@ -225,7 +248,7 @@ li.sortable {
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:before {
-  content: "";
+  content: '';
   display: none;
 }
 
@@ -377,14 +400,13 @@ ol.result > li {
 }
 
 .text-muted {
-  color: #8F88BA!important;
- //  opacity: 0.5;
+  color: #8f88ba !important;
+  //  opacity: 0.5;
 }
 
-	.text-bg-light {
-  background: #F2F0FF!important;
+.text-bg-light {
+  background: #f2f0ff !important;
 }
-
 
 .hide {
   display: none;
@@ -393,19 +415,19 @@ ol.result > li {
   box-shadow: unset !important;
 }
 
-.list-input input[type="text"]:focus {
-	outline: none;
+.list-input input[type='text']:focus {
+  outline: none;
 }
 
-
-a, a:hover {
-	text-decoration: none;
+a,
+a:hover {
+  text-decoration: none;
 }
 
 .bg-blue {
-	background-color: $mv-blue-color!important;
+  background-color: $mv-blue-color !important;
 }
 
 .no-shadow {
-	box-shadow: unset!important;
+  box-shadow: unset !important;
 }

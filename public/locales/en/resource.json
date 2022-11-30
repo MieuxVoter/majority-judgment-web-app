@@ -26,6 +26,7 @@
 	"menu.faq": "FAQ",
 	"menu.news": "News",
 	"menu.contact-us": "Contact us",
+	"common.about": "Read more",
 	"common.about-mj": "Read more about Better Vote",
 	"common.error": "Oh no... An error has occured...",
 	"common.better-vote": "Better Vote",
@@ -106,9 +107,11 @@
 	"admin.success-copy-result": "Copy the result link",
 	"admin.success-copy-admin": "Copy the admin link",
 	"admin.go-to-admin": "Manage the vote",
+	"vote.go-to-results": "Show results",
 	"vote.home-desc": "Participate in the vote and discover majority judgment",
 	"vote.home-start": "I participate",
 	"vote.open-until": "Vote open until",
 	"vote.more-details": "More details...",
-	"vote.submit": "Cast my ballot"
+	"vote.submit": "Cast my ballot",
+	"vote.success-ballot": "Your vote has successfully been taken into account!"
 }

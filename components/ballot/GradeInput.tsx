@@ -36,14 +36,14 @@ const GradeInput = ({gradeId, candidateId}: GradeInputInterface) => {
 
   return (<>
     <div
-      className={`justify-content-center d-none d-lg-flex my-1 rounded-1 px-2 py-1 fs-5 text-white ms-3`}
+      className={`justify-content-center d-none d-md-flex my-1 rounded-1 px-2 py-1 fs-5 text-white ms-3`}
       onClick={handleClick}
       style={{backgroundColor: color, boxShadow: active ? `0px 2px 0px ${color}` : "0px 2px 0px #8F88BA"}}
     >
       <GradeName name={grade.name} active={active} />
     </div >
     <div
-      className={`d-flex d-lg-none my-1 justify-content-center py-2 text-white`}
+      className={`d-flex d-md-none my-1 justify-content-center py-2 text-white`}
       onClick={handleClick}
       style={{
         backgroundColor: color,

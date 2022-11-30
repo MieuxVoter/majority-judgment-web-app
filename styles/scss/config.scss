@@ -14,14 +14,14 @@ $modal-header-border-width: 0px;
 $badge-border-radius: 0px;
 
 $theme-colors: (
-  "primary": $mv-blue-color,
-  "secondary": $mv-dark-blue-color,
-  "light": $mv-light-color,
-  "dark": $mv-dark-color,
-  "danger": #990000,
-  "success": #009900,
-  "info": #2b8299,
-  "warning": #ff6e11,
+  'primary': $mv-blue-color,
+  'secondary': $mv-dark-blue-color,
+  'light': $mv-light-color,
+  'dark': $mv-dark-color,
+  'danger': #990000,
+  'success': #009900,
+  'info': #2b8299,
+  'warning': #ff6e11,
 );
 
 // $grade-colors: (
@@ -33,13 +33,13 @@ $theme-colors: (
 // "very-good": #A0CF1C,
 // "excellent": #3A9918,
 // );
-$font-size-base:              1rem;
+$font-size-base: 1rem;
 
-$h1-font-size:                $font-size-base * 2.5;
-$h2-font-size:                $font-size-base * 2;
-$h3-font-size:                $font-size-base * 1.75;
-$h4-font-size:                $font-size-base * 1.5;
-$h5-font-size:                $font-size-base * 1.25;
+$h1-font-size: $font-size-base * 2.5;
+$h2-font-size: $font-size-base * 2;
+$h3-font-size: $font-size-base * 1.75;
+$h4-font-size: $font-size-base * 1.5;
+$h5-font-size: $font-size-base * 1.25;
 
 $font-sizes: (
   1: $h1-font-size,
@@ -47,21 +47,19 @@ $font-sizes: (
   3: $h3-font-size,
   4: $h4-font-size,
   5: $font-size-base * 0.9,
-  6: $font-size-base * 0.75
+  6: $font-size-base * 0.75,
 );
 
-
-
-@import "_bootstrap.scss";
-@import "app.scss";
-@import "_button.scss";
-@import "_badge.scss";
-@import "_datepicker.scss";
-@import "_header.scss";
-@import "_footer.scss";
-@import "_modal.scss";
-@import "_homePage.scss";
-@import "_vote.scss";
-@import "_resultVote.scss";
-@import "_admin.scss";
-@import "_switch.scss";
+@import '_bootstrap.scss';
+@import 'app.scss';
+@import '_button.scss';
+@import '_badge.scss';
+@import '_datepicker.scss';
+@import '_header.scss';
+@import '_footer.scss';
+@import '_modal.scss';
+@import '_homePage.scss';
+@import '_vote.scss';
+@import '_resultVote.scss';
+@import '_admin.scss';
+@import '_switch.scss';

@@ -1,13 +1,15 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import Head from 'next/head';
-import {useRouter} from 'next/router';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {useTranslation} from 'next-i18next';
-import {getElection, castBallot, apiErrors, ElectionPayload, CandidatePayload, GradePayload} from '@services/api';
+import {getElection, castBallot, ElectionPayload, BallotPayload, ErrorPayload} from '@services/api';
 import BallotDesktop from '@components/ballot/BallotDesktop'
 import BallotMobile from '@components/ballot/BallotMobile'
+import Blur from '@components/Blur'
 import {useBallot, BallotTypes, BallotProvider} from '@services/BallotContext';
 import {ENDED_VOTE} from '@services/routes';
+import WaitingBallot from '@components/WaitingBallot';
+import PatternedBackground from '@components/PatternedBackground';
 
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
@@ -66,8 +68,11 @@ interface VoteInterface {
 const VoteBallot = ({election, token}: VoteInterface) => {
   const {t} = useTranslation();
 
-  const router = useRouter();
   const [ballot, dispatch] = useBallot();
+
+  const [voting, setVoting] = useState(false);
+  const [payload, setPayload] = useState<BallotPayload | null>(null);
+  const [error, setError] = useState<ErrorPayload | null>(null);
 
   useEffect(() => {
     dispatch({
@@ -80,61 +85,34 @@ const VoteBallot = ({election, token}: VoteInterface) => {
     return <div>"Loading..."</div>;
   }
 
-  const numGrades = ballot.election.grades.length;
-  const colSizeCandidateLg = 4;
-  const colSizeCandidateMd = 6;
-  const colSizeCandidateXs = 12;
-  const colSizeGradeLg = Math.floor((12 - colSizeCandidateLg) / numGrades);
-  const colSizeGradeMd = Math.floor((12 - colSizeCandidateMd) / numGrades);
-  const colSizeGradeXs = Math.floor((12 - colSizeCandidateXs) / numGrades);
-
-  const handleSubmitWithoutAllRate = () => {
-    alert(t('You have to judge every candidate/proposal!'));
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setVoting(true);
 
-    // const gradesById = {};
-    // judgments.forEach((c) => {
-    //   gradesById[c.id] = c.value;
-    // });
-    // const gradesByCandidate = [];
-    // Object.keys(gradesById).forEach((id) => {
-    //   gradesByCandidate.push(gradesById[id]);
-    // });
-
-    // castBallot(gradesByCandidate, election.id.toString(), token, () => {
-    router.push(`/confirm/${election.id}`);
-    // });
+    try {
+      const res = await castBallot(
+        ballot.votes,
+        ballot.election.ref, ballot.election.restricted, token)
+      if (res.status !== 200) {
+        console.error(res);
+        const msg = await res.json();
+        setError(msg)
+      }
+      else {
+        const msg = await res.json();
+        setPayload(msg)
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message)
+    }
   };
 
-  // const [viewportRef, embla] = useEmblaCarousel({skipSnaps: false});
-  // const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
-  // const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
-  // const [selectedIndex, setSelectedIndex] = useState(0);
-  // const [scrollSnaps, setScrollSnaps] = useState([]);
-
-  // const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla]);
-  // const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla]);
-  // const scrollTo = useCallback(
-  //   (index) => embla && embla.scrollTo(index),
-  //   [embla]
-  // );
-
-  // const onSelect = useCallback(() => {
-  //   if (!embla) return;
-  //   setSelectedIndex(embla.selectedScrollSnap());
-  //   setPrevBtnEnabled(embla.canScrollPrev());
-  //   setNextBtnEnabled(embla.canScrollNext());
-  // }, [embla, setSelectedIndex]);
-
-  // useEffect(() => {
-  //   if (!embla) return;
-  //   onSelect();
-  //   setScrollSnaps(embla.scrollSnapList());
-  //   embla.on('select', onSelect);
-  // }, [embla, setScrollSnaps, onSelect]);
+  if (voting) {
+    return <PatternedBackground>
+      <WaitingBallot ballot={payload} error={error} />
+    </PatternedBackground>
+  }
 
   return (
     <form className="w-100 h-100" onSubmit={handleSubmit} autoComplete="off">
@@ -149,6 +127,7 @@ const VoteBallot = ({election, token}: VoteInterface) => {
         />
       </Head>
 
+      <Blur />
       <BallotDesktop />
       <BallotMobile />
     </form >

@@ -17,3 +17,9 @@ export interface Grade {
 export interface GradeItem extends Grade {
   active: boolean;
 }
+
+export interface Vote {
+  candidateId: number;
+  gradeId: number;
+}
+

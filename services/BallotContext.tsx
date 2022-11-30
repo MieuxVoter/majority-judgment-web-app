@@ -3,12 +3,8 @@
  */
 import {createContext, useContext, useReducer, Dispatch} from 'react';
 import {ElectionPayload} from './api';
+import {Vote} from './type';
 
-
-export interface Vote {
-  candidateId: number;
-  gradeId: number;
-}
 
 export interface BallotContextInterface {
   election: ElectionPayload | null;
@@ -24,6 +20,7 @@ const defaultBallot: BallotContextInterface = {
 export enum BallotTypes {
   ELECTION = 'ELECTION',
   VOTE = 'VOTE',
+  COMMIT = 'COMMIT',
 }
 
 export type ElectionAction = {
@@ -37,7 +34,12 @@ export type VoteAction = {
   gradeId: number;
 }
 
-export type BallotActionTypes = ElectionAction | VoteAction;
+export type BallotAction = {
+  type: BallotTypes.COMMIT;
+  token?: string;
+}
+
+export type BallotActionTypes = ElectionAction | VoteAction | BallotAction;
 
 
 function reducer(ballot: BallotContextInterface, action: BallotActionTypes) {
@@ -64,6 +66,10 @@ function reducer(ballot: BallotContextInterface, action: BallotActionTypes) {
         })
       }
       return {...ballot, votes};
+    }
+    case BallotTypes.COMMIT: {
+      throw Error("Not implemented")
+      return ballot;
     }
     default: {
       return ballot

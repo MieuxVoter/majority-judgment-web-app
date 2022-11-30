@@ -1,5 +1,5 @@
-@import "./_datepicker-variables.scss";
-@import "./_datepicker-mixins.scss";
+@import './_datepicker-variables.scss';
+@import './_datepicker-mixins.scss';
 
 .react-datepicker-wrapper {
   display: inline-block;
@@ -46,7 +46,7 @@
 .react-datepicker-popper {
   z-index: 1;
 
-  &[data-placement^="bottom"] {
+  &[data-placement^='bottom'] {
     padding-top: $datepicker__triangle-size + 2px;
 
     .react-datepicker__triangle {
@@ -54,15 +54,15 @@
     }
   }
 
-  &[data-placement="bottom-end"],
-  &[data-placement="top-end"] {
+  &[data-placement='bottom-end'],
+  &[data-placement='top-end'] {
     .react-datepicker__triangle {
       left: auto;
       right: 50px;
     }
   }
 
-  &[data-placement^="top"] {
+  &[data-placement^='top'] {
     padding-bottom: $datepicker__triangle-size + 2px;
 
     .react-datepicker__triangle {
@@ -70,7 +70,7 @@
     }
   }
 
-  &[data-placement^="right"] {
+  &[data-placement^='right'] {
     padding-left: $datepicker__triangle-size;
 
     .react-datepicker__triangle {
@@ -79,7 +79,7 @@
     }
   }
 
-  &[data-placement^="left"] {
+  &[data-placement^='left'] {
     padding-right: $datepicker__triangle-size;
 
     .react-datepicker__triangle {
@@ -541,7 +541,7 @@
     text-align: center;
     display: table-cell;
     vertical-align: middle;
-    content: "\00d7";
+    content: '\00d7';
   }
 }
 

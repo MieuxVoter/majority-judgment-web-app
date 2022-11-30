@@ -1,4 +1,4 @@
-import {Candidate, Grade} from './type';
+import {Candidate, Grade, Vote} from './type';
 
 export const api = {
   urlServer:
@@ -10,7 +10,7 @@ export const api = {
     setElection: 'elections',
     getElection: 'elections/:slug',
     getResults: 'results/:slug',
-    voteElection: 'votes',
+    voteElection: 'ballots',
   },
 };
 
@@ -131,11 +131,10 @@ export const getElection = async (
 
 
 export const castBallot = (
-  judgments: Array<number>,
-  pid: string,
-  token: string,
-  callbackSuccess = null,
-  callbackError = null
+  votes: Array<Vote>,
+  electionRef: string,
+  restricted: boolean,
+  token?: string,
 ) => {
   /**
    * Save a ballot on the remote database
@@ -144,20 +143,30 @@ export const castBallot = (
   const endpoint = new URL(api.routesServer.voteElection, api.urlServer);
 
   const payload = {
-    election: pid,
-    grades_by_candidate: judgments,
+    election_ref: electionRef,
+    votes: votes,
   };
-  if (token && token !== '') {
-    payload['token'] = token;
-  }
 
-  fetch(endpoint.href, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(payload),
-  })
-    .then(callbackSuccess || ((res) => res))
-    .catch(callbackError || console.log);
+  if (!restricted) {
+    return fetch(endpoint.href, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    })
+  }
+  else {
+    if (!token) {
+      throw Error("Missing token")
+    }
+    return fetch(endpoint.href, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(payload),
+    })
+  }
 };
 
 export const UNKNOWN_ELECTION_ERROR = 'E1:';
@@ -243,3 +252,15 @@ export interface ResultsPayload extends ElectionPayload {
   votes: {[key: string]: Array<number>};
 }
 
+
+export interface VotePayload {
+  id: string;
+  candidate: CandidatePayload;
+  grade: GradePayload;
+}
+
+export interface BallotPayload {
+  votes: Array<VotePayload>;
+  election: ElectionPayload;
+  token: string;
+}

@@ -2,7 +2,7 @@
   border-color: $mv-blue-color;
   border-style: solid;
   border-width: 2px 2px 0 0;
-  content: "";
+  content: '';
   display: block;
   height: 12px;
   position: absolute;
@@ -28,7 +28,7 @@
     border: $datepicker__triangle-size solid transparent;
     height: 0;
     width: 1px;
-    content: "";
+    content: '';
     z-index: -1;
     border-width: $datepicker__triangle-size;
     left: -$datepicker__triangle-size;

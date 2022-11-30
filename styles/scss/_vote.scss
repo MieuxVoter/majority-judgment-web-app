@@ -12,7 +12,7 @@
   max-width: 100vw;
   min-height: 100vh;
   background-color: #17048e;
-  background-image: url("/back.svg");
+  background-image: url('/back.svg');
   background-size: 100%;
   background-position: center;
   margin: 0px !important;
@@ -23,9 +23,6 @@
   width: fit-content;
   margin: auto;
 }
-.modalVote > .modal-content {
-  background: transparent;
-}
 .modalVote > .modal-content > div > .modal-header {
   border-bottom: none;
 }
@@ -34,7 +31,7 @@
   font-size: 36px;
   line-height: 56px;
   margin: auto;
-  font-family: "DM Serif Display", serif !important;
+  font-family: 'DM Serif Display', serif !important;
   font-weight: normal;
 }
 .candidateGrade {
@@ -161,54 +158,6 @@
   .checkmark > .badge {
     width: fit-content;
   }
-  .embla {
-    overflow: hidden;
-  }
-  .embla__container {
-    display: flex;
-  }
-  .embla__slide {
-    position: relative;
-    flex: 0 0 100%;
-  }
-  .embla__nav {
-    justify-content: center;
-  }
-  .embla__btn {
-    width: 32px;
-    height: 32px;
-    display: flex;
-  }
-
-  .embla__dots {
-    display: flex;
-    list-style: none;
-    justify-content: center;
-    padding-top: 10px;
-  }
-
-  .embla__dot {
-    background-color: #0a004c4d;
-    cursor: pointer;
-    position: relative;
-    padding: 0;
-    outline: 0;
-    border: 0;
-    width: 30px;
-    height: 30px;
-    margin-right: 7.5px;
-    margin-left: 7.5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    cursor: pointer;
-  }
-  .embla__dot.is-selected {
-    background-color: white;
-    opacity: 1;
-    color: #0a004c;
-  }
   .btn-background {
     background-color: #291797;
     width: 100%;
@@ -247,10 +196,12 @@
   }
 }
 
-
 // EDIT
 .candidate-vote {
   width: 232px;
   position: relative;
   transition: left 1s;
+}
+.modal_candidate > .modal-content {
+  border: unset;
 }
