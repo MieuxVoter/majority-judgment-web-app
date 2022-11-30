@@ -49,9 +49,9 @@ export async function getServerSideProps({query, locale}) {
 
   return {
     props: {
-      title: details.title,
-      numGrades: details.num_grades,
-      finish: details.finish_at,
+      title: details.name,
+      numGrades: details.grades.length,
+      finish: details.date_end,
       candidates: res,
       pid: pid,
       ...translations,

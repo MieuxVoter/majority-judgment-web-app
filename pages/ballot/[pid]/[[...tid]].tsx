@@ -121,7 +121,8 @@ const VoteBallot = ({election, token}: VoteInterface) => {
     try {
       const res = await castBallot(
         ballot.votes,
-        ballot.election, ballot.election.restricted, token)
+        ballot.election,
+        token)
       if (res.status !== 200) {
         console.error(res);
         const msg = await res.json();

@@ -3,7 +3,7 @@ import {useTranslation} from 'next-i18next';
 import {CSSProperties, useEffect, useState} from 'react';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Container} from 'reactstrap';
+import {Col, Container, Row} from 'reactstrap';
 import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
 import Share from '@components/Share';
@@ -45,34 +45,38 @@ const ButtonResults = ({election}) => {
 const DiscoverMajorityJudgment = () => {
   const {t} = useTranslation();
   return (
-    <div className="bg-secondary h-100 p-4 text-white me-3">
-      <h5>{t('vote.discover-mj')}</h5>
-      <p>{t('vote.discover-mj-desc')}</p>
+    <Col className="d-flex flex-column justify-content-between  bg-secondary p-4 text-white" >
+      <div>
+        <h5>{t('vote.discover-mj')}</h5>
+        <p>{t('vote.discover-mj-desc')}</p>
+      </div>
       <a href="https://mieuxvoter.fr/le-jugement-majoritaire">
-        <div className="d-flex">
+        <div className="d-flex align-items-center">
           <div className="me-2">{t('common.about')}</div>
           <FontAwesomeIcon icon={faArrowRight} />
         </div>
       </a>
-    </div>)
+    </Col >)
 }
 
 const SupportBetterVote = () => {
   const {t} = useTranslation();
   return (
-    <div className="text-secondary h-100 p-4 bg-white">
-      <div className="d-flex justify-content-between">
-        <h5>{t('vote.support-better-vote')}</h5>
-        <Logo title={false} />
+    <Col className="d-flex flex-column justify-content-between  text-secondary p-4 bg-white">
+      <div>
+        <div className="d-flex mb-2 align-items-center justify-content-between">
+          <h5>{t('vote.support-better-vote')}</h5>
+          <Logo title={false} />
+        </div>
+        <p>{t('vote.support-desc')}</p>
       </div>
-      <p>{t('vote.support-desc')}</p>
       <a href="https://mieuxvoter.fr/le-jugement-majoritaire">
-        <div className="d-flex">
+        <div className="d-flex align-items-center">
           <div className="me-2">{t('common.donation')}</div>
           <FontAwesomeIcon icon={faArrowRight} />
         </div>
       </a>
-    </div>)
+    </Col>)
 }
 
 
@@ -117,9 +121,11 @@ const Info = ({ballot, error, display}: InfoInterface) => {
       </h4>
 
       <ButtonResults election={ballot.election} />
-      <Container className="d-flex m-4 justify-content-between">
-        <DiscoverMajorityJudgment />
-        <SupportBetterVote />
+      <Container>
+        <Row className="m-4 row-cols-1 row-cols-md-2 gx-4 justify-content-between">
+          <DiscoverMajorityJudgment />
+          <SupportBetterVote />
+        </Row>
       </Container>
       <Thanks />
       <Share />
