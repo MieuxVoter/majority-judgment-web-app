@@ -19,7 +19,6 @@ const Order = () => {
       value: !election.randomOrder,
     });
   };
-  console.log(election.randomOrder)
 
   return (
     <>

@@ -54,7 +54,7 @@ const CandidatesField = ({onSubmit}) => {
               <CandidateField
                 key={index}
                 position={index}
-                className="px-1 py-3  my-3"
+                className="px-4 my-3"
               />
             );
           })}

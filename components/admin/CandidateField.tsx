@@ -48,28 +48,24 @@ const CandidateField = ({
     : 'border border-dashed border-2 border-light border-opacity-25';
 
   return (
-    <Row
-      className={`${activeClass} align-items-center ${className}`}
+    <div
+      className={`${activeClass} d-flex justify-content-between align-items-center ${className}`}
       {...props}
     >
-      <Col onClick={toggleSet} role="button" className="col-10 me-auto">
-        <Row className="gx-3">
-          <Col className="col-2 justify-content-start align-items-center d-flex">
-            <Image
-              src={image}
-              width={24}
-              height={24}
-              className={`${image == defaultAvatar ? 'default-avatar' : ''
-                } bg-primary`}
-              alt={t('common.thumbnail')}
-            />
-          </Col>
-          <Col className="col-10 fw-bold">
-            {candidate.name ? candidate.name : t('admin.add-candidate')}
-          </Col>
-        </Row>
-      </Col>
-      <Col role="button" className="col-2 text-end">
+      <div onClick={toggleSet} role="button" className="py-3 flex-fill d-flex align-items-center ">
+        <Image
+          src={image}
+          width={24}
+          height={24}
+          className={`${image == defaultAvatar ? 'default-avatar' : ''
+            } bg-primary`}
+          alt={t('common.thumbnail')}
+        />
+        <div className="ps-2 fw-bold">
+          {candidate.name ? candidate.name : t('admin.add-candidate')}
+        </div>
+      </div>
+      <div role="button" className="text-end">
         {active ? (
           <FontAwesomeIcon
             icon={faTrashCan}
@@ -79,7 +75,7 @@ const CandidateField = ({
         ) : (
           <FontAwesomeIcon icon={faPlus} onClick={addCandidate} />
         )}
-      </Col>
+      </div>
       <CandidateModalSet
         toggle={toggleSet}
         isOpen={modalSet}
@@ -90,7 +86,7 @@ const CandidateField = ({
         isOpen={modalDel}
         position={position}
       />
-    </Row>
+    </div >
   );
 };
 

@@ -57,7 +57,7 @@ export const sendAdminMail = async (
   urlAdmin: URL,
 ) => {
   /**
-   * Send an invitation mail using a micro-service with Netlify
+   * Send a reminder to admink panel
    */
   if (!mail || !validateMail(mail)) {
     throw new Error('Incorrect format for the email');

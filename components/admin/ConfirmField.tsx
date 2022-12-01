@@ -60,7 +60,7 @@ const CandidatesField = () => {
         <CandidateField
           position={i}
           key={i}
-          className="text-primary m-0 py-2"
+          className="text-primary m-0"
         />
       ))}
     </Container>
