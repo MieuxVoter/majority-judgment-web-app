@@ -3,7 +3,7 @@ import {Handler} from "@netlify/functions";
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import Handlebars from 'handlebars';
-import {i18n} from '../i18next.config';
+import {i18n} from '../i18next';
 import i18next from 'i18next';
 import {MailgunMessageData, MessagesSendResult} from "mailgun.js/interfaces/Messages.js";
 
