@@ -21,9 +21,10 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
   if (!pid) {
     return {notFound: true}
   }
+  const electionRef = pid.replace("-", "");
 
   const [election, translations] = await Promise.all([
-    getElection(pid),
+    getElection(electionRef),
     serverSideTranslations(locale, ['resource']),
   ]);
 
@@ -54,7 +55,6 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
     props: {
       ...translations,
       election,
-      pid: pid,
       token: tid || null,
     },
   };

@@ -79,11 +79,11 @@ export const createElection = async (
 };
 
 
-export const getResults = (
+export const getResults = async (
   pid: string,
   successCallback = null,
   failureCallback = null
-) => {
+): Promise<ResultsPayload | string> => {
   /**
    * Fetch results from external API
    */
@@ -93,15 +93,15 @@ export const getResults = (
     api.urlServer
   );
 
-  return fetch(endpoint.href)
-    .then((response) => {
-      if (!response.ok) {
-        return Promise.reject(response.text());
-      }
-      return response.json();
-    })
-    .then(successCallback || ((res) => res))
-    .catch(failureCallback || ((err) => err));
+  try {
+    const response = await fetch(endpoint.href)
+    if (response.status != 200) {
+      return response.text();
+    }
+    return response.json();
+  } catch (error) {
+    return new Promise(() => "API errors")
+  }
 };
 
 
@@ -234,24 +234,25 @@ export interface ElectionPayload {
   name: string;
   description: string;
   ref: string;
-  date_create: string;
-  date_modified: string;
-  num_voters: number;
   date_start: string;
   date_end: string;
   hide_results: boolean;
   force_close: boolean;
   restricted: boolean;
-  id: number;
   grades: Array<GradePayload>;
   candidates: Array<CandidatePayload>;
+}
+
+export interface ElectionCreatedPayload extends ElectionPayload {
   invites: Array<string>;
   admin: string;
+  num_voters: number;
 }
+
 
 export interface ResultsPayload extends ElectionPayload {
   ranking: {[key: string]: number};
-  votes: {[key: string]: Array<number>};
+  merit_profile: {[key: number]: Array<number>};
 }
 
 

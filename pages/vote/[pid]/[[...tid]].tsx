@@ -21,7 +21,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['resource'])),
-      electionRef: pid,
+      electionRef: pid.replace("-", ""),
       token: tid || null,
     },
   }

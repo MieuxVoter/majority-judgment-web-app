@@ -8,7 +8,7 @@ import ButtonCopy from '@components/ButtonCopy';
 import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
-import {ElectionPayload, ErrorPayload} from '@services/api';
+import {ElectionCreatedPayload, ErrorPayload} from '@services/api';
 import {useAppContext} from '@services/context';
 import {getUrlVote, getUrlResults} from '@services/routes';
 import urne from '../public/urne.svg'
@@ -17,7 +17,7 @@ import {Container} from 'reactstrap';
 
 
 export interface WaitingBallotInterface {
-  election?: ElectionPayload;
+  election?: ElectionCreatedPayload;
   error?: ErrorPayload;
 }
 

@@ -11,7 +11,7 @@ import {
 import {ProgressSteps, creationSteps} from '@components/CreationSteps';
 import Blur from '@components/Blur'
 import {GetStaticProps} from 'next';
-import {ElectionPayload, ErrorPayload} from '@services/api';
+import {ElectionCreatedPayload, ErrorPayload} from '@services/api';
 
 
 export const getStaticProps: GetStaticProps = async ({locale}) => ({
@@ -27,7 +27,7 @@ const CreateElectionForm = () => {
    * Manage the steps for creating an election
    */
   const [wait, setWait] = useState(false);
-  const [payload, setPayload] = useState<ElectionPayload | null>(null);
+  const [payload, setPayload] = useState<ElectionCreatedPayload | null>(null);
   const [error, setError] = useState<ErrorPayload | null>(null);
 
   const handleSubmit = () => {

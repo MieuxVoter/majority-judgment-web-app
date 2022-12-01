@@ -31,3 +31,4 @@ export const displayRef = (ref: string): string => {
   }
 
   return `${ref.substring(0, 3)}-${ref.substring(3, 6)}-${ref.substring(6)}`
+}
