@@ -11,11 +11,14 @@ import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
 import {BallotPayload, ErrorPayload} from '@services/api';
 import {useAppContext} from '@services/context';
-import {getUrlResults} from '@services/routes';
-import urne from '../public/urne.svg'
-import star from '../public/star.svg'
+import {displayRef} from '@services/utils';
+import {RESULTS} from '@services/routes';
 import Logo from './Logo';
 import {FORM_FEEDBACK} from '@services/constants';
+import urne from '../public/urne.svg'
+import star from '../public/star.svg'
+import logo from '../public/logo-red-blue.svg'
+import Link from 'next/link';
 
 
 export interface WaitingBallotInterface {
@@ -32,9 +35,11 @@ const ButtonResults = ({election}) => {
 
   if (!election.hideResults || isEnded) {
     return (
-      <Button className="" icon={faArrowRight} position="right">
-        {t('vote.go-to-results')}
-      </Button>
+      <Link href={`${RESULTS}/${displayRef(election.ref)}`}>
+        <Button className="" icon={faArrowRight} position="right">
+          {t('vote.go-to-results')}
+        </Button>
+      </Link>
     )
   } else {
     return null;
@@ -66,7 +71,7 @@ const SupportBetterVote = () => {
       <div>
         <div className="d-flex mb-2 align-items-center justify-content-between">
           <h5>{t('vote.support-better-vote')}</h5>
-          <Logo title={false} />
+          <Logo src={logo} title={false} />
         </div>
         <p>{t('vote.support-desc')}</p>
       </div>

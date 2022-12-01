@@ -88,14 +88,13 @@ const submitElection = (
     election.restricted,
     election.randomOrder,
     async (payload: ElectionPayload) => {
-      const id = payload.id;
       const tokens = payload.invites;
       if (typeof election.emails !== 'undefined' && election.emails.length > 0) {
         if (typeof payload.invites === 'undefined' || payload.invites.length !== election.emails.length) {
           throw Error('Can not send invite emails');
         }
-        const urlVotes = payload.invites.map((token: string) => getUrlVote(id.toString(), token));
-        const urlResult = getUrlResults(id.toString());
+        const urlVotes = payload.invites.map((token: string) => getUrlVote(payload.ref, token));
+        const urlResult = getUrlResults(electionRef);
         await sendInviteMails(
           election.emails,
           election.name,

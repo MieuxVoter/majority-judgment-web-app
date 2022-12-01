@@ -24,3 +24,10 @@ export const getWindowUrl = (): string => {
     : 'http://localhost';
 }
 
+
+export const displayRef = (ref: string): string => {
+  if (ref.length !== 10) {
+    throw Error("Unexpected election ref");
+  }
+
+  return `${ref.substring(0, 3)}-${ref.substring(3, 6)}-${ref.substring(6)}`

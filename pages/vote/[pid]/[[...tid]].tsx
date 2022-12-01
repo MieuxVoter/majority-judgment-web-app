@@ -21,19 +21,19 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['resource'])),
-      electionId: pid,
+      electionRef: pid,
       token: tid || null,
     },
   }
 }
 
 interface VoteInterface {
-  electionId: string;
+  electionRef: string;
   token?: string;
 }
 
 
-const GoToBallotConfirm = ({electionId, token}) => {
+const GoToBallotConfirm = ({electionRef, token}) => {
 
   const {t} = useTranslation();
 
@@ -52,7 +52,7 @@ const GoToBallotConfirm = ({electionId, token}) => {
           </Row>
 
           <Row>
-            <Link href={`${BALLOT}/${electionId}/${token ? token : ""}`}>
+            <Link href={`${BALLOT}/${electionRef}/${token ? token : ""}`}>
               <Button
                 color="secondary"
                 outline={true}
@@ -79,12 +79,12 @@ const GoToBallotConfirm = ({electionId, token}) => {
   )
 }
 
-const Vote = ({electionId, token}: VoteInterface) => {
+const Vote = ({electionRef, token}: VoteInterface) => {
 
   return (
     <>
       <section>
-        <GoToBallotConfirm electionId={electionId} token={token} />
+        <GoToBallotConfirm electionRef={electionRef} token={token} />
       </section>
       <section className="sectionTwoHome">
         <AdvantagesRow />

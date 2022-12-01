@@ -34,8 +34,8 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
 
   if (!election) return null;
 
-  const urlVote = getUrlVote(election.id)
-  const urlResults = getUrlResults(election.id)
+  const urlVote = getUrlVote(election.ref)
+  const urlResults = getUrlResults(election.ref)
 
   return (
     <div style={{
@@ -47,7 +47,7 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
       {error && error.detail ?
         <ErrorMessage msg={error.detail[0].msg} /> : null}
 
-      {election && election.id ?
+      {election && election.ref ?
         <>
           <h4 className="text-center">
             {t('admin.success-election')}
@@ -83,7 +83,7 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
           <AdminModalEmail
             toggle={toggleModal}
             isOpen={modal}
-            electionId={election.id}
+            electionRef={election.ref}
             adminToken={election.admin}
           />
         </> : null}

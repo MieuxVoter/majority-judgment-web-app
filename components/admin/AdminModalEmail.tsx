@@ -12,16 +12,16 @@ import {useElection} from '@services/ElectionContext';
 interface AdminModalEmailInterface {
   isOpen: boolean;
   toggle: () => void;
-  electionId: number | null;
+  electionRef: string | null;
   adminToken: string | null;
 }
 
-const AdminModalEmail = ({isOpen, toggle, electionId, adminToken}: AdminModalEmailInterface) => {
+const AdminModalEmail = ({isOpen, toggle, electionRef, adminToken}: AdminModalEmailInterface) => {
   const {t} = useTranslation();
   const [email, setEmail] = useState(undefined);
   const election = useElection();
 
-  const adminUrl = electionId && adminToken ? getUrlAdmin(electionId.toString(), adminToken) : null;
+  const adminUrl = electionRef && adminToken ? getUrlAdmin(electionRef, adminToken) : null;
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
