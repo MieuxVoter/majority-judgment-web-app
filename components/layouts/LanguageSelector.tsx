@@ -12,6 +12,7 @@ const LanguageSelector = (props) => {
     if (locale === 'gb') locale = 'en';
     router.push('', '', {locale});
   };
+
   return (
     <ReactFlagsSelect
       onSelect={selectHandler}
@@ -19,7 +20,7 @@ const LanguageSelector = (props) => {
         // ["GB", "FR", "ES", "DE", "RU"]
         ['GB', 'FR']
       }
-      selected={localeShort}
+      selected={localeShort == "en" ? "GB" : localeShort.toUpperCase()}
       customLabels={{GB: 'English', FR: 'Francais'}}
       {...props}
       className="menu-flags"

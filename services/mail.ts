@@ -1,5 +1,6 @@
 import {NextRouter} from 'next/router';
 import {getLocaleShort} from './utils';
+import {availableLanguages} from '@functions/i18next';
 
 export const sendInviteMails = async (
   mails: Array<string>,
@@ -25,10 +26,14 @@ export const sendInviteMails = async (
     recipients[mails[index]] = {
       urlVote: urlVotes[index],
       urlResult: urlResult,
+      title: name,
     };
   });
 
   const locale = getLocaleShort(router);
+  if (!availableLanguages.includes(locale)) {
+    throw Error(`{locale} is not available for mails`)
+  }
 
   const req = await fetch('/.netlify/functions/send-emails', {
     method: 'POST',
@@ -38,7 +43,6 @@ export const sendInviteMails = async (
     body: JSON.stringify({
       action: "invite",
       recipients,
-      title: name,
       locale,
     }),
   });

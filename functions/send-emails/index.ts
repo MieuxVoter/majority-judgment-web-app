@@ -56,7 +56,6 @@ const handler: Handler = async (event) => {
     };
   }
 
-  console.log("EVENT BODY", event.body)
   const {recipients, action, locale} = JSON.parse(event.body) as RequestPayload;
 
   if (!recipients) {

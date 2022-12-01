@@ -19,6 +19,8 @@ export const resources = {
   },
 } as const;
 
+export const availableLanguages = Object.keys(resources);
+
 
 export const i18n: InitOptions = {
   // https://www.i18next.com/overview/configuration-options#logging
