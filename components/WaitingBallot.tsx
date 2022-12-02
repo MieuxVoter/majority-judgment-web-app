@@ -11,7 +11,7 @@ import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
 import {BallotPayload, ErrorPayload} from '@services/api';
 import {useAppContext} from '@services/context';
-import {displayRef} from '@services/utils';
+import {displayRef, isEnded} from '@services/utils';
 import {RESULTS} from '@services/routes';
 import Logo from './Logo';
 import {FORM_FEEDBACK} from '@services/constants';
@@ -29,11 +29,8 @@ export interface WaitingBallotInterface {
 const ButtonResults = ({election}) => {
   const {t} = useTranslation();
 
-  const dateEnd = new Date(election.date_end);
-  const now = new Date();
-  const isEnded = +dateEnd > +now;
 
-  if (!election.hideResults || isEnded) {
+  if (!election.hideResults || isEnded(election.date_end)) {
     return (
       <Link href={`${RESULTS}/${displayRef(election.ref)}`}>
         <Button className="" icon={faArrowRight} position="right">

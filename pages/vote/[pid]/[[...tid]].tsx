@@ -15,13 +15,14 @@ import AdvantagesRow from '@components/Advantages';
 import Logo from '@components/Logo';
 import {BALLOT} from '@services/routes';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {displayRef} from '@services/utils';
 
 
 export async function getServerSideProps({query: {pid, tid}, locale}) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['resource'])),
-      electionRef: pid.replace("-", ""),
+      electionRef: pid.replaceAll("-", ""),
       token: tid || null,
     },
   }
@@ -52,7 +53,7 @@ const GoToBallotConfirm = ({electionRef, token}) => {
           </Row>
 
           <Row>
-            <Link href={`${BALLOT}/${electionRef}/${token ? token : ""}`}>
+            <Link href={`${BALLOT}/${displayRef(electionRef)}/${token ? token : ""}`}>
               <Button
                 color="secondary"
                 outline={true}

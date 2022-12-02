@@ -11,6 +11,7 @@ import Blur from '@components/Blur'
 import {getElection, castBallot, ElectionPayload, BallotPayload, ErrorPayload} from '@services/api';
 import {useBallot, BallotTypes, BallotProvider} from '@services/BallotContext';
 import {ENDED_VOTE} from '@services/routes';
+import {isEnded} from '@services/utils';
 import WaitingBallot from '@components/WaitingBallot';
 import PatternedBackground from '@components/PatternedBackground';
 
@@ -21,7 +22,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
   if (!pid) {
     return {notFound: true}
   }
-  const electionRef = pid.replace("-", "");
+  const electionRef = pid.replaceAll("-", "");
 
   const [election, translations] = await Promise.all([
     getElection(electionRef),
@@ -32,11 +33,12 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
     return {notFound: true}
   }
 
-  const dateEnd = new Date(election.date_end)
-  if (dateEnd.getDate() > new Date().getDate()) {
+  if (isEnded(election.date_end)) {
     return {
-      redirect: ENDED_VOTE,
-      permanent: false
+      redirect: {
+        destination: `${ENDED_VOTE}/${pid}/${tid || ""}`,
+        permanent: false
+      }
     }
   }
 

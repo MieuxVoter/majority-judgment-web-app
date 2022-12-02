@@ -28,3 +28,10 @@ export const displayRef = (ref: string): string => {
 
   return `${ref.substring(0, 3)}-${ref.substring(3, 6)}-${ref.substring(6)}`
 }
+
+export const isEnded = (date: string): boolean => {
+  const dateEnd = new Date(date);
+  const now = new Date();
+  console.log(dateEnd, now)
+  return +dateEnd < +now;
+}

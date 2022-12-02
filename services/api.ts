@@ -83,7 +83,7 @@ export const getResults = async (
   pid: string,
   successCallback = null,
   failureCallback = null
-): Promise<ResultsPayload | string> => {
+): Promise<ResultsPayload | HTTPPayload> => {
   /**
    * Fetch results from external API
    */
@@ -96,9 +96,11 @@ export const getResults = async (
   try {
     const response = await fetch(endpoint.href)
     if (response.status != 200) {
-      return response.text();
+      const payload = await response.json();
+      return {status: response.status, msg: payload};
     }
-    return response.json();
+    const payload = await response.json()
+    return {...payload, status: response.status};
   } catch (error) {
     return new Promise(() => "API errors")
   }
@@ -230,6 +232,11 @@ export interface ErrorPayload {
   detail: Array<ErrorMessage>;
 }
 
+export interface HTTPPayload {
+  status: number;
+  msg: string;
+}
+
 export interface ElectionPayload {
   name: string;
   description: string;
@@ -251,6 +258,7 @@ export interface ElectionCreatedPayload extends ElectionPayload {
 
 
 export interface ResultsPayload extends ElectionPayload {
+  status: number;
   ranking: {[key: string]: number};
   merit_profile: {[key: number]: Array<number>};
 }

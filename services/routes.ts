@@ -6,7 +6,7 @@ import {getWindowUrl, displayRef} from './utils';
 
 export const CREATE_ELECTION = '/admin/new';
 export const BALLOT = '/ballot';
-export const ENDED_VOTE = '/ballot/end';
+export const ENDED_VOTE = '/end';
 export const VOTE = '/vote';
 export const RESULTS = '/result';
 

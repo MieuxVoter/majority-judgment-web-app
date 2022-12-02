@@ -2,29 +2,31 @@
  * A few useful function for dealing with majority judgment
  */
 
+import {MeritProfileInterface} from "./type";
+
 
 /**
  * Return the index corresponding to the majority grade
  */
-export const getMajorityGrade = (votes: Array<number>): number => {
-  const indices = votes.map((_, i) => i);
-  const numVotes = votes.reduce((a, b) => a + b, 0)
+export const getMajorityGrade = (profile: MeritProfileInterface): number => {
+  const indices = Object.keys(profile);
+  const numVotes = Object.values(profile).reduce((a, b) => a + b, 0)
 
   let majorityGrade = indices[0]
   let accBefore = 0
   let isBefore = true
 
-  for (const gradeId in votes) {
+  for (const value of indices) {
     if (isBefore) {
-      accBefore += votes[gradeId]
+      accBefore += profile[value]
     }
     if (isBefore && accBefore > numVotes / 2) {
-      majorityGrade = indices[gradeId]
-      accBefore -= votes[gradeId]
+      majorityGrade = value
+      accBefore -= profile[value]
       isBefore = false
     }
   }
-
-  return majorityGrade;
+  const value = indices.indexOf(majorityGrade);
+  return value
 }
 

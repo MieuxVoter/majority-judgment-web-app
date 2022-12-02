@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import {Container, Row, Col} from 'reactstrap';
+import {Container} from 'reactstrap';
 import {useTranslation} from 'next-i18next';
 import {CONTACT_MAIL} from '@services/constants';
 import Button from '@components/Button'

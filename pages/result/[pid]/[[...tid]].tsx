@@ -23,10 +23,15 @@ import {
   faChevronUp,
   faGear,
 } from '@fortawesome/free-solid-svg-icons';
+// import dynamic from 'next/dynamic'
 import ErrorMessage from '@components/Error';
+import CSVLink from '@components/CSVLink';
 import Logo from '@components/Logo';
-import {getResults, getElection, apiErrors, ResultsPayload, CandidatePayload, GradePayload} from '@services/api';
+import MeritProfile from '@components/MeritProfile';
+import {getResults} from '@services/api';
+import {GradeResultInterface, ResultInterface, MeritProfileInterface, CandidateResultInterface} from '@services/type';
 import {getUrlAdmin} from '@services/routes';
+import {displayRef} from '@services/utils';
 import {getMajorityGrade} from '@services/majorityJudgment';
 import avatarBlue from '../../../public/avatarBlue.svg'
 import calendar from '../../../public/calendar.svg'
@@ -35,50 +40,38 @@ import arrowLink from '../../../public/arrowL.svg'
 import {getGradeColor} from '@services/grades';
 
 
-interface GradeInterface extends GradePayload {
-  color: string;
-}
 
-interface CandidateInterface extends CandidatePayload {
-  majorityGrade: GradeInterface;
-  rank: number;
-}
+// /**
+//  * See https://github.com/react-csv/react-csv/issues/87
+//  */
+// const CSVDownload = dynamic(
+//   import('react-csv').then((m) => {
+//     const {
+//       CSVDownload
+//     } = m
+//     return CSVDownload
+//   }), {
+//   ssr: false,
+//   loading: () => <a>placeholder component...</a>
+// })
 
-interface ElectionInterface {
-  name: string;
-  description: string;
-  ref: string;
-  dateStart: string;
-  dateEnd: string;
-  hideResults: boolean;
-  forceClose: boolean;
-  restricted: boolean;
-  grades: Array<GradeInterface>;
-  candidates: Array<CandidateInterface>;
-}
-
-
-interface ResultInterface extends ElectionInterface {
-  ranking: {[key: string]: number};
-  meritProfile: {[key: number]: Array<number>};
-}
 
 export async function getServerSideProps({query, locale}) {
   const {pid, tid: token} = query;
-  const electionRef = pid.replace("-", "");
+  const electionRef = pid.replaceAll("-", "");
 
   const [payload, translations] = await Promise.all([
     getResults(electionRef),
     serverSideTranslations(locale, ["resource"]),
   ]);
 
-  if (typeof payload === 'string' || payload instanceof String) {
-    return {props: {err: payload, ...translations}};
+  if ("msg" in payload) {
+    return {props: {err: payload.msg, ...translations}};
   }
 
   const numGrades = payload.grades.length;
   const grades = payload.grades.map((g, i) => ({...g, color: getGradeColor(i, numGrades)}));
-  const gradesByValue: {[key: number]: GradeInterface} = {}
+  const gradesByValue: {[key: number]: GradeResultInterface} = {}
   grades.forEach(g => gradesByValue[g.value] = g)
 
   const result: ResultInterface = {
@@ -93,13 +86,15 @@ export async function getServerSideProps({query, locale}) {
     grades: grades,
     candidates: payload.candidates.map(c => ({
       ...c,
-      rank: payload.ranking[c.id],
+      meritProfile: payload.merit_profile[c.id],
+      rank: payload.ranking[c.id] + 1,
       majorityGrade: gradesByValue[getMajorityGrade(payload.merit_profile[c.id])]
     })),
     ranking: payload.ranking,
-    meritProfile: payload.merit_profile,
+    meritProfiles: payload.merit_profile,
 
   }
+  console.log("GRADES", payload.grades, grades, result.grades)
 
   return {
     props: {
@@ -112,11 +107,11 @@ export async function getServerSideProps({query, locale}) {
 
 
 const getNumVotes = (result: ResultInterface) => {
-  const sum = (seq: Array<number>) =>
+  const sum = (seq: MeritProfileInterface) =>
     Object.values(seq).reduce((a, b) => a + b, 0);
   const anyCandidateId = result.candidates[0].id;
-  const numVotes = sum(result.meritProfile[anyCandidateId]);
-  Object.values(result.meritProfile).forEach(v => {
+  const numVotes = sum(result.meritProfiles[anyCandidateId]);
+  Object.values(result.meritProfiles).forEach(v => {
     if (sum(v) !== numVotes) {
       throw Error("The election does not contain the same number of votes for each candidate")
     }
@@ -124,41 +119,54 @@ const getNumVotes = (result: ResultInterface) => {
   return numVotes;
 }
 
+const WillClose = ({delay}) => {
+  const {t} = useTranslation();
+  if (delay < 365) {
+    return <div>{t('result.closed')}</div>
+  }
+  else if (delay < 0) {
+    return <div>{`${t('result.has-closed')} ${delay} ${t('common.days')}`}</div>
+  } else if (delay > 365) {
+    return <div>{t('result.opened')}</div>
+  } else {
+    return <div>{`${t('result.will-close')} ${delay} ${t('common.days')}`}</div>
+  }
+}
 
 interface ResultBanner {
-  result: ResultsPayload;
+  result: ResultInterface;
 }
 const ResultBanner = ({result}) => {
   const {t} = useTranslation();
 
-  const dateEnd = new Date(result.date_end);
+  const dateEnd = new Date(result.dateEnd);
   const now = new Date();
   const closedSince = +dateEnd - (+now);
 
   const numVotes = getNumVotes(result)
 
-  return (<div className="w-100 bg-white p-5 justify-content-between align-items-center">
+  return (<div className="w-100 bg-white p-5 d-flex justify-content-between align-items-center">
     <div className="text-muted">
       <div className="d-flex align-items-center">
-        <Image alt="Calendar" src={calendar} />
-        <p>{closedSince > 0 ? `${t('result.has-closed')} {closedSince}` : `${t('result.will-close')} {closedSince}`} {t('common.days')}</p>
+        <Image alt="Calendar" src={calendar} className="me-2" />
+        <WillClose delay={closedSince} />
       </div>
-      <div className="d-flex align-items-center">
-        <Image src={avatarBlue} alt="Avatar" />
-        <p>{`${numVotes} ${t('common.participants')}`}</p>
+      <div className="d-flex align-items-center" >
+        <Image src={avatarBlue} alt="Avatar" className="me-2" />
+        <div>{numVotes} {numVotes > 1 ? t('common.participants') : t('common.participant')}</div>
       </div>
     </div>
 
-    <h3>{result.name}</h3>
+    <h4 className="text-black">{result.name}</h4>
 
     <div className="text-muted">
       <div className="d-flex align-items-center">
-        <Image alt="Download" src={arrowUpload} />
-        <p>{t('result.download')}</p>
+        <Image alt="Download" src={arrowUpload} className="me-2" />
+        <div>{t('result.download')}</div>
       </div>
       <div className="d-flex align-items-center">
-        <Image src={arrowLink} alt="Share" />
-        <p>{t('result.share')}</p>
+        <Image src={arrowLink} alt="Share" className="me-2" />
+        <div>{t('result.share')}</div>
       </div>
     </div>
   </div >
@@ -166,14 +174,28 @@ const ResultBanner = ({result}) => {
 }
 
 
-const BottomButtonsMobile = () => {
+const BottomButtonsMobile = ({result}) => {
   const {t} = useTranslation();
+  const values = result.grades.map(v => v.value).sort()
+  //   const data = result.candidates.map(c => [c.name]);
+  const data = result.candidates.map(c => {
+
+    const grades = {}
+    result.grades.forEach(g => grades[g.name] = g.value in c.meritProfile ? c.meritProfile[g.value].toString() : "0")
+    return {name: c.name, ...grades}
+  });
+  console.log(data)
+
   return (
-    <div className="d-block d-md-none mt-5">
-      <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary">
-        <Image alt="Download" src={arrowUpload} />
-        <p>{t('result.download')}</p>
-      </Button>
+    <div className="d-block d-md-none mt-5" role="button">
+      <CSVLink
+        filename={`results-${displayRef(result.ref)}.csv`}
+        data={data}>
+        <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary">
+          <Image alt="Download" src={arrowUpload} />
+          <p>{t('result.download')}</p>
+        </Button>
+      </CSVLink>
       <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary">
         <Image src={arrowLink} alt="Share" />
         <p>{t('result.share')}</p>
@@ -210,11 +232,11 @@ const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
 }
 
 
-interface ButtonGradeInterface {
-  grade: GradeInterface;
+interface ButtonGradeResultInterface {
+  grade: GradeResultInterface;
 }
 
-const ButtonGrade = ({grade}: ButtonGradeInterface) => {
+const ButtonGrade = ({grade}: ButtonGradeResultInterface) => {
 
   const style = {
     color: 'white',
@@ -224,7 +246,7 @@ const ButtonGrade = ({grade}: ButtonGradeInterface) => {
   return (
     <div
       style={style}
-      className="py-2 px-3 m-1 fw-bold rounded-1 d-flex justify-content-between gap-3"
+      className="p-2 fw-bold rounded-1 d-flex justify-content-between gap-3"
     >
       {grade.name}
     </div>
@@ -232,25 +254,78 @@ const ButtonGrade = ({grade}: ButtonGradeInterface) => {
 };
 
 interface CandidateRankedInterface {
-  candidate: CandidateInterface;
+  candidate: CandidateResultInterface;
 }
 
 const CandidateRanked = ({candidate}: CandidateRankedInterface) => {
   const isFirst = candidate.rank == 1;
-  return <div>
-    <div className={isFirst ? "text-primary bg-white fs-5" : "text-white bg-secondary fs-6"}>
+  return <div className="m-3 d-flex flex-column justify-content-end align-items-center candidate_rank fw-bold">
+    <div className={isFirst ? "text-primary bg-white fs-5 badge" : "text-white bg-secondary fs-6 badge"}>
       {candidate.rank}
     </div>
-    <div className={`text-white ${isFirst ? "fs-4" : "fs-6"}`}>
+    <div className={`text-white my-2 ${isFirst ? "fs-4" : "fs-6"}`}>
       {candidate.name}
     </div>
     <ButtonGrade grade={candidate.majorityGrade} />
   </div>
 }
 
+interface CandidateCardInterface {
+  candidate: CandidateResultInterface;
+  grades: Array<GradeResultInterface>;
+}
+
+const CandidateCard = ({candidate, grades}: CandidateCardInterface) => {
+  const {t} = useTranslation();
+  const [collapse, setCollapse] = useState(true);
+
+  return (
+    <Card className="bg-light text-primary my-3">
+      <CardHeader
+        role="button"
+        className="p-3 d-flex justify-content-between"
+        onClick={() => setCollapse(s => !s)}
+      >
+        <div className=" align-items-center d-flex">
+          <span className="resultPositionCard me-2">{candidate.rank}</span>
+          <span className="candidateName">
+            {candidate.name}
+          </span>
+        </div>
+        <div className="d-flex align-items-center">
+          <ButtonGrade grade={candidate.majorityGrade} />
+          <FontAwesomeIcon
+            icon={collapse ? faChevronDown : faChevronUp}
+            className="ms-2 text-black-50"
+            size="xl"
+          />
+        </div>
+      </CardHeader>
+      <Collapse isOpen={!collapse} >
+        <CardBody className="p-3 text-dark">
+          {t('result.merit-profile')}
+          <MeritProfile profile={candidate.meritProfile} grades={grades} />
+          <a
+            href="https://mieuxvoter.fr/le-jugement-majoritaire"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="d-flex w-100 align-items-center justify-content-center mt-5 text-black-50 fs-5"
+          >
+            <div>{t('result.how-to-interpret')}</div>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className="ms-3"
+            />
+          </a>
+        </CardBody>
+      </Collapse>
+    </Card >
+  )
+};
+
 
 interface PodiumInterface {
-  candidates: Array<CandidateInterface>;
+  candidates: Array<CandidateResultInterface>;
 }
 
 
@@ -259,32 +334,35 @@ const Podium = ({candidates}: PodiumInterface) => {
 
   // get best candidates
   const numBest = Math.min(3, candidates.length);
-  const candidatesByRank = {}
-  candidates.forEach(c => candidatesByRank[c.rank] = c)
+  const candidateByRank = {}
+  candidates.filter(c => c.rank < 4).forEach(c => candidateByRank[c.rank] = c)
 
   if (numBest < 2) {
     throw Error("Can not load enough candidates");
   }
 
   if (numBest === 2) {
-    return (<div>
-      <CandidateRanked candidate={candidates[0]} />
-      <CandidateRanked candidate={candidates[1]} />
+    return (<div className="d-md-flex my-5 justify-content-center d-none">
+      <CandidateRanked candidate={candidateByRank[1]} />
+      <CandidateRanked candidate={candidateByRank[2]} />
     </div>)
   }
 
 
-  return (<div>
-    <CandidateRanked candidate={candidates[1]} />
-    <CandidateRanked candidate={candidates[0]} />
-    <CandidateRanked candidate={candidates[2]} />
+  return (<div className="d-md-flex my-5 d-none justify-content-center">
+    <CandidateRanked candidate={candidateByRank[2]} />
+    <CandidateRanked candidate={candidateByRank[1]} />
+    <CandidateRanked candidate={candidateByRank[3]} />
   </div>)
 }
 
+interface ErrorInterface {
+  message: string;
+}
 interface ResultPageInterface {
   result?: ResultInterface;
   token?: string;
-  err?: string;
+  err?: ErrorInterface;
 }
 
 
@@ -292,8 +370,9 @@ const ResultPage = ({result, token, err}: ResultPageInterface) => {
   const {t} = useTranslation();
   const router = useRouter();
 
-  if (err && err !== '') {
-    return <ErrorMessage msg={err} />;
+
+  if (err && err.message !== '') {
+    return <ErrorMessage msg={err.message} />;
   }
 
   if (!result) {
@@ -305,11 +384,8 @@ const ResultPage = ({result, token, err}: ResultPageInterface) => {
     throw Error("No candidates were loaded in this election")
   }
 
-  // const collapsee = result.candidates[0].name;
-  // const [collapseProfiles, setCollapseProfiles] = useState(false);
-  // const [collapseGraphics, setCollapseGraphics] = useState(false);
-
-  const numVotes = getNumVotes(result)
+  const candidateByRank = {}
+  result.candidates.filter(c => c.rank < 4).forEach(c => candidateByRank[c.rank] = c)
 
   return (
     <Container className="resultContainer resultPage">
@@ -324,143 +400,20 @@ const ResultPage = ({result, token, err}: ResultPageInterface) => {
       <Podium candidates={result.candidates} />
 
       <section className="sectionContentResult mb-5">
-        <Row className="mt-5 componentDesktop">
-          <Col>
-            <ol className="result px-0">
-              {result.candidates.map((candidate, i) => {
-                return (
-                  <li key={i} className="mt-2">
-                    <span className="resultPosition">{i + 1}</span>
-                    <span className="my-3">{candidate.name}</span>
-                    <span
-                      className="badge badge-light"
-                      style={{
-                        backgroundColor: candidate.majorityGrade.color,
-                        color: '#fff',
-                      }}
-                    >
-                      {candidate.majorityGrade.name}
-                    </span>
-                  </li>
-                );
-              })}
-            </ol>
-          </Col>
-        </Row>
 
         <Row className="mt-5">
           <Col>
-            <h5>
-              <small>{t('Détails des résultats')}</small>
+            <h5 className="text-white">
+              {t('result.details')}
             </h5>
-            {result.candidates.map((candidate, i) => {
+            {Object.keys(candidateByRank).sort().map((rank, i) => {
               return (
-                <Card className="bg-light text-primary my-3">
-                  <CardHeader
-                    className="pointer"
-                  >
-                    {/*onClick={() => setCollapseGraphics(!collapseGraphics)}*/}
-                    <h4
-                    >
-                      {/* className={'m-0 ' + (collapseGraphics ? 'collapsed' : '')}*/}
-                      <span
-                        key={i}
-                        className="d-flex panel-title justify-content-between"
-                      >
-                        <div className="d-flex">
-                          <span className="resultPositionCard ">{i + 1}</span>
-                          <span className="candidateName">
-                            {candidate.name}
-                          </span>
-                        </div>
-                        <div>
-                          <span
-                            className="badge badge-light"
-                            style={{
-                              backgroundColor: candidate.majorityGrade.color,
-                              color: '#fff',
-                            }}
-                          >
-                            {candidate.majorityGrade.name}
-                          </span>
-                          <FontAwesomeIcon
-                            icon={faChevronDown}
-                            className="openIcon"
-                          />
-                          <FontAwesomeIcon
-                            icon={faChevronUp}
-                            className="closeIcon"
-                          />
-                        </div>
-                      </span>
-                    </h4>
-                  </CardHeader>
-                  <Collapse
-                  >
-                    {/*isOpen={collapseGraphics}*/}
-                    <CardBody className="pt-5">
-                      <Row className="column">
-                        <Col>
-                          {t('Preference profile')}
-
-                          <div>
-                            <div
-                              className="median"
-                              style={{height: '40px'}}
-                            />
-                            <div style={{width: '100%'}}>
-                              <div key={i}>
-
-                                <div style={{width: '100%'}}>
-                                  {/* gradeIds
-                                    .slice(0)
-                                    .reverse()
-                                    .map((id, i) => {
-                                      const value = candidate.profile[id];
-                                      if (value > 0) {
-                                        let percent =
-                                          (value * 100) / numVotes + '%';
-                                        if (i === 0) {
-                                          percent = 'auto';
-                                        }
-                                        return (
-                                          <div
-                                            key={i}
-                                            style={{
-                                              width: percent,
-                                              backgroundColor: grades[i].color,
-                                            }}
-                                          >
-                                            &nbsp;
-                                          </div>
-                                        );
-                                      } else {
-                                        return null;
-                                      }
-                                    })*/}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Col>
-                      </Row>
-                      <Row className="linkResult my-3">
-                        <Link href="/" className="mx-auto">
-                          {t('Comment interpréter les résultats')}
-                          <FontAwesomeIcon
-                            icon={faChevronRight}
-                            className="closeIcon"
-                          />
-                        </Link>
-                      </Row>
-                    </CardBody>
-                  </Collapse>
-                </Card>
+                <CandidateCard candidate={candidateByRank[rank]} grades={result.grades} key={i} />
               );
             })}
           </Col>
         </Row>
-        <BottomButtonsMobile />
+        <BottomButtonsMobile result={result} />
       </section>
     </Container>
   );

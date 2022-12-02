@@ -1,18 +1,17 @@
 import Link from 'next/link';
-import { Container, Row, Col } from 'reactstrap';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import config from '../next-i18next.config.js';
-import { GetStaticProps } from 'next';
+import {Container, Row, Col} from 'reactstrap';
+import {useTranslation} from 'next-i18next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {GetStaticProps} from 'next';
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
-    ...(await serverSideTranslations(locale, [], config)),
+    ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
 
 const FAQ = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Container>
       <Row>
@@ -37,7 +36,7 @@ const FAQ = () => {
             l’électorat (celui qui obtient la meilleure mention « majoritaire
             »).
           </p>
-          <div style={{ maxWidth: '445px' }}>
+          <div style={{maxWidth: '445px'}}>
             <video width="100%" height="250" controls={true}>
               <source
                 src="/video/Le_Jugement_Majoritaire_en_1_minute.mp4"

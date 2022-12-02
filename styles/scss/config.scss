@@ -63,3 +63,25 @@ $font-sizes: (
 @import '_resultVote.scss';
 @import '_admin.scss';
 @import '_switch.scss';
+
+
+// Generate text-{color}-{level}
+// $all-colors: map-merge-multiple($grays);
+// 
+// $utilities: map-merge(
+//   $utilities,
+//   (
+//     "color": map-merge(
+//       map-get($utilities, "color"),
+//       (
+//         values: map-merge(
+//           map-get(map-get($utilities, "color"), "values"),
+//           (
+//             $all-colors
+//           ),
+//         ),
+//       ),
+//     ),
+//   )
+// );
+// 

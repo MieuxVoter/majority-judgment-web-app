@@ -1,18 +1,17 @@
 import Link from 'next/link';
-import { Container, Row, Col } from 'reactstrap';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import config from '../next-i18next.config.js';
-import { GetStaticProps } from 'next';
+import {Container, Row, Col} from 'reactstrap';
+import {useTranslation} from 'next-i18next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {GetStaticProps} from 'next';
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
-    ...(await serverSideTranslations(locale, [], config)),
+    ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
 
 const LegalNotices = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Container>
       <Row>
