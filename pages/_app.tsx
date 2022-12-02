@@ -6,12 +6,12 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 
 // import nextI18NextConfig from '../next-i18next.config.js'
 
-import { appWithTranslation } from 'next-i18next';
-import { AppProvider } from '@services/context';
+import {appWithTranslation} from 'next-i18next';
+import {AppProvider} from '@services/context';
 import Header from '@components/layouts/Header';
 import Footer from '@components/layouts/Footer';
 
-function Application({ Component, pageProps }) {
+function Application({Component, pageProps}) {
   const origin =
     typeof window !== 'undefined' && window.location.origin
       ? window.location.origin
@@ -31,7 +31,7 @@ function Application({ Component, pageProps }) {
       <main className="d-flex flex-column justify-content-between">
         <div className="d-flex flex-grow-1 justify-content-center">
           <Header />
-          <div className="d-flex flex-column w-100 align-items-start">
+          <div className="d-flex flex-column h-100 w-100 align-items-start">
             <Component {...pageProps} />
           </div>
         </div>

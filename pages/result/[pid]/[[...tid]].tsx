@@ -30,7 +30,7 @@ import Logo from '@components/Logo';
 import MeritProfile from '@components/MeritProfile';
 import {getResults} from '@services/api';
 import {GradeResultInterface, ResultInterface, MeritProfileInterface, CandidateResultInterface} from '@services/type';
-import {getUrlAdmin} from '@services/routes';
+import {getUrlAdmin, RESULTS} from '@services/routes';
 import {displayRef} from '@services/utils';
 import {getMajorityGrade} from '@services/majorityJudgment';
 import avatarBlue from '../../../public/avatarBlue.svg'
@@ -145,61 +145,115 @@ const ResultBanner = ({result}) => {
 
   const numVotes = getNumVotes(result)
 
-  return (<div className="w-100 bg-white p-5 d-flex justify-content-between align-items-center">
-    <div className="text-muted">
-      <div className="d-flex align-items-center">
-        <Image alt="Calendar" src={calendar} className="me-2" />
-        <WillClose delay={closedSince} />
-      </div>
-      <div className="d-flex align-items-center" >
-        <Image src={avatarBlue} alt="Avatar" className="me-2" />
-        <div>{numVotes} {numVotes > 1 ? t('common.participants') : t('common.participant')}</div>
-      </div>
-    </div>
+  const origin = typeof window !== 'undefined' && window.location.origin
+    ? window.location.origin
+    : 'http://localhost';
+  // We hide the token!
+  const url = `${origin}${RESULTS}/${displayRef(result.ref)}`
 
-    <h4 className="text-black">{result.name}</h4>
+  return (<>
+    { // MOBILE
+    }
+    <div className="w-100 bg-white p-4 d-flex flex-column d-md-none justify-content-center align-items-start">
+      <h4 className="text-black">{result.name}</h4>
 
-    <div className="text-muted">
-      <div className="d-flex align-items-center">
-        <Image alt="Download" src={arrowUpload} className="me-2" />
-        <div>{t('result.download')}</div>
+      <div className="text-muted w-100 d-flex justify-content-between">
+        <div className="d-flex align-items-center flex-fill border-end border-end-2">
+          <Image alt="Calendar" src={calendar} className="me-2" />
+          <WillClose delay={closedSince} />
+        </div>
+        <div className="d-flex align-items-center justify-content-end flex-fill" >
+          <Image src={avatarBlue} alt="Avatar" className="me-2" />
+          <div>{numVotes} {numVotes > 1 ? t('common.participants') : t('common.participant')}</div>
+        </div>
+
       </div>
-      <div className="d-flex align-items-center">
-        <Image src={arrowLink} alt="Share" className="me-2" />
-        <div>{t('result.share')}</div>
+
+    </div >
+    { // DESKTOP
+    }
+    <div className="w-100 bg-white p-5 d-md-flex d-none justify-content-between align-items-center">
+      <div className="text-muted">
+        <div className="d-flex align-items-center">
+          <Image alt="Calendar" src={calendar} className="me-2" />
+          <WillClose delay={closedSince} />
+        </div>
+        <div className="d-flex align-items-center" >
+          <Image src={avatarBlue} alt="Avatar" className="me-2" />
+          <div>{numVotes} {numVotes > 1 ? t('common.participants') : t('common.participant')}</div>
+        </div>
       </div>
-    </div>
-  </div >
+
+      <h4 className="text-black">{result.name}</h4>
+
+      <div className="text-muted">
+        <Downloader result={result}>
+          <div role="button" className="d-flex align-items-center">
+            <Image alt="Download" src={arrowUpload} className="me-2" />
+            <div className="text-muted">{t('result.download')}</div>
+          </div>
+        </Downloader>
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+          rel="noopener noreferrer"
+          target="_blank">
+          <div className="d-flex align-items-center">
+            <Image src={arrowLink} alt="Share" className="me-2" />
+            <div className="text-muted">{t('result.share')}</div>
+          </div>
+        </a>
+      </div>
+    </div >
+  </>
   )
+}
+
+const Downloader = ({result, children, ...rest}) => {
+  const values = result.grades.map(v => v.value).sort()
+  const data = result.candidates.map(c => {
+    const grades = {}
+    result.grades.forEach(g => grades[g.name] = g.value in c.meritProfile ? c.meritProfile[g.value].toString() : "0")
+    return {name: c.name, ...grades}
+  });
+
+  return (
+    <CSVLink
+      filename={`results-${displayRef(result.ref)}.csv`}
+      {...rest}
+      data={data}>
+      {children}
+    </CSVLink>)
 }
 
 
 const BottomButtonsMobile = ({result}) => {
   const {t} = useTranslation();
-  const values = result.grades.map(v => v.value).sort()
-  //   const data = result.candidates.map(c => [c.name]);
-  const data = result.candidates.map(c => {
 
-    const grades = {}
-    result.grades.forEach(g => grades[g.name] = g.value in c.meritProfile ? c.meritProfile[g.value].toString() : "0")
-    return {name: c.name, ...grades}
-  });
-  console.log(data)
+  const origin = typeof window !== 'undefined' && window.location.origin
+    ? window.location.origin
+    : 'http://localhost';
+  // We hide the token!
+  const url = `${origin}${RESULTS}/${displayRef(result.ref)}`
 
   return (
-    <div className="d-block d-md-none mt-5" role="button">
-      <CSVLink
-        filename={`results-${displayRef(result.ref)}.csv`}
-        data={data}>
-        <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary">
+    <div className="d-flex flex-column align-items-center d-md-none m-3">
+      <Downloader result={result}>
+        <Button className="m-3 d-flex align-items-center justify-content-between" role="button" color="primary" outline={false}>
           <Image alt="Download" src={arrowUpload} />
-          <p>{t('result.download')}</p>
+          <div className="ms-3" >{t('result.download')}</div>
         </Button>
-      </CSVLink>
-      <Button className="cursorPointer btn-result btn-validation mb-5 btn btn-secondary">
-        <Image src={arrowLink} alt="Share" />
-        <p>{t('result.share')}</p>
-      </Button>
+      </Downloader>
+      <div>
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+          rel="noopener noreferrer"
+          target="_blank">
+          <Button className="m-3 d-flex align-items-center justify-content-between" role="button" color="primary" outline={false}>
+            <Image src={arrowLink} alt="Share" />
+            <div className="ms-3" >{t('result.share')}</div>
+          </Button>
+        </a>
+      </div>
     </div>
   )
 }
@@ -214,20 +268,39 @@ interface TitleBannerInterface {
 const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
   const {t} = useTranslation();
   return (
-    <div className="d-none d-md-flex p-3 justify-content-between text-white">
-      <div className="d-flex">
-        <Logo title={false} />
-        <h5>{name}</h5>
-      </div>
-      {token ?
-        <div className="d-flex">
-          <Link href={getUrlAdmin(electionRef, token)}>
-            <Button icon={faGear} position="left">{t('result.go-to-admin')}</Button>
-          </Link>
-        </div> : null
+    <>
+      { // MOBILE 
       }
+      <div className="d-md-none d-flex  p-4 justify-content-between text-white">
+        <div className="d-flex  flex-fill align-items-center pe-5">
+          <Link href="/"><Logo title={false} /></Link>
+          <h5 className="m-1 flex-fill text-center">{name}</h5>
+        </div>
+        {token ?
+          <div className="d-flex">
+            <Link href={getUrlAdmin(electionRef, token)}>
+              <Button icon={faGear} position="left">{t('result.go-to-admin')}</Button>
+            </Link>
+          </div> : null
+        }
+      </div>
+      { // DESKTOP 
+      }
+      <div className="d-none d-md-flex bg-primary p-4 justify-content-between text-white">
+        <div className="d-flex align-items-center">
+          <Link href="/"><Logo height={38} title={true} /></Link>
+          <h5 className="m-1 ms-5">{name}</h5>
+        </div>
+        {token ?
+          <div className="d-flex">
+            <Link href={getUrlAdmin(electionRef, token)}>
+              <Button icon={faGear} position="left">{t('result.go-to-admin')}</Button>
+            </Link>
+          </div> : null
+        }
 
-    </div>
+      </div>
+    </>
   )
 }
 
@@ -260,10 +333,10 @@ interface CandidateRankedInterface {
 const CandidateRanked = ({candidate}: CandidateRankedInterface) => {
   const isFirst = candidate.rank == 1;
   return <div className="m-3 d-flex flex-column justify-content-end align-items-center candidate_rank fw-bold">
-    <div className={isFirst ? "text-primary bg-white fs-5 badge" : "text-white bg-secondary fs-6 badge"}>
+    <div className={isFirst ? "text-primary bg-white fs-4 badge" : "text-white bg-secondary fs-5 badge"}>
       {candidate.rank}
     </div>
-    <div className={`text-white my-2 ${isFirst ? "fs-4" : "fs-6"}`}>
+    <div className={`text-white my-2 ${isFirst ? "fs-4" : "fs-5"}`}>
       {candidate.name}
     </div>
     <ButtonGrade grade={candidate.majorityGrade} />
@@ -388,7 +461,7 @@ const ResultPage = ({result, token, err}: ResultPageInterface) => {
   result.candidates.filter(c => c.rank < 4).forEach(c => candidateByRank[c.rank] = c)
 
   return (
-    <Container className="resultContainer resultPage">
+    <Container className="h-100 resultContainer resultPage d-flex flex-column align-flex-stretch">
       <Head>
         <title>{result.name}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -399,23 +472,21 @@ const ResultPage = ({result, token, err}: ResultPageInterface) => {
 
       <Podium candidates={result.candidates} />
 
-      <section className="sectionContentResult mb-5">
+      <Container style={{maxWidth: "750px"}} className="mt-5 h-100 d-flex flex-fill flex-column justify-content-between">
 
-        <Row className="mt-5">
-          <Col>
-            <h5 className="text-white">
-              {t('result.details')}
-            </h5>
-            {Object.keys(candidateByRank).sort().map((rank, i) => {
-              return (
-                <CandidateCard candidate={candidateByRank[rank]} grades={result.grades} key={i} />
-              );
-            })}
-          </Col>
-        </Row>
+        <div>
+          <h5 className="text-white">
+            {t('result.details')}
+          </h5>
+          {Object.keys(candidateByRank).sort().map((rank, i) => {
+            return (
+              <CandidateCard candidate={candidateByRank[rank]} grades={result.grades} key={i} />
+            );
+          })}
+        </div>
         <BottomButtonsMobile result={result} />
-      </section>
-    </Container>
+      </Container>
+    </Container >
   );
 };
 

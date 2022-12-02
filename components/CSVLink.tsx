@@ -86,7 +86,7 @@ export const toCSV = (data, headers, separator, enclosingCharacter) => {
 };
 
 
-const CSVLink = ({filename, data, children}) => {
+const CSVLink = ({filename, data, children, ...rest}) => {
 
   console.log("DATA", data);
   const buildURI = ((data, uFEFF, headers, separator, enclosingCharacter) => {
@@ -115,6 +115,7 @@ const CSVLink = ({filename, data, children}) => {
     <a
       download={filename}
       target="_blank"
+      {...rest}
       href={href}
     >
       {children}

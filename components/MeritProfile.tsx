@@ -68,7 +68,7 @@ const DashedMedian = () => {
 const MajorityGrade = ({grade, left}) => {
   const spanRef = useRef<HTMLDivElement>();
 
-  const [width, setWidth] = useState(0)
+  const [width, setWidth] = useState(40)
 
 
   useLayoutEffect(() => {
