@@ -82,7 +82,6 @@ export function AppProvider({children}) {
   const [app, dispatch] = useReducer(reducer, defaultApp);
 
   const removeToast = (i: number) => {
-    console.log(i)
     dispatch({
       type: AppTypes.TOAST_RM,
       position: i
@@ -100,7 +99,6 @@ export function AppProvider({children}) {
       }
 
     })
-    console.log("TOASTS", app.toasts)
 
   }, [app.toasts]);
 
@@ -110,7 +108,7 @@ export function AppProvider({children}) {
         {app.toasts.filter(t => t.display).map((toast, i) => (
           <div
             key={i}
-            className={`toast text-bg-${toast.status === "error" ? "danger" : "success"} fade show align-items-center`}
+            className={`toast text-bg-${toast.status === "error" ? "danger" : "success"} fade show align-items-center text-light`}
             role={toast.status === "error" ? "alert" : "status"}
             aria-live={toast.status === "error" ? "assertive" : "polite"}
             aria-atomic="true">

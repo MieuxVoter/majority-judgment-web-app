@@ -1,12 +1,13 @@
-import { useState, forwardRef, ReactNode } from 'react';
-import { Button, Row, Col } from 'reactstrap';
-import { useTranslation } from 'next-i18next';
+import {useState, forwardRef, ReactNode} from 'react';
+import {Button, Row, Col} from 'reactstrap';
+import {useTranslation} from 'next-i18next';
 import {
   faCalendarDays,
   faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
+import {AppTypes, useAppContext} from '@services/context';
 
 interface InputProps {
   children?: ReactNode;
@@ -15,11 +16,27 @@ interface InputProps {
 }
 export type ButtonRef = HTMLButtonElement;
 
-const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
-  const { t } = useTranslation();
+const CustomDatePicker = ({date, setDate, className = '', ...props}) => {
+  const {t} = useTranslation();
+
+  const [_, dispatchApp] = useAppContext();
+
+  const handleChange = (date) => {
+    const now = new Date();
+
+    if (+date < +now) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.date-past")
+      })
+    } else {
+      setDate(date)
+    }
+  }
 
   const ExampleCustomInput = forwardRef<ButtonRef, InputProps>(
-    ({ value, onClick }, ref) => (
+    ({value, onClick}, ref) => (
       <div className="d-grid">
         <button onClick={onClick} ref={ref}>
           <Row className="p-2 align-items-end">
@@ -47,7 +64,7 @@ const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
       selected={date}
       className={className}
       customInput={<ExampleCustomInput value={null} onClick={null} />}
-      onChange={(date) => setDate(date)}
+      onChange={handleChange}
     />
   );
   //   {/*<Button className="example-custom-input"

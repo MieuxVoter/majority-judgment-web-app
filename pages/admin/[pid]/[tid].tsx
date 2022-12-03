@@ -6,7 +6,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {Container, Row, Col} from 'reactstrap';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {getElection, updateElection} from '@services/api';
-import {ElectionContextInterface, ElectionProvider, ElectionTypes, useElection, isClosed, canViewResults} from '@services/ElectionContext';
+import {ElectionContextInterface, ElectionProvider, ElectionTypes, useElection, isClosed, canViewResults, checkName, hasEnoughGrades, hasEnoughCandidates, canBeFinished} from '@services/ElectionContext';
 import {CandidateItem, GradeItem} from '@services/type';
 import {gradeColors} from '@services/grades';
 import TitleField from '@components/admin/Title';
@@ -20,6 +20,7 @@ import Private from '@components/admin/Private';
 import Blur from '@components/Blur';
 import {getUrlResults, getUrlVote, RESULTS, VOTE} from '@services/routes';
 import {sendInviteMails} from '@services/mail';
+import {AppTypes, useAppContext} from '@services/context';
 
 
 export async function getServerSideProps({query, locale}) {
@@ -78,6 +79,7 @@ const Spinner = () => {
 const HeaderRubbon = () => {
   const {t} = useTranslation();
   const [election, dispatch] = useElection();
+  const [_, dispatchApp] = useAppContext();
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
@@ -119,6 +121,11 @@ const HeaderRubbon = () => {
         );
       }
       setWaiting(false)
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "success",
+        message: t("success.election-closed")
+      })
     }
   }
 
@@ -172,6 +179,7 @@ const HeaderRubbon = () => {
 const CreateElection = ({context, token}) => {
   const {t} = useTranslation();
   const [election, dispatch] = useElection();
+  const [_, dispatchApp] = useAppContext();
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
@@ -180,6 +188,42 @@ const CreateElection = ({context, token}) => {
   }, [])
 
   const handleSubmit = async () => {
+    if (!checkName(election)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.uncorrect-name")
+      })
+      return
+    }
+
+    if (!hasEnoughGrades(election)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.not-enough-grades")
+      })
+      return
+    }
+
+    if (!hasEnoughCandidates(election)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.not-enough-candidates")
+      })
+      return
+    }
+
+    if (!canBeFinished(election)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.cant-be-finished")
+      })
+      return
+    }
+
     const candidates = election.candidates.filter(c => c.active).map((c: CandidateItem) => ({name: c.name, description: c.description, image: c.image}))
     const grades = election.grades.filter(c => c.active).map((g: GradeItem, i: number) => ({name: g.name, value: i}))
     setWaiting(true)
@@ -212,6 +256,12 @@ const CreateElection = ({context, token}) => {
         );
       }
       setWaiting(false)
+
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "success",
+        message: t("success.election-updated")
+      })
     }
   }
 

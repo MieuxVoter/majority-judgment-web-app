@@ -7,6 +7,7 @@ import {ElectionTypes, useElection} from '@services/ElectionContext';
 import Button from '@components/Button';
 import {upload} from '@services/imgpush';
 import {IMGPUSH_URL} from '@services/constants';
+import {AppTypes, useAppContext} from '@services/context';
 import defaultAvatar from '../../public/default-avatar.svg';
 
 const CandidateModal = ({isOpen, position, toggle}) => {
@@ -21,9 +22,10 @@ const CandidateModal = ({isOpen, position, toggle}) => {
     setState((s) => ({...s, image: `${IMGPUSH_URL}/${payload['filename']}`}));
   };
 
+  const [app, dispatchApp] = useAppContext();
+
   // to manage the hidden ugly file input
   const hiddenFileInput = useRef(null);
-
 
   const names = election.candidates.filter((_, i) => i != position).map(c => c.name)
   const disabled = state.name === "" || names.includes(state.name);
@@ -32,7 +34,26 @@ const CandidateModal = ({isOpen, position, toggle}) => {
     setState(election.candidates[position]);
   }, [election]);
 
-  const save = () => {
+  const save = (e) => {
+    e.preventDefault()
+
+    if (state.name === "") {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.empty-name")
+      })
+      return
+    }
+    if (names.includes(state.name)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.twice-same-names")
+      })
+      return
+    }
+
     dispatch({
       type: ElectionTypes.CANDIDATE_SET,
       position: position,
@@ -153,14 +174,15 @@ const CandidateModal = ({isOpen, position, toggle}) => {
               >
                 {t('common.cancel')}
               </Button>
-              <Button
-                color={disabled ? "light" : "primary"}
-                disabled={disabled}
-                onClick={save}
-                icon={faPlus}
-              >
-                {t('common.save')}
-              </Button>
+              <div onClick={save}>
+                <Button
+                  color={disabled ? "light" : "primary"}
+                  disabled={disabled}
+                  icon={faPlus}
+                >
+                  {t('common.save')}
+                </Button>
+              </div>
             </div>
           </Form>
         </Col>

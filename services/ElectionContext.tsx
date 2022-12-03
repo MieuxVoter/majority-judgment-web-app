@@ -4,6 +4,7 @@
 import {createContext, useContext, useReducer, useEffect, Dispatch, SetStateAction} from 'react';
 import {useRouter} from 'next/router';
 import {CandidateItem, GradeItem} from './type';
+import {gradeColors} from '@services/grades';
 
 export interface ElectionContextInterface {
   name: string;
@@ -33,7 +34,7 @@ const defaultElection: ElectionContextInterface = {
   candidates: [{...defaultCandidate}, {...defaultCandidate}],
   grades: [],
   randomOrder: true,
-  hideResults: true,
+  hideResults: false,
   forceClose: false,
   restricted: false,
   dateEnd: null,
@@ -105,11 +106,14 @@ export function ElectionProvider({children}) {
   useEffect(() => {
     if (!router.isReady) return;
 
-    dispatch({
-      type: ElectionTypes.SET,
-      field: 'name',
-      value: router.query.name || '',
-    });
+    if (election.name === "" && router.query.name !== "") {
+      dispatch({
+        type: ElectionTypes.SET,
+        field: 'name',
+        value: router.query.name,
+      });
+    }
+
   }, [router.isReady]);
 
   return (
@@ -219,4 +223,24 @@ export const canViewResults = (election: ElectionContextInterface) => {
   const now = new Date();
   const isOver = +dateEnd < (+now);
   return election.forceClose || !election.hideResults || isOver;
+}
+
+export const hasEnoughCandidates = (election: ElectionContextInterface) => {
+
+  const numCandidates = election.candidates.filter(c => c.active && c.name != "").length;
+  return numCandidates > 1;
+}
+
+export const hasEnoughGrades = (election: ElectionContextInterface) => {
+
+  const numGrades = election.grades.filter(g => g.active && g.name != "").length;
+  return numGrades > 1 && numGrades <= gradeColors.length
+}
+
+export const checkName = (election: ElectionContextInterface) => {
+  return election.name && election.name !== ""
+}
+
+export const canBeFinished = (election: ElectionContextInterface) => {
+  return election.restricted || election.forceClose || election.dateEnd || !election.hideResults;
 }

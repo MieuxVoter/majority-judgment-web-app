@@ -91,6 +91,10 @@
   background-image: url('../../public/back.svg');
   background-size: auto 100%;
   background-repeat: no-repeat;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 @include media-breakpoint-up('xxl') {
   .waiting {

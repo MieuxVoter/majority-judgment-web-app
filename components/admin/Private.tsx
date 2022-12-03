@@ -9,17 +9,23 @@ import Switch from '@components/Switch';
 import ListInput from '@components/ListInput';
 import {ElectionTypes, useElection} from '@services/ElectionContext';
 import {validateMail} from '@services/mail';
+import {AppTypes, useAppContext} from '@services/context';
 
 const Private = () => {
   const {t} = useTranslation();
 
+  const [_, dispatchApp] = useAppContext();
   const [election, dispatch] = useElection();
 
   const isEditable = !election.ref || election.ref === "";
 
   const toggle = () => {
     if (!isEditable) {
-      return;
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.cant-set-ongoing"),
+      })
     }
     dispatch({
       type: ElectionTypes.SET,

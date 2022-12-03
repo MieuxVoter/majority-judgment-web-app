@@ -14,13 +14,12 @@ import LimitDate from './LimitDate';
 import Grades from './Grades';
 import Private from './Private';
 import Order from './Order';
-import {useElection, ElectionContextInterface} from '@services/ElectionContext';
+import {useElection, ElectionContextInterface, hasEnoughCandidates, hasEnoughGrades, checkName, canBeFinished} from '@services/ElectionContext';
 import {createElection, ElectionCreatedPayload} from '@services/api';
 import {getUrlVote, getUrlResults} from '@services/routes';
 import {GradeItem, CandidateItem} from '@services/type';
 import {sendInviteMails} from '@services/mail';
-import {gradeColors} from '@services/grades';
-
+import {AppTypes, useAppContext} from '@services/context';
 
 
 const submitElection = (
@@ -68,20 +67,55 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
   const {t} = useTranslation();
   const router = useRouter();
   const [election, _] = useElection();
+  const [app, dispatchApp] = useAppContext();
 
   const handleSubmit = () => {
+    if (!checkName(election)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.uncorrect-name")
+      })
+      return
+    }
+
+    if (!hasEnoughGrades(election)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.not-enough-grades")
+      })
+      return
+    }
+
+    if (!hasEnoughCandidates(election)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.not-enough-candidates")
+      })
+      return
+    }
+
+    if (!canBeFinished(election)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.cant-be-finished")
+      })
+      return
+    }
 
     onSubmit();
 
     submitElection(election, onSuccess, onFailure, router);
   }
 
-  const numCandidates = election.candidates.filter(c => c.active && c.name != "").length;
-  const numGrades = election.grades.filter(g => g.active && g.name != "").length;
   const disabled = (
-    !election.name || election.name == "" ||
-    numCandidates < 2 ||
-    numGrades < 2 || numGrades > gradeColors.length
+    !checkName(election) ||
+    !hasEnoughCandidates(election) ||
+    !hasEnoughGrades(election) ||
+    !canBeFinished(election)
   )
 
   return (
@@ -112,17 +146,19 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
         </Col>
       </Row>
       <Container className="my-5 d-md-flex d-grid justify-content-md-center">
-        <Button
-          outline={true}
-          color="secondary"
-          className="bg-blue"
-          disabled={disabled}
-          onClick={handleSubmit}
-          icon={faArrowRight}
-          position="right"
-        >
-          {t('admin.confirm-submit')}
-        </Button>
+        <div
+          onClick={handleSubmit}>
+          <Button
+            outline={true}
+            color="secondary"
+            className="bg-blue"
+            disabled={disabled}
+            icon={faArrowRight}
+            position="right"
+          >
+            {t('admin.confirm-submit')}
+          </Button>
+        </div>
       </Container>
     </Container>
   );
