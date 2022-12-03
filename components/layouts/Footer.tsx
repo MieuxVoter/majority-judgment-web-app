@@ -7,9 +7,9 @@ import {useAppContext} from '@services/context';
 
 const Footer = () => {
   const {t} = useTranslation();
-  const {app} = useAppContext();
+  const [app, _] = useAppContext();
 
-  if (!app.footer) {return null;}
+  if (app.fullPage) {return null;}
 
   const menu = [
     {

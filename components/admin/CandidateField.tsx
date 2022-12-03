@@ -15,6 +15,7 @@ interface CandidateProps {
   position: number;
   className?: string;
   defaultAvatar?: any;
+  editable?: boolean;
   [props: string]: any;
 }
 
@@ -22,6 +23,7 @@ const CandidateField = ({
   position,
   className = '',
   defaultAvatar = whiteAvatar,
+  editable = true,
   ...props
 }: CandidateProps) => {
   const {t} = useTranslation();
@@ -63,17 +65,18 @@ const CandidateField = ({
           {candidate.name ? candidate.name : t('admin.add-candidate')}
         </div>
       </div>
-      <div role="button" className="text-end">
-        {active ? (
-          <FontAwesomeIcon
-            icon={faTrashCan}
-            className="text-warning"
-            onClick={() => setModalDel((m) => !m)}
-          />
-        ) : (
-          <FontAwesomeIcon icon={faPlus} onClick={addCandidate} />
-        )}
-      </div>
+      {editable ?
+        <div role="button" className="text-end">
+          {active ? (
+            <FontAwesomeIcon
+              icon={faTrashCan}
+              className="text-warning"
+              onClick={() => setModalDel((m) => !m)}
+            />
+          ) : (
+            <FontAwesomeIcon icon={faPlus} onClick={addCandidate} />
+          )}
+        </div> : null}
       <CandidateModalSet
         toggle={toggleSet}
         isOpen={modalSet}

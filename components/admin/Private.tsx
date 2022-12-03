@@ -15,7 +15,12 @@ const Private = () => {
 
   const [election, dispatch] = useElection();
 
+  const isEditable = !election.ref || election.ref === "";
+
   const toggle = () => {
+    if (!isEditable) {
+      return;
+    }
     dispatch({
       type: ElectionTypes.SET,
       field: 'restricted',
@@ -30,6 +35,7 @@ const Private = () => {
       value: emails,
     });
   };
+
 
   return (
     <>

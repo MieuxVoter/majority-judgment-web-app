@@ -20,7 +20,6 @@ const defaultBallot: BallotContextInterface = {
 export enum BallotTypes {
   ELECTION = 'ELECTION',
   VOTE = 'VOTE',
-  COMMIT = 'COMMIT',
 }
 
 export type ElectionAction = {
@@ -34,12 +33,7 @@ export type VoteAction = {
   gradeId: number;
 }
 
-export type BallotAction = {
-  type: BallotTypes.COMMIT;
-  token?: string;
-}
-
-export type BallotActionTypes = ElectionAction | VoteAction | BallotAction;
+export type BallotActionTypes = ElectionAction | VoteAction;
 
 
 function reducer(ballot: BallotContextInterface, action: BallotActionTypes) {
@@ -67,10 +61,6 @@ function reducer(ballot: BallotContextInterface, action: BallotActionTypes) {
       }
       return {...ballot, votes};
     }
-    case BallotTypes.COMMIT: {
-      throw Error("Not implemented")
-      return ballot;
-    }
     default: {
       return ballot
     }
@@ -79,7 +69,7 @@ function reducer(ballot: BallotContextInterface, action: BallotActionTypes) {
 
 type DispatchType = Dispatch<BallotActionTypes>;
 const BallotContext = createContext<[BallotContextInterface, DispatchType]>([defaultBallot, () => {}]);
-// const BallotContext = createContext([defaultBallot, () => {}]);
+
 
 export function BallotProvider({children}) {
   /**

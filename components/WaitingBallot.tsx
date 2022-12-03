@@ -10,7 +10,7 @@ import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
 import {BallotPayload, ErrorPayload} from '@services/api';
-import {useAppContext} from '@services/context';
+import {AppTypes, useAppContext} from '@services/context';
 import {displayRef, isEnded} from '@services/utils';
 import {RESULTS} from '@services/routes';
 import Logo from './Logo';
@@ -136,7 +136,7 @@ const Info = ({ballot, error, display}: InfoInterface) => {
 }
 
 export default ({ballot, error}: WaitingBallotInterface) => {
-  const {setApp} = useAppContext();
+  const [_, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({width: 0, height: 0, marginBottom: 0});
   const [starProperties, setStar] = useState<CSSProperties>({width: 0, height: 0, marginLeft: 100, marginBottom: 0});
@@ -145,7 +145,7 @@ export default ({ballot, error}: WaitingBallotInterface) => {
 
 
   useEffect(() => {
-    setApp({footer: false});
+    dispatch({type: AppTypes.FULLPAGE, value: true});
 
     setUrne(urne => ({
       ...urne,

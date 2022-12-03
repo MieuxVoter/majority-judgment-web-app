@@ -9,7 +9,7 @@ import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
 import {ElectionCreatedPayload, ErrorPayload} from '@services/api';
-import {useAppContext} from '@services/context';
+import {AppTypes, useAppContext} from '@services/context';
 import {getUrlVote, getUrlResults} from '@services/routes';
 import urne from '../public/urne.svg'
 import star from '../public/star.svg'
@@ -92,7 +92,7 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
 }
 
 export default ({election, error}: WaitingBallotInterface) => {
-  const {setApp} = useAppContext();
+  const [_, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({width: 0, height: 0, marginBottom: 0});
   const [starProperties, setStar] = useState<CSSProperties>({width: 0, height: 0, marginLeft: 100, marginBottom: 0});
@@ -101,7 +101,7 @@ export default ({election, error}: WaitingBallotInterface) => {
 
 
   useEffect(() => {
-    setApp({footer: false});
+    dispatch({type: AppTypes.FULLPAGE, value: true});
 
     setUrne(urne => ({
       ...urne,

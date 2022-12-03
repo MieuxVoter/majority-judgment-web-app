@@ -10,13 +10,11 @@ import openMenuIcon from '../../public/open-menu-icon.svg';
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
-  const {app} = useAppContext();
+  const [app, _] = useAppContext();
 
   const toggle = () => setOpen(!isOpen);
 
-  const {t} = useTranslation('resource');
-
-  if (!app.footer) {return null;}
+  if (app.fullPage) {return null;}
 
   return (
     <>

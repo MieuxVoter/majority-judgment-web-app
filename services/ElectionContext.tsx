@@ -20,12 +20,6 @@ export interface ElectionContextInterface {
   ref?: string;
 }
 
-const defaultGrade: GradeItem = {
-  name: '',
-  description: '',
-  value: -1,
-  active: false,
-};
 const defaultCandidate: CandidateItem = {
   name: '',
   image: '',
@@ -48,6 +42,7 @@ const defaultElection: ElectionContextInterface = {
 
 export enum ElectionTypes {
   SET = 'set',
+  RESET = 'reset',
   CANDIDATE_PUSH = 'candidate-push',
   CANDIDATE_RM = 'candidate-rm',
   CANDIDATE_SET = 'candidate-set',
@@ -60,6 +55,10 @@ export type SetAction = {
   type: ElectionTypes.SET;
   field: string;
   value: any;
+}
+export type ResetAction = {
+  type: ElectionTypes.RESET;
+  value: ElectionContextInterface;
 }
 export type CandidatePushAction = {
   type: ElectionTypes.CANDIDATE_PUSH;
@@ -90,7 +89,7 @@ export type GradeSetAction = {
   value: any;
 }
 
-export type ElectionActionTypes = SetAction | CandidateRmAction | CandidateSetAction | CandidatePushAction | GradeRmAction | GradeSetAction | GradePushAction;
+export type ElectionActionTypes = SetAction | ResetAction | CandidateRmAction | CandidateSetAction | CandidatePushAction | GradeRmAction | GradeSetAction | GradePushAction;
 
 type DispatchType = Dispatch<ElectionActionTypes>;
 const ElectionContext = createContext<[ElectionContextInterface, DispatchType]>([defaultElection, () => {}]);
@@ -133,6 +132,9 @@ function electionReducer(election: ElectionContextInterface, action: ElectionAct
    * Manage all types of action doable on an election
    */
   switch (action.type) {
+    case 'reset': {
+      return action.value;
+    }
     case 'set': {
       return {...election, [action.field]: action.value};
     }
@@ -205,3 +207,16 @@ function electionReducer(election: ElectionContextInterface, action: ElectionAct
   }
 }
 
+export const isClosed = (election: ElectionContextInterface) => {
+  const dateEnd = new Date(election.dateEnd);
+  const now = new Date();
+  const isOver = +dateEnd < (+now);
+  return election.forceClose || isOver;
+}
+
+export const canViewResults = (election: ElectionContextInterface) => {
+  const dateEnd = new Date(election.dateEnd);
+  const now = new Date();
+  const isOver = +dateEnd < (+now);
+  return election.forceClose || !election.hideResults || isOver;
+}

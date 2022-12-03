@@ -1,19 +1,14 @@
-import {useState} from 'react'
 import {useTranslation} from 'next-i18next';
 import {NextRouter, useRouter} from 'next/router';
-import {
-  faPen,
-  faArrowRight,
-} from '@fortawesome/free-solid-svg-icons';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {
   Button,
   Row,
   Col,
   Container,
 } from 'reactstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import ErrorMessage from '@components/Error'
-import CandidateField from './CandidateField';
+import TitleField from './Title'
+import CandidatesConfirmField from './CandidatesConfirmField'
 import AccessResults from './AccessResults';
 import LimitDate from './LimitDate';
 import Grades from './Grades';
@@ -26,46 +21,6 @@ import {GradeItem, CandidateItem} from '@services/type';
 import {sendInviteMails} from '@services/mail';
 import {gradeColors} from '@services/grades';
 
-
-const TitleField = () => {
-  const {t} = useTranslation();
-  const [election, _] = useElection();
-  return (
-    <Container className="bg-white p-4">
-      <Row>
-        <Col className="col-auto me-auto">
-          <h5 className="text-dark">{t('admin.confirm-question')}</h5>
-        </Col>
-      </Row>
-      <h4 className="text-primary">{election.name}</h4>
-    </Container>
-  );
-};
-
-const CandidatesField = () => {
-  const {t} = useTranslation();
-  const [election, _] = useElection();
-
-  return (
-    <Container className="bg-white p-4 mt-3 mt-md-0">
-      <Row>
-        <Col className="col-auto me-auto">
-          <h5 className="text-dark">{t('admin.confirm-candidates')}</h5>
-        </Col>
-        <Col className="col-auto d-flex align-items-center">
-          <FontAwesomeIcon icon={faPen} />
-        </Col>
-      </Row>
-      {election.candidates.map((_, i) => (
-        <CandidateField
-          position={i}
-          key={i}
-          className="text-primary m-0"
-        />
-      ))}
-    </Container>
-  );
-};
 
 
 const submitElection = (
@@ -88,7 +43,6 @@ const submitElection = (
     election.restricted,
     election.randomOrder,
     async (payload: ElectionCreatedPayload) => {
-      const tokens = payload.invites;
       if (typeof election.emails !== 'undefined' && election.emails.length > 0) {
         if (typeof payload.invites === 'undefined' || payload.invites.length !== election.emails.length) {
           throw Error('Can not send invite emails');
@@ -110,7 +64,7 @@ const submitElection = (
 }
 
 
-const ConfirmField = ({onSubmit, onSuccess, onFailure, goToCandidates, goToParams}) => {
+const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
   const {t} = useTranslation();
   const router = useRouter();
   const [election, _] = useElection();
@@ -144,7 +98,7 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure, goToCandidates, goToParam
             <h4>{t('common.the-vote')}</h4>
           </Container>
           <TitleField />
-          <CandidatesField />
+          <CandidatesConfirmField />
         </Col>
         <Col className="col-lg-9 col-12 mt-3 mt-md-0">
           <Container className="py-4 d-none d-md-block">

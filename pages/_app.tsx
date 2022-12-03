@@ -1,11 +1,7 @@
 import Head from 'next/head';
 import '@styles/globals.css';
-import '@styles/loader.css';
 import '@styles/scss/config.scss';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-
-// import nextI18NextConfig from '../next-i18next.config.js'
-
 import {appWithTranslation} from 'next-i18next';
 import {AppProvider} from '@services/context';
 import Header from '@components/layouts/Header';
@@ -17,7 +13,7 @@ function Application({Component, pageProps}) {
       ? window.location.origin
       : 'http://localhost';
   return (
-    <AppProvider>
+    <>
       <Head>
         <link rel="icon" key="favicon" href="/favicon.ico" />
         <meta property="og:type" content="website" key="og:type" />
@@ -37,8 +33,13 @@ function Application({Component, pageProps}) {
         </div>
         <Footer />
       </main>
-    </AppProvider>
+    </>
   );
 }
 
-export default appWithTranslation(Application);
+const AppWithContext = ({Component, pageProps}) => <AppProvider>
+  <Application Component={Component} pageProps={pageProps} />
+</AppProvider>
+
+
+export default appWithTranslation(AppWithContext);

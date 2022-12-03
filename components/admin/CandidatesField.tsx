@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef, KeyboardEvent} from 'react';
+import {useState, useEffect, useRef, KeyboardEvent, MouseEventHandler} from 'react';
 import {useTranslation} from 'next-i18next';
 import {Container} from 'reactstrap';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
@@ -7,10 +7,13 @@ import Alert from '@components/Alert';
 import Button from '@components/Button';
 import {ElectionTypes, useElection} from '@services/ElectionContext';
 import CandidateField from './CandidateField';
+import {AppTypes, useAppContext} from '@services/context';
 
 const CandidatesField = ({onSubmit}) => {
   const {t} = useTranslation();
   const submitReference = useRef(null);
+
+  const [_, dispatchApp] = useAppContext();
 
   const [election, dispatch] = useElection();
   const candidates = election.candidates;
@@ -28,12 +31,27 @@ const CandidatesField = ({onSubmit}) => {
     }
   }, [candidates]);
 
+
+
   useEffect(() => {
     if (!disabled && submitReference.current) {
       submitReference.current.focus();
     }
   }, [disabled, submitReference]);
 
+
+  const handleSubmit = (e) => {
+    if (disabled) {
+      console.log("FOO");
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: "error",
+        message: t("error.at-least-2-candidates")
+      })
+    } else {
+      return onSubmit(e)
+    }
+  }
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key == "Enter" && !disabled) {
@@ -59,20 +77,23 @@ const CandidatesField = ({onSubmit}) => {
         </div>
       </div>
 
-      <Container className="my-5 d-md-flex d-grid justify-content-md-center">
-        <Button
-          outline={true}
-          color="secondary"
-          className="bg-blue"
-          ref={submitReference}
-          onClick={onSubmit}
-          disabled={disabled}
-          icon={faArrowRight}
-          position="right"
-          onKeyPress={handleKeyPress}
+      <Container
+        className="my-5 d-md-flex d-grid justify-content-md-center"
+      >
+        <div onClick={handleSubmit}
         >
-          {t('admin.candidates-submit')}
-        </Button>
+          <Button
+            outline={true}
+            color="secondary"
+            className={`bg-blue${disabled ? " disabled" : ""}`}
+            ref={submitReference}
+            icon={faArrowRight}
+            position="right"
+            onKeyPress={handleKeyPress}
+          >
+            {t('admin.candidates-submit')}
+          </Button>
+        </div>
       </Container>
     </Container>
   );

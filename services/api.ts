@@ -66,6 +66,12 @@ export interface ElectionCreatedPayload extends ElectionPayload {
   num_voters: number;
 }
 
+export interface ElectionUpdatedPayload extends ElectionPayload {
+  invites: Array<string>;
+  num_voters: number;
+  status?: number;
+}
+
 
 export interface ResultsPayload extends ElectionPayload {
   status: number;
@@ -150,6 +156,63 @@ export const createElection = async (
 };
 
 
+export const updateElection = async (
+  ref: string,
+  name: string,
+  candidates: Array<Candidate>,
+  grades: Array<Grade>,
+  description: string,
+  numVoters: number,
+  hideResults: boolean,
+  forceClose: boolean,
+  restricted: boolean,
+  randomOrder: boolean,
+): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+  /**
+   * Create an election from its title, its candidates and a bunch of options
+   */
+  const endpoint = new URL(api.routesServer.setElection, api.urlServer);
+
+  if (!restricted && numVoters > 0) {
+    throw Error("Set the election as not restricted!");
+  }
+
+  try {
+    const req = await fetch(endpoint.href, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ref,
+        name,
+        description: JSON.stringify({
+          description: description,
+          randomOrder: randomOrder
+        }),
+        candidates,
+        grades,
+        num_voters: numVoters,
+        hide_results: hideResults,
+        force_close: forceClose,
+        restricted,
+      }),
+    })
+    if (!req.ok || req.status !== 200) {
+      const payload = await req.json();
+      return {status: req.status, msg: payload};
+    }
+    const payload = await req.json();
+    return {status: 200, ...payload}
+  }
+  catch (e) {
+    console.error(e)
+    return {status: 400, msg: "Unknown API error"}
+  }
+
+};
+
+
 export const getResults = async (pid: string): Promise<ResultsPayload | HTTPPayload> => {
   /**
    * Fetch results from external API
@@ -169,6 +232,7 @@ export const getResults = async (pid: string): Promise<ResultsPayload | HTTPPayl
     const payload = await response.json()
     return {...payload, status: response.status};
   } catch (error) {
+    console.error(error)
     return {status: 400, msg: "Unknown API error"}
   }
 };

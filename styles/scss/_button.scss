@@ -79,3 +79,15 @@
 .btn_shadow {
   box-shadow: 0px 2px 0px #8f88ba;
 }
+
+
+/**
+* A red button with a white bottom border
+*/
+.btn_closing {
+color: #FFFFFF;
+gap: 16px;
+
+background: #FF3E37!important;
+box-shadow: 0px 4px 0px #FFCAC8;
+}
