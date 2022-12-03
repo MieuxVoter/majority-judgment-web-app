@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import {useRouter} from 'next/router';
+import {useTranslation} from 'next-i18next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {
   Collapse,
   Container,
@@ -19,7 +19,11 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
-import { GetStaticProps } from 'next';
+import {GetStaticProps} from 'next';
+import {getElection} from '@services/api';
+import {getGradeColor} from '@services/grades';
+import {ElectionContextInterface} from '@services/ElectionContext';
+import {CandidateItem} from '@services/type';
 // import {ReactMultiEmail, isEmail} from "react-multi-email";
 // import "react-multi-email/style.css";
 // import {toast, ToastContainer} from "react-toastify";
@@ -42,54 +46,52 @@ import { GetStaticProps } from 'next';
 // import Loader from "@components/wait";
 // import CandidatesField from "@components/admin/CandidatesField";
 // import ConfirmModal from "@components/admin/ConfirmModal";
-// import config from "../../next-i18next.config.js";
 
-// Error messages
-// const AT_LEAST_2_CANDIDATES_ERROR = "Please add at least 2 candidates.";
-// const NO_TITLE_ERROR = "Please add a title.";
-//
-// const isValidDate = (date) => date instanceof Date && !isNaN(date);
-// const getOnlyValidDate = (date) => (isValidDate(date) ? date : new Date());
-//
-// // Convert a Date object into YYYY-MM-DD
-// const dateToISO = (date) =>
-//   getOnlyValidDate(date).toISOString().substring(0, 10);
-//
-// // Retrieve the current hour, minute, sec, ms, time into a timestamp
-// const hours = (date) => getOnlyValidDate(date).getHours() * 3600 * 1000;
-// const minutes = (date) => getOnlyValidDate(date).getMinutes() * 60 * 1000;
-// const seconds = (date) => getOnlyValidDate(date).getSeconds() * 1000;
-// const ms = (date) => getOnlyValidDate(date).getMilliseconds();
-// const time = (date) =>
-//   hours(getOnlyValidDate(date)) +
-//   minutes(getOnlyValidDate(date)) +
-//   seconds(getOnlyValidDate(date)) +
-//   ms(getOnlyValidDate(date));
-//
-// // Retrieve the time part from a timestamp and remove the day. Return a int.
-// const timeMinusDate = (date) => time(getOnlyValidDate(date));
-//
-// // Retrieve the day and remove the time. Return a Date
-// const dateMinusTime = (date) =>
-//   new Date(getOnlyValidDate(date).getTime() - time(getOnlyValidDate(date)));
-//
-// const displayClockOptions = () =>
-//   Array(24)
-//     .fill(1)
-//     .map((x, i) => (
-//       <option value={i} key={i}>
-//         {i}h00
-//       </option>
-//     ));
+export async function getServerSideProps({query, locale}) {
+  const {pid, tid: token} = query;
+  const electionRef = pid.replaceAll("-", "");
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['resource'])),
-  },
-});
+  const [payload, translations] = await Promise.all([
+    getElection(electionRef),
+    serverSideTranslations(locale, ["resource"]),
+  ]);
 
-const CreateElection = (props) => {
-  // const {t} = useTranslation();
+  if ("msg" in payload) {
+    return {props: {err: payload.msg, ...translations}};
+  }
+
+  const grades = payload.grades.map((g, i) => ({...g, active: true}));
+
+  const candidates: Array<CandidateItem> = payload.candidates.map(c => ({...c, active: true}))
+  const description = JSON.parse(payload.description)
+  const randomOrder = description["randomOrder"]
+
+  const context: ElectionContextInterface = {
+    name: payload.name,
+    description: description["description"],
+    ref: payload.ref,
+    dateStart: payload.date_start,
+    dateEnd: payload.date_end,
+    hideResults: payload.hide_results,
+    forceClose: payload.force_close,
+    restricted: payload.restricted,
+    randomOrder,
+    emails: [],
+    grades,
+    candidates
+  }
+
+  return {
+    props: {
+      context,
+      token: token || "",
+      ...translations,
+    },
+  };
+}
+
+const CreateElection = ({context, token}) => {
+  const {t} = useTranslation();
 
   // // default value : start at the last hour
   // const now = new Date();

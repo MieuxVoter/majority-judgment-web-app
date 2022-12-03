@@ -1,17 +1,15 @@
 import {useTranslation} from 'next-i18next';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
-import {Container, Row, Col} from 'reactstrap';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
+import {Container} from 'reactstrap';
 import Switch from '@components/Switch';
 
 const AccessResults = () => {
   const {t} = useTranslation();
-
-  const election = useElection();
-  const dispatch = useElectionDispatch();
+  const [election, dispatch] = useElection();
 
   const toggle = () => {
     dispatch({
-      type: 'set',
+      type: ElectionTypes.SET,
       field: 'restrictResult',
       value: !election.hideResults,
     });

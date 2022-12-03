@@ -3,7 +3,7 @@ import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
 import Image from 'next/image';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import Button from '@components/Button';
 import {upload} from '@services/imgpush';
 import {IMGPUSH_URL} from '@services/constants';
@@ -11,8 +11,7 @@ import defaultAvatar from '../../public/default-avatar.svg';
 
 const CandidateModal = ({isOpen, position, toggle}) => {
   const {t} = useTranslation();
-  const election = useElection();
-  const dispatch = useElectionDispatch();
+  const [election, dispatch] = useElection();
   const candidate = election.candidates[position];
   const [state, setState] = useState(candidate);
   const image = state.image && state.image != '' ? state.image : defaultAvatar;
@@ -35,19 +34,19 @@ const CandidateModal = ({isOpen, position, toggle}) => {
 
   const save = () => {
     dispatch({
-      type: 'candidate-set',
+      type: ElectionTypes.CANDIDATE_SET,
       position: position,
       field: 'image',
       value: state.image,
     });
     dispatch({
-      type: 'candidate-set',
+      type: ElectionTypes.CANDIDATE_SET,
       position: position,
       field: 'name',
       value: state.name,
     });
     dispatch({
-      type: 'candidate-set',
+      type: ElectionTypes.CANDIDATE_SET,
       position: position,
       field: 'description',
       value: state.description,

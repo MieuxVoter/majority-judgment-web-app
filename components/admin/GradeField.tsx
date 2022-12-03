@@ -8,7 +8,7 @@ import {
   faCheck,
   faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import {getGradeColor, gradeColors} from '@services/grades';
 import {useSortable} from '@dnd-kit/sortable';
 
@@ -18,10 +18,9 @@ export interface GradeInterface {
 }
 
 export default ({value}: GradeInterface) => {
-  const election = useElection();
-  const grade = election.grades.filter(g => g.value === value)[0];
-  const dispatch = useElectionDispatch();
+  const [election, dispatch] = useElection();
 
+  const grade = election.grades.filter(g => g.value === value)[0];
   const activeGrade = election.grades.filter(g => g.active)
   const numGrades = activeGrade.length;
   const gradeIdx = activeGrade.map(g => g.value).indexOf(value);
@@ -39,7 +38,7 @@ export default ({value}: GradeInterface) => {
       return
     }
     dispatch({
-      type: 'grade-set',
+      type: ElectionTypes.GRADE_SET,
       position: value,
       field: 'active',
       value: !grade.active,

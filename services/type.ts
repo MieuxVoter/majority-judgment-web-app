@@ -2,6 +2,7 @@ export interface Candidate {
   name: string,
   image?: string,
   description?: string
+  id?: number;
 }
 
 export interface CandidateItem extends Candidate {
@@ -9,9 +10,10 @@ export interface CandidateItem extends Candidate {
 }
 
 export interface Grade {
-  name: string,
-  value: number,
-  description?: string
+  name: string;
+  value: number;
+  description?: string;
+  id?: number;
 }
 
 export interface GradeItem extends Grade {

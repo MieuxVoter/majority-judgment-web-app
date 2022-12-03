@@ -4,17 +4,16 @@
 import {useTranslation} from 'next-i18next';
 import {Container} from 'reactstrap';
 import Switch from '@components/Switch';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 
 const Order = () => {
   const {t} = useTranslation();
 
-  const election = useElection();
-  const dispatch = useElectionDispatch();
+  const [election, dispatch] = useElection();
 
   const toggle = () => {
     dispatch({
-      type: 'set',
+      type: ElectionTypes.SET,
       field: 'randomOrder',
       value: !election.randomOrder,
     });

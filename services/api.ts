@@ -15,6 +15,77 @@ export const api = {
 };
 
 
+export interface GradePayload {
+  name: string;
+  description: string;
+  id: number;
+  value: number;
+}
+
+
+export interface CandidatePayload {
+  name: string;
+  description: string;
+  id: number;
+  image: string;
+}
+
+
+export interface ErrorMessage {
+  loc: Array<string>;
+  msg: string;
+  type: string;
+  ctx: any;
+}
+
+export interface ErrorPayload {
+  detail: Array<ErrorMessage>;
+}
+
+export interface HTTPPayload {
+  status: number;
+  msg: string;
+}
+
+export interface ElectionPayload {
+  name: string;
+  description: string;
+  ref: string;
+  date_start: string;
+  date_end: string;
+  hide_results: boolean;
+  force_close: boolean;
+  restricted: boolean;
+  grades: Array<GradePayload>;
+  candidates: Array<CandidatePayload>;
+}
+
+export interface ElectionCreatedPayload extends ElectionPayload {
+  invites: Array<string>;
+  admin: string;
+  num_voters: number;
+}
+
+
+export interface ResultsPayload extends ElectionPayload {
+  status: number;
+  ranking: {[key: string]: number};
+  merit_profile: {[key: number]: Array<number>};
+}
+
+
+export interface VotePayload {
+  id: string;
+  candidate: CandidatePayload;
+  grade: GradePayload;
+}
+
+export interface BallotPayload {
+  votes: Array<VotePayload>;
+  election: ElectionPayload;
+  token: string;
+}
+
 export const createElection = async (
   name: string,
   candidates: Array<Candidate>,
@@ -79,11 +150,7 @@ export const createElection = async (
 };
 
 
-export const getResults = async (
-  pid: string,
-  successCallback = null,
-  failureCallback = null
-): Promise<ResultsPayload | HTTPPayload> => {
+export const getResults = async (pid: string): Promise<ResultsPayload | HTTPPayload> => {
   /**
    * Fetch results from external API
    */
@@ -102,32 +169,29 @@ export const getResults = async (
     const payload = await response.json()
     return {...payload, status: response.status};
   } catch (error) {
-    return new Promise(() => "API errors")
+    return {status: 400, msg: "Unknown API error"}
   }
 };
 
 
-export const getElection = async (
-  pid: string,
-): Promise<ElectionPayload | string> => {
+export const getElection = async (pid: string): Promise<ElectionPayload | HTTPPayload> => {
   /**
    * Fetch data from external API
    */
-  const detailsEndpoint = new URL(
-    api.routesServer.getElection.replace(new RegExp(':slug', 'g'), pid),
-    api.urlServer
-  );
+  const path = api.routesServer.getElection.replace(new RegExp(':slug', 'g'), pid);
+  const endpoint = new URL(path, api.urlServer);
+
   try {
-    const res = await fetch(detailsEndpoint.href);
+    const response = await fetch(endpoint.href);
 
-    if (!res.ok) {
-      return res.text()
+    if (response.status != 200) {
+      const payload = await response.json();
+      return {status: response.status, msg: payload};
     }
-
-    const payload: ElectionPayload = await res.json();
-    return payload;
+    const payload = await response.json()
+    return {...payload, status: response.status};
   } catch (error) {
-    return error;
+    return {status: 400, msg: "Unknown API error"}
   }
 };
 
@@ -204,74 +268,3 @@ export const apiErrors = (error: string): string => {
   }
 };
 
-
-export interface GradePayload {
-  name: string;
-  description: string;
-  id: number;
-  value: number;
-}
-
-
-export interface CandidatePayload {
-  name: string;
-  description: string;
-  id: number;
-  image: string;
-}
-
-
-export interface ErrorMessage {
-  loc: Array<string>;
-  msg: string;
-  type: string;
-  ctx: any;
-}
-
-export interface ErrorPayload {
-  detail: Array<ErrorMessage>;
-}
-
-export interface HTTPPayload {
-  status: number;
-  msg: string;
-}
-
-export interface ElectionPayload {
-  name: string;
-  description: string;
-  ref: string;
-  date_start: string;
-  date_end: string;
-  hide_results: boolean;
-  force_close: boolean;
-  restricted: boolean;
-  grades: Array<GradePayload>;
-  candidates: Array<CandidatePayload>;
-}
-
-export interface ElectionCreatedPayload extends ElectionPayload {
-  invites: Array<string>;
-  admin: string;
-  num_voters: number;
-}
-
-
-export interface ResultsPayload extends ElectionPayload {
-  status: number;
-  ranking: {[key: string]: number};
-  merit_profile: {[key: number]: Array<number>};
-}
-
-
-export interface VotePayload {
-  id: string;
-  candidate: CandidatePayload;
-  grade: GradePayload;
-}
-
-export interface BallotPayload {
-  votes: Array<VotePayload>;
-  election: ElectionPayload;
-  token: string;
-}

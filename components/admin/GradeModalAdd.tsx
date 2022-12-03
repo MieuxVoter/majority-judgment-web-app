@@ -1,17 +1,16 @@
-import {useState, useEffect, useRef} from 'react';
-import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
+import {useState, useEffect} from 'react';
+import {Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
-import Image from 'next/image';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import Button from '@components/Button';
 import {GradeItem} from '@services/type';
 
 
 const GradeModal = ({isOpen, toggle}) => {
   const {t} = useTranslation();
-  const election = useElection();
-  const dispatch = useElectionDispatch();
+
+  const [election, dispatch] = useElection();
   const [grade, setGrade] = useState<GradeItem>({name: "", description: "", value: -1, active: true});
 
   useEffect(() => {
@@ -22,7 +21,7 @@ const GradeModal = ({isOpen, toggle}) => {
 
   const save = () => {
     dispatch({
-      type: 'set',
+      type: ElectionTypes.SET,
       field: 'grades',
       value: [...election.grades, grade],
     });

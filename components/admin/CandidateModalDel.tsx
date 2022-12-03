@@ -1,4 +1,4 @@
-import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
+import {Row, Col, Modal, ModalBody} from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faTrashCan,
@@ -6,23 +6,17 @@ import {
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
-import Image from 'next/image';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import Button from '@components/Button';
-import {upload} from '@services/imgpush';
-import {IMGPUSH_URL} from '@services/constants';
-import defaultAvatar from '../../public/default-avatar.svg';
-import {useEffect} from 'react';
 
 const CandidateModal = ({isOpen, position, toggle}) => {
   const {t} = useTranslation();
+  const [election, dispatch] = useElection();
 
-  const election = useElection();
-  const dispatch = useElectionDispatch();
   const candidate = election.candidates[position];
 
   const removeCandidate = () => {
-    dispatch({type: 'candidate-rm', position: position});
+    dispatch({type: ElectionTypes.CANDIDATE_RM, position: position});
     toggle();
   };
 

@@ -12,7 +12,7 @@ import {useElection} from '@services/ElectionContext';
 const ParamsField = ({onSubmit}) => {
   const {t} = useTranslation();
 
-  const election = useElection();
+  const [election, _] = useElection();
   const checkDisability = election.restricted && (typeof election.emails === "undefined" || election.emails.length === 0) || election.grades.filter(g => g.active).length < 2;
 
   return (

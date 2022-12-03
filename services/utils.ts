@@ -32,6 +32,5 @@ export const displayRef = (ref: string): string => {
 export const isEnded = (date: string): boolean => {
   const dateEnd = new Date(date);
   const now = new Date();
-  console.log(dateEnd, now)
   return +dateEnd < +now;
 }

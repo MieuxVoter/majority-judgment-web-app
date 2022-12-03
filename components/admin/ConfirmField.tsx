@@ -29,7 +29,7 @@ import {gradeColors} from '@services/grades';
 
 const TitleField = () => {
   const {t} = useTranslation();
-  const election = useElection();
+  const [election, _] = useElection();
   return (
     <Container className="bg-white p-4">
       <Row>
@@ -44,7 +44,7 @@ const TitleField = () => {
 
 const CandidatesField = () => {
   const {t} = useTranslation();
-  const election = useElection();
+  const [election, _] = useElection();
 
   return (
     <Container className="bg-white p-4 mt-3 mt-md-0">
@@ -112,8 +112,8 @@ const submitElection = (
 
 const ConfirmField = ({onSubmit, onSuccess, onFailure, goToCandidates, goToParams}) => {
   const {t} = useTranslation();
-  const election = useElection();
   const router = useRouter();
+  const [election, _] = useElection();
 
   const handleSubmit = () => {
 

@@ -14,10 +14,18 @@ export interface ElectionContextInterface {
   forceClose: boolean;
   restricted: boolean;
   randomOrder: boolean;
-  endVote: string;
   emails: Array<string>;
+  dateEnd: string;
+  dateStart?: string;
+  ref?: string;
 }
 
+const defaultGrade: GradeItem = {
+  name: '',
+  description: '',
+  value: -1,
+  active: false,
+};
 const defaultCandidate: CandidateItem = {
   name: '',
   image: '',
@@ -34,17 +42,58 @@ const defaultElection: ElectionContextInterface = {
   hideResults: true,
   forceClose: false,
   restricted: false,
-  endVote: null,
+  dateEnd: null,
   emails: [],
 };
 
-type DispatchType = Dispatch<SetStateAction<ElectionContextInterface>>;
+export enum ElectionTypes {
+  SET = 'set',
+  CANDIDATE_PUSH = 'candidate-push',
+  CANDIDATE_RM = 'candidate-rm',
+  CANDIDATE_SET = 'candidate-set',
+  GRADE_PUSH = 'grade-push',
+  GRADE_RM = 'grade-rm',
+  GRADE_SET = 'grade-set',
+}
 
-// Store data about an election
-const ElectionContext = createContext<ElectionContextInterface>(defaultElection);
-// Store the dispatch function that can modify an election
-// const ElectionDispatchContext = createContext<DispatchType | null>(null);
-const ElectionDispatchContext = createContext(null);
+export type SetAction = {
+  type: ElectionTypes.SET;
+  field: string;
+  value: any;
+}
+export type CandidatePushAction = {
+  type: ElectionTypes.CANDIDATE_PUSH;
+  value: string | CandidateItem;
+}
+export type CandidateRmAction = {
+  type: ElectionTypes.CANDIDATE_RM;
+  position: number;
+}
+export type CandidateSetAction = {
+  type: ElectionTypes.CANDIDATE_SET;
+  position: number;
+  field: string;
+  value: any;
+}
+export type GradePushAction = {
+  type: ElectionTypes.GRADE_PUSH;
+  value: GradeItem;
+}
+export type GradeRmAction = {
+  type: ElectionTypes.GRADE_RM;
+  position: number;
+}
+export type GradeSetAction = {
+  type: ElectionTypes.GRADE_SET;
+  position: number;
+  field: string;
+  value: any;
+}
+
+export type ElectionActionTypes = SetAction | CandidateRmAction | CandidateSetAction | CandidatePushAction | GradeRmAction | GradeSetAction | GradePushAction;
+
+type DispatchType = Dispatch<ElectionActionTypes>;
+const ElectionContext = createContext<[ElectionContextInterface, DispatchType]>([defaultElection, () => {}]);
 
 export function ElectionProvider({children}) {
   /**
@@ -58,17 +107,15 @@ export function ElectionProvider({children}) {
     if (!router.isReady) return;
 
     dispatch({
-      type: 'set',
+      type: ElectionTypes.SET,
       field: 'name',
       value: router.query.name || '',
     });
   }, [router.isReady]);
 
   return (
-    <ElectionContext.Provider value={election}>
-      <ElectionDispatchContext.Provider value={dispatch}>
-        {children}
-      </ElectionDispatchContext.Provider>
+    <ElectionContext.Provider value={[election, dispatch]}>
+      {children}
     </ElectionContext.Provider>
   );
 }
@@ -80,14 +127,8 @@ export function useElection() {
   return useContext(ElectionContext);
 }
 
-export function useElectionDispatch() {
-  /**
-   * A simple hook to modify the election
-   */
-  return useContext(ElectionDispatchContext);
-}
 
-function electionReducer(election: ElectionContextInterface, action) {
+function electionReducer(election: ElectionContextInterface, action: ElectionActionTypes): ElectionContextInterface {
   /**
    * Manage all types of action doable on an election
    */
@@ -95,17 +136,13 @@ function electionReducer(election: ElectionContextInterface, action) {
     case 'set': {
       return {...election, [action.field]: action.value};
     }
-    case 'commit': {
-      throw Error('Not implemented yet');
-    }
-    case 'remove': {
-      throw Error('Not implemented yet');
-    }
     case 'candidate-push': {
+      if (typeof action.value === "string" && action.value !== "default") {
+        throw Error("Unexpected action")
+      }
       const candidate =
         action.value === 'default' ? {...defaultCandidate} : action.value;
       const candidates = [...election.candidates, candidate];
-      console.log("NONACTIVE", candidates.filter(c => !c.active).length)
       if (candidates.filter(c => !c.active).length === 0) {
         return {
           ...election, candidates: [...candidates, {...defaultCandidate}]
@@ -142,9 +179,7 @@ function electionReducer(election: ElectionContextInterface, action) {
       return {...election, candidates};
     }
     case 'grade-push': {
-      const grade =
-        action.value === 'default' ? {...defaultCandidate} : action.value;
-      const grades = [...election.grades, grade];
+      const grades = [...election.grades, action.value];
       return {...election, grades};
     }
     case 'grade-rm': {

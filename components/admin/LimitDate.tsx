@@ -3,7 +3,7 @@ import {useTranslation} from 'next-i18next';
 import {Container, Row, Col} from 'reactstrap';
 import DatePicker from '@components/DatePicker';
 import Switch from '@components/Switch';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 
 const LimitDate = () => {
   const {t} = useTranslation();
@@ -11,15 +11,14 @@ const LimitDate = () => {
   defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
   const [endDate, setEndDate] = useState(defaultEndDate);
 
-  const election = useElection();
-  const dispatch = useElectionDispatch();
 
-  const hasDate = election.endVote !== null;
+  const [election, dispatch] = useElection();
+  const hasDate = election.dateEnd !== null;
 
   const toggle = () => {
     dispatch({
-      type: 'set',
-      field: 'endVote',
+      type: ElectionTypes.SET,
+      field: 'dateEnd',
       value: hasDate ? null : endDate,
     });
   };

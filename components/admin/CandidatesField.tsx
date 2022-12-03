@@ -5,15 +5,14 @@ import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {MAX_NUM_CANDIDATES} from '@services/constants';
 import Alert from '@components/Alert';
 import Button from '@components/Button';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import CandidateField from './CandidateField';
 
 const CandidatesField = ({onSubmit}) => {
   const {t} = useTranslation();
   const submitReference = useRef(null);
 
-  const election = useElection();
-  const dispatch = useElectionDispatch();
+  const [election, dispatch] = useElection();
   const candidates = election.candidates;
   const [error, setError] = useState(null);
   const disabled = candidates.filter((c) => c.name !== '').length < 2;
@@ -22,7 +21,7 @@ const CandidatesField = ({onSubmit}) => {
   useEffect(() => {
     // Initialize the list with at least two candidates
     if (candidates.length < 2) {
-      dispatch({type: 'candidate-push', value: 'default'});
+      dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
     }
     if (candidates.length > MAX_NUM_CANDIDATES) {
       setError('error.too-many-candidates');
@@ -37,7 +36,6 @@ const CandidatesField = ({onSubmit}) => {
 
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log(e.key)
     if (e.key == "Enter" && !disabled) {
       onSubmit();
     }

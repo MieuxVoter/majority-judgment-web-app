@@ -7,13 +7,10 @@ import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {
   Container,
-  Row,
-  Col,
   Collapse,
   Card,
   CardHeader,
   CardBody,
-  Table,
   Button,
 } from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -23,7 +20,6 @@ import {
   faChevronUp,
   faGear,
 } from '@fortawesome/free-solid-svg-icons';
-// import dynamic from 'next/dynamic'
 import ErrorMessage from '@components/Error';
 import CSVLink from '@components/CSVLink';
 import Logo from '@components/Logo';
@@ -38,22 +34,6 @@ import calendar from '../../../public/calendar.svg'
 import arrowUpload from '../../../public/arrowUpload.svg'
 import arrowLink from '../../../public/arrowL.svg'
 import {getGradeColor} from '@services/grades';
-
-
-
-// /**
-//  * See https://github.com/react-csv/react-csv/issues/87
-//  */
-// const CSVDownload = dynamic(
-//   import('react-csv').then((m) => {
-//     const {
-//       CSVDownload
-//     } = m
-//     return CSVDownload
-//   }), {
-//   ssr: false,
-//   loading: () => <a>placeholder component...</a>
-// })
 
 
 export async function getServerSideProps({query, locale}) {
@@ -94,7 +74,6 @@ export async function getServerSideProps({query, locale}) {
     meritProfiles: payload.merit_profile,
 
   }
-  console.log("GRADES", payload.grades, grades, result.grades)
 
   return {
     props: {

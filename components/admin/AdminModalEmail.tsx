@@ -19,7 +19,7 @@ interface AdminModalEmailInterface {
 const AdminModalEmail = ({isOpen, toggle, electionRef, adminToken}: AdminModalEmailInterface) => {
   const {t} = useTranslation();
   const [email, setEmail] = useState(undefined);
-  const election = useElection();
+  const [election, _] = useElection();
 
   const adminUrl = electionRef && adminToken ? getUrlAdmin(electionRef, adminToken) : null;
 
@@ -28,7 +28,6 @@ const AdminModalEmail = ({isOpen, toggle, electionRef, adminToken}: AdminModalEm
   }
 
   const handleSubmit = () => {
-    console.log(election);
     sendAdminMail(email, election.name, adminUrl);
     toggle();
   };

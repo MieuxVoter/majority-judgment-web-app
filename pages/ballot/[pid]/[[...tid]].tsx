@@ -29,7 +29,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
     serverSideTranslations(locale, ['resource']),
   ]);
 
-  if (typeof election === 'string' || election instanceof String) {
+  if ("msg" in election) {
     return {notFound: true}
   }
 

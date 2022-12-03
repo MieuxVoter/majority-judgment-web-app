@@ -6,8 +6,7 @@ import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons';
-import {Row, Col} from 'reactstrap';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import whiteAvatar from '../../public/avatar.svg';
 import CandidateModalSet from './CandidateModalSet';
 import CandidateModalDel from './CandidateModalDel';
@@ -26,9 +25,8 @@ const CandidateField = ({
   ...props
 }: CandidateProps) => {
   const {t} = useTranslation();
+  const [election, dispatch] = useElection();
 
-  const election = useElection();
-  const dispatch = useElectionDispatch();
   const candidate = election.candidates[position];
   const image = candidate && candidate.image ? candidate.image : defaultAvatar;
   const active = candidate && candidate.active === true;
@@ -37,7 +35,7 @@ const CandidateField = ({
   const [modalSet, setModalSet] = useState(false);
 
   const addCandidate = () => {
-    dispatch({type: 'candidate-push', value: 'default'});
+    dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
   };
 
   const toggleSet = () => setModalSet((m) => !m);

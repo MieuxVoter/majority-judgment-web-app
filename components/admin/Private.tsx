@@ -1,35 +1,31 @@
 /**
  * A field to set the privacy and add emails
  */
-import {useState} from 'react';
 import {useTranslation} from 'next-i18next';
-import {Container, Row, Col} from 'reactstrap';
+import {Container} from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import Switch from '@components/Switch';
 import ListInput from '@components/ListInput';
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import {validateMail} from '@services/mail';
 
 const Private = () => {
   const {t} = useTranslation();
 
-  const [emails, setEmails] = useState([]);
-
-  const election = useElection();
-  const dispatch = useElectionDispatch();
+  const [election, dispatch] = useElection();
 
   const toggle = () => {
     dispatch({
-      type: 'set',
+      type: ElectionTypes.SET,
       field: 'restricted',
       value: !election.restricted,
     });
   };
 
-  const handleEmails = (emails) => {
+  const handleEmails = (emails: Array<string>) => {
     dispatch({
-      type: 'set',
+      type: ElectionTypes.SET,
       field: 'emails',
       value: emails,
     });

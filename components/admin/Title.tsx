@@ -1,11 +1,10 @@
 /**
  * This component manages the title of the election
  */
-import {useElection, useElectionDispatch} from '@services/ElectionContext';
+import {useElection} from '@services/ElectionContext';
 
 const TitleField = () => {
   const election = useElection();
-  const dispatch = useElectionDispatch();
 };
 
 export default TitleField;
