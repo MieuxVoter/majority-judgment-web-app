@@ -54,8 +54,6 @@ const CreateElectionForm = () => {
         onSubmit={handleSubmit}
         onSuccess={setPayload}
         onFailure={setError}
-        goToCandidates={() => setStepId(0)}
-        goToParams={() => setStepId(1)}
       />
     );
   } else {
