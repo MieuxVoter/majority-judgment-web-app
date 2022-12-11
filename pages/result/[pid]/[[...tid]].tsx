@@ -1,9 +1,9 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import {useTranslation} from 'next-i18next';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
-import {useRouter} from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
   Container,
@@ -13,7 +13,7 @@ import {
   CardBody,
   Button,
 } from 'reactstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
   faChevronRight,
@@ -24,35 +24,42 @@ import ErrorMessage from '@components/Error';
 import CSVLink from '@components/CSVLink';
 import Logo from '@components/Logo';
 import MeritProfile from '@components/MeritProfile';
-import {getResults} from '@services/api';
-import {GradeResultInterface, ResultInterface, MeritProfileInterface, CandidateResultInterface} from '@services/type';
-import {getUrlAdmin, RESULTS} from '@services/routes';
-import {displayRef} from '@services/utils';
-import {getMajorityGrade} from '@services/majorityJudgment';
-import avatarBlue from '../../../public/avatarBlue.svg'
-import calendar from '../../../public/calendar.svg'
-import arrowUpload from '../../../public/arrowUpload.svg'
-import arrowLink from '../../../public/arrowL.svg'
-import {getGradeColor} from '@services/grades';
+import { getResults } from '@services/api';
+import {
+  GradeResultInterface,
+  ResultInterface,
+  MeritProfileInterface,
+  CandidateResultInterface,
+} from '@services/type';
+import { getUrlAdmin, RESULTS } from '@services/routes';
+import { displayRef } from '@services/utils';
+import { getMajorityGrade } from '@services/majorityJudgment';
+import avatarBlue from '../../../public/avatarBlue.svg';
+import calendar from '../../../public/calendar.svg';
+import arrowUpload from '../../../public/arrowUpload.svg';
+import arrowLink from '../../../public/arrowL.svg';
+import { getGradeColor } from '@services/grades';
 
-
-export async function getServerSideProps({query, locale}) {
-  const {pid, tid: token} = query;
-  const electionRef = pid.replaceAll("-", "");
+export async function getServerSideProps({ query, locale }) {
+  const { pid, tid: token } = query;
+  const electionRef = pid.replaceAll('-', '');
 
   const [payload, translations] = await Promise.all([
     getResults(electionRef),
-    serverSideTranslations(locale, ["resource"]),
+    serverSideTranslations(locale, ['resource']),
   ]);
 
-  if ("msg" in payload) {
-    return {props: {err: payload.msg, ...translations}};
+  if ('msg' in payload) {
+    return { props: { err: payload.msg, ...translations } };
   }
 
   const numGrades = payload.grades.length;
-  const grades = payload.grades.map((g, i) => ({...g, color: getGradeColor(i, numGrades)}));
-  const gradesByValue: {[key: number]: GradeResultInterface} = {}
-  grades.forEach(g => gradesByValue[g.value] = g)
+  const grades = payload.grades.map((g, i) => ({
+    ...g,
+    color: getGradeColor(i, numGrades),
+  }));
+  const gradesByValue: { [key: number]: GradeResultInterface } = {};
+  grades.forEach((g) => (gradesByValue[g.value] = g));
 
   const result: ResultInterface = {
     name: payload.name,
@@ -64,179 +71,220 @@ export async function getServerSideProps({query, locale}) {
     forceClose: payload.force_close,
     restricted: payload.restricted,
     grades: grades,
-    candidates: payload.candidates.map(c => ({
-      ...c,
-      meritProfile: payload.merit_profile[c.id],
-      rank: payload.ranking[c.id] + 1,
-      majorityGrade: gradesByValue[getMajorityGrade(payload.merit_profile[c.id])]
-    })),
+    candidates: payload.candidates.map((c) => {
+      const profile = payload.merit_profile[c.id];
+      const numVotes = Object.values(profile).reduce((a, b) => a + b, 0);
+      const values = grades.map((g) => g.value).sort();
+      const normalized = values.map((value) =>
+        value in profile ? profile[value] / numVotes : 0
+      );
+      return {
+        ...c,
+        meritProfile: payload.merit_profile[c.id],
+        rank: payload.ranking[c.id] + 1,
+        majorityGrade: gradesByValue[getMajorityGrade(normalized)],
+      };
+    }),
     ranking: payload.ranking,
     meritProfiles: payload.merit_profile,
-
-  }
+  };
 
   return {
     props: {
       result,
-      token: token || "",
+      token: token || '',
       ...translations,
     },
   };
 }
-
 
 const getNumVotes = (result: ResultInterface) => {
   const sum = (seq: MeritProfileInterface) =>
     Object.values(seq).reduce((a, b) => a + b, 0);
   const anyCandidateId = result.candidates[0].id;
   const numVotes = sum(result.meritProfiles[anyCandidateId]);
-  Object.values(result.meritProfiles).forEach(v => {
+  Object.values(result.meritProfiles).forEach((v) => {
     if (sum(v) !== numVotes) {
-      throw Error("The election does not contain the same number of votes for each candidate")
+      throw Error(
+        'The election does not contain the same number of votes for each candidate'
+      );
     }
-  })
+  });
   return numVotes;
-}
+};
 
-const WillClose = ({delay}) => {
-  const {t} = useTranslation();
+const WillClose = ({ delay }) => {
+  const { t } = useTranslation();
   if (delay < 365) {
-    return <div>{t('result.closed')}</div>
-  }
-  else if (delay < 0) {
-    return <div>{`${t('result.has-closed')} ${delay} ${t('common.days')}`}</div>
+    return <div>{t('result.closed')}</div>;
+  } else if (delay < 0) {
+    return (
+      <div>{`${t('result.has-closed')} ${delay} ${t('common.days')}`}</div>
+    );
   } else if (delay > 365) {
-    return <div>{t('result.opened')}</div>
+    return <div>{t('result.opened')}</div>;
   } else {
-    return <div>{`${t('result.will-close')} ${delay} ${t('common.days')}`}</div>
+    return (
+      <div>{`${t('result.will-close')} ${delay} ${t('common.days')}`}</div>
+    );
   }
-}
+};
 
 interface ResultBanner {
   result: ResultInterface;
 }
-const ResultBanner = ({result}) => {
-  const {t} = useTranslation();
+const ResultBanner = ({ result }) => {
+  const { t } = useTranslation();
 
   const dateEnd = new Date(result.dateEnd);
   const now = new Date();
-  const closedSince = +dateEnd - (+now);
+  const closedSince = +dateEnd - +now;
 
-  const numVotes = getNumVotes(result)
+  const numVotes = getNumVotes(result);
 
-  const origin = typeof window !== 'undefined' && window.location.origin
-    ? window.location.origin
-    : 'http://localhost';
+  const origin =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : 'http://localhost';
   // We hide the token!
-  const url = `${origin}${RESULTS}/${displayRef(result.ref)}`
+  const url = `${origin}${RESULTS}/${displayRef(result.ref)}`;
+  console.log(result);
 
-  return (<>
-    { // MOBILE
-    }
-    <div className="w-100 bg-white p-4 d-flex flex-column d-md-none justify-content-center align-items-start">
-      <h4 className="text-black">{result.name}</h4>
+  return (
+    <>
+      {
+        // MOBILE
+      }
+      <div className="w-100 bg-white p-4 d-flex flex-column d-md-none justify-content-center align-items-start">
+        <h4 className="text-black">{result.name}</h4>
 
-      <div className="text-muted w-100 d-flex justify-content-between">
-        <div className="d-flex align-items-center flex-fill border-end border-end-2">
-          <Image alt="Calendar" src={calendar} className="me-2" />
-          <WillClose delay={closedSince} />
-        </div>
-        <div className="d-flex align-items-center justify-content-end flex-fill" >
-          <Image src={avatarBlue} alt="Avatar" className="me-2" />
-          <div>{numVotes} {numVotes > 1 ? t('common.participants') : t('common.participant')}</div>
-        </div>
-
-      </div>
-
-    </div >
-    { // DESKTOP
-    }
-    <div className="w-100 bg-white p-5 d-md-flex d-none justify-content-between align-items-center">
-      <div className="text-muted">
-        <div className="d-flex align-items-center">
-          <Image alt="Calendar" src={calendar} className="me-2" />
-          <WillClose delay={closedSince} />
-        </div>
-        <div className="d-flex align-items-center" >
-          <Image src={avatarBlue} alt="Avatar" className="me-2" />
-          <div>{numVotes} {numVotes > 1 ? t('common.participants') : t('common.participant')}</div>
-        </div>
-      </div>
-
-      <h4 className="text-black">{result.name}</h4>
-
-      <div className="text-muted">
-        <Downloader result={result}>
-          <div role="button" className="d-flex align-items-center">
-            <Image alt="Download" src={arrowUpload} className="me-2" />
-            <div className="text-muted">{t('result.download')}</div>
+        <div className="text-muted w-100 d-flex justify-content-between">
+          <div className="d-flex align-items-center flex-fill border-end border-end-2">
+            <Image alt="Calendar" src={calendar} className="me-2" />
+            <WillClose delay={closedSince} />
           </div>
-        </Downloader>
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
-          rel="noopener noreferrer"
-          target="_blank">
+          <div className="d-flex align-items-center justify-content-end flex-fill">
+            <Image src={avatarBlue} alt="Avatar" className="me-2" />
+            <div>
+              {numVotes}{' '}
+              {numVotes > 1
+                ? t('common.participants')
+                : t('common.participant')}
+            </div>
+          </div>
+        </div>
+      </div>
+      {
+        // DESKTOP
+      }
+      <div className="w-100 bg-white p-5 d-md-flex d-none justify-content-between align-items-center">
+        <div className="text-muted">
           <div className="d-flex align-items-center">
-            <Image src={arrowLink} alt="Share" className="me-2" />
-            <div className="text-muted">{t('result.share')}</div>
+            <Image alt="Calendar" src={calendar} className="me-2" />
+            <WillClose delay={closedSince} />
           </div>
-        </a>
-      </div>
-    </div >
-  </>
-  )
-}
+          <div className="d-flex align-items-center">
+            <Image src={avatarBlue} alt="Avatar" className="me-2" />
+            <div>
+              {numVotes}{' '}
+              {numVotes > 1
+                ? t('common.participants')
+                : t('common.participant')}
+            </div>
+          </div>
+        </div>
 
-const Downloader = ({result, children, ...rest}) => {
-  const values = result.grades.map(v => v.value).sort()
-  const data = result.candidates.map(c => {
-    const grades = {}
-    result.grades.forEach(g => grades[g.name] = g.value in c.meritProfile ? c.meritProfile[g.value].toString() : "0")
-    return {name: c.name, ...grades}
+        <h4 className="text-black">{result.name}</h4>
+
+        <div className="text-muted">
+          <Downloader result={result}>
+            <div role="button" className="d-flex align-items-center">
+              <Image alt="Download" src={arrowUpload} className="me-2" />
+              <div className="text-muted">{t('result.download')}</div>
+            </div>
+          </Downloader>
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <div className="d-flex align-items-center">
+              <Image src={arrowLink} alt="Share" className="me-2" />
+              <div className="text-muted">{t('result.share')}</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const Downloader = ({ result, children, ...rest }) => {
+  const values = result.grades.map((v) => v.value).sort();
+  const data = result.candidates.map((c) => {
+    const grades = {};
+    result.grades.forEach(
+      (g) =>
+        (grades[g.name] =
+          g.value in c.meritProfile ? c.meritProfile[g.value].toString() : '0')
+    );
+    return { name: c.name, ...grades };
   });
 
   return (
     <CSVLink
       filename={`results-${displayRef(result.ref)}.csv`}
       {...rest}
-      data={data}>
+      data={data}
+    >
       {children}
-    </CSVLink>)
-}
+    </CSVLink>
+  );
+};
 
+const BottomButtonsMobile = ({ result }) => {
+  const { t } = useTranslation();
 
-const BottomButtonsMobile = ({result}) => {
-  const {t} = useTranslation();
-
-  const origin = typeof window !== 'undefined' && window.location.origin
-    ? window.location.origin
-    : 'http://localhost';
+  const origin =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : 'http://localhost';
   // We hide the token!
-  const url = `${origin}${RESULTS}/${displayRef(result.ref)}`
+  const url = `${origin}${RESULTS}/${displayRef(result.ref)}`;
 
   return (
     <div className="d-flex flex-column align-items-center d-md-none m-3">
       <Downloader result={result}>
-        <Button className="m-3 d-flex align-items-center justify-content-between" role="button" color="primary" outline={false}>
+        <Button
+          className="m-3 d-flex align-items-center justify-content-between"
+          role="button"
+          color="primary"
+          outline={false}
+        >
           <Image alt="Download" src={arrowUpload} />
-          <div className="ms-3" >{t('result.download')}</div>
+          <div className="ms-3">{t('result.download')}</div>
         </Button>
       </Downloader>
       <div>
         <a
           href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
           rel="noopener noreferrer"
-          target="_blank">
-          <Button className="m-3 d-flex align-items-center justify-content-between" role="button" color="primary" outline={false}>
+          target="_blank"
+        >
+          <Button
+            className="m-3 d-flex align-items-center justify-content-between"
+            role="button"
+            color="primary"
+            outline={false}
+          >
             <Image src={arrowLink} alt="Share" />
-            <div className="ms-3" >{t('result.share')}</div>
+            <div className="ms-3">{t('result.share')}</div>
           </Button>
         </a>
       </div>
     </div>
-  )
-}
-
+  );
+};
 
 interface TitleBannerInterface {
   name: string;
@@ -244,52 +292,59 @@ interface TitleBannerInterface {
   token?: string;
 }
 
-const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
-  const {t} = useTranslation();
+const TitleBanner = ({ name, electionRef, token }: TitleBannerInterface) => {
+  const { t } = useTranslation();
   return (
     <>
-      { // MOBILE 
+      {
+        // MOBILE
       }
       <div className="d-md-none d-flex  p-4 justify-content-between text-white">
         <div className="d-flex  flex-fill align-items-center pe-5">
-          <Link href="/"><Logo title={false} /></Link>
+          <Link href="/">
+            <Logo title={false} />
+          </Link>
           <h5 className="m-1 flex-fill text-center">{name}</h5>
         </div>
-        {token ?
+        {token ? (
           <div className="d-flex">
             <Link href={getUrlAdmin(electionRef, token)}>
-              <Button icon={faGear} position="left">{t('result.go-to-admin')}</Button>
+              <Button icon={faGear} position="left">
+                {t('result.go-to-admin')}
+              </Button>
             </Link>
-          </div> : null
-        }
+          </div>
+        ) : null}
       </div>
-      { // DESKTOP 
+      {
+        // DESKTOP
       }
       <div className="d-none d-md-flex bg-primary p-4 justify-content-between text-white">
         <div className="d-flex align-items-center">
-          <Link href="/"><Logo height={38} title={true} /></Link>
-          <h5 className="m-1 ms-5">{name}</h5>
+          <Link href="/">
+            <Logo height={38} title={true} />
+          </Link>
+          <h5 className="m-1 ms-5">{t('result.result')}</h5>
         </div>
-        {token ?
+        {token ? (
           <div className="d-flex">
             <Link href={getUrlAdmin(electionRef, token)}>
-              <Button icon={faGear} position="left">{t('result.go-to-admin')}</Button>
+              <Button icon={faGear} position="left">
+                {t('result.go-to-admin')}
+              </Button>
             </Link>
-          </div> : null
-        }
-
+          </div>
+        ) : null}
       </div>
     </>
-  )
-}
-
+  );
+};
 
 interface ButtonGradeResultInterface {
   grade: GradeResultInterface;
 }
 
-const ButtonGrade = ({grade}: ButtonGradeResultInterface) => {
-
+const ButtonGrade = ({ grade }: ButtonGradeResultInterface) => {
   const style = {
     color: 'white',
     backgroundColor: grade.color,
@@ -309,26 +364,34 @@ interface CandidateRankedInterface {
   candidate: CandidateResultInterface;
 }
 
-const CandidateRanked = ({candidate}: CandidateRankedInterface) => {
+const CandidateRanked = ({ candidate }: CandidateRankedInterface) => {
   const isFirst = candidate.rank == 1;
-  return <div className="m-3 d-flex flex-column justify-content-end align-items-center candidate_rank fw-bold">
-    <div className={isFirst ? "text-primary bg-white fs-4 badge" : "text-white bg-secondary fs-5 badge"}>
-      {candidate.rank}
+  return (
+    <div className="m-3 d-flex flex-column justify-content-end align-items-center candidate_rank fw-bold">
+      <div
+        className={
+          isFirst
+            ? 'text-primary bg-white fs-4 badge'
+            : 'text-white bg-secondary fs-5 badge'
+        }
+      >
+        {candidate.rank}
+      </div>
+      <div className={`text-white my-2 ${isFirst ? 'fs-4' : 'fs-5'}`}>
+        {candidate.name}
+      </div>
+      <ButtonGrade grade={candidate.majorityGrade} />
     </div>
-    <div className={`text-white my-2 ${isFirst ? "fs-4" : "fs-5"}`}>
-      {candidate.name}
-    </div>
-    <ButtonGrade grade={candidate.majorityGrade} />
-  </div>
-}
+  );
+};
 
 interface CandidateCardInterface {
   candidate: CandidateResultInterface;
   grades: Array<GradeResultInterface>;
 }
 
-const CandidateCard = ({candidate, grades}: CandidateCardInterface) => {
-  const {t} = useTranslation();
+const CandidateCard = ({ candidate, grades }: CandidateCardInterface) => {
+  const { t } = useTranslation();
   const [collapse, setCollapse] = useState(true);
 
   return (
@@ -336,13 +399,11 @@ const CandidateCard = ({candidate, grades}: CandidateCardInterface) => {
       <CardHeader
         role="button"
         className="p-3 d-flex justify-content-between"
-        onClick={() => setCollapse(s => !s)}
+        onClick={() => setCollapse((s) => !s)}
       >
         <div className=" align-items-center d-flex">
           <span className="resultPositionCard me-2">{candidate.rank}</span>
-          <span className="candidateName">
-            {candidate.name}
-          </span>
+          <span className="candidateName">{candidate.name}</span>
         </div>
         <div className="d-flex align-items-center">
           <ButtonGrade grade={candidate.majorityGrade} />
@@ -353,7 +414,7 @@ const CandidateCard = ({candidate, grades}: CandidateCardInterface) => {
           />
         </div>
       </CardHeader>
-      <Collapse isOpen={!collapse} >
+      <Collapse isOpen={!collapse}>
         <CardBody className="p-3 text-dark">
           {t('result.merit-profile')}
           <MeritProfile profile={candidate.meritProfile} grades={grades} />
@@ -364,49 +425,49 @@ const CandidateCard = ({candidate, grades}: CandidateCardInterface) => {
             className="d-flex w-100 align-items-center justify-content-center mt-5 text-black-50 fs-5"
           >
             <div>{t('result.how-to-interpret')}</div>
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              className="ms-3"
-            />
+            <FontAwesomeIcon icon={faChevronRight} className="ms-3" />
           </a>
         </CardBody>
       </Collapse>
-    </Card >
-  )
+    </Card>
+  );
 };
-
 
 interface PodiumInterface {
   candidates: Array<CandidateResultInterface>;
 }
 
-
-const Podium = ({candidates}: PodiumInterface) => {
-  const {t} = useTranslation();
+const Podium = ({ candidates }: PodiumInterface) => {
+  const { t } = useTranslation();
 
   // get best candidates
   const numBest = Math.min(3, candidates.length);
-  const candidateByRank = {}
-  candidates.filter(c => c.rank < 4).forEach(c => candidateByRank[c.rank] = c)
+  const candidateByRank = {};
+  candidates
+    .filter((c) => c.rank < 4)
+    .forEach((c) => (candidateByRank[c.rank] = c));
 
   if (numBest < 2) {
-    throw Error("Can not load enough candidates");
+    throw Error('Can not load enough candidates');
   }
 
   if (numBest === 2) {
-    return (<div className="d-md-flex my-5 justify-content-center d-none">
-      <CandidateRanked candidate={candidateByRank[1]} />
-      <CandidateRanked candidate={candidateByRank[2]} />
-    </div>)
+    return (
+      <div className="d-md-flex my-5 justify-content-center d-none">
+        <CandidateRanked candidate={candidateByRank[1]} />
+        <CandidateRanked candidate={candidateByRank[2]} />
+      </div>
+    );
   }
 
-
-  return (<div className="d-md-flex my-5 d-none justify-content-center">
-    <CandidateRanked candidate={candidateByRank[2]} />
-    <CandidateRanked candidate={candidateByRank[1]} />
-    <CandidateRanked candidate={candidateByRank[3]} />
-  </div>)
-}
+  return (
+    <div className="d-md-flex my-5 d-none justify-content-center">
+      <CandidateRanked candidate={candidateByRank[2]} />
+      <CandidateRanked candidate={candidateByRank[1]} />
+      <CandidateRanked candidate={candidateByRank[3]} />
+    </div>
+  );
+};
 
 interface ErrorInterface {
   message: string;
@@ -417,11 +478,9 @@ interface ResultPageInterface {
   err?: ErrorInterface;
 }
 
-
-const ResultPage = ({result, token, err}: ResultPageInterface) => {
-  const {t} = useTranslation();
+const ResultPage = ({ result, token, err }: ResultPageInterface) => {
+  const { t } = useTranslation();
   const router = useRouter();
-
 
   if (err && err.message !== '') {
     return <ErrorMessage msg={err.message} />;
@@ -431,13 +490,17 @@ const ResultPage = ({result, token, err}: ResultPageInterface) => {
     return <ErrorMessage msg="error.catch22" />;
   }
 
-
-  if (typeof result.candidates === "undefined" || result.candidates.length === 0) {
-    throw Error("No candidates were loaded in this election")
+  if (
+    typeof result.candidates === 'undefined' ||
+    result.candidates.length === 0
+  ) {
+    throw Error('No candidates were loaded in this election');
   }
 
-  const candidateByRank = {}
-  result.candidates.filter(c => c.rank < 4).forEach(c => candidateByRank[c.rank] = c)
+  const candidateByRank = {};
+  result.candidates
+    .filter((c) => c.rank < 4)
+    .forEach((c) => (candidateByRank[c.rank] = c));
 
   return (
     <Container className="h-100 resultContainer resultPage d-flex flex-column align-flex-stretch">
@@ -451,21 +514,27 @@ const ResultPage = ({result, token, err}: ResultPageInterface) => {
 
       <Podium candidates={result.candidates} />
 
-      <Container style={{maxWidth: "750px"}} className="mt-5 h-100 d-flex flex-fill flex-column justify-content-between">
-
+      <Container
+        style={{ maxWidth: '750px' }}
+        className="mt-5 h-100 d-flex flex-fill flex-column justify-content-between"
+      >
         <div>
-          <h5 className="text-white">
-            {t('result.details')}
-          </h5>
-          {Object.keys(candidateByRank).sort().map((rank, i) => {
-            return (
-              <CandidateCard candidate={candidateByRank[rank]} grades={result.grades} key={i} />
-            );
-          })}
+          <h5 className="text-white">{t('result.details')}</h5>
+          {Object.keys(candidateByRank)
+            .sort()
+            .map((rank, i) => {
+              return (
+                <CandidateCard
+                  candidate={candidateByRank[rank]}
+                  grades={result.grades}
+                  key={i}
+                />
+              );
+            })}
         </div>
         <BottomButtonsMobile result={result} />
       </Container>
-    </Container >
+    </Container>
   );
 };
 

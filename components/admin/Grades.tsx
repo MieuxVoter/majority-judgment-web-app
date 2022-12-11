@@ -1,47 +1,51 @@
 /**
  * A field to update the grades
  */
-import {useState, useEffect} from 'react';
-import {useTranslation} from 'next-i18next';
-import {Container, Row, Col} from 'reactstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import {DndContext} from '@dnd-kit/core';
-import {arrayMove, SortableContext} from '@dnd-kit/sortable';
-import {DEFAULT_GRADES} from '@services/constants';
-import {ElectionTypes, useElection} from '@services/ElectionContext';
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'next-i18next';
+import { Container, Row, Col } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { DndContext } from '@dnd-kit/core';
+import { arrayMove, SortableContext } from '@dnd-kit/sortable';
+import { DEFAULT_GRADES } from '@services/constants';
+import { ElectionTypes, useElection } from '@services/ElectionContext';
 import GradeField from './GradeField';
 import GradeModalAdd from './GradeModalAdd';
-import {gradeColors} from '@services/grades';
-
+import { gradeColors } from '@services/grades';
 
 const AddField = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [modal, setModal] = useState(false);
   const toggle = () => setModal((m) => !m);
 
   const [election, _] = useElection();
-  const numGrades = election.grades.filter(g => g.active).length;
+  const numGrades = election.grades.filter((g) => g.active).length;
   const disabled = numGrades >= gradeColors.length;
 
   return (
     <Row
-      role={disabled ? null : "button"}
+      role={disabled ? null : 'button'}
       onClick={disabled ? null : toggle}
-      className={`${disabled ? "bg-light text-black-50" : "bg-primary text-white"} p-2 m-1 rounded-1`}
+      className={`${
+        disabled ? 'bg-light text-black-50' : 'bg-primary text-white'
+      } p-2 m-1 rounded-1`}
     >
       <Col className="col-auto">
         <FontAwesomeIcon icon={faPlus} />
       </Col>
-      <GradeModalAdd key={election.grades.length} isOpen={modal} toggle={toggle} />
+      <GradeModalAdd
+        key={election.grades.length}
+        isOpen={modal}
+        toggle={toggle}
+      />
     </Row>
   );
 };
 
-
 const Grades = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const defaultEndDate = new Date();
   defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
   const [election, dispatch] = useElection();
@@ -54,33 +58,33 @@ const Grades = () => {
         field: 'grades',
         value: DEFAULT_GRADES.map((g, i) => ({
           name: t(g),
-          value: i,
+          value: DEFAULT_GRADES.length - 1 - i,
           active: true,
         })),
       });
     }
   }, []);
-
+  console.log('GRADES', grades);
 
   const handleDragEnd = (event) => {
-    /** 
-     * Update the list of grades after dragging an item 
+    /**
+     * Update the list of grades after dragging an item
      */
-    const {active, over} = event;
+    const { active, over } = event;
 
     if (active.id !== over.id) {
-      const names = grades.map(g => g.name);
-      const activeIdx = names.indexOf(active.id)
-      const overIdx = names.indexOf(over.id)
+      const names = grades.map((g) => g.name);
+      const activeIdx = names.indexOf(active.id);
+      const overIdx = names.indexOf(over.id);
       const newGrades = arrayMove(grades, activeIdx, overIdx);
-      newGrades.forEach((g, i) => g.value = i);
+      newGrades.forEach((g, i) => (g.value = i));
       dispatch({
         type: ElectionTypes.SET,
-        field: "grades",
+        field: 'grades',
         value: newGrades,
       });
     }
-  }
+  };
 
   return (
     <Container className="bg-white p-3 p-md-4 mt-1">
@@ -88,7 +92,7 @@ const Grades = () => {
       <p className="text-muted">{t('admin.grades-desc')}</p>
       <Row className="gx-1">
         <DndContext onDragEnd={handleDragEnd}>
-          <SortableContext items={election.grades.map(g => g.name)}>
+          <SortableContext items={election.grades.map((g) => g.name)}>
             {grades.map((grade, i) => (
               <Col key={i} className="col col-auto">
                 <GradeField value={grade.value} />

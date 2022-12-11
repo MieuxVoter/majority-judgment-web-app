@@ -1,24 +1,39 @@
 /* eslint react/prop-types: 0 */
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faClone,
-  faVoteYea,
-  faExclamationTriangle,
   faExternalLinkAlt,
+  faCheck,
+  faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 import ClipboardJS from 'clipboard';
-const CopyField = (props) => {
-  const ref = React.createRef();
+
+const CopyField = ({ value, iconCopy = null, text }) => {
+  const [check, setCheck] = useState(false);
+
   const handleClickOnField = (event) => {
     event.target.focus();
     event.target.select();
+    setCheck(true);
+
+    setTimeout(() => {
+      setCheck(false);
+    }, 3000);
   };
-  const { t, value, iconCopy, text } = props;
 
   if (typeof window !== 'undefined') {
     new ClipboardJS('.btn');
+  }
+
+  let icon = null;
+  if (check) {
+    icon = faCheck;
+  } else if (iconCopy) {
+    icon = iconCopy;
+  } else {
+    icon = faCopy;
   }
 
   return (
@@ -27,12 +42,10 @@ const CopyField = (props) => {
         type="text"
         style={{ display: 'none' }}
         className="form-control"
-        // ref={ref}
         value={value}
         readOnly
         onClick={handleClickOnField}
       />
-
       <div className="input-group-append copy">
         {/* <Button
           href={value}
@@ -47,14 +60,13 @@ const CopyField = (props) => {
 
         <Button
           data-clipboard-text={value}
-          id="tooltip"
           target="_blank"
           rel="noreferrer"
           className="btn btn-copy"
           type="button"
         >
           {text}
-          <FontAwesomeIcon icon={iconCopy} />
+          <FontAwesomeIcon icon={icon} />
         </Button>
       </div>
       <UncontrolledTooltip placement="top" target="tooltip" trigger="click">

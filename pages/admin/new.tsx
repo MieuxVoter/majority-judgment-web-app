@@ -1,26 +1,21 @@
-import {useState} from 'react';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import { useState } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CandidatesField from '@components/admin/CandidatesField';
 import ParamsField from '@components/admin/ParamsField';
 import ConfirmField from '@components/admin/ConfirmField';
 import WaitingElection from '@components/WaitingElection';
 import PatternedBackground from '@components/PatternedBackground';
-import {
-  ElectionProvider,
-} from '@services/ElectionContext';
-import {ProgressSteps, creationSteps} from '@components/CreationSteps';
-import Blur from '@components/Blur'
-import {GetStaticProps} from 'next';
-import {ElectionCreatedPayload, ErrorPayload} from '@services/api';
+import { ElectionProvider } from '@services/ElectionContext';
+import { ProgressSteps, creationSteps } from '@components/CreationSteps';
+import Blur from '@components/Blur';
+import { GetStaticProps } from 'next';
+import { ElectionCreatedPayload, ErrorPayload } from '@services/api';
 
-
-export const getStaticProps: GetStaticProps = async ({locale}) => ({
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
-
-
 
 const CreateElectionForm = () => {
   /**
@@ -37,7 +32,6 @@ const CreateElectionForm = () => {
       setWait(true);
     }
   };
-
 
   // at which creation step are we?
   const [stepId, setStepId] = useState(0);
@@ -61,11 +55,15 @@ const CreateElectionForm = () => {
   }
 
   if (wait) {
-    return (<> <Blur />
-      <PatternedBackground>
-        <WaitingElection election={payload} error={error} />
-      </PatternedBackground>
-    </>)
+    return (
+      <>
+        {' '}
+        <Blur />
+        <PatternedBackground>
+          <WaitingElection election={payload} error={error} />
+        </PatternedBackground>
+      </>
+    );
   }
 
   return (

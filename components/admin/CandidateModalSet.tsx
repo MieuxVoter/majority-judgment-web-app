@@ -149,8 +149,8 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 value={state.name}
                 onChange={handleName}
                 maxLength={250}
-                autoFocus
-                required
+                autoFocus={true}
+                required={true}
               />
             </div>
             <div className="">

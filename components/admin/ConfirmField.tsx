@@ -1,35 +1,47 @@
-import {useTranslation} from 'next-i18next';
-import {NextRouter, useRouter} from 'next/router';
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
-import {
-  Button,
-  Row,
-  Col,
-  Container,
-} from 'reactstrap';
-import TitleField from './Title'
-import CandidatesConfirmField from './CandidatesConfirmField'
+import { useTranslation } from 'next-i18next';
+import { NextRouter, useRouter } from 'next/router';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { Button, Row, Col, Container } from 'reactstrap';
+import TitleField from './Title';
+import CandidatesConfirmField from './CandidatesConfirmField';
 import AccessResults from './AccessResults';
 import LimitDate from './LimitDate';
 import Grades from './Grades';
 import Private from './Private';
 import Order from './Order';
-import {useElection, ElectionContextInterface, hasEnoughCandidates, hasEnoughGrades, checkName, canBeFinished} from '@services/ElectionContext';
-import {createElection, ElectionCreatedPayload} from '@services/api';
-import {getUrlVote, getUrlResults} from '@services/routes';
-import {GradeItem, CandidateItem} from '@services/type';
-import {sendInviteMails} from '@services/mail';
-import {AppTypes, useAppContext} from '@services/context';
-
+import {
+  useElection,
+  ElectionContextInterface,
+  hasEnoughCandidates,
+  hasEnoughGrades,
+  checkName,
+  canBeFinished,
+} from '@services/ElectionContext';
+import { createElection, ElectionCreatedPayload } from '@services/api';
+import { getUrlVote, getUrlResults } from '@services/routes';
+import { GradeItem, CandidateItem } from '@services/type';
+import { sendInviteMails } from '@services/mail';
+import { AppTypes, useAppContext } from '@services/context';
 
 const submitElection = (
   election: ElectionContextInterface,
   successCallback: Function,
   failureCallback: Function,
-  router: NextRouter,
+  router: NextRouter
 ) => {
-  const candidates = election.candidates.filter(c => c.active).map((c: CandidateItem) => ({name: c.name, description: c.description, image: c.image}))
-  const grades = election.grades.filter(c => c.active).map((g: GradeItem, i: number) => ({name: g.name, value: i}))
+  const candidates = election.candidates
+    .filter((c) => c.active)
+    .map((c: CandidateItem) => ({
+      name: c.name,
+      description: c.description,
+      image: c.image,
+    }));
+  const grades = election.grades
+    .filter((c) => c.active)
+    .map((g: GradeItem, i: number) => ({
+      name: g.name,
+      value: election.grades.length - 1 - i,
+    }));
 
   createElection(
     election.name,
@@ -42,29 +54,36 @@ const submitElection = (
     election.restricted,
     election.randomOrder,
     async (payload: ElectionCreatedPayload) => {
-      if (typeof election.emails !== 'undefined' && election.emails.length > 0) {
-        if (typeof payload.invites === 'undefined' || payload.invites.length !== election.emails.length) {
+      if (
+        typeof election.emails !== 'undefined' &&
+        election.emails.length > 0
+      ) {
+        if (
+          typeof payload.invites === 'undefined' ||
+          payload.invites.length !== election.emails.length
+        ) {
           throw Error('Can not send invite emails');
         }
-        const urlVotes = payload.invites.map((token: string) => getUrlVote(payload.ref, token));
+        const urlVotes = payload.invites.map((token: string) =>
+          getUrlVote(payload.ref, token)
+        );
         const urlResult = getUrlResults(payload.ref);
         await sendInviteMails(
           election.emails,
           election.name,
           urlVotes,
           urlResult,
-          router,
+          router
         );
       }
       successCallback(payload);
     },
-    failureCallback,
-  )
-}
+    failureCallback
+  );
+};
 
-
-const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
-  const {t} = useTranslation();
+const ConfirmField = ({ onSubmit, onSuccess, onFailure }) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [election, _] = useElection();
   const [app, dispatchApp] = useAppContext();
@@ -73,51 +92,51 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
     if (!checkName(election)) {
       dispatchApp({
         type: AppTypes.TOAST_ADD,
-        status: "error",
-        message: t("error.uncorrect-name")
-      })
-      return
+        status: 'error',
+        message: t('error.uncorrect-name'),
+      });
+      return;
     }
 
     if (!hasEnoughGrades(election)) {
       dispatchApp({
         type: AppTypes.TOAST_ADD,
-        status: "error",
-        message: t("error.not-enough-grades")
-      })
-      return
+        status: 'error',
+        message: t('error.not-enough-grades'),
+      });
+      return;
     }
 
     if (!hasEnoughCandidates(election)) {
       dispatchApp({
         type: AppTypes.TOAST_ADD,
-        status: "error",
-        message: t("error.not-enough-candidates")
-      })
-      return
+        status: 'error',
+        message: t('error.not-enough-candidates'),
+      });
+      return;
     }
 
     if (!canBeFinished(election)) {
       dispatchApp({
         type: AppTypes.TOAST_ADD,
-        status: "error",
-        message: t("error.cant-be-finished")
-      })
-      return
+        status: 'error',
+        message: t('error.cant-be-finished'),
+      });
+      return;
     }
 
     onSubmit();
 
     submitElection(election, onSuccess, onFailure, router);
-  }
+  };
 
-  const disabled = (
+  const disabled =
     !checkName(election) ||
     !hasEnoughCandidates(election) ||
     !hasEnoughGrades(election) ||
-    !canBeFinished(election)
-  )
+    !canBeFinished(election);
 
+  console.log(election.grades);
   return (
     <Container
       fluid="xl"
@@ -146,8 +165,7 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
         </Col>
       </Row>
       <Container className="my-5 d-md-flex d-grid justify-content-md-center">
-        <div
-          onClick={handleSubmit}>
+        <div onClick={handleSubmit}>
           <Button
             outline={true}
             color="secondary"
