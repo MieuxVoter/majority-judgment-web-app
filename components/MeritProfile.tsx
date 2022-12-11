@@ -67,43 +67,40 @@ const DashedMedian = () => {
 };
 
 const MajorityGrade = ({ grade, left }) => {
+  // const spanRef = useRef<HTMLDivElement>();
   const spanRef = useRef<HTMLDivElement>();
 
-  const [width, setWidth] = useState(40);
-
-  useLayoutEffect(() => {
-    if (spanRef && spanRef.current) {
-      setWidth(spanRef.current.offsetWidth);
-    }
-  }, [spanRef.current]);
+  const [width, setWidth] = useState(0);
+  const offsetWidth = spanRef && spanRef.current && spanRef.current.offsetWidth;
 
   useEffect(() => {
-    if (spanRef && spanRef.current) {
+    setTimeout(() => {
       setWidth(spanRef.current.offsetWidth);
-    }
-  }, [spanRef.current]);
+    }, 100);
+  }, [offsetWidth]);
 
   return (
-    <>
-      <span
+    <div
+      style={{ left: `calc(${left * 100}% - ${width / 2}px)` }}
+      className="position-relative"
+    >
+      <div
         ref={spanRef}
         style={{
           color: 'white',
           backgroundColor: grade.color,
-          left: `calc(${left * 100}% - ${width / 2}px)`,
-          top: '-20px',
+          width: 'fit-content',
         }}
-        className="p-2 position-relative fw-bold rounded-1 text-center"
+        className="p-2  fw-bold rounded-1 text-center"
       >
         {grade.name}
-      </span>
-      <span
+      </div>
+      <div
         style={{
-          position: 'relative',
           width: 0,
           height: 0,
-          left: `calc(${left * 100}% - ${width + 6}px)`,
-          top: '20px',
+          position: 'relative',
+          left: `${width / 2 - 6}px`,
           borderLeftWidth: 6,
           borderRightWidth: 6,
           borderTopWidth: 12,
@@ -114,8 +111,8 @@ const MajorityGrade = ({ grade, left }) => {
           borderTopColor: grade.color,
           color: 'transparent',
         }}
-      ></span>
-    </>
+      ></div>
+    </div>
   );
 };
 
@@ -130,23 +127,22 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
 
   const numVotes = Object.values(profile).reduce((a, b) => a + b, 0);
   const values = grades.map((g) => g.value).sort();
-  const normalized = values.map((value) =>
-    value in profile ? profile[value] / numVotes : 0
-  );
+  const normalized = {};
+  values.forEach((v) => (normalized[v] = profile[v] / numVotes || 0));
   // low values means great grade
 
   // find the majority grade
-  const majorityIdx = getMajorityGrade(normalized);
-  const majorityGrade = grades[majorityIdx];
+  const majorityValue = getMajorityGrade(normalized);
+  const majorityGrade = gradesByValue[majorityValue];
 
-  const proponentSizes = normalized.filter(
-    (_, i) => values[i] < majorityGrade.value
-  );
+  const proponentSizes = values
+    .filter((v) => v > majorityGrade.value)
+    .map((v) => normalized[v]);
   const proponentWidth = proponentSizes.reduce((a, b) => a + b, 0);
 
-  const opponentSizes = normalized.filter(
-    (_, i) => values[i] > majorityGrade.value
-  );
+  const opponentSizes = values
+    .filter((v) => v < majorityGrade.value)
+    .map((v) => normalized[v]);
   const opponentWidth = opponentSizes.reduce((a, b) => a + b, 0);
 
   // is proponent higher than opposant?
@@ -168,7 +164,7 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
       <DashedMedian />
       <MajorityGrade
         grade={majorityGrade}
-        left={proponentWidth + normalized[majorityIdx] / 2}
+        left={proponentWidth + normalized[majorityValue] / 2}
       />
       <div className="d-flex">
         <div
@@ -178,7 +174,7 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
           style={{ flexBasis: `${proponentWidth * 100}%` }}
         >
           {values
-            .filter((v) => v < majorityGrade.value)
+            .filter((v) => v > majorityGrade.value)
             .map((v) => {
               const index = values.indexOf(v);
               const size =
@@ -187,7 +183,7 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
                 <GradeBar
                   index={index}
                   params={params}
-                  grade={grades[v]}
+                  grade={gradesByValue[v]}
                   key={index}
                   size={size}
                 />
@@ -196,7 +192,7 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
         </div>
         <div
           className="border border-2 border-primary"
-          style={{ flexBasis: `${normalized[majorityIdx] * 100}%` }}
+          style={{ flexBasis: `${normalized[majorityValue] * 100}%` }}
         >
           {values
             .filter((v) => v === majorityGrade.value)
@@ -206,7 +202,7 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
                 <GradeBar
                   index={index}
                   params={params}
-                  grade={grades[v]}
+                  grade={gradesByValue[v]}
                   key={index}
                   size={1}
                 />
@@ -220,7 +216,7 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
           style={{ flexBasis: `${opponentWidth * 100}%` }}
         >
           {values
-            .filter((v) => v > majorityGrade.value)
+            .filter((v) => v < majorityGrade.value)
             .map((v) => {
               const index = values.indexOf(v);
               const size =
@@ -229,7 +225,7 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
                 <GradeBar
                   index={index}
                   params={params}
-                  grade={grades[v]}
+                  grade={gradesByValue[v]}
                   key={index}
                   size={size}
                 />

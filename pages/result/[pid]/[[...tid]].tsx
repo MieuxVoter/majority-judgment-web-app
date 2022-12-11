@@ -73,16 +73,14 @@ export async function getServerSideProps({ query, locale }) {
     grades: grades,
     candidates: payload.candidates.map((c) => {
       const profile = payload.merit_profile[c.id];
-      const numVotes = Object.values(profile).reduce((a, b) => a + b, 0);
-      const values = grades.map((g) => g.value).sort();
-      const normalized = values.map((value) =>
-        value in profile ? profile[value] / numVotes : 0
-      );
+      const values = grades.map((g) => g.value);
+      values.forEach((v) => (profile[v] = profile[v] || 0));
+      const majValue = getMajorityGrade(profile);
       return {
         ...c,
         meritProfile: payload.merit_profile[c.id],
         rank: payload.ranking[c.id] + 1,
-        majorityGrade: gradesByValue[getMajorityGrade(normalized)],
+        majorityGrade: gradesByValue[majValue],
       };
     }),
     ranking: payload.ranking,
