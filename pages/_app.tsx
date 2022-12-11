@@ -2,12 +2,12 @@ import Head from 'next/head';
 import '@styles/globals.css';
 import '@styles/scss/config.scss';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import {appWithTranslation} from 'next-i18next';
-import {AppProvider} from '@services/context';
+import { appWithTranslation } from 'next-i18next';
+import { AppProvider } from '@services/context';
 import Header from '@components/layouts/Header';
 import Footer from '@components/layouts/Footer';
 
-function Application({Component, pageProps}) {
+function Application({ Component, pageProps }) {
   const origin =
     typeof window !== 'undefined' && window.location.origin
       ? window.location.origin
@@ -24,22 +24,19 @@ function Application({Component, pageProps}) {
           key="og:image"
         />
       </Head>
-      <main className="d-flex flex-column justify-content-between">
-        <div className="d-flex flex-grow-1 justify-content-center">
-          <Header />
-          <div className="d-flex flex-column h-100 w-100 align-items-start">
-            <Component {...pageProps} />
-          </div>
-        </div>
+      <div className="min-vh-100 d-flex flex-column justify-content-between">
+        <Header />
+        <Component {...pageProps} />
         <Footer />
-      </main>
+      </div>
     </>
   );
 }
 
-const AppWithContext = ({Component, pageProps}) => <AppProvider>
-  <Application Component={Component} pageProps={pageProps} />
-</AppProvider>
-
+const AppWithContext = ({ Component, pageProps }) => (
+  <AppProvider>
+    <Application Component={Component} pageProps={pageProps} />
+  </AppProvider>
+);
 
 export default appWithTranslation(AppWithContext);

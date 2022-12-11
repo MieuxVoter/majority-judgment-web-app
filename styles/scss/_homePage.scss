@@ -62,9 +62,14 @@ $desktop: 1680px;
 }
 .sectionTwoHome {
   background: $mv-dark-blue-color;
-  padding: 10%;
+  }
+.vote_background {
+	position: absolute;
+	right: 0px;
+	width: 100%;
+	height: 500px;
   background-image: url('/vote.svg');
-  background-position: top 46% right;
+  background-position: top right;
   background-repeat: no-repeat;
 }
 .sectionTwoHomeImage {

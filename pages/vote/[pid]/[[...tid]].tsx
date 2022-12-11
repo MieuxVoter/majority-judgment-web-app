@@ -1,31 +1,25 @@
-import {useRouter} from 'next/router';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
-import {useTranslation} from 'next-i18next';
-import {
-  Col,
-  Container,
-  Row,
-} from 'reactstrap';
+import { useRouter } from 'next/router';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+import { Col, Container, Row } from 'reactstrap';
 import Link from 'next/link';
-import Footer from '@components/layouts/Footer';
-import ShareRow from '@components/Share';
+import Share from '@components/Share';
 import Button from '@components/Button';
 import ExperienceRow from '@components/Experience';
 import AdvantagesRow from '@components/Advantages';
 import Logo from '@components/Logo';
-import {BALLOT} from '@services/routes';
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
-import {displayRef} from '@services/utils';
+import { BALLOT } from '@services/routes';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { displayRef } from '@services/utils';
 
-
-export async function getServerSideProps({query: {pid, tid}, locale}) {
+export async function getServerSideProps({ query: { pid, tid }, locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['resource'])),
-      electionRef: pid.replaceAll("-", ""),
+      electionRef: pid.replaceAll('-', ''),
       token: tid || null,
     },
-  }
+  };
 }
 
 interface VoteInterface {
@@ -33,13 +27,11 @@ interface VoteInterface {
   token?: string;
 }
 
-
-const GoToBallotConfirm = ({electionRef, token}) => {
-
-  const {t} = useTranslation();
+const GoToBallotConfirmDesktop = ({ electionRef, token }) => {
+  const { t } = useTranslation();
 
   return (
-    <div className="sectionOneHomeForm">
+    <div className="sectionOneHomeForm d-none d-md-block">
       <Row className="sectionOneHomeRowOne">
         <Col className="sectionOneHomeContent">
           <Logo height="128" />
@@ -47,13 +39,16 @@ const GoToBallotConfirm = ({electionRef, token}) => {
             <h2 className="mb-4 mt-5">{t('common.welcome')}</h2>
           </Row>
           <Row>
-            <h4 className="mb-5">
-              {t('vote.home-desc')}
-            </h4>
+            <h4 className="mb-5">{t('vote.home-desc')}</h4>
           </Row>
 
-          <Row>
-            <Link href={`${BALLOT}/${displayRef(electionRef)}/${token ? token : ""}`}>
+          <div className="w-100">
+            <Link
+              className="d-grid d-md-block w-100"
+              href={`${BALLOT}/${displayRef(electionRef)}/${
+                token ? token : ''
+              }`}
+            >
               <Button
                 color="secondary"
                 outline={true}
@@ -61,9 +56,10 @@ const GoToBallotConfirm = ({electionRef, token}) => {
                 icon={faArrowRight}
                 position="right"
               >
-                {t('vote.home-start')}</Button>
+                {t('vote.home-start')}
+              </Button>
             </Link>
-          </Row>
+          </div>
           <Row className="noAds my-0">
             <p>{t('home.noAds')}</p>
           </Row>
@@ -75,22 +71,71 @@ const GoToBallotConfirm = ({electionRef, token}) => {
             </Link>
           </Row>
         </Col>
-      </Row >
-    </div >
-  )
-}
+      </Row>
+    </div>
+  );
+};
+const GoToBallotConfirmMobile = ({ electionRef, token }) => {
+  const { t } = useTranslation();
 
-const Vote = ({electionRef, token}: VoteInterface) => {
+  return (
+    <div className="d-block d-md-none bg-primary py-5 px-3 min-vh-100 d-flex d-md-none flex-column align-items-center justify-content-between">
+      <Col className="sectionOneHomeContent">
+        <Logo width={164} />
+        <Row>
+          <h2 className="mb-4 mt-5">{t('common.welcome')}</h2>
+        </Row>
+        <Row>
+          <h4 className="mb-5">{t('vote.home-desc')}</h4>
+        </Row>
 
+        <div className="w-100">
+          <Link
+            className="d-grid d-md-block w-100"
+            href={`${BALLOT}/${displayRef(electionRef)}/${token ? token : ''}`}
+          >
+            <Button
+              color="secondary"
+              outline={true}
+              type="submit"
+              icon={faArrowRight}
+              position="right"
+            >
+              {t('vote.home-start')}
+            </Button>
+          </Link>
+        </div>
+        <Row className="noAds my-0">
+          <p>{t('home.noAds')}</p>
+        </Row>
+        <Row>
+          <Link href="https://mieuxvoter.fr/le-jugement-majoritaire">
+            <Button className="btn-black mt-2 mb-5">
+              {t('common.about-mj')}
+            </Button>
+          </Link>
+        </Row>
+      </Col>
+    </div>
+  );
+};
+
+const Vote = ({ electionRef, token }: VoteInterface) => {
   return (
     <>
       <section>
-        <GoToBallotConfirm electionRef={electionRef} token={token} />
+        <GoToBallotConfirmDesktop electionRef={electionRef} token={token} />
+        <GoToBallotConfirmMobile electionRef={electionRef} token={token} />
       </section>
-      <section className="sectionTwoHome">
-        <AdvantagesRow />
+      <section className="sectionTwoHome p-2 pb-5 text-center">
+        <div className="d-none d-md-block pt-5 mt-5">
+          <AdvantagesRow />
+        </div>
+        <div className="d-md-none d-block">
+          <AdvantagesRow />
+        </div>
         <ExperienceRow />
-        <ShareRow />
+        <Share />
       </section>
     </>
   );

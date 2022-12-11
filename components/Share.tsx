@@ -1,19 +1,18 @@
 import Image from 'next/image';
-import {useTranslation} from 'next-i18next';
-import {Row, Col} from 'reactstrap';
+import { useTranslation } from 'next-i18next';
+import { Row, Col } from 'reactstrap';
 import twitter from '../public/twitter.svg';
 import facebook from '../public/facebook.svg';
-
 
 interface ShareInterface {
   title?: string;
 }
 
-const ShareRow = ({title}: ShareInterface) => {
-  const {t} = useTranslation('resource');
+const ShareRow = ({ title }: ShareInterface) => {
+  const { t } = useTranslation('resource');
   return (
     <Row className="sharing justify-content-md-center">
-      <Col className="col-auto">{title || t('common.share')}</Col>
+      <Col className="col-md-auto col-12">{title || t('common.share')}</Col>
       <Col className="col-auto">
         <a
           target="_blank"

@@ -1,12 +1,12 @@
-import {useTranslation} from 'next-i18next';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
-import {Row, Col} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import ballotBox from '../public/urne.svg';
 import email from '../public/email.svg';
 import respect from '../public/respect.svg';
 
 const AdvantagesRow = () => {
-  const {t} = useTranslation('resource');
+  const { t } = useTranslation('resource');
   const resources = [
     {
       src: ballotBox,
@@ -28,9 +28,9 @@ const AdvantagesRow = () => {
     },
   ];
   return (
-    <Row className="sectionTwoRowOne">
+    <Row>
       {resources.map((item, i) => (
-        <Col key={i} className="sectionTwoRowOneCol">
+        <Col key={i} className="my-5 col-md-4 col-12">
           <Image
             src={item.src}
             alt={item.alt}
@@ -45,4 +45,4 @@ const AdvantagesRow = () => {
   );
 };
 
-export default AdvantagesRow
+export default AdvantagesRow;

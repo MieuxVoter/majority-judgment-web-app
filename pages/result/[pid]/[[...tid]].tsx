@@ -146,7 +146,6 @@ const ResultBanner = ({ result }) => {
       : 'http://localhost';
   // We hide the token!
   const url = `${origin}${RESULTS}/${displayRef(result.ref)}`;
-  console.log(result);
 
   return (
     <>
