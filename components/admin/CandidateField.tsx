@@ -1,12 +1,18 @@
 /**
  * This is the candidate field used during election creation
  */
-import {useState} from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
-import {useTranslation} from 'next-i18next';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons';
-import {ElectionTypes, useElection} from '@services/ElectionContext';
+import { useTranslation } from 'next-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faBars,
+  faBurger,
+  faPlus,
+  faTrashCan,
+} from '@fortawesome/free-solid-svg-icons';
+import { useSortable } from '@dnd-kit/sortable';
+import { ElectionTypes, useElection } from '@services/ElectionContext';
 import whiteAvatar from '../../public/avatar.svg';
 import CandidateModalSet from './CandidateModalSet';
 import CandidateModalDel from './CandidateModalDel';
@@ -26,7 +32,7 @@ const CandidateField = ({
   editable = true,
   ...props
 }: CandidateProps) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [election, dispatch] = useElection();
 
   const candidate = election.candidates[position];
@@ -36,8 +42,11 @@ const CandidateField = ({
   const [modalDel, setModalDel] = useState(false);
   const [modalSet, setModalSet] = useState(false);
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: position + 1 });
+
   const addCandidate = () => {
-    dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
+    dispatch({ type: ElectionTypes.CANDIDATE_PUSH, value: 'default' });
   };
 
   const toggleSet = () => setModalSet((m) => !m);
@@ -47,25 +56,53 @@ const CandidateField = ({
     ? 'bg-white text-secondary'
     : 'border border-dashed border-2 border-light border-opacity-25';
 
+  const style = {
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      : null,
+    transition,
+  };
+
   return (
     <div
       className={`${activeClass} d-flex justify-content-between align-items-center ${className}`}
-      {...props}
+      ref={setNodeRef}
+      style={style}
     >
-      <div onClick={toggleSet} role="button" className="py-3 flex-fill d-flex align-items-center ">
+      <div
+        onClick={toggleSet}
+        role="button"
+        className="py-3 me-1 flex-fill d-flex align-items-center "
+      >
         <Image
           src={image}
           width={24}
           height={24}
-          className={`${image == defaultAvatar ? 'default-avatar' : ''
-            } bg-primary`}
+          className={`${
+            image == defaultAvatar ? 'default-avatar' : ''
+          } bg-primary`}
           alt={t('common.thumbnail')}
         />
         <div className="ps-2 fw-bold">
           {candidate.name ? candidate.name : t('admin.add-candidate')}
         </div>
       </div>
-      {editable ?
+      <div
+        {...props}
+        {...attributes}
+        {...listeners}
+        role="button"
+        className="text-end me-3"
+      >
+        {active ? (
+          <FontAwesomeIcon
+            style={{ touchAction: 'none' }}
+            className="text-primary"
+            icon={faBars}
+          />
+        ) : null}
+      </div>
+      {editable ? (
         <div role="button" className="text-end">
           {active ? (
             <FontAwesomeIcon
@@ -76,7 +113,9 @@ const CandidateField = ({
           ) : (
             <FontAwesomeIcon icon={faPlus} onClick={addCandidate} />
           )}
-        </div> : null}
+        </div>
+      ) : null}
+
       <CandidateModalSet
         toggle={toggleSet}
         isOpen={modalSet}
@@ -87,7 +126,7 @@ const CandidateField = ({
         isOpen={modalDel}
         position={position}
       />
-    </div >
+    </div>
   );
 };
 
