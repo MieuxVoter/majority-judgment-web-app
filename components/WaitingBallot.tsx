@@ -1,20 +1,20 @@
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
-import { CSSProperties, useEffect, useState } from 'react';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col, Container, Row } from 'reactstrap';
+import {useTranslation} from 'next-i18next';
+import {CSSProperties, useEffect, useState} from 'react';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Col, Container, Row} from 'reactstrap';
 import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
 import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
-import { BallotPayload, ErrorPayload } from '@services/api';
-import { AppTypes, useAppContext } from '@services/context';
-import { displayRef, isEnded } from '@services/utils';
-import { RESULTS } from '@services/routes';
+import {BallotPayload, ErrorPayload} from '@services/api';
+import {AppTypes, useAppContext} from '@services/context';
+import {displayRef, isEnded} from '@services/utils';
+import {RESULTS} from '@services/routes';
 import Logo from './Logo';
-import { FORM_FEEDBACK } from '@services/constants';
+import {FORM_FEEDBACK, MAJORITY_JUDGMENT_LINK} from '@services/constants';
 import urne from '../public/urne.svg';
 import star from '../public/star.svg';
 import logo from '../public/logo-red-blue.svg';
@@ -25,8 +25,8 @@ export interface WaitingBallotInterface {
   error?: ErrorPayload;
 }
 
-const ButtonResults = ({ election }) => {
-  const { t } = useTranslation();
+const ButtonResults = ({election}) => {
+  const {t} = useTranslation();
 
   if (!election.hideResults || isEnded(election.date_end)) {
     return (
@@ -42,14 +42,14 @@ const ButtonResults = ({ election }) => {
 };
 
 const DiscoverMajorityJudgment = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Col className="d-flex flex-column justify-content-between  bg-secondary p-4 text-white">
       <div>
         <h5>{t('vote.discover-mj')}</h5>
         <p>{t('vote.discover-mj-desc')}</p>
       </div>
-      <a href="https://mieuxvoter.fr/le-jugement-majoritaire">
+      <a href={MAJORITY_JUDGMENT_LINK} target="_blank" rel="noopener noreferrer">
         <div className="d-flex align-items-center">
           <div className="me-2">{t('common.about')}</div>
           <FontAwesomeIcon icon={faArrowRight} />
@@ -60,7 +60,7 @@ const DiscoverMajorityJudgment = () => {
 };
 
 const SupportBetterVote = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Col className="d-flex flex-column justify-content-between  text-secondary p-4 bg-white">
       <div>
@@ -81,7 +81,7 @@ const SupportBetterVote = () => {
 };
 
 const Thanks = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <>
       <h5>{t('vote.thanks')}</h5>
@@ -99,8 +99,8 @@ interface InfoInterface extends WaitingBallotInterface {
   display: string;
 }
 
-const Info = ({ ballot, error, display }: InfoInterface) => {
-  const { t } = useTranslation();
+const Info = ({ballot, error, display}: InfoInterface) => {
+  const {t} = useTranslation();
 
   if (!ballot) return null;
 
@@ -132,7 +132,7 @@ const Info = ({ ballot, error, display }: InfoInterface) => {
   );
 };
 
-export default ({ ballot, error }: WaitingBallotInterface) => {
+export default ({ballot, error}: WaitingBallotInterface) => {
   const [_, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({
@@ -154,7 +154,7 @@ export default ({ ballot, error }: WaitingBallotInterface) => {
   });
 
   useEffect(() => {
-    dispatch({ type: AppTypes.FULLPAGE, value: true });
+    dispatch({type: AppTypes.FULLPAGE, value: true});
 
     setUrne((urne) => ({
       ...urne,
@@ -193,7 +193,7 @@ export default ({ ballot, error }: WaitingBallotInterface) => {
     }, 3000);
 
     const timer3 = setTimeout(() => {
-      setBallot({ display: 'grid' });
+      setBallot({display: 'grid'});
     }, 4500);
 
     return () => {

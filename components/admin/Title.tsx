@@ -1,13 +1,13 @@
 /**
  * This component manages the title of the election
  */
-import {faPen} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useElection} from '@services/ElectionContext';
 import {useTranslation} from 'next-i18next';
 import {useState} from 'react';
-import {Col, Container, Row} from 'reactstrap';
+import {Container} from 'reactstrap';
+import {faPen} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import TitleModal from './TitleModal';
+import {useElection} from '@services/ElectionContext';
 
 const TitleField = () => {
   const {t} = useTranslation();

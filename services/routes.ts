@@ -4,6 +4,7 @@
 import {getWindowUrl, displayRef} from './utils';
 
 
+export const HOME = '/';
 export const CREATE_ELECTION = '/admin/new';
 export const BALLOT = '/ballot';
 export const ENDED_VOTE = '/end';

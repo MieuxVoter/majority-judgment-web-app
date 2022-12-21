@@ -4,6 +4,7 @@ import {Button, Row, Col} from 'reactstrap';
 import Logo from '@components/Logo';
 import LanguageSelector from '@components/layouts/LanguageSelector';
 import {useAppContext} from '@services/context';
+import {BETTER_VOTE_LINK, MAJORITY_JUDGMENT_LINK, NEWS_LINK, PAYPAL, WHO_WE_ARE_LINK} from '@services/constants';
 
 const Footer = () => {
   const {t} = useTranslation();
@@ -16,24 +17,30 @@ const Footer = () => {
       component: <Logo title={false} />,
     },
     {
-      component: <Link href="/">{t('menu.majority-judgment')}</Link>,
+      component:
+        <a
+          href={MAJORITY_JUDGMENT_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t('menu.majority-judgment')}</a>,
     },
     {
       component: (
-        <Link
-          href="https://mieuxvoter.fr/"
+        <a
+          href={WHO_WE_ARE_LINK}
           target="_blank"
           rel="noopener noreferrer"
         >
           {t('menu.whoarewe')}
-        </Link>
+        </a>
       ),
     },
     {
       component: <Link href="/faq">{t('menu.faq')}</Link>,
     },
     {
-      component: <Link href="/">{t('menu.news')}</Link>,
+      component: <Link href={NEWS_LINK}>{t('menu.news')}</Link>,
     },
     {
       component: (
@@ -61,7 +68,7 @@ const Footer = () => {
         </Col>
         <Col className="col-auto">
           <Button outline={false} color="info" className="noshadow">
-            <a href="/">{t('common.support-us')}</a>
+            <a href={PAYPAL}>{t('common.support-us')}</a>
           </Button>
         </Col>
       </Row>
