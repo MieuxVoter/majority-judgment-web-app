@@ -1,11 +1,7 @@
 import { MAJORITY_JUDGMENT_LINK } from '@services/constants';
-import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
-import { Row, Col, Button, Container } from 'reactstrap';
-import arrowRight from '../public/arrow-white.svg';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'next-i18next';
-import Image from 'next/image';
 import { Row, Col, Container } from 'reactstrap';
 import Button from '@components/Button';
 import vote from '../public/vote.svg';
