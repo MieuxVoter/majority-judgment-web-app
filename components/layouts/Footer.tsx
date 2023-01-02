@@ -72,9 +72,11 @@ const Footer = () => {
           </Row>
         </Col>
         <Col className="col-auto">
-          <Button outline={false} color="info" className="noshadow">
-            <a href={PAYPAL}>{t('common.support-us')}</a>
-          </Button>
+          <a href={PAYPAL}>
+            <Button outline={false} color="info" className="noshadow">
+              {t('common.support-us')}
+            </Button>
+          </a>
         </Col>
       </Row>
     </footer>
