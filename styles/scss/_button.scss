@@ -43,10 +43,14 @@
   margin: auto;
 }
 *.btn[class*='-secondary'] {
-  /* width: fit-content;*/
   background-color: transparent;
   border-color: white;
   color: white;
+}
+.btn-outline-secondary:hover {
+  background-color: white;
+  border-color: $mv-blue-color;
+  color: $mv-blue-color;
 }
 *.btn[class*='-primary'] {
   border: 2px solid $mv-blue-color;
@@ -56,12 +60,15 @@
   background-color: #4a2fef;
   border: 2px solid #4a2fef;
 }
-.btn:not([class*='btn-outline-']):hover {
+/* .btn:not([class*='btn-outline-']):hover {
   background-color: rgb(255, 255, 255, 0.2);
   color: inherit;
   border-color: inherit;
   border-width: 2px;
   box-shadow: unset;
+}*/
+.btn-primary:hover {
+	   filter: brightness(150%);
 }
 .btn.btn-danger:hover {
   color: map.get($theme-colors, 'danger');
@@ -91,3 +98,5 @@ gap: 16px;
 background: #FF3E37!important;
 box-shadow: 0px 4px 0px #FFCAC8;
 }
+
+

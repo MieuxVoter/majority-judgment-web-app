@@ -1,37 +1,42 @@
 import Link from 'next/link';
-import {useTranslation} from 'next-i18next';
-import {Button, Row, Col} from 'reactstrap';
+import { useTranslation } from 'next-i18next';
+import { Button, Row, Col } from 'reactstrap';
 import Logo from '@components/Logo';
 import LanguageSelector from '@components/layouts/LanguageSelector';
-import {useAppContext} from '@services/context';
-import {BETTER_VOTE_LINK, MAJORITY_JUDGMENT_LINK, NEWS_LINK, PAYPAL, WHO_WE_ARE_LINK} from '@services/constants';
+import { useAppContext } from '@services/context';
+import {
+  MAJORITY_JUDGMENT_LINK,
+  NEWS_LINK,
+  PAYPAL,
+  WHO_WE_ARE_LINK,
+} from '@services/constants';
 
 const Footer = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [app, _] = useAppContext();
 
-  if (app.fullPage) {return null;}
+  if (app.fullPage) {
+    return null;
+  }
 
   const menu = [
     {
       component: <Logo title={false} />,
     },
     {
-      component:
+      component: (
         <a
           href={MAJORITY_JUDGMENT_LINK}
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t('menu.majority-judgment')}</a>,
+          {t('menu.majority-judgment')}
+        </a>
+      ),
     },
     {
       component: (
-        <a
-          href={WHO_WE_ARE_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href={WHO_WE_ARE_LINK} target="_blank" rel="noopener noreferrer">
           {t('menu.whoarewe')}
         </a>
       ),

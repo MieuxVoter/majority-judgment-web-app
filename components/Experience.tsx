@@ -1,12 +1,17 @@
-import {MAJORITY_JUDGMENT_LINK} from '@services/constants';
-import {useTranslation} from 'next-i18next';
+import { MAJORITY_JUDGMENT_LINK } from '@services/constants';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
-import {Row, Col, Button, Container} from 'reactstrap';
+import { Row, Col, Button, Container } from 'reactstrap';
 import arrowRight from '../public/arrow-white.svg';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'next-i18next';
+import Image from 'next/image';
+import { Row, Col, Container } from 'reactstrap';
+import Button from '@components/Button';
 import vote from '../public/vote.svg';
 
 const Experiencediv = () => {
-  const {t} = useTranslation('resource');
+  const { t } = useTranslation('resource');
   return (
     <div className="sectionTwodivTwo mt-4">
       <div className="w-100 justify-content-center d-flex">
@@ -33,16 +38,21 @@ const Experiencediv = () => {
         </Row>
       </Container>
       <div className="d-flex w-100 justify-content-center mt-5">
-      <a href={MAJORITY_JUDGMENT_LINK} target="_blank" rel="noreferrer noopener">
-        <Button color="primary" className="p-4 fs-5">
-          {t('home.experience-call-to-action')}
-          <Image
-            src={arrowRight}
-            width={22}
-            height={22}
-            alt="icon arrow right"
-          />
-        </Button></a>
+        <a
+          href={MAJORITY_JUDGMENT_LINK}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <Button
+            color="primary py-3"
+            outline={false}
+            type="submit"
+            icon={faArrowRight}
+            position="right"
+          >
+            {t('home.experience-call-to-action')}
+          </Button>
+        </a>
       </div>
     </div>
   );

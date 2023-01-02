@@ -4,13 +4,15 @@ import Image from 'next/image';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
-import { Container, Row, Col, Button, Input } from 'reactstrap';
+import { Container, Row, Col, Input } from 'reactstrap';
 import Logo from '@components/Logo';
 import Share from '@components/Share';
 import AdvantagesRow from '@components/Advantages';
 import ExperienceRow from '@components/Experience';
+import Button from '@components/Button';
 import { CREATE_ELECTION } from '@services/routes';
 import arrowRight from '../public/arrow-white.svg';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
@@ -49,19 +51,14 @@ const StartForm = () => {
             </Row>
             <Row>
               <Link href={{ pathname: CREATE_ELECTION, query: { name: name } }}>
-                <Button color="secondary" outline={true} type="submit">
-                  <Row className="justify-content-md-center  p-2">
-                    <Col className="col-auto">{t('home.start')}</Col>
-                    <Col className="col-auto d-flex">
-                      <Image
-                        src={arrowRight}
-                        width={22}
-                        height={22}
-                        alt={t('home.start')}
-                        className="align-self-center"
-                      />
-                    </Col>
-                  </Row>
+                <Button
+                  color="secondary py-3"
+                  outline={true}
+                  type="submit"
+                  icon={faArrowRight}
+                  position="right"
+                >
+                  {t('home.start')}
                 </Button>
               </Link>
             </Row>
@@ -104,19 +101,14 @@ const StartForm = () => {
             className="d-grid w-100"
             href={{ pathname: CREATE_ELECTION, query: { name: name } }}
           >
-            <Button color="secondary" outline={true} type="submit">
-              <Row className="justify-content-md-center  p-2">
-                <Col className="col-auto">{t('home.start')}</Col>
-                <Col className="col-auto d-flex">
-                  <Image
-                    src={arrowRight}
-                    width={22}
-                    height={22}
-                    alt={t('home.start')}
-                    className="align-self-center"
-                  />
-                </Col>
-              </Row>
+            <Button
+              color="secondary py-3"
+              outline={true}
+              type="submit"
+              icon={faArrowRight}
+              position="right"
+            >
+              {t('home.start')}
             </Button>
           </Link>
         </form>
