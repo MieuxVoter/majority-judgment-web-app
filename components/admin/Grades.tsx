@@ -64,7 +64,6 @@ const Grades = () => {
       });
     }
   }, []);
-  console.log('GRADES', grades);
 
   const handleDragEnd = (event) => {
     /**

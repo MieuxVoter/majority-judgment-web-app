@@ -1,8 +1,7 @@
-import {Candidate, Grade, Vote} from './type';
+import { Candidate, Grade, Vote } from './type';
 
 export const api = {
-  urlServer:
-    process.env.NEXT_PUBLIC_SERVER_URL || 'https://api.mieuxvoter.fr/',
+  urlServer: process.env.NEXT_PUBLIC_SERVER_URL || 'https://api.mieuxvoter.fr/',
   feedbackForm:
     process.env.NEXT_PUBLIC_FEEDBACK_FORM ||
     'https://docs.google.com/forms/d/e/1FAIpQLScuTsYeBXOSJAGSE_AFraFV7T2arEYua7UCM4NRBSCQQfRB6A/viewform',
@@ -14,7 +13,6 @@ export const api = {
   },
 };
 
-
 export interface GradePayload {
   name: string;
   description: string;
@@ -22,14 +20,12 @@ export interface GradePayload {
   value: number;
 }
 
-
 export interface CandidatePayload {
   name: string;
   description: string;
   id: number;
   image: string;
 }
-
 
 export interface ErrorMessage {
   loc: Array<string>;
@@ -72,13 +68,11 @@ export interface ElectionUpdatedPayload extends ElectionPayload {
   status?: number;
 }
 
-
 export interface ResultsPayload extends ElectionPayload {
   status: number;
-  ranking: {[key: string]: number};
-  merit_profile: {[key: number]: Array<number>};
+  ranking: { [key: string]: number };
+  merit_profile: { [key: number]: Array<number> };
 }
-
 
 export interface VotePayload {
   id: string;
@@ -111,7 +105,7 @@ export const createElection = async (
   const endpoint = new URL(api.routesServer.setElection, api.urlServer);
 
   if (!restricted && numVoters > 0) {
-    throw Error("Set the election as not restricted!");
+    throw Error('Set the election as not restricted!');
   }
 
   try {
@@ -124,7 +118,7 @@ export const createElection = async (
         name,
         description: JSON.stringify({
           description: description,
-          randomOrder: randomOrder
+          randomOrder: randomOrder,
         }),
         candidates,
         grades,
@@ -133,7 +127,7 @@ export const createElection = async (
         force_close: forceClose,
         restricted,
       }),
-    })
+    });
     if (req.ok && req.status === 200) {
       if (successCallback) {
         const payload = await req.json();
@@ -143,18 +137,15 @@ export const createElection = async (
     } else if (failureCallback) {
       try {
         const payload = await req.json();
-        failureCallback(payload)
+        failureCallback(payload);
       } catch (e) {
-        failureCallback(req.statusText)
+        failureCallback(req.statusText);
       }
     }
-  }
-  catch (e) {
+  } catch (e) {
     return failureCallback && failureCallback(e);
   }
-
 };
-
 
 export const updateElection = async (
   ref: string,
@@ -166,16 +157,12 @@ export const updateElection = async (
   hideResults: boolean,
   forceClose: boolean,
   restricted: boolean,
-  randomOrder: boolean,
+  randomOrder: boolean
 ): Promise<ElectionUpdatedPayload | HTTPPayload> => {
   /**
    * Create an election from its title, its candidates and a bunch of options
    */
   const endpoint = new URL(api.routesServer.setElection, api.urlServer);
-
-  if (!restricted && numVoters > 0) {
-    throw Error("Set the election as not restricted!");
-  }
 
   try {
     const req = await fetch(endpoint.href, {
@@ -188,7 +175,7 @@ export const updateElection = async (
         name,
         description: JSON.stringify({
           description: description,
-          randomOrder: randomOrder
+          randomOrder: randomOrder,
         }),
         candidates,
         grades,
@@ -197,23 +184,22 @@ export const updateElection = async (
         force_close: forceClose,
         restricted,
       }),
-    })
+    });
     if (!req.ok || req.status !== 200) {
       const payload = await req.json();
-      return {status: req.status, msg: payload};
+      return { status: req.status, msg: payload };
     }
     const payload = await req.json();
-    return {status: 200, ...payload}
+    return { status: 200, ...payload };
+  } catch (e) {
+    console.error(e);
+    return { status: 400, msg: 'Unknown API error' };
   }
-  catch (e) {
-    console.error(e)
-    return {status: 400, msg: "Unknown API error"}
-  }
-
 };
 
-
-export const getResults = async (pid: string): Promise<ResultsPayload | HTTPPayload> => {
+export const getResults = async (
+  pid: string
+): Promise<ResultsPayload | HTTPPayload> => {
   /**
    * Fetch results from external API
    */
@@ -224,25 +210,29 @@ export const getResults = async (pid: string): Promise<ResultsPayload | HTTPPayl
   );
 
   try {
-    const response = await fetch(endpoint.href)
+    const response = await fetch(endpoint.href);
     if (response.status != 200) {
       const payload = await response.json();
-      return {status: response.status, msg: payload};
+      return { status: response.status, msg: payload };
     }
-    const payload = await response.json()
-    return {...payload, status: response.status};
+    const payload = await response.json();
+    return { ...payload, status: response.status };
   } catch (error) {
-    console.error(error)
-    return {status: 400, msg: "Unknown API error"}
+    console.error(error);
+    return { status: 400, msg: 'Unknown API error' };
   }
 };
 
-
-export const getElection = async (pid: string): Promise<ElectionPayload | HTTPPayload> => {
+export const getElection = async (
+  pid: string
+): Promise<ElectionPayload | HTTPPayload> => {
   /**
    * Fetch data from external API
    */
-  const path = api.routesServer.getElection.replace(new RegExp(':slug', 'g'), pid);
+  const path = api.routesServer.getElection.replace(
+    new RegExp(':slug', 'g'),
+    pid
+  );
   const endpoint = new URL(path, api.urlServer);
 
   try {
@@ -250,20 +240,19 @@ export const getElection = async (pid: string): Promise<ElectionPayload | HTTPPa
 
     if (response.status != 200) {
       const payload = await response.json();
-      return {status: response.status, msg: payload};
+      return { status: response.status, msg: payload };
     }
-    const payload = await response.json()
-    return {...payload, status: response.status};
+    const payload = await response.json();
+    return { ...payload, status: response.status };
   } catch (error) {
-    return {status: 400, msg: "Unknown API error"}
+    return { status: 400, msg: 'Unknown API error' };
   }
 };
-
 
 export const castBallot = (
   votes: Array<Vote>,
   election: ElectionPayload,
-  token?: string,
+  token?: string
 ) => {
   /**
    * Save a ballot on the remote database
@@ -273,31 +262,30 @@ export const castBallot = (
 
   const payload = {
     election_ref: election.ref,
-    votes: votes.map(v => ({
-      "candidate_id": election.candidates[v.candidateId].id,
-      "grade_id": election.grades[v.gradeId].id
-    }))
+    votes: votes.map((v) => ({
+      candidate_id: election.candidates[v.candidateId].id,
+      grade_id: election.grades[v.gradeId].id,
+    })),
   };
 
   if (!election.restricted) {
     return fetch(endpoint.href, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-    })
-  }
-  else {
+    });
+  } else {
     if (!token) {
-      throw Error("Missing token")
+      throw Error('Missing token');
     }
     return fetch(endpoint.href, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(payload),
-    })
+    });
   }
 };
 
@@ -331,4 +319,3 @@ export const apiErrors = (error: string): string => {
     return 'error.catch22';
   }
 };
-

@@ -12,4 +12,4 @@
 
 {{#i18n 'email.bye'}}{{/i18n}}
 
-{{#i18n 'common.better-vote'}}{{/i18n}}
+{{#i18n 'resource:common.better-vote'}}{{/i18n}}
