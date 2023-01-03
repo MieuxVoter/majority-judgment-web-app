@@ -1,14 +1,13 @@
-import {NextRouter} from 'next/router';
-import {getLocaleShort} from './utils';
-import {availableLanguages} from '@functions/i18next';
+import { NextRouter } from 'next/router';
+import { getLocaleShort } from './utils';
+import { availableLanguages } from '@functions/i18next';
 
 export const sendInviteMails = async (
   mails: Array<string>,
   name: string,
   urlVotes: Array<string | URL>,
   urlResult: string | URL,
-  router: NextRouter,
-
+  router: NextRouter
 ) => {
   /**
    * Send an invitation mail using a micro-service with Netlify
@@ -32,7 +31,7 @@ export const sendInviteMails = async (
 
   const locale = getLocaleShort(router);
   if (!availableLanguages.includes(locale)) {
-    throw Error(`{locale} is not available for mails`)
+    throw Error(`{locale} is not available for mails`);
   }
 
   const req = await fetch('/.netlify/functions/send-emails', {
@@ -41,7 +40,7 @@ export const sendInviteMails = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      action: "invite",
+      action: 'invite',
       recipients,
       locale,
     }),
@@ -50,11 +49,11 @@ export const sendInviteMails = async (
   return req;
 };
 
-
 export const sendAdminMail = async (
   mail: string,
   name: string,
-  urlAdmin: URL,
+  locale: string,
+  urlAdmin: URL
 ) => {
   /**
    * Send a reminder to admink panel
@@ -69,19 +68,19 @@ export const sendAdminMail = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      action: "admin",
+      action: 'admin',
+      locale,
       recipients: {
         [mail]: {
           urlAdmin,
           title: name,
         },
-      }
-    })
+      },
+    }),
   });
 
   return req;
-
-}
+};
 
 export const validateMail = (email: string) => {
   // https://stackoverflow.com/a/46181/4986615

@@ -116,13 +116,13 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                   width={120}
                 />
               </Col>
-              <Col className="col-auto">
+              <Col className="col-auto w-100">
                 <Label className="fw-bold">
                   {t('admin.photo')}{' '}
                   <span className="text-muted"> ({t('admin.optional')})</span>
                 </Label>
                 <p>{t('admin.photo-type')} jpg, png, pdf</p>
-                <div>
+                <div className="w-100 d-md-block d-grid">
                   <input
                     type="file"
                     className="hide"
@@ -177,7 +177,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
               >
                 {t('common.cancel')}
               </Button>
-              <div onClick={save}>
+              <div className="d-grid d-md-flex" onClick={save}>
                 <Button
                   color={disabled ? 'light' : 'primary'}
                   disabled={disabled}

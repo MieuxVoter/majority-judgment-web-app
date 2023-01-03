@@ -164,19 +164,20 @@ const ConfirmField = ({ onSubmit, onSuccess, onFailure }) => {
           <Private />
         </Col>
       </Row>
-      <Container className="my-5 d-md-flex d-grid justify-content-md-center">
-        <div onClick={handleSubmit}>
-          <Button
-            outline={true}
-            color="secondary"
-            className="bg-blue"
-            disabled={disabled}
-            icon={faArrowRight}
-            position="right"
-          >
-            {t('admin.confirm-submit')}
-          </Button>
-        </div>
+      <Container
+        onClick={handleSubmit}
+        className="my-5 d-md-flex d-grid justify-content-md-center"
+      >
+        <Button
+          outline={true}
+          color="secondary"
+          className="bg-blue"
+          disabled={disabled}
+          icon={faArrowRight}
+          position="right"
+        >
+          {t('admin.confirm-submit')}
+        </Button>
       </Container>
     </Container>
   );

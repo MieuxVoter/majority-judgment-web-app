@@ -91,9 +91,9 @@ const CandidatesField = ({ onSubmit }) => {
 
   return (
     <>
-      <Container onClick={toggleModalTitle} className="candidate">
+      <Container onClick={toggleModalTitle} className="candidate mt-5">
         <h4 className="mb-4">{t('admin.confirm-question')}</h4>
-        <div className="d-flex justify-content-between border border-dashed border-2 border-light border-opacity-25 px-4 py-3">
+        <div className="d-flex justify-content-between border border-dashed border-2 border-light border-opacity-25 px-4 py-3 mx-2">
           <h5 className="m-0 text-white">{election.name}</h5>
           <FontAwesomeIcon icon={faPen} />
         </div>

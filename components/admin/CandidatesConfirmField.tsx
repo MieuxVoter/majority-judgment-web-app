@@ -42,9 +42,6 @@ const CandidatesConfirmField = ({ editable = true }) => {
             <Col className="col-auto me-auto">
               <h5 className="text-dark">{t('admin.confirm-candidates')}</h5>
             </Col>
-            <Col className="col-auto d-flex align-items-center">
-              <FontAwesomeIcon icon={faPen} />
-            </Col>
           </Row>
           {election.candidates.map((_, i) => (
             <CandidateField

@@ -1,13 +1,14 @@
-import {useState} from 'react';
-import {Input, Modal, ModalBody, Form} from 'reactstrap';
-import {faArrowLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
-import {useTranslation} from 'next-i18next';
+import { useState } from 'react';
+import { Input, Modal, ModalBody, Form } from 'reactstrap';
+import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'next-i18next';
 import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
-import {sendAdminMail, validateMail} from '@services/mail';
-import {getUrlAdmin} from '@services/routes';
-import {useElection} from '@services/ElectionContext';
-
+import { sendAdminMail, validateMail } from '@services/mail';
+import { getUrlAdmin } from '@services/routes';
+import { useElection } from '@services/ElectionContext';
+import { getLocaleShort } from '@services/utils';
+import { useRouter } from 'next/router';
 
 interface AdminModalEmailInterface {
   isOpen: boolean;
@@ -16,30 +17,34 @@ interface AdminModalEmailInterface {
   adminToken: string | null;
 }
 
-const AdminModalEmail = ({isOpen, toggle, electionRef, adminToken}: AdminModalEmailInterface) => {
-  const {t} = useTranslation();
+const AdminModalEmail = ({
+  isOpen,
+  toggle,
+  electionRef,
+  adminToken,
+}: AdminModalEmailInterface) => {
+  const { t } = useTranslation();
+  const router = useRouter();
   const [email, setEmail] = useState(undefined);
   const [election, _] = useElection();
 
-  const adminUrl = electionRef && adminToken ? getUrlAdmin(electionRef, adminToken) : null;
+  const adminUrl =
+    electionRef && adminToken ? getUrlAdmin(electionRef, adminToken) : null;
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
-  }
+  };
 
   const handleSubmit = () => {
-    sendAdminMail(email, election.name, adminUrl);
+    const locale = getLocaleShort(router);
+    sendAdminMail(email, election.name, locale, adminUrl);
     toggle();
   };
 
   const disabled = !email || !validateMail(email);
 
   return (
-    <Modal
-      isOpen={isOpen}
-      toggle={toggle}
-      keyboard={true}
-    >
+    <Modal isOpen={isOpen} toggle={toggle} keyboard={true}>
       <div className="modal-header p-4">
         <h4 className="modal-title">{t('admin.modal-title')}</h4>
         <button
