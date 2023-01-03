@@ -3,18 +3,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-import {
-  Container,
-  Collapse,
-  Card,
-  CardHeader,
-  CardBody,
-  Button,
-} from 'reactstrap';
+import { Container, Collapse, Card, CardHeader, CardBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faArrowRight,
   faChevronDown,
   faChevronRight,
   faChevronUp,
@@ -24,6 +17,7 @@ import ErrorMessage from '@components/Error';
 import CSVLink from '@components/CSVLink';
 import Logo from '@components/Logo';
 import MeritProfile from '@components/MeritProfile';
+import Button from '@components/Button';
 import { getResults } from '@services/api';
 import {
   GradeResultInterface,
@@ -31,7 +25,7 @@ import {
   MeritProfileInterface,
   CandidateResultInterface,
 } from '@services/type';
-import { getUrlAdmin, RESULTS } from '@services/routes';
+import { getUrlAdmin, getUrlVote, RESULTS } from '@services/routes';
 import { displayRef } from '@services/utils';
 import { getMajorityGrade } from '@services/majorityJudgment';
 import avatarBlue from '../../../public/avatarBlue.svg';
@@ -50,7 +44,7 @@ export async function getServerSideProps({ query, locale }) {
   ]);
 
   if ('msg' in payload) {
-    return { props: { err: payload.msg, ...translations } };
+    return { props: { err: payload.msg, electionRef, ...translations } };
   }
 
   const numGrades = payload.grades.length;
@@ -473,18 +467,37 @@ interface ResultPageInterface {
   result?: ResultInterface;
   token?: string;
   err?: ErrorInterface;
+  electionRef?: string;
 }
 
-const ResultPage = ({ result, token, err }: ResultPageInterface) => {
+const ResultPage = ({
+  result,
+  token,
+  err,
+  electionRef,
+}: ResultPageInterface) => {
   const { t } = useTranslation();
-  const router = useRouter();
 
-  if (err && err.message !== '') {
-    return <ErrorMessage msg={err.message} />;
+  if (err && err.message.startsWith('No votes')) {
+    const urlVote = getUrlVote(electionRef, token);
+    return (
+      <ErrorMessage>
+        {
+          <>
+            <p>{t('result.no-votes')}</p>
+            <Link href={urlVote}>
+              <Button color="primary" icon={faArrowRight} position="right">
+                {t('result.go-to-vote')}
+              </Button>
+            </Link>
+          </>
+        }
+      </ErrorMessage>
+    );
   }
 
   if (!result) {
-    return <ErrorMessage msg="error.catch22" />;
+    return <ErrorMessage>{t('error.catch22')}</ErrorMessage>;
   }
 
   if (

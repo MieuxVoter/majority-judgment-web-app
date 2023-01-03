@@ -167,6 +167,8 @@
   "admin.go-to-result": "View results",
   "result.download": "Download results",
   "result.go-to-admin": "Manage the election",
+  "result.go-to-vote": "Would you go to the voting page?",
+  "result.no-votes": "No vote has been recorded yet.",
   "result.merit-profile": "Merit profile of the candidate",
   "result.has-closed": "Closed since",
   "result.opened": "The election is opened",

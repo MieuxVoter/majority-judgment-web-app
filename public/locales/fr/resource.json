@@ -168,6 +168,8 @@
   "admin.go-to-result": "Voir les résultats",
   "result.download": "Télécharger les résultats",
   "result.go-to-admin": "Administrer le vote",
+  "result.go-to-vote": "Souhaitez-vous accéder au vote ?",
+  "result.no-votes": "Aucun vote n'a encore été enregistré.",
   "result.has-closed": "Terminée depuis",
   "result.closed": "L'élection est terminée",
   "result.opened": "L'élection est en cours",

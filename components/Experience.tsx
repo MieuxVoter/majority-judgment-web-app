@@ -18,7 +18,6 @@ const Experiencediv = () => {
         />
       </div>
 
-      <div className="d-md-block d-none vote_background"></div>
       <h3>{t('home.experience-name')}</h3>
       <Container className="my-5">
         <Row className="sectionTwodivTwodiv mb-5">

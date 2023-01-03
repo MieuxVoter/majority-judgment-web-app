@@ -50,6 +50,8 @@ $font-sizes: (
   6: $font-size-base * 0.75,
 );
 
+$hover-color: white;
+
 @import '_bootstrap.scss';
 @import 'app.scss';
 @import '_button.scss';

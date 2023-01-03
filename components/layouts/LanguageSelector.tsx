@@ -1,7 +1,6 @@
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import ReactFlagsSelect from 'react-flags-select';
-import {getLocaleShort} from '@services/utils';
-
+import { getLocaleShort } from '@services/utils';
 
 const LanguageSelector = (props) => {
   const router = useRouter();
@@ -10,7 +9,9 @@ const LanguageSelector = (props) => {
   const selectHandler = (e) => {
     let locale = e.toLowerCase();
     if (locale === 'gb') locale = 'en';
-    router.push('', '', {locale});
+    const { pathname, asPath, query } = router;
+    // change just the locale and maintain all other route information including href's query
+    router.push({ pathname, query }, asPath, { locale });
   };
 
   return (
@@ -20,8 +21,8 @@ const LanguageSelector = (props) => {
         // ["GB", "FR", "ES", "DE", "RU"]
         ['GB', 'FR']
       }
-      selected={localeShort == "en" ? "GB" : localeShort.toUpperCase()}
-      customLabels={{GB: 'English', FR: 'Francais'}}
+      selected={localeShort == 'en' ? 'GB' : localeShort.toUpperCase()}
+      customLabels={{ GB: 'English', FR: 'Francais' }}
       {...props}
       className="menu-flags"
     />

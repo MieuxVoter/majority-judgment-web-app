@@ -65,7 +65,7 @@ const GoToBallotConfirmDesktop = ({ electionRef, token }) => {
           </Row>
           <Row>
             <Link href="https://mieuxvoter.fr/le-jugement-majoritaire">
-              <Button className="btn-black mt-2 mb-5">
+              <Button color="black" outline={true} className="mt-2 mb-5">
                 {t('common.about-mj')}
               </Button>
             </Link>
