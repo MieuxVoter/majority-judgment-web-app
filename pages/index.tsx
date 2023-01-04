@@ -61,8 +61,7 @@ const StartForm = () => {
                 }}
               >
                 <Button
-                  color="info"
-                  className="border-3 border-black"
+                  color="secondary"
                   outline={true}
                   type="submit"
                   icon={faArrowRight}
@@ -138,7 +137,7 @@ const Home = () => {
       <div className="bg-primary">
         <StartForm />
       </div>
-      <section className="sectionTwoHome p-2 pb-5 text-center">
+      <section className="sectionTwoHome  pb-5 text-center">
         <div className="d-none d-md-block pt-5 mt-5">
           <AdvantagesRow />
         </div>

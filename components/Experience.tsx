@@ -9,29 +9,30 @@ import vote from '../public/vote.svg';
 const Experiencediv = () => {
   const { t } = useTranslation('resource');
   return (
-    <div className="sectionTwodivTwo mt-4">
-      <div className="w-100 justify-content-center d-flex">
-        <Image
-          className="d-block d-md-none"
-          src={vote}
-          alt={t('home.alt-icon-ballot')}
-        />
+    <div className="mt-5">
+      <div className="w-100 justify-content-end d-flex d-md-none">
+        <Image src={vote} alt={t('home.alt-icon-ballot')} />
       </div>
 
-      <h3>{t('home.experience-name')}</h3>
-      <Container className="my-5">
-        <Row className="sectionTwodivTwodiv mb-5">
-          <Col className="sectionTwodivTwodivText col-12 col-md-4">
+      <h3 className="text-center">{t('home.experience-name')}</h3>
+      <div className="d-flex">
+        <Row className="px-5 my-5 flex-fill justify-content-end align-items-center gap-lg-5 d-flex">
+          <Col className="col-12 col-lg-4">
             <h5 className="">{t('home.experience-1-name')}</h5>
             <p>{t('home.experience-1-desc')}</p>
           </Col>
-          <Col className="sectionTwodivTwodivText col-12 col-md-4 offset-md-1">
+          <Col className="col-12  col-lg-4">
             <h5 className="">{t('home.experience-2-name')}</h5>
             <p>{t('home.experience-2-desc')}</p>
             <p></p>
           </Col>
         </Row>
-      </Container>
+        <Image
+          className="d-none d-md-flex justify-content-end"
+          src={vote}
+          alt={t('home.alt-icon-ballot')}
+        />
+      </div>
       <div className="d-flex w-100 justify-content-center mt-5">
         <a
           href={MAJORITY_JUDGMENT_LINK}
