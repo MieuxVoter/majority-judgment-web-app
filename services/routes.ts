@@ -27,7 +27,7 @@ export const getUrl = (
       const path = `/${locale}/${type}/${displayRef(ref)}/${token}`;
       return new URL(path, getWindowUrl());
     }
-    const path = `/${locale}/${type}/${ref}`;
+    const path = `/${locale}/${type}/${displayRef(ref)}`;
     return new URL(path, getWindowUrl());
   }
   const path = `/${locale}/${type}`;

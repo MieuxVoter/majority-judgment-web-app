@@ -11,6 +11,7 @@ import Logo from '@components/Logo';
 import { getUrl, RouteTypes } from '@services/routes';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { displayRef, getLocaleShort } from '@services/utils';
+import { MAJORITY_JUDGMENT_LINK } from '@services/constants';
 
 export async function getServerSideProps({ query: { pid, tid }, locale }) {
   return {
@@ -63,7 +64,7 @@ const GoToBallotConfirmDesktop = ({ electionRef, token }) => {
             <p>{t('home.noAds')}</p>
           </Row>
           <Row>
-            <Link href="https://mieuxvoter.fr/le-jugement-majoritaire">
+            <Link href={MAJORITY_JUDGMENT_LINK}>
               <Button color="black" outline={true} className="mt-2 mb-5">
                 {t('common.about-mj')}
               </Button>
@@ -109,7 +110,7 @@ const GoToBallotConfirmMobile = ({ electionRef, token }) => {
           <p>{t('home.noAds')}</p>
         </Row>
         <Row>
-          <Link href="https://mieuxvoter.fr/le-jugement-majoritaire">
+          <Link href={MAJORITY_JUDGMENT_LINK}>
             <Button className="btn-black mt-2 mb-5">
               {t('common.about-mj')}
             </Button>

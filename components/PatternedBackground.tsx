@@ -1,5 +1,3 @@
-
-
-export default ({children}) => {
-  return <div className="waiting position-absolute w-100">{children}</div>
-}
+export default ({ children }) => {
+  return <div className="waiting min-vh-100 min-vw-100">{children}</div>;
+};

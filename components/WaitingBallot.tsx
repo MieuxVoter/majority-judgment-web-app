@@ -31,9 +31,16 @@ const ButtonResults = ({ election }) => {
   if (!election.hideResults || isEnded(election.date_end)) {
     return (
       <Link href={getUrl(RouteTypes.RESULTS, router, election.ref)}>
-        <Button className="" icon={faArrowRight} position="right">
-          {t('vote.go-to-results')}
-        </Button>
+        <div className="w-100 d-grid">
+          <Button
+            color="light"
+            className="text-center border border-3 border-dark"
+            icon={faArrowRight}
+            position="right"
+          >
+            {t('vote.go-to-results')}
+          </Button>
+        </div>
       </Link>
     );
   } else {
@@ -99,13 +106,18 @@ const Thanks = () => {
   );
 };
 
-interface InfoInterface extends WaitingBallotInterface {
-  display: string;
-}
-
-const Info = ({ ballot, error, display }: InfoInterface) => {
+const Info = ({ ballot, error }: WaitingBallotInterface) => {
   const { t } = useTranslation();
 
+  const [ballotProperties, setBallot] = useState<CSSProperties>({
+    display: 'none',
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setBallot({ display: 'grid' });
+    }, 4500);
+  }, []);
   if (!ballot) return null;
 
   if (error) {
@@ -115,28 +127,27 @@ const Info = ({ ballot, error, display }: InfoInterface) => {
   return (
     <div
       style={{
-        display: display,
+        display: ballotProperties.display,
         transition: 'display 2s',
       }}
+      className="d-flex flex-column align-items-center"
     >
-      <div className="d-flex flex-column align-items-center">
+      <div>
         <h4 className="text-center">{t('vote.success-ballot')}</h4>
-
         <ButtonResults election={ballot.election} />
-        <Container>
-          <Row className="m-4 row-cols-1 row-cols-md-2 gx-4 justify-content-between">
-            <DiscoverMajorityJudgment />
-            <SupportBetterVote />
-          </Row>
-        </Container>
-        <Thanks />
-        <Share />
       </div>
+
+      <Container className="d-flex my-4 gap-4">
+        <DiscoverMajorityJudgment />
+        <SupportBetterVote />
+      </Container>
+      <Thanks />
+      <Share />
     </div>
   );
 };
 
-export default ({ ballot, error }: WaitingBallotInterface) => {
+const AnimationBallot = () => {
   const [_, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({
@@ -153,9 +164,6 @@ export default ({ ballot, error }: WaitingBallotInterface) => {
   const [urneContainerProperties, setUrneContainer] = useState<CSSProperties>({
     height: '100vh',
   });
-  const [ballotProperties, setBallot] = useState<CSSProperties>({
-    display: 'none',
-  });
 
   useEffect(() => {
     dispatch({ type: AppTypes.FULLPAGE, value: true });
@@ -166,27 +174,26 @@ export default ({ ballot, error }: WaitingBallotInterface) => {
       height: 300,
     }));
 
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       setStar((star) => ({
         ...star,
         width: 150,
         height: 150,
-        marginLeft: 150,
+        marginLeft: -150,
         marginBottom: 300,
       }));
     }, 1000);
 
-    const timer2 = setTimeout(() => {
-      // setBallot({display: "block"});
+    setTimeout(() => {
       setUrneContainer((urneContainer) => ({
         ...urneContainer,
-        height: '50vh',
+        height: 250,
       }));
       setStar((star) => ({
         ...star,
         width: 100,
         height: 100,
-        marginLeft: 100,
+        marginLeft: -100,
         marginBottom: 200,
       }));
       setUrne((urne) => ({
@@ -195,53 +202,49 @@ export default ({ ballot, error }: WaitingBallotInterface) => {
         height: 200,
       }));
     }, 3000);
-
-    const timer3 = setTimeout(() => {
-      setBallot({ display: 'grid' });
-    }, 4500);
-
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
   }, []);
 
   return (
-    <Container className="d-flex h-100 w-100 align-items-center flex-column">
+    <div
+      style={{
+        transition: 'width 2s, height 2s',
+        height: urneContainerProperties.height,
+      }}
+      className="mt-5 flex-fill d-flex align-items-center justify-content-center"
+    >
       <div
+        className="position-relative"
         style={{
-          transition: 'width 2s, height 2s',
-          height: urneContainerProperties.height,
+          transition: 'width 2s, height 2s, margin-bottom 2s',
+          zIndex: 2,
+          marginTop: urneProperties.marginBottom,
+          height: urneProperties.height,
+          width: urneProperties.width,
         }}
-        className="d-flex align-items-center"
       >
-        <div
-          className="position-relative"
-          style={{
-            transition: 'width 2s, height 2s, margin-bottom 2s',
-            zIndex: 2,
-            marginTop: urneProperties.marginBottom,
-            height: urneProperties.height,
-            width: urneProperties.width,
-          }}
-        >
-          <Image src={urne} alt="urne" fill={true} />
-        </div>
-        <div
-          className="position-absolute"
-          style={{
-            transition: 'width 2s, height 2s, margin-left 2s, margin-bottom 2s',
-            marginLeft: starProperties.marginLeft,
-            marginBottom: starProperties.marginBottom,
-            height: starProperties.height,
-            width: starProperties.width,
-          }}
-        >
-          <Image src={star} fill={true} alt="urne" />
-        </div>
+        <Image src={urne} alt="urne" fill={true} />
       </div>
-      <Info ballot={ballot} error={error} display={ballotProperties.display} />
+      <div
+        className="position-relative"
+        style={{
+          transition: 'width 2s, height 2s, margin-left 2s, margin-bottom 2s',
+          marginLeft: starProperties.marginLeft,
+          marginBottom: starProperties.marginBottom,
+          height: starProperties.height,
+          width: starProperties.width,
+        }}
+      >
+        <Image src={star} fill={true} alt="urne" />
+      </div>
+    </div>
+  );
+};
+
+export default ({ ballot, error }: WaitingBallotInterface) => {
+  return (
+    <Container className="d-flex min-vh-100 min-vw-100 align-items-between justify-content-center flex-column pb-5">
+      <AnimationBallot />
+      <Info ballot={ballot} error={error} />
     </Container>
   );
 };
