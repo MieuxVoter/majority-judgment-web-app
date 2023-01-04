@@ -5,13 +5,14 @@ import { NextRouter } from 'next/router';
 import { getWindowUrl, displayRef, getLocaleShort } from './utils';
 
 export enum RouteTypes {
-  HOME = '',
-  CREATE_ELECTION = 'admin/new',
   ADMIN = 'admin',
   BALLOT = 'ballot',
+  CREATE_ELECTION = 'admin/new',
   ENDED_VOTE = 'end',
-  VOTE = 'vote',
+  FAQ = 'faq',
+  HOME = '',
   RESULTS = 'result',
+  VOTE = 'vote',
 }
 
 export const getUrl = (

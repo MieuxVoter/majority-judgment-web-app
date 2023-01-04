@@ -9,8 +9,11 @@ import vote from '../public/vote.svg';
 const Experiencediv = () => {
   const { t } = useTranslation('resource');
   return (
-    <div className="mt-5">
-      <div className="w-100 justify-content-end d-flex d-md-none">
+    <div className="pt-5">
+      <div
+        className="w-100 justify-content-end d-flex d-md-none"
+        style={{ marginTop: '-150px' }}
+      >
         <Image src={vote} alt={t('home.alt-icon-ballot')} />
       </div>
 

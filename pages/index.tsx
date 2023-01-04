@@ -138,10 +138,7 @@ const Home = () => {
         <StartForm />
       </div>
       <section className="sectionTwoHome  pb-5 text-center">
-        <div className="d-none d-md-block pt-5 mt-5">
-          <AdvantagesRow />
-        </div>
-        <div className="d-md-none d-block">
+        <div className=" pt-5 mt-5">
           <AdvantagesRow />
         </div>
         <ExperienceRow />

@@ -129,10 +129,7 @@ const Vote = ({ electionRef, token }: VoteInterface) => {
         <GoToBallotConfirmMobile electionRef={electionRef} token={token} />
       </section>
       <section className="sectionTwoHome p-2 pb-5 text-center">
-        <div className="d-none d-md-block pt-5 mt-5">
-          <AdvantagesRow />
-        </div>
-        <div className="d-md-none d-block">
+        <div className=" pt-5 mt-5">
           <AdvantagesRow />
         </div>
         <ExperienceRow />
