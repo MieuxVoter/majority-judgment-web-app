@@ -4,10 +4,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Container } from 'reactstrap';
 import ErrorMessage from '@components/Error';
-import { RESULTS } from '@services/routes';
-import { displayRef } from '@services/utils';
+import { getUrl, RouteTypes } from '@services/routes';
 import Blur from '@components/Blur';
 import Button from '@components/Button';
+import { useRouter } from 'next/router';
 
 export const getServerSideProps = async ({ query: { pid, tid }, locale }) => {
   return {
@@ -21,6 +21,7 @@ export const getServerSideProps = async ({ query: { pid, tid }, locale }) => {
 
 const End = ({ electionRef, token }) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <>
@@ -30,7 +31,7 @@ const End = ({ electionRef, token }) => {
         <Container className="full-height-container">
           <Link
             className="d-grid w-100 mt-5"
-            href={`${RESULTS}/${displayRef(electionRef)}/${token ? token : ''}`}
+            href={getUrl(RouteTypes.RESULTS, router, electionRef, token)}
           >
             <Button
               color="secondary"

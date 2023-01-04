@@ -1,34 +1,35 @@
 /**
  * This file provides the paths to the pages
  */
-import {getWindowUrl, displayRef} from './utils';
+import { NextRouter } from 'next/router';
+import { getWindowUrl, displayRef, getLocaleShort } from './utils';
 
-
-export const HOME = '/';
-export const CREATE_ELECTION = '/admin/new';
-export const BALLOT = '/ballot';
-export const ENDED_VOTE = '/end';
-export const VOTE = '/vote';
-export const RESULTS = '/result';
-
-export const getUrlVote = (electionRef: string | number, token?: string): URL => {
-  const origin = getWindowUrl();
-  const ref = typeof electionRef === "string" ? electionRef : electionRef.toString();
-
-  if (token)
-    return new URL(`${VOTE}/${displayRef(ref)}/${token}`, origin);
-  return new URL(`${VOTE}/${displayRef(ref)}`, origin);
+export enum RouteTypes {
+  HOME = '',
+  CREATE_ELECTION = 'admin/new',
+  ADMIN = 'admin',
+  BALLOT = 'ballot',
+  ENDED_VOTE = 'end',
+  VOTE = 'vote',
+  RESULTS = 'result',
 }
 
-export const getUrlResults = (electionRef: string | number): URL => {
-  const origin = getWindowUrl();
-  const ref = typeof electionRef === "string" ? electionRef : electionRef.toString();
-  return new URL(`${RESULTS}/${displayRef(ref)}`, origin);
-}
+export const getUrl = (
+  type: RouteTypes,
+  router: NextRouter,
+  ref?: string,
+  token?: string
+): URL => {
+  const locale = getLocaleShort(router);
 
-export const getUrlAdmin = (electionRef: string | number, adminToken: string): URL => {
-  const origin = getWindowUrl();
-  const ref = typeof electionRef === "string" ? electionRef : electionRef.toString();
-  return new URL(`/admin/${displayRef(ref)}/${adminToken}`, origin);
-}
-
+  if (ref) {
+    if (token) {
+      const path = `/${locale}/${type}/${displayRef(ref)}/${token}`;
+      return new URL(path, getWindowUrl());
+    }
+    const path = `/${locale}/${type}/${ref}`;
+    return new URL(path, getWindowUrl());
+  }
+  const path = `/${locale}/${type}`;
+  return new URL(path, getWindowUrl());
+};

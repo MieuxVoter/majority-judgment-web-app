@@ -1,27 +1,27 @@
-import {useTranslation} from 'next-i18next';
-import {faXmark} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Row, Col} from 'reactstrap';
-import {useState} from 'react';
+import { useTranslation } from 'next-i18next';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Row, Col } from 'reactstrap';
+import { useState } from 'react';
 import Button from '@components/Button';
 
-const InputField = ({value, onDelete}) => {
+const InputField = ({ value, onDelete }) => {
   return (
     <Button
       customIcon={<FontAwesomeIcon icon={faXmark} onClick={onDelete} />}
       className="bg-light text-primary border-0"
       outline={true}
-      style={{boxShadow: 'unset'}}
+      style={{ boxShadow: 'unset' }}
     >
       {value}
     </Button>
   );
 };
 
-const ListInput = ({onEdit, inputs, validator}) => {
+const ListInput = ({ onEdit, inputs, validator }) => {
   const [state, setState] = useState('');
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handleDelete = (position: number) => {
     const inputCopy = [...inputs];
@@ -43,7 +43,7 @@ const ListInput = ({onEdit, inputs, validator}) => {
   };
 
   return (
-    <Row className="gx-2 p-1  my-3 shadow-lg border border-primary border-2 rounded-2  list-input align-items-center">
+    <Row className="list_input gx-2 p-1  my-3 align-items-center">
       {inputs.map((item, i) => (
         <Col className="col-auto">
           <InputField key={i} value={item} onDelete={() => handleDelete(i)} />

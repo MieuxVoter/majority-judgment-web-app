@@ -13,6 +13,7 @@ import { ElectionTypes, useElection } from '@services/ElectionContext';
 import GradeField from './GradeField';
 import GradeModalAdd from './GradeModalAdd';
 import { gradeColors } from '@services/grades';
+import Switch from '@components/Switch';
 
 const AddField = () => {
   const { t } = useTranslation();
@@ -46,23 +47,29 @@ const AddField = () => {
 
 const Grades = () => {
   const { t } = useTranslation();
-  const defaultEndDate = new Date();
-  defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
+
   const [election, dispatch] = useElection();
-  const grades = election.grades;
+
+  const [visible, setVisible] = useState(false);
+  const toggle = () => setVisible((v) => !v);
 
   useEffect(() => {
+    const defaultGrades = DEFAULT_GRADES.map((g, i) => ({
+      name: t(g),
+      value: DEFAULT_GRADES.length - 1 - i,
+      active: true,
+    }));
     if (election.grades.length < 2) {
       dispatch({
         type: ElectionTypes.SET,
         field: 'grades',
-        value: DEFAULT_GRADES.map((g, i) => ({
-          name: t(g),
-          value: DEFAULT_GRADES.length - 1 - i,
-          active: true,
-        })),
+        value: defaultGrades,
       });
     }
+
+    /*if (election.grades !== defaultGrades) {
+      setVisible(true);
+    }*/
   }, []);
 
   const handleDragEnd = (event) => {
@@ -72,10 +79,10 @@ const Grades = () => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      const names = grades.map((g) => g.name);
+      const names = election.grades.map((g) => g.name);
       const activeIdx = names.indexOf(active.id);
       const overIdx = names.indexOf(over.id);
-      const newGrades = arrayMove(grades, activeIdx, overIdx);
+      const newGrades = arrayMove(election.grades, activeIdx, overIdx);
       newGrades.forEach((g, i) => (g.value = i));
       dispatch({
         type: ElectionTypes.SET,
@@ -87,22 +94,29 @@ const Grades = () => {
 
   return (
     <Container className="bg-white p-3 p-md-4 mt-1">
-      <h4 className="text-dark mb-0">{t('common.grades')}</h4>
-      <p className="text-muted">{t('admin.grades-desc')}</p>
-      <Row className="gx-1">
-        <DndContext onDragEnd={handleDragEnd}>
-          <SortableContext items={election.grades.map((g) => g.name)}>
-            {grades.map((grade, i) => (
-              <Col key={i} className="col col-auto">
-                <GradeField value={grade.value} />
-              </Col>
-            ))}
-            <Col className="col col-auto">
-              <AddField />
-            </Col>
-          </SortableContext>
-        </DndContext>
-      </Row>
+      <div className="d-flex justify-content-between">
+        <h4 className="text-dark mb-0">{t('admin.grades-title')}</h4>
+        <Switch toggle={toggle} state={visible} />
+      </div>
+      {visible && (
+        <>
+          <p className="text-muted">{t('admin.grades-desc')}</p>
+          <Row className="gx-1">
+            <DndContext onDragEnd={handleDragEnd}>
+              <SortableContext items={election.grades.map((g) => g.name)}>
+                {election.grades.map((grade, i) => (
+                  <Col key={i} className="col col-auto">
+                    <GradeField value={grade.value} />
+                  </Col>
+                ))}
+                <Col className="col col-auto">
+                  <AddField />
+                </Col>
+              </SortableContext>
+            </DndContext>
+          </Row>
+        </>
+      )}
     </Container>
   );
 };

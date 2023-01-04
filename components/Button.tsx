@@ -1,6 +1,6 @@
-import {IconProp} from '@fortawesome/fontawesome-svg-core';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Row, Col, Button} from 'reactstrap';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from 'reactstrap';
 
 interface ButtonProps {
   children?: React.ReactNode;
@@ -19,23 +19,19 @@ const ButtonWithIcon = ({
   if ((icon || customIcon) && position === 'left') {
     return (
       <Button {...props}>
-        <Row className="gx-2 align-items-end">
-          <Col className="col-auto">
-            {customIcon ? customIcon : <FontAwesomeIcon icon={icon} />}
-          </Col>
-          <Col className="col-auto">{children}</Col>
-        </Row>
+        <div className="w-100 d-flex gap-3 justify-content-between align-items-center">
+          {customIcon ? customIcon : <FontAwesomeIcon icon={icon} />}
+          <div>{children}</div>
+        </div>
       </Button>
     );
   } else if ((icon || customIcon) && position === 'right') {
     return (
       <Button {...props}>
-        <Row className="gx-2 align-items-end justify-content-between">
-          <Col className="col-auto">{children}</Col>
-          <Col className="col-auto">
-            {customIcon ? customIcon : <FontAwesomeIcon icon={icon} />}
-          </Col>
-        </Row>
+        <div className="w-100 gap-3 d-flex align-items-center justify-content-between">
+          <div>{children}</div>
+          {customIcon ? customIcon : <FontAwesomeIcon icon={icon} />}
+        </div>
       </Button>
     );
   } else {

@@ -5,20 +5,19 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Container, Row } from 'reactstrap';
 import Button from '@components/Button';
-import ButtonCopy from '@components/ButtonCopy';
 import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
-import AdminModalEmail from '@components/admin/AdminModalEmail';
 import { BallotPayload, ErrorPayload } from '@services/api';
 import { AppTypes, useAppContext } from '@services/context';
 import { displayRef, isEnded } from '@services/utils';
-import { RESULTS } from '@services/routes';
+import { getUrl, RouteTypes } from '@services/routes';
 import Logo from './Logo';
 import { FORM_FEEDBACK, MAJORITY_JUDGMENT_LINK } from '@services/constants';
 import urne from '../public/urne.svg';
 import star from '../public/star.svg';
 import logo from '../public/logo-red-blue.svg';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export interface WaitingBallotInterface {
   ballot?: BallotPayload;
@@ -27,10 +26,11 @@ export interface WaitingBallotInterface {
 
 const ButtonResults = ({ election }) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   if (!election.hideResults || isEnded(election.date_end)) {
     return (
-      <Link href={`${RESULTS}/${displayRef(election.ref)}`}>
+      <Link href={getUrl(RouteTypes.RESULTS, router, election.ref)}>
         <Button className="" icon={faArrowRight} position="right">
           {t('vote.go-to-results')}
         </Button>

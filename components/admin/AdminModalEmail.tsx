@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
 import { sendAdminMail, validateMail } from '@services/mail';
-import { getUrlAdmin } from '@services/routes';
+import { getUrl, RouteTypes } from '@services/routes';
 import { useElection } from '@services/ElectionContext';
 import { getLocaleShort } from '@services/utils';
 import { useRouter } from 'next/router';
@@ -29,7 +29,9 @@ const AdminModalEmail = ({
   const [election, _] = useElection();
 
   const adminUrl =
-    electionRef && adminToken ? getUrlAdmin(electionRef, adminToken) : null;
+    electionRef && adminToken
+      ? getUrl(RouteTypes.ADMIN, router, electionRef, adminToken)
+      : null;
 
   const handleEmail = (e) => {
     setEmail(e.target.value);

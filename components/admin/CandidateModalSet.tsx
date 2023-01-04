@@ -107,20 +107,18 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
         <p>{t('admin.add-candidate-desc')}</p>
         <Col>
           <Form className="container container-fluid">
-            <Row className="gx-4 mb-3">
-              <Col className="col-auto">
-                <Image
-                  src={image}
-                  alt={t('admin.photo')}
-                  height={120}
-                  width={120}
-                />
-              </Col>
-              <Col className="col-auto w-100">
-                <Label className="fw-bold">
-                  {t('admin.photo')}{' '}
-                  <span className="text-muted"> ({t('admin.optional')})</span>
-                </Label>
+            <Label className="fw-bold">
+              {t('admin.photo')}{' '}
+              <span className="text-muted"> ({t('admin.optional')})</span>
+            </Label>
+            <div className="d-block d-md-flex gap-2 justify-content-between">
+              <Image
+                src={image}
+                alt={t('admin.photo')}
+                height={120}
+                width={120}
+              />
+              <div>
                 <p>{t('admin.photo-type')} jpg, png, pdf</p>
                 <div className="w-100 d-md-block d-grid">
                   <input
@@ -137,8 +135,8 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                     {t('admin.photo-import')}
                   </Button>
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </div>
             <div className="mb-3">
               <Label className="fw-bold">{t('common.name')} </Label>
               <input
@@ -167,25 +165,25 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 maxLength={250}
               />
             </div>
-            <div className="mt-5 gap-2 d-grid mb-3 d-md-flex">
+            <div className="mt-3 gap-2 d-flex mb-3 justify-content-between">
               <Button
-                onClick={toggle}
                 color="dark"
-                className="me-md-auto"
+                onClick={toggle}
+                className=""
                 outline={true}
                 icon={faArrowLeft}
               >
                 {t('common.cancel')}
               </Button>
-              <div className="d-grid d-md-flex" onClick={save}>
-                <Button
-                  color={disabled ? 'light' : 'primary'}
-                  disabled={disabled}
-                  icon={faPlus}
-                >
-                  {t('common.save')}
-                </Button>
-              </div>
+              <Button
+                color={disabled ? 'light' : 'primary'}
+                onClick={save}
+                position="right"
+                disabled={disabled}
+                icon={faPlus}
+              >
+                {t('common.save')}
+              </Button>
             </div>
           </Form>
         </Col>

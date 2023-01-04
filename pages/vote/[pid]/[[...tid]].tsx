@@ -8,9 +8,9 @@ import Button from '@components/Button';
 import ExperienceRow from '@components/Experience';
 import AdvantagesRow from '@components/Advantages';
 import Logo from '@components/Logo';
-import { BALLOT } from '@services/routes';
+import { getUrl, RouteTypes } from '@services/routes';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { displayRef } from '@services/utils';
+import { displayRef, getLocaleShort } from '@services/utils';
 
 export async function getServerSideProps({ query: { pid, tid }, locale }) {
   return {
@@ -29,6 +29,7 @@ interface VoteInterface {
 
 const GoToBallotConfirmDesktop = ({ electionRef, token }) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <div className="sectionOneHomeForm d-none d-md-block">
@@ -45,9 +46,7 @@ const GoToBallotConfirmDesktop = ({ electionRef, token }) => {
           <div className="w-100">
             <Link
               className="d-grid d-md-block w-100"
-              href={`${BALLOT}/${displayRef(electionRef)}/${
-                token ? token : ''
-              }`}
+              href={getUrl(RouteTypes.BALLOT, router, electionRef, token)}
             >
               <Button
                 color="secondary"
@@ -77,6 +76,7 @@ const GoToBallotConfirmDesktop = ({ electionRef, token }) => {
 };
 const GoToBallotConfirmMobile = ({ electionRef, token }) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <div className="d-block d-md-none bg-primary py-5 px-3 min-vh-100 d-flex d-md-none flex-column align-items-center justify-content-between">
@@ -92,7 +92,7 @@ const GoToBallotConfirmMobile = ({ electionRef, token }) => {
         <div className="w-100">
           <Link
             className="d-grid d-md-block w-100"
-            href={`${BALLOT}/${displayRef(electionRef)}/${token ? token : ''}`}
+            href={getUrl(RouteTypes.BALLOT, router, electionRef, token)}
           >
             <Button
               color="secondary"

@@ -18,10 +18,11 @@ import {
   canBeFinished,
 } from '@services/ElectionContext';
 import { createElection, ElectionCreatedPayload } from '@services/api';
-import { getUrlVote, getUrlResults } from '@services/routes';
+import { getUrl, RouteTypes } from '@services/routes';
 import { GradeItem, CandidateItem } from '@services/type';
 import { sendInviteMails } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
+import { useEffect } from 'react';
 
 const submitElection = (
   election: ElectionContextInterface,
@@ -65,9 +66,9 @@ const submitElection = (
           throw Error('Can not send invite emails');
         }
         const urlVotes = payload.invites.map((token: string) =>
-          getUrlVote(payload.ref, token)
+          getUrl(RouteTypes.VOTE, router, payload.ref, token)
         );
-        const urlResult = getUrlResults(payload.ref);
+        const urlResult = getUrl(RouteTypes.RESULTS, router, payload.ref);
         await sendInviteMails(
           election.emails,
           election.name,
@@ -87,6 +88,11 @@ const ConfirmField = ({ onSubmit, onSuccess, onFailure }) => {
   const router = useRouter();
   const [election, _] = useElection();
   const [app, dispatchApp] = useAppContext();
+
+  useEffect(() => {
+    // move to the head of the page on component loading
+    window && window.scrollTo(0, 0);
+  }, []);
 
   const handleSubmit = () => {
     if (!checkName(election)) {

@@ -25,14 +25,15 @@ import {
   MeritProfileInterface,
   CandidateResultInterface,
 } from '@services/type';
-import { getUrlAdmin, getUrlVote, RESULTS } from '@services/routes';
-import { displayRef } from '@services/utils';
+import { getUrl, RouteTypes } from '@services/routes';
+import { displayRef, getLocaleShort } from '@services/utils';
 import { getMajorityGrade } from '@services/majorityJudgment';
 import avatarBlue from '../../../public/avatarBlue.svg';
 import calendar from '../../../public/calendar.svg';
 import arrowUpload from '../../../public/arrowUpload.svg';
 import arrowLink from '../../../public/arrowL.svg';
 import { getGradeColor } from '@services/grades';
+import { useRouter } from 'next/router';
 
 export async function getServerSideProps({ query, locale }) {
   const { pid, tid: token } = query;
@@ -127,6 +128,7 @@ interface ResultBanner {
 }
 const ResultBanner = ({ result }) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   const dateEnd = new Date(result.dateEnd);
   const now = new Date();
@@ -134,12 +136,7 @@ const ResultBanner = ({ result }) => {
 
   const numVotes = getNumVotes(result);
 
-  const origin =
-    typeof window !== 'undefined' && window.location.origin
-      ? window.location.origin
-      : 'http://localhost';
-  // We hide the token!
-  const url = `${origin}${RESULTS}/${displayRef(result.ref)}`;
+  const url = getUrl(RouteTypes.RESULTS, router, result.ref);
 
   return (
     <>
@@ -236,12 +233,8 @@ const Downloader = ({ result, children, ...rest }) => {
 const BottomButtonsMobile = ({ result }) => {
   const { t } = useTranslation();
 
-  const origin =
-    typeof window !== 'undefined' && window.location.origin
-      ? window.location.origin
-      : 'http://localhost';
-  // We hide the token!
-  const url = `${origin}${RESULTS}/${displayRef(result.ref)}`;
+  const router = useRouter();
+  const url = getUrl(RouteTypes.RESULTS, router, result.ref);
 
   return (
     <div className="d-flex flex-column align-items-center d-md-none m-3">
@@ -285,6 +278,9 @@ interface TitleBannerInterface {
 
 const TitleBanner = ({ name, electionRef, token }: TitleBannerInterface) => {
   const { t } = useTranslation();
+  const router = useRouter();
+  const locale = getLocaleShort(router);
+
   return (
     <>
       {
@@ -299,7 +295,7 @@ const TitleBanner = ({ name, electionRef, token }: TitleBannerInterface) => {
         </div>
         {token ? (
           <div className="d-flex">
-            <Link href={getUrlAdmin(electionRef, token)}>
+            <Link href={getUrl(RouteTypes.ADMIN, router, electionRef, token)}>
               <Button icon={faGear} position="left">
                 {t('result.go-to-admin')}
               </Button>
@@ -319,7 +315,7 @@ const TitleBanner = ({ name, electionRef, token }: TitleBannerInterface) => {
         </div>
         {token ? (
           <div className="d-flex">
-            <Link href={getUrlAdmin(electionRef, token)}>
+            <Link href={getUrl(RouteTypes.ADMIN, router, electionRef, token)}>
               <Button icon={faGear} position="left">
                 {t('result.go-to-admin')}
               </Button>
@@ -477,9 +473,10 @@ const ResultPage = ({
   electionRef,
 }: ResultPageInterface) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   if (err && err.message.startsWith('No votes')) {
-    const urlVote = getUrlVote(electionRef, token);
+    const urlVote = getUrl(RouteTypes.VOTE, router, electionRef, token);
     return (
       <ErrorMessage>
         {

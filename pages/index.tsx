@@ -10,9 +10,9 @@ import Share from '@components/Share';
 import AdvantagesRow from '@components/Advantages';
 import ExperienceRow from '@components/Experience';
 import Button from '@components/Button';
-import { CREATE_ELECTION } from '@services/routes';
-import arrowRight from '../public/arrow-white.svg';
+import { getUrl, RouteTypes } from '@services/routes';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
@@ -23,6 +23,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => ({
 const StartForm = () => {
   const { t } = useTranslation('resource');
   const [name, setName] = useState(null);
+  const router = useRouter();
 
   return (
     <>
@@ -50,9 +51,18 @@ const StartForm = () => {
               <p className="pt-0 mt-0 maxLength">250</p>
             </Row>
             <Row>
-              <Link href={{ pathname: CREATE_ELECTION, query: { name: name } }}>
+              <Link
+                href={{
+                  pathname: getUrl(
+                    RouteTypes.CREATE_ELECTION,
+                    router
+                  ).toString(),
+                  query: { name: name },
+                }}
+              >
                 <Button
-                  color="secondary py-3"
+                  color="info"
+                  className="border-3 border-black"
                   outline={true}
                   type="submit"
                   icon={faArrowRight}
@@ -99,7 +109,10 @@ const StartForm = () => {
         <form autoComplete="off" className="w-100">
           <Link
             className="d-grid w-100"
-            href={{ pathname: CREATE_ELECTION, query: { name: name } }}
+            href={{
+              pathname: getUrl(RouteTypes.CREATE_ELECTION, router).toString(),
+              query: { name: name },
+            }}
           >
             <Button
               color="secondary py-3"

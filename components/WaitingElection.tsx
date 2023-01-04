@@ -10,10 +10,12 @@ import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
 import { ElectionCreatedPayload, ErrorPayload } from '@services/api';
 import { AppTypes, useAppContext } from '@services/context';
-import { getUrlVote, getUrlResults } from '@services/routes';
+import { getUrl, RouteTypes } from '@services/routes';
 import urne from '../public/urne.svg';
 import star from '../public/star.svg';
 import { Container } from 'reactstrap';
+import { useRouter } from 'next/router';
+import { getLocaleShort } from '@services/utils';
 
 export interface WaitingBallotInterface {
   election?: ElectionCreatedPayload;
@@ -26,14 +28,15 @@ interface InfoElectionInterface extends WaitingBallotInterface {
 
 const InfoElection = ({ election, error, display }: InfoElectionInterface) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal((m) => !m);
 
   if (!election) return null;
 
-  const urlVote = getUrlVote(election.ref);
-  const urlResults = getUrlResults(election.ref);
+  const urlVote = getUrl(RouteTypes.VOTE, router, election.ref);
+  const urlResults = getUrl(RouteTypes.RESULTS, router, election.ref);
 
   return (
     <div
@@ -67,12 +70,12 @@ const InfoElection = ({ election, error, display }: InfoElectionInterface) => {
             )}
             <div className="d-grid w-100">
               <Button
-                customIcon={<FontAwesomeIcon icon={faArrowRight} />}
+                icon={faArrowRight}
                 position="right"
-                color="secondary"
-                outline={true}
+                color="info"
+                outline={false}
                 onClick={toggleModal}
-                className="mt-3 py-3 px-4"
+                className="border-dark border-4 mt-3 py-3"
               >
                 {t('admin.go-to-admin')}
               </Button>

@@ -5,14 +5,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBars,
-  faBurger,
-  faPlus,
-  faTrashCan,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { ElectionTypes, useElection } from '@services/ElectionContext';
+import VerticalGripDots from '@components/VerticalGripDots';
 import whiteAvatar from '../../public/avatar.svg';
 import CandidateModalSet from './CandidateModalSet';
 import CandidateModalDel from './CandidateModalDel';
@@ -87,27 +83,12 @@ const CandidateField = ({
           {candidate.name ? candidate.name : t('admin.add-candidate')}
         </div>
       </div>
-      <div
-        {...props}
-        {...attributes}
-        {...listeners}
-        role="button"
-        className="text-end me-3"
-      >
-        {active ? (
-          <FontAwesomeIcon
-            style={{ touchAction: 'none' }}
-            className="text-primary"
-            icon={faBars}
-          />
-        ) : null}
-      </div>
       {editable ? (
         <div role="button" className="text-end">
           {active ? (
             <FontAwesomeIcon
               icon={faTrashCan}
-              className="text-warning"
+              className="text-black opacity-25"
               onClick={() => setModalDel((m) => !m)}
             />
           ) : (
@@ -115,6 +96,15 @@ const CandidateField = ({
           )}
         </div>
       ) : null}
+      <div
+        {...props}
+        {...attributes}
+        {...listeners}
+        role="button"
+        className="text-end ms-3"
+      >
+        {active ? <VerticalGripDots /> : null}
+      </div>
 
       <CandidateModalSet
         toggle={toggleSet}

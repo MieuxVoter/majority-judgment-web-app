@@ -157,7 +157,8 @@ export const updateElection = async (
   hideResults: boolean,
   forceClose: boolean,
   restricted: boolean,
-  randomOrder: boolean
+  randomOrder: boolean,
+  token: string
 ): Promise<ElectionUpdatedPayload | HTTPPayload> => {
   /**
    * Create an election from its title, its candidates and a bunch of options
@@ -166,9 +167,10 @@ export const updateElection = async (
 
   try {
     const req = await fetch(endpoint.href, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         ref,

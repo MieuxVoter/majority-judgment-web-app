@@ -20,7 +20,7 @@ import {
   BallotTypes,
   BallotProvider,
 } from '@services/BallotContext';
-import { ENDED_VOTE } from '@services/routes';
+import { getUrl, RouteTypes } from '@services/routes';
 import { isEnded } from '@services/utils';
 import WaitingBallot from '@components/WaitingBallot';
 import PatternedBackground from '@components/PatternedBackground';
@@ -45,7 +45,7 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
   if (isEnded(election.date_end)) {
     return {
       redirect: {
-        destination: `${ENDED_VOTE}/${pid}/${tid || ''}`,
+        destination: getUrl(RouteTypes.ENDED_VOTE, electionRef),
         permanent: false,
       },
     };
