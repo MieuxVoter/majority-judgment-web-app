@@ -157,7 +157,7 @@
   "admin.confirm-question": "Question of your vote",
   "admin.confirm-candidates": "Candidates",
   "admin.confirm-submit": "Start the vote",
-  "admin.confirm-title": "Confirmer votre vote",
+  "admin.confirm-title": "Check your vote is correct",
   "admin.confirm-edit": "Save your modifications",
   "admin.success-election": "The vote has successfully been created!",
   "admin.success-emails": "The voting link has been sent by emails to the participants.",

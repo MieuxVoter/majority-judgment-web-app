@@ -48,6 +48,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
       return;
     }
     if (names.includes(state.name)) {
+      alert('foo');
       dispatchApp({
         type: AppTypes.TOAST_ADD,
         status: 'error',
@@ -137,7 +138,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 </div>
               </div>
             </div>
-            <div className="mb-3">
+            <div className="my-3">
               <Label className="fw-bold">{t('common.name')} </Label>
               <input
                 className="form-control"
@@ -175,15 +176,19 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
               >
                 {t('common.cancel')}
               </Button>
-              <Button
-                color={disabled ? 'light' : 'primary'}
-                onClick={save}
-                position="right"
-                disabled={disabled}
-                icon={faPlus}
-              >
-                {t('common.save')}
-              </Button>
+              {
+                // Since we disabled the button, the onCLick is supported by another component
+              }
+              <div onClick={save}>
+                <Button
+                  color={disabled ? 'light' : 'primary'}
+                  position="right"
+                  disabled={disabled}
+                  icon={faPlus}
+                >
+                  {t('common.save')}
+                </Button>
+              </div>
             </div>
           </Form>
         </Col>

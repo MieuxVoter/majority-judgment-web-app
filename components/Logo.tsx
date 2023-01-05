@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { getUrl, RouteTypes } from '@services/routes';
 import logoWithText from '../public/logos/logo.svg';
@@ -15,9 +16,9 @@ const Logo = ({ title = true, ...props }: LogoProps) => {
   const router = useRouter();
   const src = title ? logoWithText : logo;
   return (
-    <a href={getUrl(RouteTypes.HOME, router).toString()}>
+    <Link href={getUrl(RouteTypes.HOME, router).toString()}>
       <Image src={src} alt={t('logo.alt')} className="d-block" {...props} />
-    </a>
+    </Link>
   );
 };
 

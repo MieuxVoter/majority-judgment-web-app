@@ -12,47 +12,49 @@ const Experiencediv = () => {
     <div className="pt-5">
       <div
         className="w-100 justify-content-end d-flex d-md-none"
-        style={{ marginTop: '-150px' }}
+        style={{ marginTop: '-200px' }}
       >
         <Image src={vote} alt={t('home.alt-icon-ballot')} />
       </div>
 
-      <h3 className="text-center">{t('home.experience-name')}</h3>
-      <div className="d-flex">
-        <Row className="px-5 my-5 flex-fill justify-content-end align-items-center gap-lg-5 d-flex">
-          <Col className="col-12 col-lg-4">
-            <h5 className="">{t('home.experience-1-name')}</h5>
-            <p>{t('home.experience-1-desc')}</p>
-          </Col>
-          <Col className="col-12  col-lg-4">
-            <h5 className="">{t('home.experience-2-name')}</h5>
-            <p>{t('home.experience-2-desc')}</p>
-            <p></p>
-          </Col>
-        </Row>
-        <Image
-          className="d-none d-md-flex justify-content-end"
-          src={vote}
-          alt={t('home.alt-icon-ballot')}
-        />
-      </div>
-      <div className="d-flex w-100 justify-content-center mt-5">
-        <a
-          href={MAJORITY_JUDGMENT_LINK}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <Button
-            color="primary py-3"
-            outline={false}
-            type="submit"
-            icon={faArrowRight}
-            position="right"
+      <Container>
+        <h3 className="text-center">{t('home.experience-name')}</h3>
+        <div className="d-flex">
+          <Row className="px-5 my-5 flex-fill justify-content-end align-items-center gap-lg-5 d-flex">
+            <Col className="col-12 col-lg-4">
+              <h5 className="">{t('home.experience-1-name')}</h5>
+              <p>{t('home.experience-1-desc')}</p>
+            </Col>
+            <Col className="col-12  col-lg-4">
+              <h5 className="">{t('home.experience-2-name')}</h5>
+              <p>{t('home.experience-2-desc')}</p>
+              <p></p>
+            </Col>
+          </Row>
+          <Image
+            className="d-none d-md-flex justify-content-end"
+            src={vote}
+            alt={t('home.alt-icon-ballot')}
+          />
+        </div>
+        <div className="d-flex w-100 justify-content-center mt-5">
+          <a
+            href={MAJORITY_JUDGMENT_LINK}
+            target="_blank"
+            rel="noreferrer noopener"
           >
-            {t('home.experience-call-to-action')}
-          </Button>
-        </a>
-      </div>
+            <Button
+              color="primary py-3"
+              outline={false}
+              type="submit"
+              icon={faArrowRight}
+              position="right"
+            >
+              {t('home.experience-call-to-action')}
+            </Button>
+          </a>
+        </div>
+      </Container>
     </div>
   );
 };

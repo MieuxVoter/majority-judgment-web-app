@@ -1,6 +1,6 @@
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Container } from 'reactstrap';
 import ballotBox from '../public/urne.svg';
 import email from '../public/email.svg';
 import respect from '../public/respect.svg';
@@ -28,20 +28,22 @@ const AdvantagesRow = () => {
     },
   ];
   return (
-    <Row>
-      {resources.map((item, i) => (
-        <Col key={i} className="my-5 col-md-4 col-12">
-          <Image
-            src={item.src}
-            alt={item.alt}
-            height="128"
-            className="d-block mx-auto"
-          />
-          <h4>{item.name}</h4>
-          <p>{item.desc}</p>
-        </Col>
-      ))}
-    </Row>
+    <Container>
+      <Row>
+        {resources.map((item, i) => (
+          <Col key={i} className="my-5 col-md-4 col-12">
+            <Image
+              src={item.src}
+              alt={item.alt}
+              height="128"
+              className="d-block mx-auto"
+            />
+            <h4>{item.name}</h4>
+            <p>{item.desc}</p>
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 };
 
