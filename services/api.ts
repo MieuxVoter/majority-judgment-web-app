@@ -1,10 +1,7 @@
 import { Candidate, Grade, Vote } from './type';
+import { URL_SERVER } from './constants';
 
 export const api = {
-  urlServer: process.env.NEXT_PUBLIC_SERVER_URL || 'https://api.mieuxvoter.fr/',
-  feedbackForm:
-    process.env.NEXT_PUBLIC_FEEDBACK_FORM ||
-    'https://docs.google.com/forms/d/e/1FAIpQLScuTsYeBXOSJAGSE_AFraFV7T2arEYua7UCM4NRBSCQQfRB6A/viewform',
   routesServer: {
     setElection: 'elections',
     getElection: 'elections/:slug',
@@ -102,7 +99,7 @@ export const createElection = async (
   /**
    * Create an election from its title, its candidates and a bunch of options
    */
-  const endpoint = new URL(api.routesServer.setElection, api.urlServer);
+  const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
 
   if (!restricted && numVoters > 0) {
     throw Error('Set the election as not restricted!');
@@ -163,7 +160,7 @@ export const updateElection = async (
   /**
    * Create an election from its title, its candidates and a bunch of options
    */
-  const endpoint = new URL(api.routesServer.setElection, api.urlServer);
+  const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
 
   try {
     const req = await fetch(endpoint.href, {
@@ -208,7 +205,7 @@ export const getResults = async (
 
   const endpoint = new URL(
     api.routesServer.getResults.replace(new RegExp(':slug', 'g'), pid),
-    api.urlServer
+    URL_SERVER
   );
 
   try {
@@ -235,7 +232,7 @@ export const getElection = async (
     new RegExp(':slug', 'g'),
     pid
   );
-  const endpoint = new URL(path, api.urlServer);
+  const endpoint = new URL(path, URL_SERVER);
 
   try {
     const response = await fetch(endpoint.href);
@@ -260,7 +257,7 @@ export const castBallot = (
    * Save a ballot on the remote database
    */
 
-  const endpoint = new URL(api.routesServer.voteElection, api.urlServer);
+  const endpoint = new URL(api.routesServer.voteElection, URL_SERVER);
 
   const payload = {
     election_ref: election.ref,

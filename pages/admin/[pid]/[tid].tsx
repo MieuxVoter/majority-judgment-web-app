@@ -58,7 +58,6 @@ export async function getServerSideProps({ query, locale }) {
   }));
   const description = JSON.parse(payload.description);
   const randomOrder = description.randomOrder;
-  console.log('FORCE CLOSE', payload.force_close);
 
   const context: ElectionContextInterface = {
     name: payload.name,

@@ -155,13 +155,6 @@ function electionReducer(
    */
   switch (action.type) {
     case ElectionTypes.RESET: {
-      console.log(
-        'RESETTING',
-        election.name,
-        action.value.name,
-        election.ref,
-        action.value.ref
-      );
       return { ...action.value };
     }
     case ElectionTypes.SET: {

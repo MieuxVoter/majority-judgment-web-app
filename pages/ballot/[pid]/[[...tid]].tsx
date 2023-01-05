@@ -56,7 +56,6 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
     !election.candidates ||
     !Array.isArray(election.candidates)
   ) {
-    console.log(election);
     return { notFound: true };
   }
 

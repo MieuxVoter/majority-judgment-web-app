@@ -142,7 +142,6 @@ const ConfirmField = ({ onSubmit, onSuccess, onFailure }) => {
     !hasEnoughGrades(election) ||
     !canBeFinished(election);
 
-  console.log(election.grades);
   return (
     <Container
       fluid="xl"
