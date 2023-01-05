@@ -1,42 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, MouseEvent, ChangeEvent } from 'react';
 import { Col, Label, Input, Modal, ModalBody, Form } from 'reactstrap';
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'next-i18next';
 import { ElectionTypes, useElection } from '@services/ElectionContext';
 import Button from '@components/Button';
-import { GradeItem } from '@services/type';
 
-const GradeModal = ({ isOpen, toggle }) => {
+const GradeModal = ({ isOpen, toggle, value }) => {
   const { t } = useTranslation();
 
   const [election, dispatch] = useElection();
-  const [grade, setGrade] = useState<GradeItem>({
-    name: '',
-    description: '',
-    value: -1,
-    active: true,
-  });
+  const grade = election.grades.filter((g) => g.value === value)[0];
+
+  const [name, setName] = useState<string>(grade.name);
 
   useEffect(() => {
-    const maxValue = Math.max(...election.grades.map((g) => g.value));
-    setGrade({ ...grade, value: maxValue + 1 });
-  }, [election]);
+    setName(grade.name);
+  }, [grade]);
 
-  const save = () => {
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     dispatch({
-      type: ElectionTypes.SET,
-      field: 'grades',
-      value: [...election.grades, grade],
+      type: ElectionTypes.GRADE_SET,
+      position: election.grades.map((g) => g.value).indexOf(value),
+      field: 'name',
+      value: name,
     });
     toggle();
   };
 
-  const handleName = (e) => {
-    setGrade((s) => ({ ...s, name: e.target.value }));
+  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
   };
-
-  const names = election.grades.map((g) => g.name);
-  const disabled = grade.name === '' || names.includes(grade.name);
 
   return (
     <Modal
@@ -46,7 +40,7 @@ const GradeModal = ({ isOpen, toggle }) => {
       className="modal_grade"
     >
       <div className="modal-header p-4">
-        <h4 className="modal-title">{t('admin.add-grade')}</h4>
+        <h4 className="modal-title">{t('admin.edit-grade')}</h4>
         <button
           type="button"
           onClick={toggle}
@@ -65,7 +59,7 @@ const GradeModal = ({ isOpen, toggle }) => {
               <Input
                 type="text"
                 placeholder={t('admin.grade-name-placeholder')}
-                value={grade.name}
+                value={name}
                 onChange={handleName}
                 autoFocus
                 required
@@ -82,11 +76,10 @@ const GradeModal = ({ isOpen, toggle }) => {
                 {t('common.cancel')}
               </Button>
               <Button
-                disabled={disabled}
                 color="primary"
-                role="submit"
-                onClick={save}
+                onClick={handleSubmit}
                 icon={faPlus}
+                role="submit"
               >
                 {t('common.save')}
               </Button>

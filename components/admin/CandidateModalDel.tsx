@@ -1,22 +1,22 @@
-import {Row, Col, Modal, ModalBody} from 'reactstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { Row, Col, Modal, ModalBody } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTrashCan,
   faTrashAlt,
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
-import {useTranslation} from 'next-i18next';
-import {ElectionTypes, useElection} from '@services/ElectionContext';
+import { useTranslation } from 'next-i18next';
+import { ElectionTypes, useElection } from '@services/ElectionContext';
 import Button from '@components/Button';
 
-const CandidateModal = ({isOpen, position, toggle}) => {
-  const {t} = useTranslation();
+const CandidateModal = ({ isOpen, position, toggle }) => {
+  const { t } = useTranslation();
   const [election, dispatch] = useElection();
 
   const candidate = election.candidates[position];
 
   const removeCandidate = () => {
-    dispatch({type: ElectionTypes.CANDIDATE_RM, position: position});
+    dispatch({ type: ElectionTypes.CANDIDATE_RM, position: position });
     toggle();
   };
 
@@ -49,7 +49,12 @@ const CandidateModal = ({isOpen, position, toggle}) => {
           >
             {t('admin.candidate-confirm-back')}
           </Button>
-          <Button icon={faTrashAlt} color="danger" onClick={removeCandidate}>
+          <Button
+            icon={faTrashAlt}
+            color="danger"
+            role="submit"
+            onClick={removeCandidate}
+          >
             {t('admin.candidate-confirm-ok')}
           </Button>
         </div>

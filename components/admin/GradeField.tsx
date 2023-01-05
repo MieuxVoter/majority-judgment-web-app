@@ -1,18 +1,11 @@
 import { useState } from 'react';
-import { Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlus,
-  faPen,
-  faXmark,
-  faCheck,
-  faRotateLeft,
-  faTrashCan,
-} from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { useSortable } from '@dnd-kit/sortable';
 import { ElectionTypes, useElection } from '@services/ElectionContext';
 import { getGradeColor, gradeColors } from '@services/grades';
-import { useSortable } from '@dnd-kit/sortable';
 import VerticalGripDots from '@components/VerticalGripDots';
+import GradeModalSet from './GradeModalSet';
 
 export interface GradeInterface {
   value: number;
@@ -29,13 +22,16 @@ export default ({ value }: GradeInterface) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: grade.name });
 
+  const [visible, setVisible] = useState<boolean>(false);
+  const toggle = () => setVisible((v) => !v);
+
   const handleActive = () => {
     if (!grade.active && numGrades >= gradeColors.length) {
       return;
     }
     dispatch({
       type: ElectionTypes.GRADE_SET,
-      position: value,
+      position: election.grades.map((g) => g.value).indexOf(value),
       field: 'active',
       value: !grade.active,
     });
@@ -64,6 +60,8 @@ export default ({ value }: GradeInterface) => {
       <div
         style={{ touchAction: 'none' }}
         className={grade.active ? '' : 'text-decoration-line-through'}
+        role="button"
+        onClick={toggle}
       >
         {grade.name}
       </div>
@@ -80,6 +78,7 @@ export default ({ value }: GradeInterface) => {
           <FontAwesomeIcon onClick={handleActive} icon={faRotateLeft} />
         )}
       </div>
+      <GradeModalSet toggle={toggle} isOpen={visible} value={value} />
     </div>
   );
 };

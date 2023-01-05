@@ -104,6 +104,7 @@ const CandidatesField = ({ onSubmit }) => {
           <Container className="candidate flex-grow-1 my-5 flex-column d-flex justify-content-between">
             <div className="d-flex flex-column">
               <h4 className="mb-4">{t('admin.add-candidates')}</h4>
+              <div className="mb-4">{t('admin.add-candidates-desc')}</div>
               <Alert msg={error} />
               <div className="d-flex flex-column mx-2 mx-md-0">
                 {candidates.map((_, index) => {

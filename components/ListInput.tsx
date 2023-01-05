@@ -30,10 +30,10 @@ const ListInput = ({ onEdit, inputs, validator }) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' || e.key === 'Tab' || e.key === ';') {
       if (validator(state)) {
-        setState('');
         onEdit([...inputs, state]);
+        setState('');
       }
     }
   };
@@ -54,9 +54,9 @@ const ListInput = ({ onEdit, inputs, validator }) => {
           type="text"
           className="border-0 w-100"
           placeholder={t('admin.private-placeholder')}
-          onKeyPress={handleKeyDown}
+          onKeyDown={handleKeyDown}
           onChange={handleChange}
-          value={state}
+          value={state.replace(';', '')}
         />
       </Col>
     </Row>

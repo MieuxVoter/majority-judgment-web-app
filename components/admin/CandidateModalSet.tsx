@@ -185,6 +185,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                   position="right"
                   disabled={disabled}
                   icon={faPlus}
+                  role="submit"
                 >
                   {t('common.save')}
                 </Button>
