@@ -95,7 +95,9 @@ const Grades = () => {
   return (
     <Container className="bg-white p-3 p-md-4 mt-1">
       <div className="d-flex justify-content-between">
-        <h4 className="text-dark mb-0">{t('admin.grades-title')}</h4>
+        <h5 className="mb-0 text-dark d-flex align-items-center">
+          {t('admin.grades-title')}
+        </h5>
         <Switch toggle={toggle} state={visible} />
       </div>
       {visible && (

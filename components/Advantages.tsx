@@ -36,7 +36,7 @@ const AdvantagesRow = () => {
               src={item.src}
               alt={item.alt}
               height="128"
-              className="d-block mx-auto"
+              className="d-block mx-auto mb-2"
             />
             <h4>{item.name}</h4>
             <p>{item.desc}</p>

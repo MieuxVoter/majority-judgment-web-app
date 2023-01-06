@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Row, Col, Label, Input, Modal, ModalBody, Form } from 'reactstrap';
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'next-i18next';
@@ -27,6 +27,8 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
   // to manage the hidden ugly file input
   const hiddenFileInput = useRef(null);
 
+  const inputRef = useRef(null);
+
   const names = election.candidates
     .filter((_, i) => i != position)
     .map((c) => c.name);
@@ -35,6 +37,23 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
   useEffect(() => {
     setState(election.candidates[position]);
   }, [election]);
+
+  useEffect(() => {
+    // When isOpen got active, we put the focus on the input field
+    setTimeout(() => {
+      console.log(inputRef.current);
+      if (isOpen && inputRef && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 100);
+  }, [isOpen]);
+
+  // check if key down is enter
+  const handleKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key == 'Enter') {
+      save(e);
+    }
+  };
 
   const save = (e) => {
     e.preventDefault();
@@ -107,7 +126,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
       <ModalBody className="p-4">
         <p>{t('admin.add-candidate-desc')}</p>
         <Col>
-          <Form className="container container-fluid">
+          <Form className="container container-fluid" onKeyDown={handleKeyDown}>
             <Label className="fw-bold">
               {t('admin.photo')}{' '}
               <span className="text-muted"> ({t('admin.optional')})</span>
@@ -150,6 +169,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 maxLength={250}
                 autoFocus={true}
                 required={true}
+                ref={inputRef}
               />
             </div>
             <div className="">

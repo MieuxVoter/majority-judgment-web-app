@@ -1,16 +1,15 @@
-import {useState} from 'react';
-import {useTranslation} from 'next-i18next';
-import {Container, Row, Col} from 'reactstrap';
+import { useState } from 'react';
+import { useTranslation } from 'next-i18next';
+import { Container, Row, Col } from 'reactstrap';
 import DatePicker from '@components/DatePicker';
 import Switch from '@components/Switch';
-import {ElectionTypes, useElection} from '@services/ElectionContext';
+import { ElectionTypes, useElection } from '@services/ElectionContext';
 
 const LimitDate = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const defaultEndDate = new Date();
   defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
   const [endDate, setEndDate] = useState(defaultEndDate);
-
 
   const [election, dispatch] = useElection();
   const hasDate = election.dateEnd !== null;
@@ -31,8 +30,8 @@ const LimitDate = () => {
   return (
     <Container className="bg-white p-3 p-md-4 mt-1">
       <div className="d-flex">
-        <div className="me-auto">
-          <h4 className="text-dark mb-0">
+        <div className="me-auto d-flex flex-row justify-content-center">
+          <h5 className="mb-0 text-dark d-flex align-items-center">
             {t('admin.limit-duration')}
             {hasDate ? (
               <>
@@ -44,7 +43,7 @@ const LimitDate = () => {
                 </div>{' '}
               </>
             ) : null}
-          </h4>
+          </h5>
           {desc === '' ? null : <p className="text-muted">{desc}</p>}
         </div>
         <div className="col-auto d-flex align-items-center">

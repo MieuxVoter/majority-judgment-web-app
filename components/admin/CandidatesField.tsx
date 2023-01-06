@@ -64,7 +64,7 @@ const CandidatesField = ({ onSubmit }) => {
     }
   };
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key == 'Enter' && !disabled) {
       onSubmit();
     }
@@ -129,7 +129,7 @@ const CandidatesField = ({ onSubmit }) => {
                 className={`bg-blue${disabled ? ' disabled' : ''}`}
                 icon={faArrowRight}
                 position="right"
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
               >
                 {t('admin.candidates-submit')}
               </Button>

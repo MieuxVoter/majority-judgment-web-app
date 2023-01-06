@@ -47,8 +47,8 @@ const Private = () => {
     <>
       <Container className="bg-white  p-3 p-md-4 mt-1">
         <div className="d-flex">
-          <div className="me-auto">
-            <h4 className="mb-0 text-dark">
+          <div className="me-auto d-flex flex-column justify-content-center">
+            <h5 className="mb-0 text-dark d-flex align-items-center">
               {t('admin.private-title')}
               {election.restricted ? (
                 <>
@@ -64,7 +64,7 @@ const Private = () => {
                   </div>{' '}
                 </>
               ) : null}
-            </h4>
+            </h5>
             <p className="text-muted d-none d-md-block">
               {isCreating
                 ? t('admin.private-desc-creating')
