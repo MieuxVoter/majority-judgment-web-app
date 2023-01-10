@@ -48,3 +48,6 @@ export const NEWS_LINK =
 
 export const URL_SERVER =
   process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.mieuxvoter.fr/';
+
+export const URL_LEGACY =
+  process.env.NEXT_PUBLIC_URL_LEGACY || 'https://legacy.app.mieuxvoter.fr/';
