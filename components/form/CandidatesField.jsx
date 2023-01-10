@@ -1,72 +1,55 @@
-import {useState, useEffect, createRef} from 'react'
-import {useTranslation} from "react-i18next";
-import {
-  Button,
-  Card,
-  CardBody
-} from "reactstrap";
-import {
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-  sortableContainer,
-  sortableElement,
-  sortableHandle
-} from "react-sortable-hoc";
-import arrayMove from "array-move"
-import CandidateField from './CandidateField'
+import { useState, useEffect, createRef } from "react";
+import { useTranslation } from "react-i18next";
+import { Button, Card, CardBody } from "reactstrap";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CandidateField from "./CandidateField";
 
-// const SortableItem = sortableElement(({className, ...childProps}) => <li className={className}><CandidateField {...childProps} /></li>);
-// 
-// const SortableContainer = sortableContainer(({children}) => {
-//   return <ul className="sortable">{children}</ul>;
-// });
+const SortableItem = ({ className, ...childProps }) => (
+  <li className={className}>
+    <CandidateField {...childProps} />
+  </li>
+);
 
-const SortableItem = ({className, ...childProps}) => <li className={className}><CandidateField {...childProps} /></li>;
-
-const SortableContainer = ({children}) => {
+const SortableContainer = ({ children }) => {
   return <ul className="sortable">{children}</ul>;
 };
 
-
-const CandidatesField = ({onChange}) => {
-  const {t} = useTranslation();
-  const [candidates, setCandidates] = useState([])
+const CandidatesField = ({ onChange }) => {
+  const { t } = useTranslation();
+  const [candidates, setCandidates] = useState([]);
 
   const addCandidate = () => {
     if (candidates.length < 1000) {
-      candidates.push({label: "", fieldRef: createRef()});
+      candidates.push({ label: "", fieldRef: createRef() });
       setCandidates([...candidates]);
-      onChange(candidates)
+      onChange(candidates);
     } else {
-      console.error("Too many candidates")
+      console.error("Too many candidates");
     }
   };
 
   useEffect(() => {
     addCandidate();
     addCandidate();
-  }, [])
+  }, []);
 
-
-  const removeCandidate = index => {
+  const removeCandidate = (index) => {
     if (candidates.length === 1) {
-      const newCandidates = []
-      newCandidates.push({label: "", fieldRef: createRef()});
-      newCandidates.push({label: "", fieldRef: createRef()});
+      const newCandidates = [];
+      newCandidates.push({ label: "", fieldRef: createRef() });
+      newCandidates.push({ label: "", fieldRef: createRef() });
       setCandidates(newCandidates);
-      onChange(newCandidates)
-    }
-    else {
-      const newCandidates = candidates.filter((c, i) => i != index)
+      onChange(newCandidates);
+    } else {
+      const newCandidates = candidates.filter((c, i) => i != index);
       setCandidates(newCandidates);
       onChange(newCandidates);
     }
   };
 
   const editCandidate = (index, label) => {
-    candidates[index].label = label
+    candidates[index].label = label;
     setCandidates([...candidates]);
     onChange(candidates);
   };
@@ -76,22 +59,21 @@ const CandidatesField = ({onChange}) => {
       e.preventDefault();
       if (index + 1 === candidates.length) {
         addCandidate();
-      }
-      else {
+      } else {
         candidates[index + 1].fieldRef.current.focus();
       }
     }
-  }
+  };
 
-  const onSortEnd = ({oldIndex, newIndex}) => {
-    setCandidates(arrayMove(candidates, oldIndex, newIndex));
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setCandidates(candidates, oldIndex, newIndex);
   };
 
   return (
     <>
       <SortableContainer onSortEnd={onSortEnd}>
         {candidates.map((candidate, index) => {
-          const className = "sortable"
+          const className = "sortable";
           return (
             <SortableItem
               className={className}
@@ -104,7 +86,7 @@ const CandidatesField = ({onChange}) => {
               onKeyPress={(e) => handleKeyPress(e, index)}
               innerRef={candidate.fieldRef}
             />
-          )
+          );
         })}
       </SortableContainer>
 
@@ -120,9 +102,6 @@ const CandidatesField = ({onChange}) => {
       </Button>
     </>
   );
+};
 
-}
-
-
-export default CandidatesField
-
+export default CandidatesField;

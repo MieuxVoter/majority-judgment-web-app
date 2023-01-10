@@ -17,9 +17,9 @@ import {
   CardBody,
 } from "reactstrap";
 import { ReactMultiEmail, isEmail } from "react-multi-email";
-import "react-multi-email/style.css";
+// import "react-multi-email/style.css";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import queryString from "query-string";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

@@ -1,23 +1,14 @@
-import {useState} from 'react'
+import { useState } from "react";
 import ButtonWithConfirm from "./ButtonWithConfirm";
-import {
-  Row,
-  Col,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-} from "reactstrap";
-import {useTranslation} from "react-i18next";
-import {
-  sortableHandle
-} from "react-sortable-hoc";
+import { Row, Col, Input, InputGroup, InputGroupAddon } from "reactstrap";
+import { useTranslation } from "react-i18next";
 import HelpButton from "@components/form/HelpButton";
 
-const DragHandle = sortableHandle(({children}) => (
+const DragHandle = ({ children }) => (
   <span className="input-group-text indexNumber">{children}</span>
-));
-const CandidateField = ({label, candIndex, onDelete, ...inputProps}) => {
-  const {t} = useTranslation();
+);
+const CandidateField = ({ label, candIndex, onDelete, ...inputProps }) => {
+  const { t } = useTranslation();
 
   return (
     <Row>
@@ -37,8 +28,11 @@ const CandidateField = ({label, candIndex, onDelete, ...inputProps}) => {
             maxLength="250"
             autoFocus
           />
-          <ButtonWithConfirm className="btn btn-primary  border-light" label={label} onDelete={onDelete}>
-          </ButtonWithConfirm>
+          <ButtonWithConfirm
+            className="btn btn-primary  border-light"
+            label={label}
+            onDelete={onDelete}
+          ></ButtonWithConfirm>
         </InputGroup>
       </Col>
       <Col xs="auto" className="align-self-center pl-0">
@@ -50,6 +44,6 @@ const CandidateField = ({label, candIndex, onDelete, ...inputProps}) => {
       </Col>
     </Row>
   );
-}
+};
 
-export default CandidateField
+export default CandidateField;
