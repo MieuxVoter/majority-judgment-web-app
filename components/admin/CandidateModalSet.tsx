@@ -127,18 +127,33 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
         <p>{t('admin.add-candidate-desc')}</p>
         <Col>
           <Form className="container container-fluid" onKeyDown={handleKeyDown}>
+            <div className="my-3">
+              <Label className="fw-bold">{t('common.name')} </Label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder={t('admin.candidate-name-placeholder')}
+                tabIndex={position + 1}
+                value={state.name}
+                onChange={handleName}
+                maxLength={250}
+                autoFocus={true}
+                required={true}
+                ref={inputRef}
+              />
+            </div>
             <Label className="fw-bold">
               {t('admin.photo')}{' '}
               <span className="text-muted"> ({t('admin.optional')})</span>
             </Label>
-            <div className="d-block d-md-flex gap-2 justify-content-between">
+            <div className="d-flex flex-column flex-md-row gap-2 justify-content-md-between justify-content-center align-items-center">
               <Image
                 src={image}
                 alt={t('admin.photo')}
                 height={120}
                 width={120}
               />
-              <div>
+              <div className="mb-3">
                 <p>{t('admin.photo-type')} jpg, png, pdf</p>
                 <div className="w-100 d-md-block d-grid">
                   <input
@@ -157,28 +172,13 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
                 </div>
               </div>
             </div>
-            <div className="my-3">
-              <Label className="fw-bold">{t('common.name')} </Label>
-              <input
-                className="form-control"
-                type="text"
-                placeholder={t('admin.candidate-name-placeholder')}
-                tabIndex={position + 1}
-                value={state.name}
-                onChange={handleName}
-                maxLength={250}
-                autoFocus={true}
-                required={true}
-                ref={inputRef}
-              />
-            </div>
             <div className="">
               <Label className="fw-bold">
                 {t('common.description')}{' '}
                 <span className="text-muted"> ({t('admin.optional')})</span>
               </Label>
-              <input
-                type="text"
+              <textarea
+                rows={3}
                 className="form-control"
                 placeholder={t('admin.candidate-desc-placeholder')}
                 onChange={handleDescription}

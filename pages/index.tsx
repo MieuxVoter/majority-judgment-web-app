@@ -124,7 +124,7 @@ const StartForm = () => {
             </Button>
           </Link>
         </form>
-        <div className="noAds">{t('home.noAds')}</div>
+        <div className="noAds mt-4">{t('home.noAds')}</div>
       </div>
     </>
   );

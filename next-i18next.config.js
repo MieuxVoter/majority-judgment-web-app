@@ -5,12 +5,14 @@ module.exports = {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
   },
-  ns: ["resource"],
-  defaultNS: "resource",
-  defaultValue: "__STRING_NOT_TRANSLATED__",
+  ns: ['resource'],
+  defaultNS: 'resource',
+  defaultValue: '__STRING_NOT_TRANSLATED__',
   /** To avoid issues when deploying to some paas (vercel...) */
-  localePath: typeof window === 'undefined' ?
-    require('path').resolve('./public/locales') : '/locales',
+  localePath:
+    typeof window === 'undefined'
+      ? require('path').resolve('./public/locales')
+      : '/locales',
 
   reloadOnPrerender: process.env.NODE_ENV === 'development',
 
@@ -21,7 +23,7 @@ module.exports = {
   // strictMode: true,
   // serializeConfig: false,
   // react: { useSuspense: false }
-}
+};
 // const path = require('path')
 // module.exports = {
 //   i18n: {

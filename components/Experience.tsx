@@ -22,12 +22,12 @@ const Experiencediv = () => {
       </Container>
       <div className="d-flex">
         <Container>
-          <Row className="px-5 my-5 flex-fill justify-content-end align-items-center gap-lg-5 d-flex">
-            <Col className="col-12 col-lg-4">
+          <Row className="ps-5 my-5 flex-fill justify-content-end align-items-center gx-md-5 d-flex">
+            <Col className="col-12 col-md-6">
               <h5 className="">{t('home.experience-1-name')}</h5>
               <p>{t('home.experience-1-desc')}</p>
             </Col>
-            <Col className="col-12  col-lg-4">
+            <Col className="col-12  col-md-6">
               <h5 className="">{t('home.experience-2-name')}</h5>
               <p>{t('home.experience-2-desc')}</p>
               <p></p>

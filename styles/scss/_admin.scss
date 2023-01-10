@@ -52,7 +52,7 @@
 
 .modal
   > *
-  :is(input[type='text'], input[type='text']:focus, input[type='text']::placeholder) {
+  :is(input[type='text'], input[type='text']:focus, input[type='text']::placeholder), textarea, textarea:focus, textarea::placeholder {
   background: white;
   border-radius: 0px;
   color: black !important;
