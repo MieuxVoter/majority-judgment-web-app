@@ -11,8 +11,8 @@ export enum RouteTypes {
   ENDED_VOTE = 'end',
   FAQ = 'faq',
   HOME = '',
-  RESULTS = 'result',
-  VOTE = 'vote',
+  RESULTS = 'results',
+  VOTE = 'votes',
 }
 
 export const getUrl = (
