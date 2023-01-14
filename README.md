@@ -1,8 +1,9 @@
 # Front-end election web application using NextJs
 
-[![aGPLV3](https://img.shields.io/github/license/MieuxVoter/majority-judgment-web-app?style=for-the-badge)](./LICENSE.md)
+[![aGPLV3](https://img.shields.io/badge/license-aGPLV3-lightgrey?style=for-the-badge)](./LICENSE.md)
 [![Netlify Status](https://img.shields.io/netlify/021c39c6-1018-4e3f-98e2-f808b4ea8f6d?style=for-the-badge)](https://app.netlify.com/sites/mieuxvoter-app-ui/deploys)
 [![Join the Discord chat at https://discord.gg/rAAQG9S](https://img.shields.io/discord/705322981102190593.svg?style=for-the-badge)](https://discord.gg/rAAQG9S)
+https://img.shields.io/github/stars/mieuxvoter/majority-judgment-web-app?style=for-the-badge
 
 
 :ballot_box: This project is going to be the default front-end for our [election application](https://app.mieuxvoter.fr).
