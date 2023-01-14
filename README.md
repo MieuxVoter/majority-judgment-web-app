@@ -1,8 +1,8 @@
 # Front-end election web application using NextJs
 
-[![aGPLV3](https://img.shields.io/github/license/MieuxVoter/mv-front-react)](./LICENSE.md)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/021c39c6-1018-4e3f-98e2-f808b4ea8f6d/deploy-status)](https://app.netlify.com/sites/epic-nightingale-99f910/deploys)
-[![Join the Discord chat at https://discord.gg/rAAQG9S](https://img.shields.io/discord/705322981102190593.svg)](https://discord.gg/rAAQG9S)
+[![aGPLV3](https://img.shields.io/github/license/MieuxVoter/majority-judgment-web-app?style=for-the-badge)](./LICENSE.md)
+[![Netlify Status](https://img.shields.io/netlify/021c39c6-1018-4e3f-98e2-f808b4ea8f6d?style=for-the-badge)](https://app.netlify.com/sites/mieuxvoter-app-ui/deploys)
+[![Join the Discord chat at https://discord.gg/rAAQG9S](https://img.shields.io/discord/705322981102190593.svg?style=for-the-badge)](https://discord.gg/rAAQG9S)
 
 
 :ballot_box: This project is going to be the default front-end for our [election application](https://app.mieuxvoter.fr).
@@ -24,12 +24,12 @@ The separation between the front-end and the back-end makes it easy to customize
 
 **Option one:** One-click deploy
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/MieuxVoter/mv-front-react&utm_source=github)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/MieuxVoter/majority-judgment-web-app&utm_source=github)
 
 
 **Option two:** Manual clone
 
-1. Clone this repo: `git clone https://github.com/MieuxVoter/mv-front-nextjs.git`
+1. Clone this repo: `git clone https://github.com/MieuxVoter/majority-judgment-web-app.git`
 2. Navigate to the directory and install dependencies: `npm install` or `make`
 3. Start a local server: `npm run dev`  and open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 4. Make your changes
