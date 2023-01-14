@@ -1,45 +1,18 @@
-const { i18n } = require("./next-i18next.config");
+const { i18n } = require('./next-i18next.config.js');
+
+const remoteImage = process.env.IMGPUSH_URL
+  ? process.env.IMGPUSH_URL.split('/')[-1]
+  : 'imgpush.mieuxvoter.fr';
 
 module.exports = {
   i18n,
-  // See https://github.com/netlify/netlify-plugin-nextjs/issues/223
-  unstableNetlifyFunctionsSupport: {
-    "pages/index.jsx": {
-      includeDirs: ["public"],
-    },
-    "pages/faq.jsx": {
-      includeDirs: ["public"],
-    },
-    "pages/legal-notices.jsx": {
-      includeDirs: ["public"],
-    },
-    "pages/new/confirm/[pid].jsx": {
-      includeDirs: ["public"],
-    },
-    "pages/new.jsx": {
-      includeDirs: ["public"],
-    },
-    "pages/result/[pid]/[[...tid]].jsx": {
-      includeDirs: ["public"],
-    },
-    "pages/vote/[pid]/[[...tid]].jsx": {
-      includeDirs: ["public"],
-    },
-    "pages/vote/[pid]/confirm.jsx": {
-      includeDirs: ["public"],
-    },
-    "pages/privacy-policy.jsx": {
-      includeDirs: ["public"],
-    },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: remoteImage,
+        pathname: '**',
+      },
+    ],
   },
-  pageExtensions: ["mdx", "jsx", "js", "ts", "tsx"],
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-
-    return config;
-  },
-  target: "experimental-serverless-trace",
 };

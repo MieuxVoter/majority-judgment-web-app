@@ -1,0 +1,15 @@
+{
+	"email.hello": "Bonjour ! 🙂",
+	"email.invite.subject": "Vous participez au vote en cours",
+	"email.invite.happy": "Nous sommes très heureux de vous envoyer ce courriel ! Vous allez pouvoir voter en utilisant le jugement majoritaire.",
+	"email.invite.why": "Ce courriel vous a été envoyé, car l'organisateur du vote vous a ajoutés dans la liste des participants. Le vote porte sur :",
+	"email.invite.linkVote": "Le lien pour voter est ci-dessous",
+	"email.invite.linkResult": "Le lien pour voir les résultats est ci-dessous. Conservez le bien !",
+	"email.admin.subject": "Gérez votre élection",
+	"email.admin.happy": "Nous sommes très heureux de vous envoyer ce courriel ! Vous venez de créer une élection avec le jugement majoritaire.",
+	"email.admin.why": "Vous recevez ce courriel parce que vous nous avez chargé de vous transmettre le lien d'administration. Gardez le précieusement : un autre lien ne pourra leien ne pourra pas vous être partagé.",
+	"email.admin.linkAdmin": "Ce lien ci-dessous vous permet de gérer votre élection.",
+	"email.bye": "Au revoir !",
+	"email.copyLink": "Si cela ne fonctionne pas, copiez-collez le lien suivant dans votre navigateur :",
+	"email.about-mj": "Besoin de plus d'information ?"
+}

@@ -1,0 +1,103 @@
+.creation-step.disabled {
+  opacity: 0.5;
+}
+.creation-step {
+  color: rgb(255, 255, 255);
+  .name {
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
+
+.creation-step-icon {
+  width: 24px;
+  height: 24px;
+  background-color: black; // , 0.2);
+}
+
+.creation-step.active {
+  .badge {
+    background-color: white;
+    color: $mv-blue-color;
+  }
+  .name {
+    color: white;
+  }
+}
+
+.candidate {
+  max-width: 500px;
+}
+
+.default-avatar {
+  position: inherit !important;
+  padding: 4px;
+}
+
+.candidate * > input[type='file'] {
+  display: none;
+}
+.candidate * > .inputfile {
+  background: transparent;
+  color: #0a004c;
+  border: 2px solid #0a004c;
+  box-shadow: 0px 2px 0px 0px #0a004c;
+  padding: 8px 20px;
+  font-size: 14px;
+  line-height: 24px;
+  display: inline-block;
+  cursor: pointer;
+}
+// .creation-steps > * .form-control, .creation-steps * > input[type='text']:focus,.creation-steps * > input[type='text']::placeholder {
+
+.modal
+  > *
+  :is(input[type='text'], input[type='text']:focus, input[type='text']::placeholder), textarea, textarea:focus, textarea::placeholder {
+  background: white;
+  border-radius: 0px;
+  color: black !important;
+  opacity: 0.5;
+  box-shadow: 0px 2px 0px #c3bfd8;
+  margin-bottom: 20px;
+}
+
+.modal > * input[type='text']:focus {
+  opacity: 0.8;
+}
+.modal > * input[type='text']:placeholder {
+  opacity: 0.4;
+}
+
+.params {
+  max-width: 1070px;
+}
+
+.desktop_step {
+  width: 24px;
+  height: 24px;
+}
+.mobile_step {
+  width: 32px;
+  height: 32px;
+}
+
+.disabled {
+  opacity: 0.6;
+}
+
+/* Waiting page */
+.waiting {
+  background-color: #2400fd;
+  background-image: url('../../public/back.svg');
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+@include media-breakpoint-up('xxl') {
+  .waiting {
+    background-size: 100% auto;
+  }
+}

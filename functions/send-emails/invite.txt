@@ -1,0 +1,19 @@
+{{#i18n 'email.hello'}}{{/i18n}}
+
+{{#i18n 'email.invite.happy'}}{{/i18n}}
+
+{{#i18n 'email.invite.why'}}{{/i18n}}
+
+%recipient.title%
+
+{{#i18n 'email.invite.linkVote' }}{{/i18n}}
+
+%recipient.urlVote%
+
+{{#i18n 'email.invite.linkResult' }}{{/i18n}}
+
+%recipient.urlResult%
+
+{{#i18n 'email.bye'}}{{/i18n}}
+
+{{#i18n 'resource:common.better-vote'}}{{/i18n}}

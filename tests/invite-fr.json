@@ -1,0 +1,16 @@
+{
+	"recipients": {
+		"app@mieuxvoter.fr": {
+			"title": "Test",
+			"urlVote": "foo",
+			"urlResult": "foo"
+		},
+		"tech@mieuxvoter.fr": {
+			"title": "Test",
+			"urlVote": "foo",
+			"urlResult": "foo"
+		}
+	},
+	"action": "invite",
+	"locale": "fr"
+}

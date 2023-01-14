@@ -49,7 +49,7 @@ To connect your application with Mailgun, you need to add the environment variab
 - `MAILGUN_DOMAIN`,
 - `MAILGUN_URL`,
 - `FROM_EMAIL_ADDRESS`,
-- `CONTACT_TO_EMAIL_ADDRESS`.
+- `REPLY_TO_EMAIL_ADDRESS`.
 
 You can add the environment variables on an `.env` file or directly on [Netlify](https://docs.netlify.com/configure-builds/environment-variables/).
 

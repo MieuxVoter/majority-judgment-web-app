@@ -21,7 +21,7 @@ module.exports = {
       i18nKey: "i18nKey",
       defaultsKey: "defaults",
       extensions: [".js", ".jsx"],
-      fallbackKey: function(ns, value) {
+      fallbackKey: function (ns, value) {
         return value;
       },
       acorn: {
@@ -31,7 +31,7 @@ module.exports = {
       }
     },
     lngs: ["en", "fr", "es", "de", "ru"],
-    ns: ["resource", "common"],
+    ns: ["resource"],
     defaultLng: "en",
     defaultNs: "resource",
     defaultValue: "__STRING_NOT_TRANSLATED__",
@@ -56,7 +56,7 @@ module.exports = {
 
     parser.parseFuncFromString(
       content,
-      { list: ["i18next._", "i18next.__"] },
+      {list: ["i18next._", "i18next.__"]},
       (key, options) => {
         parser.set(
           key,
@@ -68,14 +68,6 @@ module.exports = {
         ++count;
       }
     );
-
-    if (count > 0) {
-      /* console.log(
-        `i18next-scanner: count=${chalk.cyan(count)}, file=${chalk.yellow(
-          JSON.stringify(file.relative)
-        )}`
-      );*/
-    }
 
     done();
   }

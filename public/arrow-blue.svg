@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   version="1.1"
+   id="svg834"
+   sodipodi:docname="arrow-blue.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs838" />
+  <sodipodi:namedview
+     id="namedview836"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="19.708333"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg834" />
+  <path
+     d="M 5,11 H 4 v 2 h 1 z m 14,1 0.7071,0.7071 L 20.4142,12 19.7071,11.2929 Z M 12.7071,4.29289 12,3.58579 10.5858,5 11.2929,5.70711 Z M 11.2929,18.2929 10.5858,19 12,20.4142 12.7071,19.7071 Z M 5,13 H 19 V 11 H 5 Z m 6.2929,-7.29289 7,6.99999 1.4142,-1.4142 -7,-7.00001 z m 7,5.58579 -7,7 1.4142,1.4142 7,-7 z"
+     fill="#ffffff"
+     id="path832"
+     style="fill:#2400fd;fill-opacity:1" />
+</svg>

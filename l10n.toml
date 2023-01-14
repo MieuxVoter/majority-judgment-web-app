@@ -1,0 +1,32 @@
+
+basepath = "."
+
+locales = [
+    "en",
+    "de",
+    "ru",
+    "es",
+    "fr",
+]
+
+[[paths]]
+    reference = "translate/public/static/locale/en-US/*.ftl"
+    l10n = "translate/public/static/locale/{locale}/*.ftl"
+
+
+[[project]]
+    name = "Mieux Voter Front End"
+    description = """Front-end based on React for Better Vote (Mieux Voter)"""
+    [[project.import]]
+        repository = "https://github.com/MieuxVoter/mv-front-react"
+        revision = "default"
+        path = "l10n.toml"
+        vcs = "git"
+
+    [[project.metadata]]
+        priority = 5
+        locales = ["fr", "en"]
+
+    [[project.metadata]]
+        locales = ["de", "es", "ru"]
+        priority = 1

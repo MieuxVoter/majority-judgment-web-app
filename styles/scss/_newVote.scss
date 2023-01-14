@@ -1,0 +1,227 @@
+.form {
+  min-height: 93vh;
+  padding: 0px 15px !important;
+}
+.addCandidatePage {
+  max-width: 100% !important;
+  background-color: #17048e;
+  background-image: url('/back.svg');
+  background-size: 100%;
+  background-position: center;
+  padding: 0px;
+}
+.candidate-placeholder {
+  pointer-events: none;
+}
+.stepForm {
+  width: 650px;
+  margin: auto;
+  padding: 50px 0px;
+}
+.stepForm .col {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.stepForm img {
+  width: 24px;
+  margin-right: 10px;
+}
+.stepForm h4 {
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 0;
+}
+.preventWarning {
+  background: #2407d3 !important;
+  padding: 8px !important;
+}
+.alert-heading {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  line-height: 16px;
+  margin: 0px !important;
+}
+.alert-heading svg {
+  cursor: pointer;
+}
+.addCandidateCard {
+  background-color: white;
+  padding: 30px;
+  width: 100%;
+  flex-basis: auto;
+}
+.addCandidateCard p {
+  color: #0a004c;
+}
+.addCandidateForm {
+  display: inline-block;
+}
+.addCandidateHeader {
+  text-align: left;
+}
+.addCandidateHeader h6 {
+  font-size: 28px;
+  line-height: 32px;
+  color: #2400fd;
+  text-align: left;
+}
+.addCandidateHeader p {
+  font-size: 16px;
+  line-height: 24px;
+  color: #0a004c;
+  text-align: left;
+  margin-top: 0px;
+}
+.addCandidateHeader span {
+  display: inline-block;
+}
+.addCandidateForm label {
+  margin-bottom: 0px;
+}
+.addCandidateText {
+  color: #0a004c;
+}
+.addCandidateForm input {
+  width: 100% !important;
+  padding-left: 0px;
+  margin-bottom: 50px !important;
+  box-shadow: 0px 2px 0px 0px #c3bfd8;
+}
+.addCandidateText::placeholder {
+  color: #c3bfd8;
+}
+.cancelButton button {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  border: 2px solid #0a004c;
+  box-shadow: 0px 4px 0px 0px #0a004c;
+  background: transparent;
+  align-items: center;
+  padding: 16px 24px;
+}
+.cancelButton p {
+  margin: auto;
+  margin-left: 20px;
+}
+.cancelForm {
+  text-align: center;
+}
+.cancelForm > .modal-content > .modal-header,
+.cancelForm > .modal-content > .modal-footer {
+  border: 0px;
+}
+.cancelForm > .modal-content > .modal-header {
+  color: #ff3e37;
+  justify-content: center;
+}
+.cancelForm > .modal-content > .modal-body {
+  color: #ff3e37;
+  font-size: 16px;
+  line-height: 24px;
+}
+.cancelForm > .modal-content > .modal-body > b {
+  color: #0a004c;
+  font-size: 36px;
+  line-height: 32px;
+  margin-top: 24px;
+}
+.cancelForm > .modal-content > .modal-header > .modal-title {
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+  display: flex;
+  background-color: #fff5f4;
+  border-radius: 50px;
+}
+.cancelForm > .modal-content > .modal-header > .modal-title > svg {
+  align-self: center;
+}
+.new-btn-confirm {
+  background-color: #ff3e37;
+  box-shadow: 0px 4px 0px #ffcac8;
+  border: 2px solid #ff3e37;
+}
+.new-btn-confirm:hover {
+  color: #ff3e37;
+  background-color: transparent;
+  box-shadow: 0px 4px 0px #ffcac8;
+  border: 2px solid #ff3e37;
+}
+.cancelForm > .modal-content > .modal-footer {
+  justify-content: space-evenly;
+}
+.removeAddButtons {
+  justify-content: space-between;
+  margin: 0px;
+}
+.removeButton {
+  font-size: 16px;
+  line-height: 24px;
+  background: transparent;
+  color: #0a004c;
+  border: 2px solid #0a004c;
+  box-shadow: 0px 4px 0px 0px #0a004c;
+  padding: 16px 24px 16px 24px;
+  font-weight: bold;
+}
+.closeModalAddCandidate {
+  position: absolute;
+  z-index: 999;
+  right: 10px;
+  border: none;
+}
+.addButton {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  background: transparent;
+  color: #2400fd;
+  border: 2px solid #2400fd;
+  box-shadow: 0px 4px 0px 0px #2400fd;
+  padding: 16px 24px 16px 24px;
+}
+.addButton span {
+  margin-left: 20px;
+}
+input[type='file'] {
+  display: none;
+}
+.inputfile {
+  background: transparent;
+  color: #0a004c;
+  border: 2px solid #0a004c;
+  box-shadow: 0px 2px 0px 0px #0a004c;
+  padding: 8px 20px;
+  font-size: 14px;
+  line-height: 24px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.input-group-text {
+  padding: 0px !important;
+}
+
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}

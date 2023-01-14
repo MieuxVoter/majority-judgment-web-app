@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  <title></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <style type="text/css">
+    /* FONTS */
+    @media screen {
+      @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+      }
+      
+      @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+      }
+      
+      @font-face {
+      font-family: 'Lato';
+      font-style: italic;
+      font-weight: 400;
+      src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+      }
+      
+      @font-face {
+      font-family: 'Lato';
+      font-style: italic;
+      font-weight: 700;
+      src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+      }
+    }
+    
+    /* CLIENT-SPECIFIC STYLES */
+    body, table, th, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none;}
+
+    /* RESET STYLES */
+    table { border-collapse: collapse !important; padding: 0 !important;}
+    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+
+    /* iOS BLUE LINKS */
+    a[x-apple-data-detectors] {
+      color: inherit !important;
+      text-decoration: none !important;
+      font-size: inherit !important;
+      font-family: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+    }
+    
+    /* MOBILE STYLES */
+    @media screen and (max-width:600px){
+      h1 {
+        font-size: 32px !important;
+        line-height: 32px !important;
+      }
+    }
+
+    /* ANDROID CENTER FIX */
+    div[style*="margin: 16px 0;"] { margin: 0 !important; }
+  </style>
+  </head>
+  <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+
+    <!-- HIDDEN PREHEADER TEXT -->
+    <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+	    {{#i18n 'email.admin.happy' }}{{/i18n}}
+    </div>
+    <table border="0" style="margin: 0px auto 0px auto; width: 100%;" aria-describedby="Email">
+      <!-- LOGO -->
+      <tr>
+        <th scope="col" style="background-color:#efefff ;">
+          <table border="0" style="margin: 0px auto 0px auto; width: 100%; max-width: 600px;" aria-describedby="Logo picture">
+            <tr>
+              <th scope="col" style="vertical-align: top; padding: 40px 10px 40px 10px;">
+                <a href="https://mieuxvoter.fr/" target="_blank" rel="noopener noreferrer">
+                  <img alt="Logo" src="https://app.mieuxvoter.fr/logos/logo.png" width="40" height="40" style="display: block; margin: 0px auto 0px auto; width: 50%; max-width: 250px; min-width: 40px; height: auto; font-family: 'Lato', Helvetica, Arial, sans-serif; color: #ffffff; font-size: 18px;" border="0">
+                </a>
+              </th>
+            </tr>
+          </table>
+        </th>
+      </tr>
+      <!-- TITLE -->
+      <tr>
+        <th scope="col" style="background-color: #efefff; padding: 0px 10px 0px 10px;">
+          <table border="0" style="margin: 0px auto 0px auto; width: 100%; max-width: 600px;" aria-describedby="email title">
+            <tr>
+              <th scope="col" style="vertical-align: top; background-color: #ffffff; padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+				        <h1 style="font-size: 48px; font-weight: 400; margin: 0;">{{#i18n 'email.hello'}}Hi, there! 🙂{{/i18n}}</h1>
+              </th>
+            </tr>
+          </table>
+        </th>
+      </tr>
+      <!-- BLOCKS -->
+      <tr>
+        <th scope="col" style="background-color: #2a43a0; padding: 0px 10px 0px 10px;">
+          <table border="0" style="margin: 0px auto 0px auto; width: 100%; max-width: 600px;" aria-describedby="email body">
+            <!-- BLOCK  SUBTITLE-->
+            <tr>
+              <th scope="col" style="background-color: #ffffff; padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
+                <p style="margin: 0; text-align: left;">
+                  {{#i18n 'email.admin.happy'}}{{/i18n}}
+                </p>
+              </th>
+            </tr>
+            <!-- BLOCK  EXPLANATION-->
+            <tr>
+              <th scope="col" style="background-color: #ffffff; padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
+                <p style="margin: 0; text-align: left;">
+                  {{#i18n 'email.admin.why'}}{{/i18n}}
+                  &nbsp;
+                  <strong>%recipient.title%</strong>
+                </p>
+              </th>
+            </tr>
+            <!-- BLOCK TEXT RESULT  -->
+            <tr>
+              <th scope="col" style="background-color: #ffffff; padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
+                <p style="margin: 0; text-align: left;">
+                  {{#i18n 'email.admin.linkAdmin' }}{{/i18n}}
+                  &nbsp;
+                  <a  target="_blank" style="color: #2a43a0;">%recipient.urlAdmin%</a>
+                </p>
+              </th>
+            </tr>
+            <!-- BLOCK THANKS -->
+            <tr>
+              <th scope="col" style="background-color: #ffffff; padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
+                <p style="margin: 0; text-align: left;">{{#i18n 'email.bye'}}{{/i18n}},<br>{{#i18n 'resource:common.better-vote'}}{{/i18n}}</p>
+              </th>
+            </tr>
+          </table>
+        </th>
+      </tr>
+      <!-- SUPPORT CALLOUT -->
+      <tr>
+        <th scope="col" style="background-color: #f4f4f4; padding: 30px 10px 0px 10px;">
+          <table border="0" style="margin: 0px auto 0px auto; width: 100%; max-width: 600px;" aria-describedby="support callout">
+            <!-- HEADLINE -->
+            <tr>
+              <th scope="col" style="background-color: #7d8ecf; padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
+                <p style="margin: 0;"><strong>
+                  <a href="https://mieuxvoter.fr/le-jugement-majoritaire" target="_blank" style="color: #FFFFFF;" rel="noopener noreferrer">
+                    {{#i18n 'email.about-mj'}}{{/i18n}}	
+                  </a></strong>
+                </p>
+                <p style="margin: 0;"> <strong>
+                  <a href="https://www.paypal.com/donate/?hosted_button_id=QD6U4D323WV4S" target="_blank" style="color: #111111;" rel="noopener noreferrer">
+                    {{#i18n 'resource:common.support-us'}}{{/i18n}}
+                  </a></strong>
+                </p>
+              </th>
+            </tr>
+          </table>
+        </th>
+      </tr>
+      <!-- FOOTER -->
+      <tr>
+        <th scope="col" style="background-color: #f4f4f4; padding: 0px 10px 0px 10px;">    
+          <table border="0" style="margin: 0px auto 0px auto; width: 100%; max-width: 600px;" aria-describedby="footer informations">
+            <!-- EXPLAIN WHY -->
+            </br>
+            <tr>
+              <th scope="col" style="background-color: #f4f4f4; padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;" >
+                <p style="margin: 0;">
+                {{#i18n email.why }}{{/i18n}}
+                </p>
+              </th>
+            </tr>
+            <!-- ADDRESS -->
+            <tr>
+              <th scope="col" style="background-color: #f4f4f4; padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;" >
+		      <p style="margin: 0;">{{#i18n resource:common.better-vote }}{{/i18n}} - <a "mailto:{{ from_email_address }}">{{ from_email_address }}</a></p>
+              </th>
+            </tr>
+          </table>
+        </th>
+      </tr>
+    </table>     
+  </body>
+</html>

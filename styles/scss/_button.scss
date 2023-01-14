@@ -1,0 +1,104 @@
+@use 'sass:map';
+
+.btn {
+  //width: 165px;
+  padding: 8px 24px;
+  // background: $mv-blue-color;
+  box-sizing: border-box;
+  font-family: DM Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-radius: 0px;
+}
+.btn:hover {
+	color: #afafaf;
+}
+*[class*='btn-outline-'] {
+  box-shadow: 0px 4px 0px;
+  border-width: 2px;
+}
+.btn-opacity:hover {
+  background-color: transparent;
+  border-color: white;
+  opacity: 1;
+}
+.btn-opacity {
+  background-color: transparent;
+  width: fit-content;
+  opacity: 0.4;
+  transition: 0.5s;
+}
+.btn-transparent:hover {
+  background-color: transparent;
+  border-color: white;
+}
+.btn-transparent {
+  background-color: transparent;
+  width: fit-content;
+  transition: 0.5s;
+  margin: auto;
+}
+*.btn[class*='-secondary'] {
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+*.btn[class*='-primary'] {
+  border: 2px solid $mv-blue-color;
+  box-shadow: 0px 5px 0px #7a64f9;
+}
+*.btn[class*='-info'] {
+  background-color: #4a2fef;
+  border: 2px solid #4a2fef;
+}
+.btn-info {
+	color: white;
+}
+.btn-info:hover {
+	color: white;
+}
+.btn-primary:hover {
+	   filter: brightness(150%);
+}
+.btn-outline-secondary:hover {
+  background-color: white!important;
+  border-color: $mv-blue-color;
+  color: $mv-blue-color!important;
+}
+.btn.btn-danger:hover {
+  color: map.get($theme-colors, 'danger');
+  border-color: map.get($theme-colors, 'danger');
+  border-width: 2px;
+  box-shadow: unset;
+}
+
+.btn_menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.btn_shadow {
+  box-shadow: 0px 2px 0px #8f88ba;
+}
+
+
+/**
+* A red button with a white bottom border
+*/
+.btn_closing {
+color: #FFFFFF;
+gap: 16px;
+
+background: #FF3E37!important;
+box-shadow: 0px 4px 0px #FFCAC8;
+}
+
+

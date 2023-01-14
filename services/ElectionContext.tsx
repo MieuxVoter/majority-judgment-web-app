@@ -1,0 +1,269 @@
+/**
+ * This file provides a context and a reducer to manage an election
+ */
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from 'react';
+import { useRouter } from 'next/router';
+import { CandidateItem, GradeItem } from './type';
+import { gradeColors } from '@services/grades';
+
+export interface ElectionContextInterface {
+  name: string;
+  description: string;
+  candidates: Array<CandidateItem>;
+  grades: Array<GradeItem>;
+  hideResults: boolean;
+  forceClose: boolean;
+  restricted: boolean;
+  randomOrder: boolean;
+  emails: Array<string>;
+  dateEnd: string;
+  dateStart?: string;
+  ref?: string;
+}
+
+const defaultCandidate: CandidateItem = {
+  name: '',
+  image: '',
+  description: '',
+  active: false,
+};
+
+const defaultElection: ElectionContextInterface = {
+  name: '',
+  description: '',
+  candidates: [{ ...defaultCandidate }, { ...defaultCandidate }],
+  grades: [],
+  randomOrder: true,
+  hideResults: false,
+  forceClose: false,
+  restricted: false,
+  dateEnd: null,
+  emails: [],
+};
+
+export enum ElectionTypes {
+  SET = 'set',
+  RESET = 'reset',
+  CANDIDATE_PUSH = 'candidate-push',
+  CANDIDATE_RM = 'candidate-rm',
+  CANDIDATE_SET = 'candidate-set',
+  GRADE_PUSH = 'grade-push',
+  GRADE_RM = 'grade-rm',
+  GRADE_SET = 'grade-set',
+}
+
+export type SetAction = {
+  type: ElectionTypes.SET;
+  field: string;
+  value: any;
+};
+export type ResetAction = {
+  type: ElectionTypes.RESET;
+  value: ElectionContextInterface;
+};
+export type CandidatePushAction = {
+  type: ElectionTypes.CANDIDATE_PUSH;
+  value: string | CandidateItem;
+};
+export type CandidateRmAction = {
+  type: ElectionTypes.CANDIDATE_RM;
+  position: number;
+};
+export type CandidateSetAction = {
+  type: ElectionTypes.CANDIDATE_SET;
+  position: number;
+  field: string;
+  value: any;
+};
+export type GradePushAction = {
+  type: ElectionTypes.GRADE_PUSH;
+  value: GradeItem;
+};
+export type GradeRmAction = {
+  type: ElectionTypes.GRADE_RM;
+  position: number;
+};
+export type GradeSetAction = {
+  type: ElectionTypes.GRADE_SET;
+  position: number;
+  field: string;
+  value: any;
+};
+
+export type ElectionActionTypes =
+  | SetAction
+  | ResetAction
+  | CandidateRmAction
+  | CandidateSetAction
+  | CandidatePushAction
+  | GradeRmAction
+  | GradeSetAction
+  | GradePushAction;
+
+type DispatchType = Dispatch<ElectionActionTypes>;
+const ElectionContext = createContext<[ElectionContextInterface, DispatchType]>(
+  [defaultElection, () => {}]
+);
+
+export function ElectionProvider({ children }) {
+  /**
+   * Provide the election and the dispatch to all children components
+   */
+  const [election, dispatch] = useReducer(electionReducer, defaultElection);
+
+  // At the initialization, set the name using GET param
+  const router = useRouter();
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (election.name === '' && router.query.name !== '') {
+      dispatch({
+        type: ElectionTypes.SET,
+        field: 'name',
+        value: router.query.name,
+      });
+    }
+  }, [router.isReady]);
+
+  return (
+    <ElectionContext.Provider value={[election, dispatch]}>
+      {children}
+    </ElectionContext.Provider>
+  );
+}
+
+export function useElection() {
+  /**
+   * A simple hook to read the election
+   */
+  return useContext(ElectionContext);
+}
+
+function electionReducer(
+  election: ElectionContextInterface,
+  action: ElectionActionTypes
+): ElectionContextInterface {
+  /**
+   * Manage all types of action doable on an election
+   */
+  switch (action.type) {
+    case ElectionTypes.RESET: {
+      return { ...action.value };
+    }
+    case ElectionTypes.SET: {
+      return { ...election, [action.field]: action.value };
+    }
+    case ElectionTypes.CANDIDATE_PUSH: {
+      if (typeof action.value === 'string' && action.value !== 'default') {
+        throw Error('Unexpected action');
+      }
+      const candidate =
+        action.value === 'default' ? { ...defaultCandidate } : action.value;
+      const candidates = [...election.candidates, candidate];
+      if (candidates.filter((c) => !c.active).length === 0) {
+        return {
+          ...election,
+          candidates: [...candidates, { ...defaultCandidate }],
+        };
+      } else {
+        return { ...election, candidates };
+      }
+    }
+    case ElectionTypes.CANDIDATE_RM: {
+      if (typeof action.position !== 'number') {
+        throw Error(`Unexpected candidate position ${action.position}`);
+      }
+      const candidates = [...election.candidates];
+      candidates.splice(action.position, 1);
+      return { ...election, candidates };
+    }
+    case ElectionTypes.CANDIDATE_SET: {
+      if (typeof action.position !== 'number') {
+        throw Error(`Unexpected candidate position ${action.value}`);
+      }
+      if (action.field === 'active') {
+        throw Error('You are not allowed the set the active flag');
+      }
+      const candidates = [...election.candidates];
+      const candidate = candidates[action.position];
+      candidate[action.field] = action.value;
+      candidate['active'] = true;
+      if (candidates.filter((c) => !c.active).length === 0) {
+        return {
+          ...election,
+          candidates: [...candidates, { ...defaultCandidate }],
+        };
+      }
+      return { ...election, candidates };
+    }
+    case ElectionTypes.GRADE_PUSH: {
+      const grades = [...election.grades, action.value];
+      return { ...election, grades };
+    }
+    case ElectionTypes.GRADE_RM: {
+      if (typeof action.position !== 'number') {
+        throw Error(`Unexpected grade position ${action.position}`);
+      }
+      const grades = [...election.grades];
+      grades.splice(action.position);
+      return { ...election, grades };
+    }
+    case ElectionTypes.GRADE_SET: {
+      if (typeof action.position !== 'number') {
+        throw Error(`Unexpected grade position ${action.position}`);
+      }
+      const grades = [...election.grades];
+      const grade = grades[action.position];
+      grade[action.field] = action.value;
+      return { ...election, grades };
+    }
+  }
+}
+
+export const isClosed = (election: ElectionContextInterface) => {
+  const dateEnd = new Date(election.dateEnd);
+  const now = new Date();
+  const isOver = +dateEnd < +now;
+  return election.forceClose || isOver;
+};
+
+export const canViewResults = (election: ElectionContextInterface) => {
+  const dateEnd = new Date(election.dateEnd);
+  const now = new Date();
+  const isOver = +dateEnd < +now;
+  return election.forceClose || !election.hideResults || isOver;
+};
+
+export const hasEnoughCandidates = (election: ElectionContextInterface) => {
+  const numCandidates = election.candidates.filter(
+    (c) => c.active && c.name != ''
+  ).length;
+  return numCandidates > 1;
+};
+
+export const hasEnoughGrades = (election: ElectionContextInterface) => {
+  const numGrades = election.grades.filter(
+    (g) => g.active && g.name != ''
+  ).length;
+  return numGrades > 1 && numGrades <= gradeColors.length;
+};
+
+export const checkName = (election: ElectionContextInterface) => {
+  return election.name && election.name !== '';
+};
+
+export const canBeFinished = (election: ElectionContextInterface) => {
+  return (
+    election.restricted ||
+    election.forceClose ||
+    election.dateEnd ||
+    !election.hideResults
+  );
+};

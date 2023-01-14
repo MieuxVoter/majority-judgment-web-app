@@ -1,24 +1,29 @@
-// mieux voter vars
-$mv-blue-color: #009900 !default;
-$mv-red-color: #000099 !default;
-$mv-light-color: #efefff !default;
-$mv-dark-color: #333 !default;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&display=swap');
 
-// Override default variables before the import bootstrap
-$body-bg: #000000 !default;
-$body-color: $mv-light-color !default;
-
-$theme-colors: (
-  "primary": $mv-blue-color,
-  "secondary": $mv-red-color,
-  "light": $mv-light-color,
-  "dark": $mv-dark-color,
-  "danger": #990000,
-  "success": #009900,
-  "info": #2b8299,
-  "warning": #ff6e11
-) !default;
-
+body {
+  // background-color: $mv-blue-color;
+  // background-color: #110081;
+  font-weight: 500;
+}
+h1,
+h2,
+h3 {
+  font-family: 'DM Serif Display', serif !important;
+}
+body,
+h4,
+h5,
+p,
+button {
+  font-family: 'DM Sans', sans-serif !important;
+}
+::placeholder {
+  font-family: 'DM Sans', sans-serif !important;
+}
+.rowNoMargin {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
 .logo-text > h1 {
   font-size: 16px;
   font-weight: bold;
@@ -36,41 +41,47 @@ $theme-colors: (
 }
 html,
 body,
-#__next,
-#__next > div {
-  height: 100%;
+main {
+  min-height: 100vh;
 }
 
-main {
-  background-image: url("/background-mv.png");
-  background-size: 100%;
-  background-attachment: fixed;
+html,
+body,
+main,
+main > .div {
+  width: 100%;
+}
+
+/* main {
+  // background: url("../../public/back.svg"), rgb(10, 0, 76, 0.64);
+} */
+
+$blur-radius: 30px;
+#blur_background {
+  position: fixed;
+  top: -$blur-radius;
+  right: -$blur-radius;
+  bottom: -$blur-radius;
+  left: -$blur-radius;
+  z-index: -1;
+  background: url('../../public/back.svg'), #110081;
+  background-size: auto 100%;
   background-repeat: no-repeat;
-  background-color: $mv-blue-color;
-  min-height: calc(100% - 128px);
-  overflow: auto;
-  padding-top: 72px;
-  padding-bottom: 100px;
+
+  // filter: url('/media/blur.svg#blur');
+  -webkit-filter: blur($blur-radius);
+  filter: blur($blur-radius);
+}
+@include media-breakpoint-up('xxl') {
+  #blur_background {
+    background-size: 100% auto;
+  }
 }
 
 header {
   position: fixed;
   z-index: 10;
   width: 100%;
-}
-
-footer {
-  background-color: $body-bg;
-  color: $mv-light-color;
-  padding: 25px;
-}
-
-footer a {
-  color: $mv-light-color;
-}
-
-footer a:hover {
-  color: #fff;
 }
 
 hr {
@@ -104,7 +115,8 @@ li.sortable {
   margin: 1em 0;
   color: $mv-dark-color;
   border-radius: 0.15em;
-  padding: 1em 0;
+  padding: 16px;
+  justify-content: space-between;
 }
 .cardVote .nowrap {
   white-space: nowrap;
@@ -112,10 +124,6 @@ li.sortable {
 .cardVote hr {
   border-top: 1px solid $mv-dark-color;
   margin: 10px 0;
-}
-
-.cardVote.row:hover {
-  background-color: $mv-light-color-hover;
 }
 
 /* checkbox  */
@@ -165,7 +173,7 @@ li.sortable {
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkround:after {
-  content: "";
+  content: '';
   position: absolute;
   display: none;
 }
@@ -239,23 +247,21 @@ li.sortable {
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
+.checkmark:before {
+  content: '';
   display: none;
 }
 
 /* Show the checkmark when checked */
-.check input:checked ~ .checkmark:after {
+.check input:checked ~ .checkmark:before {
   display: block;
 }
 
 /* Style the checkmark/indicator */
-.check .checkmark:after {
-  left: 5px;
-  top: 1px;
+.check .checkmark:before {
   width: 10px;
   height: 15px;
+  margin: 8px;
   border: solid;
   border-color: #fff;
   border-width: 0 3px 3px 0;
@@ -280,17 +286,6 @@ li.sortable {
   transform-style: 2s;
 }
 
-/** collapse  **/
-.panel-title:after {
-  content: "+";
-  float: right;
-  font-size: 28px;
-  font-weight: 900;
-}
-.panel-title.collapsed:after {
-  content: "-";
-}
-
 /** table profiles **/
 .profiles thead,
 .profiles tbody,
@@ -302,56 +297,145 @@ li.sortable {
   color: $mv-blue-color;
 }
 
-.median {
-  border-width: 0 3px 0 0;
-  border-style: dashed;
-  border-color: #000;
-  min-height: 30px;
-  width: 1px;
-  position: absolute;
-  left: 50%;
-  margin-top: -15px;
-  margin-left: 13px;
-}
-
 /** react multi email **/
 .react-multi-email > span[data-placeholder] {
   padding: 0.25em !important;
 }
 
-/** flag selector **/
-.flag-select > button {
-  height: 35px;
+/** GLOBALS **/
+section {
+  width: 100%;
+}
+p {
+  font-size: 16px;
+}
+h2 {
+  font-size: 56px;
+  line-height: 56px;
+}
+h3 {
+  font-size: 40px;
+}
+h4 {
+  font-size: 24px;
+  line-height: 32px;
+}
+h5 {
+  font-size: 18px;
+  font-weight: bold;
+}
+/*.btn img {
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0px 16px;
+}*/
+
+.cursorPointer {
+  cursor: pointer;
 }
 
-.flag-select__options {
-  width: 65px;
+.sectionAjouterCandidat {
+  display: flex;
+  flex-direction: column;
+}
+.ajouterCandidat {
+  width: 50%;
+  margin: 10px auto;
+}
+.input-group-text {
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
   text-align: center;
-  background-color: $mv-light-color !important;
+  white-space: nowrap;
+  background-color: transparent;
+  border: none;
+  border-radius: 0px;
+}
+.form-control {
+  height: auto;
+  background: transparent;
+  //  color: white;
+  border: none;
+}
+/*
+.form-control::placeholder {
+  color: white;
+}*/
+.btnTrash {
+  background-color: transparent;
+  color: white;
+  border: none;
+}
+.btnValidateCandidate {
+  background: transparent;
+  width: auto;
+  opacity: 0.4;
+  margin: 250px auto 0px;
 }
 
-.flag-select__options .flag-select__option {
-  padding: 0;
-  margin: 0;
-}
-.flag-select__options .flag-select__option__icon {
-  top: 0;
+@media screen and (min-width: 931px) {
+  header {
+    display: none !important;
+  }
 }
 
-/** result **/
-ol.result > li{
-  font-size:1rem;
-  font-weight:normal;
-}
-ol.result > li:nth-child(1){
-  font-size:1.75rem;
-  font-weight:bold;
+.result {
+  display: flex;
+  margin: auto;
+  justify-content: space-around;
 }
 
-ol.result > li:nth-child(2){
-  font-size:1.5rem;
+ol.result > li {
+  text-align: center;
 }
 
-ol.result > li:nth-child(3){
-  font-size:1.25rem;
+.border-dashed {
+  border-style: dashed !important;
 }
+
+.text-muted {
+  color: #8f88ba !important;
+  //  opacity: 0.5;
+}
+
+.text-bg-light {
+  background: #f2f0ff !important;
+}
+
+.hide {
+  display: none;
+}
+.noshadow {
+  box-shadow: unset !important;
+}
+
+.list_input {
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    border-radius: 0px;
+    font-weight: bold;
+    box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.list_input input[type='text']:focus {
+  outline: none;
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+.bg-blue {
+  background-color: $mv-blue-color !important;
+}
+
+.no-shadow {
+  box-shadow: unset !important;
+}
+
+
+

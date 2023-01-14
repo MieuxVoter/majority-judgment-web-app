@@ -1,0 +1,38 @@
+footer {
+  background-color: $mv-blue-color;
+  color: $mv-light-color;
+  padding: 16px;
+  min-height: 7vh;
+}
+
+footer a {
+  color: $mv-light-color;
+  font-size: 14px;
+  text-decoration: unset;
+}
+
+footer a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.menu-flags {
+  padding-bottom: 0px !important;
+}
+.menu-flags > ul {
+  bottom: 30px;
+  color: $mv-blue-color;
+}
+.menu-flags > button {
+  color: white;
+  border: unset;
+  &:after {
+    border-top-color: white;
+  }
+}
+
+@include media-breakpoint-down('md') {
+  footer {
+    display: none !important;
+  }
+}

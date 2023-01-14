@@ -1,0 +1,14 @@
+{
+	"recipients": {
+		"app@mieuxvoter.fr": {
+			"title": "Test",
+			"urlAdmin": "foo"
+		},
+		"tech@mieuxvoter.fr": {
+			"title": "Test",
+			"urlAdmin": "foo"
+		}
+	},
+	"action": "admin",
+	"locale": "fr"
+}
