@@ -137,7 +137,7 @@
   "admin.modal-disclaimer": "We do not store any mail. Thus, we will not send you any advertising content.",
   "admin.modal-email-placeholder": "Your mail address",
   "admin.order-title": "Candidates in a random order",
-  "admin.order-desc": "To avoid any cognitive bias, we recommend that candidates appear in random order on the ballot.",
+  "admin.order-desc": "To avoid any cognitive bias, we recommend to dislose candidates in a random order on the ballot.",
   "admin.params-submit": "Validate the parameters",
   "admin.params-title": "Your parameters",
   "admin.access-results": "Immediate access to the results",

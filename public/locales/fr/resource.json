@@ -151,7 +151,7 @@
   "admin.ending-in": "Dans",
   "admin.until": "Jusqu'au",
   "admin.order-title": "Les candidats sont dans un ordre aléatoire",
-  "admin.order-desc": "Pour éviter un biais cognitif, nous recommendons que les candidats apparaissent dans un ordre aléatoire sur le bulletin de vote.",
+  "admin.order-desc": "Pour éviter un biais cognitif, nous recommendons de faire apparaître les candidats dans un ordre aléatoire sur le bulletin de vote.",
   "admin.private-title": "Vote privé",
   "admin.private-desc-creating": "Uniquement les personnes invités par mail pourront participé au vote. Vous pourrez ajouter des invitations après la création du vote.",
   "admin.private-desc-editing": "Vous pouvez ajouter de nouvelles invitations. Les anciennes invitations ne sont pas visibles, car nous ne stockons pas les emails par soucis de respect des données personnelles.",
