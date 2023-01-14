@@ -20,7 +20,7 @@ const ConfirmModal = ({tabIndex, title, candidates, grades, isTimeLimited, start
         onClick={toggle}
         tabIndex={tabIndex}
       >
-        <FontAwesomeIcon icon={faCheck} className="mr-2" />
+        <FontAwesomeIcon icon={faCheck} className="me-2" />
         {t("Validate")}
       </button>
       <Modal
@@ -33,15 +33,15 @@ const ConfirmModal = ({tabIndex, title, candidates, grades, isTimeLimited, start
         </ModalHeader>
         <ModalBody>
           <div className="mt-1 mb-1">
-            <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
+            <div className="text-white bg-primary p-2 ps-3 pe-3 rounded">
               {t("Question of the election")}
             </div>
-            <div className="p-2 pl-3 pr-3 bg-light mb-3">{title}</div>
-            <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
+            <div className="p-2 ps-3 pe-3 bg-light mb-3">{title}</div>
+            <div className="text-white bg-primary p-2 ps-3 pe-3 rounded">
               {t("Candidates/Proposals")}
             </div>
-            <div className="p-2 pl-3 pr-3 bg-light mb-3">
-              <ul className="m-0 pl-4">
+            <div className="p-2 ps-3 pe-3 bg-light mb-3">
+              <ul className="m-0 ps-4">
                 {candidates.map((candidate, i) => {
                   if (candidate.label !== "") {
                     return (
@@ -56,10 +56,10 @@ const ConfirmModal = ({tabIndex, title, candidates, grades, isTimeLimited, start
               </ul>
             </div>
             <div className={(isTimeLimited ? "d-block " : "d-none")} >
-              <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
+              <div className="text-white bg-primary p-2 ps-3 pe-3 rounded">
                 {t("Dates")}
               </div>
-              <div className="p-2 pl-3 pr-3 bg-light mb-3">
+              <div className="p-2 ps-3 pe-3 bg-light mb-3">
                 {t("The election will take place from")}{" "}
                 <b>
                   {start.toLocaleDateString()}, {t("at")}{" "}
@@ -72,15 +72,15 @@ const ConfirmModal = ({tabIndex, title, candidates, grades, isTimeLimited, start
                 </b>
               </div>
             </div>
-            <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
+            <div className="text-white bg-primary p-2 ps-3 pe-3 rounded">
               {t("Grades")}
             </div>
-            <div className="p-2 pl-3 pr-3 bg-light mb-3">
+            <div className="p-2 ps-3 pe-3 bg-light mb-3">
               {grades.map((mention, i) => {
                 return i < grades.length ? (
                   <span
                     key={i}
-                    className="badge badge-light mr-2 mt-2"
+                    className="badge badge-light me-2 mt-2"
                     style={{
                       backgroundColor: mention.color,
                       color: "#fff"
@@ -93,10 +93,10 @@ const ConfirmModal = ({tabIndex, title, candidates, grades, isTimeLimited, start
                 );
               })}
             </div>
-            <div className="text-white bg-primary p-2 pl-3 pr-3 rounded">
+            <div className="text-white bg-primary p-2 ps-3 pe-3 rounded">
               {t("Voters' list")}
             </div>
-            <div className="p-2 pl-3 pr-3 bg-light mb-3">
+            <div className="p-2 ps-3 pe-3 bg-light mb-3">
               {emails.length > 0 ? (
                 emails.join(", ")
               ) : (
@@ -117,7 +117,7 @@ const ConfirmModal = ({tabIndex, title, candidates, grades, isTimeLimited, start
                   <h6 className="m-0 p-0">
                     <FontAwesomeIcon
                       icon={faExclamationTriangle}
-                      className="mr-2"
+                      className="me-2"
                     />
                     <u>{t("Results available at the close of the vote")}</u>
                   </h6>

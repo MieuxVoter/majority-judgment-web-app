@@ -1,22 +1,21 @@
-import { useState } from "react";
+import {useState} from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import { Container, Row, Col, Button, Input } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRocket } from "@fortawesome/free-solid-svg-icons";
-import config from "../next-i18next.config.js";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
+import {Container, Row, Col, Button, Input} from "reactstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faRocket} from "@fortawesome/free-solid-svg-icons";
 
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps = async ({locale}) => ({
   props: {
-    ...(await serverSideTranslations(locale, [], config)),
+    ...(await serverSideTranslations(locale, ["resource", "common", "locale"])),
   },
 });
 
 const Home = () => {
   const [title, setTitle] = useState(null);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Container>
       <form autoComplete="off">
@@ -25,7 +24,7 @@ const Home = () => {
             src="logos/logo-line-white.svg"
             alt="logo of Mieux Voter"
             height="128"
-            className="d-block ml-auto mr-auto mb-4"
+            className="d-block ms-auto me-auto mb-4"
           />
         </Row>
         <Row>
@@ -47,12 +46,12 @@ const Home = () => {
             />
           </Col>
           <Col xs="12" md="3" xl="2">
-            <Link href={{ pathname: "/new/", query: { title: title } }}>
+            <Link href={{pathname: "/new/", query: {title: title}}}>
               <Button
                 type="submit"
                 className="btn btn-block btn-secondary mt-2"
               >
-                <FontAwesomeIcon icon={faRocket} className="mr-2" />
+                <FontAwesomeIcon icon={faRocket} className="me-2" />
                 {t("resource.start")}
               </Button>
             </Link>

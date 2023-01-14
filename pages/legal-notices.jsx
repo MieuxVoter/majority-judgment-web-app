@@ -1,21 +1,20 @@
 import Link from "next/link";
-import { Container, Row, Col } from "reactstrap";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import config from "../next-i18next.config.js";
+import {Container, Row, Col} from "reactstrap";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps = async ({locale}) => ({
   props: {
-    ...(await serverSideTranslations(locale, [], config)),
+    ...(await serverSideTranslations(locale, ["resource", "common", "locale"])),
   },
 });
 
 const LegalNotices = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Container>
       <Row>
-        <Link href="/" className="d-block ml-auto mr-auto mb-4">
+        <Link href="/" className="d-block ms-auto me-auto mb-4">
           <img src="/logos/logo-line-white.svg" alt="logo" height="128" />
         </Link>
       </Row>

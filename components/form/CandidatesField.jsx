@@ -1,27 +1,24 @@
-import { useState, useEffect, createRef } from "react";
-import { useTranslation } from "react-i18next";
-import { Button, Card, CardBody } from "reactstrap";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {useState, useEffect, createRef} from "react";
+import {useTranslation} from "react-i18next";
+import {Button, Card, CardBody} from "reactstrap";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CandidateField from "./CandidateField";
 
-const SortableItem = ({ className, ...childProps }) => (
+const SortableItem = ({className, ...childProps}) => (
   <li className={className}>
     <CandidateField {...childProps} />
   </li>
 );
 
-const SortableContainer = ({ children }) => {
-  return <ul className="sortable">{children}</ul>;
-};
 
-const CandidatesField = ({ onChange }) => {
-  const { t } = useTranslation();
+const CandidatesField = ({onChange}) => {
+  const {t} = useTranslation();
   const [candidates, setCandidates] = useState([]);
 
   const addCandidate = () => {
     if (candidates.length < 1000) {
-      candidates.push({ label: "", fieldRef: createRef() });
+      candidates.push({label: "", fieldRef: createRef()});
       setCandidates([...candidates]);
       onChange(candidates);
     } else {
@@ -37,8 +34,8 @@ const CandidatesField = ({ onChange }) => {
   const removeCandidate = (index) => {
     if (candidates.length === 1) {
       const newCandidates = [];
-      newCandidates.push({ label: "", fieldRef: createRef() });
-      newCandidates.push({ label: "", fieldRef: createRef() });
+      newCandidates.push({label: "", fieldRef: createRef()});
+      newCandidates.push({label: "", fieldRef: createRef()});
       setCandidates(newCandidates);
       onChange(newCandidates);
     } else {
@@ -65,20 +62,15 @@ const CandidatesField = ({ onChange }) => {
     }
   };
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    setCandidates(candidates, oldIndex, newIndex);
-  };
-
   return (
     <>
-      <SortableContainer onSortEnd={onSortEnd}>
+      <ul className="sortable">
         {candidates.map((candidate, index) => {
           const className = "sortable";
           return (
             <SortableItem
               className={className}
               key={`item-${index}`}
-              index={index}
               candIndex={index}
               label={candidate.label}
               onDelete={() => removeCandidate(index)}
@@ -88,7 +80,7 @@ const CandidatesField = ({ onChange }) => {
             />
           );
         })}
-      </SortableContainer>
+      </ul>
 
       <Button
         color="secondary"
@@ -97,7 +89,7 @@ const CandidatesField = ({ onChange }) => {
         type="button"
         onClick={addCandidate}
       >
-        <FontAwesomeIcon icon={faPlus} className="mr-2" />
+        <FontAwesomeIcon icon={faPlus} className="me-2" />
         {t("Add a proposal")}
       </Button>
     </>

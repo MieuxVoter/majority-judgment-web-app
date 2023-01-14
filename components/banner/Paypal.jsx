@@ -30,7 +30,7 @@ const Paypal = () => {
           title={t("PayPal - The safer, easier way to pay online!")}
         >
           {" "}
-          <FontAwesomeIcon icon={faPaypal} className="mr-2" />
+          <FontAwesomeIcon icon={faPaypal} className="me-2" />
           {t("Support us !")}
         </button>
         <input type="hidden" name="cmd" value="_s-xclick" />

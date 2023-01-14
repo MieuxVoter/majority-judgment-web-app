@@ -1,14 +1,14 @@
-import { createRef } from "react";
+import {createRef} from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {
   getDetails,
   apiErrors,
   ELECTION_NOT_STARTED_ERROR,
 } from "@services/api";
-import { Col, Container, Row } from "reactstrap";
+import {Col, Container, Row} from "reactstrap";
 import Link from "next/link";
 import {
   faCopy,
@@ -17,27 +17,26 @@ import {
   faExternalLinkAlt,
   faPollH,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CopyField from "@components/CopyField";
 import Error from "@components/Error";
 import Facebook from "@components/banner/Facebook";
-import config from "../../../next-i18next.config.js";
 
-export async function getServerSideProps({ query: { pid }, locale }) {
+export async function getServerSideProps({query: {pid}, locale}) {
   let [details, translations] = await Promise.all([
     getDetails(pid),
-    serverSideTranslations(locale, [], config),
+    serverSideTranslations(locale, ["resource", "common", "locale"]),
   ]);
 
   if (details.includes(ELECTION_NOT_STARTED_ERROR)) {
-    details = { title: "", on_invitation_only: true, restrict_results: true };
+    details = {title: "", on_invitation_only: true, restrict_results: true};
   } else {
     if (typeof details === "string" || details instanceof String) {
-      return { props: { err: details, ...translations } };
+      return {props: {err: details, ...translations}};
     }
 
     if (!details.title) {
-      return { props: { err: "Unknown error", ...translations } };
+      return {props: {err: "Unknown error", ...translations}};
     }
   }
 
@@ -59,7 +58,7 @@ const ConfirmElection = ({
   pid,
   err,
 }) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   if (err) {
     return <Error value={apiErrors(err, t)} />;
@@ -102,12 +101,10 @@ const ConfirmElection = ({
 
   const participate = invitationOnly ? null : (
     <>
-      <Col className="col-lg-3 text-center mr-10">
-        <Link href={`/vote/${pid}`}>
-          <a target="_blank" rel="noreferrer" className="btn btn-success">
-            <FontAwesomeIcon icon={faVoteYea} className="mr-2" />
-            {t("resource.participateBtn")}
-          </a>
+      <Col className="col-lg-3 text-center me-10">
+        <Link href={`/vote/${pid}`} target="_blank" rel="noreferrer" className="btn btn-success">
+          <FontAwesomeIcon icon={faVoteYea} className="me-2" />
+          {t("resource.participateBtn")}
         </Link>
       </Col>
     </>
@@ -137,7 +134,7 @@ const ConfirmElection = ({
         <Col className="offset-lg-3" lg="6">
           <h3 className="mb-3 text-center">{title}</h3>
           <h5 className="mb-3 text-center">
-            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+            <FontAwesomeIcon icon={faExclamationTriangle} className="me-2" />
             {t("Keep these links carefully")}
           </h5>
           <div className="border rounded p-4 pb-5">
@@ -156,11 +153,9 @@ const ConfirmElection = ({
       <Row className="mt-4 mb-4 justify-content-md-center">
         {participate}
         <Col className="text-center col-lg-3">
-          <Link href={`/result/${pid}`}>
-            <a target="_blank" rel="noreferrer" className="btn btn-secondary">
-              <FontAwesomeIcon icon={faPollH} className="mr-2" />
-              {t("resource.resultsBtn")}
-            </a>
+          <Link href={`/result/${pid}`} target="_blank" rel="noreferrer" className="btn btn-secondary">
+            <FontAwesomeIcon icon={faPollH} className="me-2" />
+            {t("resource.resultsBtn")}
           </Link>
         </Col>
       </Row>

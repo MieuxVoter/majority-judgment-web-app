@@ -44,7 +44,7 @@ const CopyField = (props) => {
           className="btn btn-success"
           type="button"
         >
-          <FontAwesomeIcon icon={iconOpen} className="mr-2" />
+          <FontAwesomeIcon icon={iconOpen} className="me-2" />
           {t("Go")}
         </Button>
         */}
@@ -53,7 +53,7 @@ const CopyField = (props) => {
           onClick={handleClickOnButton}
           type="button"
         >
-          <FontAwesomeIcon icon={iconCopy} className="mr-2" />
+          <FontAwesomeIcon icon={iconCopy} className="me-2" />
           {t("Copy")}
         </Button>
       </div>

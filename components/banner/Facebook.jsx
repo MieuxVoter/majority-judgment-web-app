@@ -18,7 +18,7 @@ const Facebook = props => {
   };
   return (
     <button className={props.className} onClick={handleClick} type="button">
-      <FontAwesomeIcon icon={faFacebookSquare} className="mr-2" />
+      <FontAwesomeIcon icon={faFacebookSquare} className="me-2" />
       {props.text}
     </button>
   );

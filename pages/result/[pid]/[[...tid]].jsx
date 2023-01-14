@@ -1,8 +1,8 @@
-import { useState } from "react";
+import {useState} from "react";
 import Head from "next/head";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useRouter} from "next/router";
 import {
   Container,
   Row,
@@ -13,32 +13,30 @@ import {
   CardBody,
   Table,
 } from "reactstrap";
-import { getResults, getDetails, apiErrors } from "@services/api";
-import { grades } from "@services/grades";
-import { translateGrades } from "@services/grades";
+import {getResults, getDetails, apiErrors} from "@services/api";
+import {translateGrades} from "@services/grades";
 import Facebook from "@components/banner/Facebook";
 import Error from "@components/Error";
-import config from "../../../next-i18next.config.js";
 
-export async function getServerSideProps({ query, locale }) {
-  const { pid, tid } = query;
+export async function getServerSideProps({query, locale}) {
+  const {pid, tid} = query;
 
   const [res, details, translations] = await Promise.all([
     getResults(pid),
     getDetails(pid),
-    serverSideTranslations(locale, [], config),
+    serverSideTranslations(locale, ["resource", "common", "locale"]),
   ]);
 
   if (typeof res === "string" || res instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return {props: {err: res.slice(1, -1), ...translations}};
   }
 
   if (typeof details === "string" || details instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return {props: {err: res.slice(1, -1), ...translations}};
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
-    return { props: { err: "Unknown error", ...translations } };
+    return {props: {err: "Unknown error", ...translations}};
   }
 
   return {
@@ -52,8 +50,8 @@ export async function getServerSideProps({ query, locale }) {
   };
 }
 
-const Result = ({ candidates, numGrades, title, pid, err }) => {
-  const { t } = useTranslation();
+const Result = ({candidates, numGrades, title, pid, err}) => {
+  const {t} = useTranslation();
 
   if (err && err !== "") {
     return <Error value={apiErrors(err, t)} />;
@@ -111,9 +109,9 @@ const Result = ({ candidates, numGrades, title, pid, err }) => {
               const gradeValue = candidate.grade + offsetGrade;
               return (
                 <li key={i} className="mt-2">
-                  <span className="mt-2 ml-2">{candidate.name}</span>
+                  <span className="mt-2 ms-2">{candidate.name}</span>
                   <span
-                    className="badge badge-light ml-2 mt-2"
+                    className="badge badge-light ms-2 mt-2"
                     style={{
                       backgroundColor: grades.slice(0).reverse()[
                         candidate.grade
@@ -156,17 +154,17 @@ const Result = ({ candidates, numGrades, title, pid, err }) => {
                 <div>
                   <div
                     className="median"
-                    style={{ height: candidates.length * 28 + 30 }}
+                    style={{height: candidates.length * 28 + 30}}
                   />
-                  <table style={{ width: "100%" }}>
+                  <table style={{width: "100%"}}>
                     <tbody>
                       {candidates.map((candidate, i) => {
                         return (
                           <tr key={i}>
-                            <td style={{ width: "30px" }}>{i + 1}</td>
+                            <td style={{width: "30px"}}>{i + 1}</td>
                             {/*candidate.label*/}
                             <td>
-                              <table style={{ width: "100%" }}>
+                              <table style={{width: "100%"}}>
                                 <tbody>
                                   <tr>
                                     {gradeIds
@@ -224,7 +222,7 @@ const Result = ({ candidates, numGrades, title, pid, err }) => {
                       return (
                         <span
                           key={i}
-                          className="badge badge-light mr-2 mt-2"
+                          className="badge badge-light me-2 mt-2"
                           style={{
                             backgroundColor: grade.color,
                             color: "#fff",

@@ -1,26 +1,25 @@
 import Head from "next/head";
-import { Col, Container, Row } from "reactstrap";
+import {Col, Container, Row} from "reactstrap";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Paypal from "@components/banner/Paypal";
 import Gform from "@components/banner/Gform";
 import Error from "@components/Error";
-import { getDetails, apiErrors } from "@services/api";
-import config from "../../../next-i18next.config.js";
+import {getDetails, apiErrors} from "@services/api";
 
-export async function getServerSideProps({ query: { pid }, locale }) {
+export async function getServerSideProps({query: {pid}, locale}) {
   const [details, translations] = await Promise.all([
     getDetails(pid),
-    serverSideTranslations(locale, [], config),
+    serverSideTranslations(locale, ["resource", "common", "locale"]),
   ]);
 
   if (typeof details === "string" || details instanceof String) {
-    return { props: { err: res.slice(1, -1), ...translations } };
+    return {props: {err: res.slice(1, -1), ...translations}};
   }
 
   if (!details.candidates || !Array.isArray(details.candidates)) {
-    return { props: { err: "Unknown error", ...translations } };
+    return {props: {err: "Unknown error", ...translations}};
   }
 
   return {
@@ -28,7 +27,7 @@ export async function getServerSideProps({ query: { pid }, locale }) {
       ...translations,
       invitationOnly: details.on_invitation_only,
       restrictResults: details.restrict_results,
-      candidates: details.candidates.map((name, i) => ({ id: i, label: name })),
+      candidates: details.candidates.map((name, i) => ({id: i, label: name})),
       title: details.title,
       numGrades: details.num_grades,
       pid: pid,
@@ -36,8 +35,9 @@ export async function getServerSideProps({ query: { pid }, locale }) {
   };
 }
 
-const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
-  const { t } = useTranslation();
+
+const VoteSuccess = ({title, invitationOnly, pid, err}) => {
+  const {t} = useTranslation();
   if (err && err !== "") {
     return <Error value={apiErrors(err, t)} />;
   }
@@ -55,10 +55,8 @@ const VoteSuccess = ({ title, invitationOnly, pid, err }) => {
         />
       </Head>
       <Row>
-        <Link href="/">
-          <a className="d-block ml-auto mr-auto mb-4">
-            <img src="/logos/logo-line-white.svg" alt="logo" height="128" />
-          </a>
+        <Link href="/" className="d-block ms-auto me-auto mb-4">
+          <img src="/logos/logo-line-white.svg" alt="logo" height="128" />
         </Link>
       </Row>
       <Row className="mt-4">

@@ -12,7 +12,7 @@ const Gform = (props) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <FontAwesomeIcon icon={faCommentAlt} className="mr-2" />
+      <FontAwesomeIcon icon={faCommentAlt} className="me-2" />
       Votre avis nous intéresse !
     </a>
   );
