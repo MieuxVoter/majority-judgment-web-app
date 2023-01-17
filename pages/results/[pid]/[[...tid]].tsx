@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import {useTranslation} from 'next-i18next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
-import { Container, Collapse, Card, CardHeader, CardBody } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {Container, Collapse, Card, CardHeader, CardBody} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
   faChevronDown,
@@ -18,25 +18,25 @@ import CSVLink from '@components/CSVLink';
 import Logo from '@components/Logo';
 import MeritProfile from '@components/MeritProfile';
 import Button from '@components/Button';
-import { getResults } from '@services/api';
+import {getResults} from '@services/api';
 import {
   GradeResultInterface,
   ResultInterface,
   MeritProfileInterface,
   CandidateResultInterface,
 } from '@services/type';
-import { getUrl, RouteTypes } from '@services/routes';
-import { displayRef, getLocaleShort } from '@services/utils';
-import { getMajorityGrade } from '@services/majorityJudgment';
+import {getUrl, RouteTypes} from '@services/routes';
+import {displayRef, getLocaleShort} from '@services/utils';
+import {getMajorityGrade} from '@services/majorityJudgment';
 import avatarBlue from '../../../public/avatarBlue.svg';
 import calendar from '../../../public/calendar.svg';
 import arrowUpload from '../../../public/arrowUpload.svg';
 import arrowLink from '../../../public/arrowL.svg';
-import { getGradeColor } from '@services/grades';
-import { useRouter } from 'next/router';
+import {getGradeColor} from '@services/grades';
+import {useRouter} from 'next/router';
 
-export async function getServerSideProps({ query, locale }) {
-  const { pid, tid: token } = query;
+export async function getServerSideProps({query, locale}) {
+  const {pid, tid: token} = query;
   const electionRef = pid.replaceAll('-', '');
 
   const [payload, translations] = await Promise.all([
@@ -45,7 +45,7 @@ export async function getServerSideProps({ query, locale }) {
   ]);
 
   if ('msg' in payload) {
-    return { props: { err: payload.msg, electionRef, ...translations } };
+    return {props: {err: {message: payload.msg}, electionRef, ...translations}};
   }
 
   const numGrades = payload.grades.length;
@@ -53,7 +53,7 @@ export async function getServerSideProps({ query, locale }) {
     ...g,
     color: getGradeColor(i, numGrades),
   }));
-  const gradesByValue: { [key: number]: GradeResultInterface } = {};
+  const gradesByValue: {[key: number]: GradeResultInterface} = {};
   grades.forEach((g) => (gradesByValue[g.value] = g));
 
   const result: ResultInterface = {
@@ -106,8 +106,8 @@ const getNumVotes = (result: ResultInterface) => {
   return numVotes;
 };
 
-const WillClose = ({ delay }) => {
-  const { t } = useTranslation();
+const WillClose = ({delay}) => {
+  const {t} = useTranslation();
   if (delay < 365) {
     return <div>{t('result.closed')}</div>;
   } else if (delay < 0) {
@@ -126,8 +126,8 @@ const WillClose = ({ delay }) => {
 interface ResultBanner {
   result: ResultInterface;
 }
-const ResultBanner = ({ result }) => {
-  const { t } = useTranslation();
+const ResultBanner = ({result}) => {
+  const {t} = useTranslation();
   const router = useRouter();
 
   const dateEnd = new Date(result.dateEnd);
@@ -207,16 +207,16 @@ const ResultBanner = ({ result }) => {
   );
 };
 
-const Downloader = ({ result, children, ...rest }) => {
+const Downloader = ({result, children, ...rest}) => {
   const values = result.grades.map((v) => v.value).sort();
   const data = result.candidates.map((c) => {
     const grades = {};
     result.grades.forEach(
       (g) =>
-        (grades[g.name] =
-          g.value in c.meritProfile ? c.meritProfile[g.value].toString() : '0')
+      (grades[g.name] =
+        g.value in c.meritProfile ? c.meritProfile[g.value].toString() : '0')
     );
-    return { name: c.name, ...grades };
+    return {name: c.name, ...grades};
   });
 
   return (
@@ -230,8 +230,8 @@ const Downloader = ({ result, children, ...rest }) => {
   );
 };
 
-const BottomButtonsMobile = ({ result }) => {
-  const { t } = useTranslation();
+const BottomButtonsMobile = ({result}) => {
+  const {t} = useTranslation();
 
   const router = useRouter();
   const url = getUrl(RouteTypes.RESULTS, router, result.ref);
@@ -276,8 +276,8 @@ interface TitleBannerInterface {
   token?: string;
 }
 
-const TitleBanner = ({ name, electionRef, token }: TitleBannerInterface) => {
-  const { t } = useTranslation();
+const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
+  const {t} = useTranslation();
   const router = useRouter();
   const locale = getLocaleShort(router);
 
@@ -331,7 +331,7 @@ interface ButtonGradeResultInterface {
   grade: GradeResultInterface;
 }
 
-const ButtonGrade = ({ grade }: ButtonGradeResultInterface) => {
+const ButtonGrade = ({grade}: ButtonGradeResultInterface) => {
   const style = {
     color: 'white',
     backgroundColor: grade.color,
@@ -351,7 +351,7 @@ interface CandidateRankedInterface {
   candidate: CandidateResultInterface;
 }
 
-const CandidateRanked = ({ candidate }: CandidateRankedInterface) => {
+const CandidateRanked = ({candidate}: CandidateRankedInterface) => {
   const isFirst = candidate.rank == 1;
   return (
     <div className="m-3 d-flex flex-column justify-content-end align-items-center candidate_rank fw-bold">
@@ -377,8 +377,8 @@ interface CandidateCardInterface {
   grades: Array<GradeResultInterface>;
 }
 
-const CandidateCard = ({ candidate, grades }: CandidateCardInterface) => {
-  const { t } = useTranslation();
+const CandidateCard = ({candidate, grades}: CandidateCardInterface) => {
+  const {t} = useTranslation();
   const [collapse, setCollapse] = useState(true);
 
   return (
@@ -424,8 +424,8 @@ interface PodiumInterface {
   candidates: Array<CandidateResultInterface>;
 }
 
-const Podium = ({ candidates }: PodiumInterface) => {
-  const { t } = useTranslation();
+const Podium = ({candidates}: PodiumInterface) => {
+  const {t} = useTranslation();
 
   // get best candidates
   const numBest = Math.min(3, candidates.length);
@@ -472,7 +472,7 @@ const ResultPage = ({
   err,
   electionRef,
 }: ResultPageInterface) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const router = useRouter();
 
   if (err && err.message.startsWith('No votes')) {
@@ -506,7 +506,6 @@ const ResultPage = ({
 
   const candidateByRank = {};
   result.candidates
-    .filter((c) => c.rank < 4)
     .forEach((c) => (candidateByRank[c.rank] = c));
 
   return (
@@ -522,7 +521,7 @@ const ResultPage = ({
       <Podium candidates={result.candidates} />
 
       <Container
-        style={{ maxWidth: '750px' }}
+        style={{maxWidth: '750px'}}
         className="mt-5 h-100 d-flex flex-fill flex-column justify-content-between"
       >
         <div>
