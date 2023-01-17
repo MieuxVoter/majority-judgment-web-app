@@ -51,7 +51,7 @@ export async function getServerSideProps({query, locale}) {
   const numGrades = payload.grades.length;
   const grades = payload.grades.map((g, i) => ({
     ...g,
-    color: getGradeColor(i, numGrades),
+    color: getGradeColor(g.value, numGrades),
   }));
   const gradesByValue: {[key: number]: GradeResultInterface} = {};
   grades.forEach((g) => (gradesByValue[g.value] = g));
@@ -527,7 +527,6 @@ const ResultPage = ({
         <div>
           <h5 className="text-white">{t('result.details')}</h5>
           {Object.keys(candidateByRank)
-            .sort()
             .map((rank, i) => {
               return (
                 <CandidateCard

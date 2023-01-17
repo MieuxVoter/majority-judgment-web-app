@@ -9,9 +9,9 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { useRouter } from 'next/router';
-import { CandidateItem, GradeItem } from './type';
-import { gradeColors } from '@services/grades';
+import {useRouter} from 'next/router';
+import {CandidateItem, GradeItem} from './type';
+import {gradeColors} from '@services/grades';
 
 export interface ElectionContextInterface {
   name: string;
@@ -38,7 +38,7 @@ const defaultCandidate: CandidateItem = {
 const defaultElection: ElectionContextInterface = {
   name: '',
   description: '',
-  candidates: [{ ...defaultCandidate }, { ...defaultCandidate }],
+  candidates: [{...defaultCandidate}, {...defaultCandidate}],
   grades: [],
   randomOrder: true,
   hideResults: false,
@@ -112,7 +112,7 @@ const ElectionContext = createContext<[ElectionContextInterface, DispatchType]>(
   [defaultElection, () => {}]
 );
 
-export function ElectionProvider({ children }) {
+export function ElectionProvider({children}) {
   /**
    * Provide the election and the dispatch to all children components
    */
@@ -155,25 +155,25 @@ function electionReducer(
    */
   switch (action.type) {
     case ElectionTypes.RESET: {
-      return { ...action.value };
+      return {...action.value};
     }
     case ElectionTypes.SET: {
-      return { ...election, [action.field]: action.value };
+      return {...election, [action.field]: action.value};
     }
     case ElectionTypes.CANDIDATE_PUSH: {
       if (typeof action.value === 'string' && action.value !== 'default') {
         throw Error('Unexpected action');
       }
       const candidate =
-        action.value === 'default' ? { ...defaultCandidate } : action.value;
+        action.value === 'default' ? {...defaultCandidate} : action.value;
       const candidates = [...election.candidates, candidate];
       if (candidates.filter((c) => !c.active).length === 0) {
         return {
           ...election,
-          candidates: [...candidates, { ...defaultCandidate }],
+          candidates: [...candidates, {...defaultCandidate}],
         };
       } else {
-        return { ...election, candidates };
+        return {...election, candidates};
       }
     }
     case ElectionTypes.CANDIDATE_RM: {
@@ -182,7 +182,7 @@ function electionReducer(
       }
       const candidates = [...election.candidates];
       candidates.splice(action.position, 1);
-      return { ...election, candidates };
+      return {...election, candidates};
     }
     case ElectionTypes.CANDIDATE_SET: {
       if (typeof action.position !== 'number') {
@@ -198,14 +198,14 @@ function electionReducer(
       if (candidates.filter((c) => !c.active).length === 0) {
         return {
           ...election,
-          candidates: [...candidates, { ...defaultCandidate }],
+          candidates: [...candidates, {...defaultCandidate}],
         };
       }
-      return { ...election, candidates };
+      return {...election, candidates};
     }
     case ElectionTypes.GRADE_PUSH: {
       const grades = [...election.grades, action.value];
-      return { ...election, grades };
+      return {...election, grades};
     }
     case ElectionTypes.GRADE_RM: {
       if (typeof action.position !== 'number') {
@@ -213,7 +213,7 @@ function electionReducer(
       }
       const grades = [...election.grades];
       grades.splice(action.position);
-      return { ...election, grades };
+      return {...election, grades};
     }
     case ElectionTypes.GRADE_SET: {
       if (typeof action.position !== 'number') {
@@ -222,10 +222,14 @@ function electionReducer(
       const grades = [...election.grades];
       const grade = grades[action.position];
       grade[action.field] = action.value;
-      return { ...election, grades };
+      return {...election, grades};
     }
   }
 }
+
+export const isCreated = (election: ElectionContextInterface) => {
+  return election.ref !== null && election.ref !== "" && election.ref !== undefined;
+};
 
 export const isClosed = (election: ElectionContextInterface) => {
   const dateEnd = new Date(election.dateEnd);
