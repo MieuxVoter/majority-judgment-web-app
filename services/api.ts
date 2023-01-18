@@ -271,7 +271,7 @@ export const getBallot = async (
     });
 
     if (response.status != 200) {
-      return null;
+      return {status: response.status, message: "Can not load this ballot"};
     }
 
     const payload = await response.json();

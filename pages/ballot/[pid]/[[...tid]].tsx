@@ -36,11 +36,11 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
 
   const [election, ballot, translations] = await Promise.all([
     getElection(electionRef),
-    tid ? getBallot(tid) : new Response(null),
+    tid ? getBallot(tid) : null,
     serverSideTranslations(locale, ['resource']),
   ]);
 
-  if ('msg' in election) {
+  if ('message' in election) {
     return {notFound: true};
   }
 
@@ -66,13 +66,14 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
   if (description.randomOrder) {
     shuffle(election.candidates);
   }
+  console.log("BALLOT", ballot)
 
   return {
     props: {
       ...translations,
       election,
       token: tid || null,
-      previousBallot: ballot,
+      previousBallot: ballot || null,
     },
   };
 }
