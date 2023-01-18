@@ -58,10 +58,12 @@ const GradeBar = ({index, grade, size, params}: GradeBarInterface) => {
 const DashedMedian = () => {
   return (
     <div
-      className="position-relative d-flex justify-content-center"
-      style={{top: '60px', height: '50px'}}
+      className="d-flex justify-content-center"
+      style={{marginTop: '-40px', height: '50px'}}
     >
-      <div className="border h-100 border-1 border-dark border-opacity-75 border-dashed"></div>
+      <div className="border h-100 border-1 border-dark border-opacity-75 border-dashed position-relative"
+
+      ></div>
     </div>
   );
 };
@@ -134,11 +136,13 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
   // find the majority grade
   const majorityValue = getMajorityGrade(normalized);
   const majorityGrade = gradesByValue[majorityValue];
+  console.log(majorityGrade, majorityValue, grades, normalized)
 
   const proponentSizes = values
     .filter((v) => v > majorityGrade.value)
     .map((v) => normalized[v]);
   const proponentWidth = proponentSizes.reduce((a, b) => a + b, 0);
+  console.log(proponentWidth, proponentSizes)
 
   const opponentSizes = values
     .filter((v) => v < majorityGrade.value)
@@ -161,7 +165,6 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
 
   return (
     <>
-      <DashedMedian />
       <MajorityGrade
         grade={majorityGrade}
         left={proponentWidth + normalized[majorityValue] / 2}
@@ -175,6 +178,7 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
           >
             {values
               .filter((v) => v > majorityGrade.value)
+              .reverse()
               .map((v) => {
                 const index = values.indexOf(v);
                 const size =
@@ -242,6 +246,7 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
         )}
       </div>
       {/* <div className='median dash'> </div> */}
+      <DashedMedian />
     </>
   );
 };
