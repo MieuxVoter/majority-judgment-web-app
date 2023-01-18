@@ -23,7 +23,8 @@ const CandidateCard = ({candidate, onClick}: CandidateCardInterface) => {
     <div className="d-flex lh-sm flex-column justify-content-center ps-3">
       <span className="text-black fs-5 m-0 ">{candidate.name}</span>
       <br />
-      <span className="text-muted fs-6 m-0 fw-normal">{t("vote.more-details")}</span>
+      { //      <span className="text-muted fs-6 m-0 fw-normal">{t("vote.more-details")}</span>
+      }
     </div>
   </div>)
 }

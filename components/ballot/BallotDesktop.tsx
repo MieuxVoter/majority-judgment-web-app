@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Container } from 'reactstrap';
-import { useBallot } from '@services/BallotContext';
+import {useState} from 'react';
+import {Container} from 'reactstrap';
+import {useBallot} from '@services/BallotContext';
 import CandidateCard from '@components/ballot/CandidateCard';
 import TitleBar from '@components/ballot/TitleBar';
 import GradeInput from '@components/ballot/GradeInput';
-import { CandidatePayload } from '@services/api';
+import {CandidatePayload} from '@services/api';
 import CandidateModal from '@components/CandidateModalGet';
 
 const BallotDesktop = () => {
@@ -19,7 +19,7 @@ const BallotDesktop = () => {
       <TitleBar election={ballot.election} />
       <Container
         className="w-100 h-100 d-flex flex-column justify-content-center align-items-center"
-        style={{ maxWidth: '1050px' }}
+        style={{maxWidth: '1050px'}}
       >
         <h1 className="mb-5">{ballot.election.name}</h1>
         {ballot.election.candidates.map((candidate, candidateId) => {
@@ -33,7 +33,9 @@ const BallotDesktop = () => {
                 candidate={candidate}
               />
               <div className="d-flex">
-                {ballot.election.grades.map((_, gradeId) => {
+                {ballot.election.grades.sort(
+                  (a, b) => b.value - a.value
+                ).map((_, gradeId) => {
                   console.assert(gradeId < numGrades);
                   return (
                     <GradeInput

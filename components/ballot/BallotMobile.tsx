@@ -56,7 +56,7 @@ const BallotMobile = () => {
                   <div className="ms-2" onClick={() => moveRight(true)}><FontAwesomeIcon color="#0A004C" icon={faChevronRight} /></div> : null}
               </div>
               <div className="d-flex mt-2 flex-column">
-                {ballot.election.grades.map((_, gradeId) => {
+                {ballot.election.grades.sort((a, b) => b.value - a.value).map((_, gradeId) => {
                   console.assert(gradeId < numGrades);
                   return (
                     <GradeInput

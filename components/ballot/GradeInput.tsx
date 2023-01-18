@@ -32,7 +32,7 @@ const GradeInput = ({gradeId, candidateId}: GradeInputInterface) => {
   };
 
   const active = ballot.votes.some(b => b.gradeId === gradeId && b.candidateId === candidateId)
-  const color = active ? getGradeColor(gradeId, numGrades) : '#C3BFD8';
+  const color = active ? getGradeColor(grade.value, numGrades) : '#C3BFD8';
 
   return (<>
     <div
