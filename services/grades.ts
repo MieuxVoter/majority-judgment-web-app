@@ -40,5 +40,5 @@ export const getGradeColor = (gradeIdx: number, numGrades: number): string => {
   if (colors.length < numGrades) {
     throw new Error("Issue with the number of colors");
   }
-  return colors[colors.length - gradeIdx - 1]
+  return colors[gradeIdx]
 }
