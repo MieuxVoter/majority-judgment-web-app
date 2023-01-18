@@ -136,13 +136,11 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
   // find the majority grade
   const majorityValue = getMajorityGrade(normalized);
   const majorityGrade = gradesByValue[majorityValue];
-  console.log(majorityGrade, majorityValue, grades, normalized)
 
   const proponentSizes = values
     .filter((v) => v > majorityGrade.value)
     .map((v) => normalized[v]);
   const proponentWidth = proponentSizes.reduce((a, b) => a + b, 0);
-  console.log(proponentWidth, proponentSizes)
 
   const opponentSizes = values
     .filter((v) => v < majorityGrade.value)

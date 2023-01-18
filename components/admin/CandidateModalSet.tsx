@@ -1,17 +1,17 @@
-import { useState, useEffect, useRef, KeyboardEvent } from 'react';
-import { Row, Col, Label, Input, Modal, ModalBody, Form } from 'reactstrap';
-import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useTranslation } from 'next-i18next';
+import {useState, useEffect, useRef, KeyboardEvent} from 'react';
+import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
+import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {useTranslation} from 'next-i18next';
 import Image from 'next/image';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import Button from '@components/Button';
-import { upload } from '@services/imgpush';
-import { IMGPUSH_URL } from '@services/constants';
-import { AppTypes, useAppContext } from '@services/context';
+import {upload} from '@services/imgpush';
+import {IMGPUSH_URL} from '@services/constants';
+import {AppTypes, useAppContext} from '@services/context';
 import defaultAvatar from '../../public/default-avatar.svg';
 
-const CandidateModal = ({ isOpen, position, toggle }) => {
-  const { t } = useTranslation();
+const CandidateModal = ({isOpen, position, toggle}) => {
+  const {t} = useTranslation();
   const [election, dispatch] = useElection();
   const candidate = election.candidates[position];
   const [state, setState] = useState(candidate);
@@ -19,7 +19,7 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
 
   const handleFile = async (event) => {
     const payload = await upload(event.target.files[0]);
-    setState((s) => ({ ...s, image: `${IMGPUSH_URL}/${payload['filename']}` }));
+    setState((s) => ({...s, image: `${IMGPUSH_URL}/${payload['filename']}`}));
   };
 
   const [app, dispatchApp] = useAppContext();
@@ -41,7 +41,6 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
   useEffect(() => {
     // When isOpen got active, we put the focus on the input field
     setTimeout(() => {
-      console.log(inputRef.current);
       if (isOpen && inputRef && inputRef.current) {
         inputRef.current.focus();
       }
@@ -98,11 +97,11 @@ const CandidateModal = ({ isOpen, position, toggle }) => {
   };
 
   const handleName = (e) => {
-    setState((s) => ({ ...s, name: e.target.value }));
+    setState((s) => ({...s, name: e.target.value}));
   };
 
   const handleDescription = (e) => {
-    setState((s) => ({ ...s, description: e.target.value }));
+    setState((s) => ({...s, description: e.target.value}));
   };
 
   return (

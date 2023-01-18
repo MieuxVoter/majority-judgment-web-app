@@ -66,7 +66,6 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
   if (description.randomOrder) {
     shuffle(election.candidates);
   }
-  console.log("BALLOT", ballot)
 
   return {
     props: {

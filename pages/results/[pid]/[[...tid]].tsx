@@ -71,7 +71,6 @@ export async function getServerSideProps({query, locale}) {
       const values = grades.map((g) => g.value);
       values.forEach((v) => (profile[v] = profile[v] || 0));
       const majValue = getMajorityGrade(profile);
-      console.log(profile, majValue)
       return {
         ...c,
         meritProfile: payload.merit_profile[c.id],

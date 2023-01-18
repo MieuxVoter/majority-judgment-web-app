@@ -1,15 +1,15 @@
-import { useState, useEffect, useRef, KeyboardEvent, ChangeEvent } from 'react';
-import { Label, Modal, ModalBody, Form } from 'reactstrap';
-import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useTranslation } from 'next-i18next';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import {useState, useEffect, useRef, KeyboardEvent, ChangeEvent} from 'react';
+import {Label, Modal, ModalBody, Form} from 'reactstrap';
+import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {useTranslation} from 'next-i18next';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import Button from '@components/Button';
-import { checkName } from '@services/ElectionContext';
-import { AppTypes, useAppContext } from '@services/context';
-import { useRouter } from 'next/router';
+import {checkName} from '@services/ElectionContext';
+import {AppTypes, useAppContext} from '@services/context';
+import {useRouter} from 'next/router';
 
-const TitleModal = ({ isOpen, toggle }) => {
-  const { t } = useTranslation();
+const TitleModal = ({isOpen, toggle}) => {
+  const {t} = useTranslation();
   const router = useRouter();
   const [election, dispatch] = useElection();
   const [_, dispatchApp] = useAppContext();
@@ -25,7 +25,6 @@ const TitleModal = ({ isOpen, toggle }) => {
   useEffect(() => {
     // When isOpen got active, we put the focus on the input field
     setTimeout(() => {
-      console.log(inputRef.current);
       if (isOpen && inputRef && inputRef.current) {
         inputRef.current.focus();
       }

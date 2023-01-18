@@ -14,7 +14,6 @@ export const getMajorityGrade = (profile: MeritProfileInterface): number => {
     throw new Error('Merit profile is empty');
   }
 
-  console.log("INDICES", grades);
   const numVotes = Object.values(profile).reduce((a, b) => a + b, 0);
   let majorityGrade = grades[0];
   let accBefore = 0;
