@@ -185,6 +185,7 @@
   "result.share": "Share results",
   "success.election-closed": "The vote has been created with success!",
   "success.election-updated": "The vote has been updated with success!",
+  "vote.already-voted": "You have already voted, but you can change your vote.",
   "vote.discover-mj": "Discover majority judgment",
   "vote.discover-mj-desc": "Developed by French researchers, majority judgment is a voting system that improves voter expressiveness and provides the best consensus.",
   "vote.form": "Your opinion is important to us",

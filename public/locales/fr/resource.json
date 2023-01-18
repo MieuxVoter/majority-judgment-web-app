@@ -186,6 +186,7 @@
   "result.how-to-interpret": "Comment interpréter les résultats",
   "success.election-closed": "L'élection est désormais clôturée.",
   "success.election-updated": "L'élection a été mise à jour.",
+  "vote.already-voted": "Vous avez déjà voté, mais vous pouvez modifier votre vote.",
   "vote.discover-mj": "Découvrez le jugement majoritaire",
   "vote.discover-mj-desc": "Créé par des chercheurs français, le jugement majoritaire est un mode de scrutin qui améliore l'expressivité des électeurs  et fournit le meilleur consensus.",
   "vote.go-to-results": "Voir les résultats",

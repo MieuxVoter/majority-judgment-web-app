@@ -6,6 +6,7 @@ import CandidateCard from '@components/ballot/CandidateCard'
 import GradeInput from '@components/ballot/GradeInput'
 import {CandidatePayload} from '@services/api';
 import CandidateModal from '@components/CandidateModalGet';
+import {useTranslation} from 'next-i18next';
 
 
 interface TitleInterface {
@@ -20,7 +21,9 @@ const TitleName = ({name}: TitleInterface) => {
   )
 }
 
-const BallotMobile = () => {
+const BallotMobile = ({hasVoted}) => {
+  const {t} = useTranslation();
+
   const [ballot, _] = useBallot();
   const [offset, setOffset] = useState(0);
 
@@ -36,6 +39,9 @@ const BallotMobile = () => {
   return (
     <div className="d-block d-md-none">
       <TitleName name={ballot.election.name} />
+      {hasVoted && <h6 className="d-flex text-start p-4">
+        {t("vote.already-voted")}
+      </h6>}
       <div className="w-100 d-flex">
         {ballot.election.candidates.map((candidate, candidateId) => {
           return (

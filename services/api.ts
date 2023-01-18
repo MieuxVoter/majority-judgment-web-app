@@ -248,6 +248,40 @@ export const getElection = async (
   }
 };
 
+/**
+ * Fetch a ballot from the API. Return null if the ballot does not exist.
+ */
+export const getBallot = async (
+  token: string
+): Promise<ElectionPayload | HTTPPayload> => {
+  const path = api.routesServer.voteElection
+  const endpoint = new URL(path, URL_SERVER);
+
+  if (!token) {
+    throw new Error('Missing token');
+  }
+
+  try {
+    const response = await fetch(endpoint.href, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status != 200) {
+      console.log("STATUS", await response.text())
+      return null;
+    }
+
+    const payload = await response.json();
+    return {...payload, status: response.status};
+
+  } catch (error) {
+    return {status: 400, msg: 'Unknown API error'};
+  }
+};
+
 export const castBallot = (
   votes: Array<Vote>,
   election: ElectionPayload,

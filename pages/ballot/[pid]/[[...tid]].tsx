@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Head from 'next/head';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
-import { Container } from 'reactstrap';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useTranslation} from 'next-i18next';
+import {Container} from 'reactstrap';
+import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import BallotDesktop from '@components/ballot/BallotDesktop';
 import Button from '@components/Button';
 import BallotMobile from '@components/ballot/BallotMobile';
 import Blur from '@components/Blur';
 import {
   getElection,
+  getBallot,
   castBallot,
   ElectionPayload,
   BallotPayload,
@@ -20,26 +21,27 @@ import {
   BallotTypes,
   BallotProvider,
 } from '@services/BallotContext';
-import { getUrl, RouteTypes } from '@services/routes';
-import { isEnded } from '@services/utils';
+import {getUrl, RouteTypes} from '@services/routes';
+import {isEnded} from '@services/utils';
 import WaitingBallot from '@components/WaitingBallot';
 import PatternedBackground from '@components/PatternedBackground';
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
-export async function getServerSideProps({ query: { pid, tid }, locale }) {
+export async function getServerSideProps({query: {pid, tid}, locale}) {
   if (!pid) {
-    return { notFound: true };
+    return {notFound: true};
   }
   const electionRef = pid.replaceAll('-', '');
 
-  const [election, translations] = await Promise.all([
+  const [election, ballot, translations] = await Promise.all([
     getElection(electionRef),
+    tid ? getBallot(tid) : new Response(null),
     serverSideTranslations(locale, ['resource']),
   ]);
 
   if ('msg' in election) {
-    return { notFound: true };
+    return {notFound: true};
   }
 
   if (isEnded(election.date_end)) {
@@ -56,7 +58,7 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
     !election.candidates ||
     !Array.isArray(election.candidates)
   ) {
-    return { notFound: true };
+    return {notFound: true};
   }
 
   const description = JSON.parse(election.description);
@@ -70,12 +72,13 @@ export async function getServerSideProps({ query: { pid, tid }, locale }) {
       ...translations,
       election,
       token: tid || null,
+      previousBallot: ballot,
     },
   };
 }
 
 const ButtonSubmit = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const [ballot, dispatch] = useBallot();
   const disabled = ballot.votes.length !== ballot.election.candidates.length;
@@ -100,9 +103,10 @@ interface VoteInterface {
   election: ElectionPayload;
   err: string;
   token?: string;
+  previousBallot: BallotPayload
 }
-const VoteBallot = ({ election, token }: VoteInterface) => {
-  const { t } = useTranslation();
+const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
+  const {t} = useTranslation();
 
   const [ballot, dispatch] = useBallot();
 
@@ -119,14 +123,6 @@ const VoteBallot = ({ election, token }: VoteInterface) => {
 
   if (!ballot.election) {
     return <div>"Loading..."</div>;
-  }
-
-  if (voting) {
-    return (
-      <PatternedBackground>
-        <WaitingBallot ballot={payload} error={error} />
-      </PatternedBackground>
-    );
   }
 
   const handleSubmit = async (event) => {
@@ -149,6 +145,14 @@ const VoteBallot = ({ election, token }: VoteInterface) => {
     }
   };
 
+  if (voting) {
+    return (
+      <PatternedBackground>
+        <WaitingBallot ballot={payload} error={error} />
+      </PatternedBackground>
+    );
+  }
+
   return (
     <form
       className="w-100  flex-fill d-flex align-items-center"
@@ -168,8 +172,8 @@ const VoteBallot = ({ election, token }: VoteInterface) => {
 
       <Blur />
       <div className="w-100 h-100 d-flex flex-column justify-content-center">
-        <BallotDesktop />
-        <BallotMobile />
+        <BallotDesktop hasVoted={previousBallot != null} />
+        <BallotMobile hasVoted={previousBallot != null} />
         <ButtonSubmit />
       </div>
     </form>

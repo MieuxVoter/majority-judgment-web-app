@@ -6,8 +6,11 @@ import TitleBar from '@components/ballot/TitleBar';
 import GradeInput from '@components/ballot/GradeInput';
 import {CandidatePayload} from '@services/api';
 import CandidateModal from '@components/CandidateModalGet';
+import {useTranslation} from 'next-i18next';
 
-const BallotDesktop = () => {
+const BallotDesktop = ({hasVoted}) => {
+  const {t} = useTranslation();
+
   const [ballot, dispatch] = useBallot();
   const numGrades = ballot.election.grades.length;
   const disabled = ballot.votes.length !== ballot.election.candidates.length;
@@ -22,6 +25,9 @@ const BallotDesktop = () => {
         style={{maxWidth: '1050px'}}
       >
         <h1 className="mb-5">{ballot.election.name}</h1>
+        {hasVoted && <h5 className="d-flex text-start">
+          {t("vote.already-voted")}
+        </h5>}
         {ballot.election.candidates.map((candidate, candidateId) => {
           return (
             <div
