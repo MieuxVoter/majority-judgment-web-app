@@ -363,6 +363,11 @@ h5 {
   //  color: white;
   border: none;
 }
+.form-control:focus {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
 /*
 .form-control::placeholder {
   color: white;

@@ -9,12 +9,12 @@ export const CONTACT_MAIL =
 export const DEFAULT_GRADES = process.env.NEXT_PUBLIC_DEFAULT_GRADES
   ? process.env.NEXT_PUBLIC_DEFAULT_GRADES.split(',')
   : [
-      'grades.very-good',
-      'grades.good',
-      'grades.passable',
-      'grades.inadequate',
-      'grades.mediocre',
-    ];
+    'grades.excellent',
+    'grades.very-good',
+    'grades.good',
+    'grades.passable',
+    'grades.inadequate',
+  ];
 export const IMGPUSH_URL =
   process.env.NEXT_PUBLIC_IMGPUSH_URL || 'https://imgpush.mieuxvoter.fr';
 export const GRADE_COLORS = [

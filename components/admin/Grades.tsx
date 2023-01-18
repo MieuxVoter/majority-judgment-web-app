@@ -1,22 +1,22 @@
 /**
  * A field to update the grades
  */
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'next-i18next';
-import { Container, Row, Col } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { DndContext } from '@dnd-kit/core';
-import { arrayMove, SortableContext } from '@dnd-kit/sortable';
-import { DEFAULT_GRADES } from '@services/constants';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import {useState, useEffect} from 'react';
+import {useTranslation} from 'next-i18next';
+import {Container, Row, Col} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {DndContext} from '@dnd-kit/core';
+import {arrayMove, SortableContext} from '@dnd-kit/sortable';
+import {DEFAULT_GRADES} from '@services/constants';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import GradeField from './GradeField';
 import GradeModalAdd from './GradeModalAdd';
-import { gradeColors } from '@services/grades';
+import {gradeColors} from '@services/grades';
 import Switch from '@components/Switch';
 
 const AddField = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const [modal, setModal] = useState(false);
   const toggle = () => setModal((m) => !m);
@@ -29,9 +29,8 @@ const AddField = () => {
     <Row
       role={disabled ? null : 'button'}
       onClick={disabled ? null : toggle}
-      className={`${
-        disabled ? 'bg-light text-black-50' : 'bg-primary text-white'
-      } p-2 m-1 rounded-1`}
+      className={`${disabled ? 'bg-light text-black-50' : 'bg-primary text-white'
+        } p-2 m-1 rounded-1`}
     >
       <Col className="col-auto">
         <FontAwesomeIcon icon={faPlus} />
@@ -46,7 +45,7 @@ const AddField = () => {
 };
 
 const Grades = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const [election, dispatch] = useElection();
 
@@ -66,24 +65,20 @@ const Grades = () => {
         value: defaultGrades,
       });
     }
-
-    /*if (election.grades !== defaultGrades) {
-      setVisible(true);
-    }*/
   }, []);
 
   const handleDragEnd = (event) => {
     /**
      * Update the list of grades after dragging an item
      */
-    const { active, over } = event;
+    const {active, over} = event;
 
     if (active.id !== over.id) {
       const names = election.grades.map((g) => g.name);
       const activeIdx = names.indexOf(active.id);
       const overIdx = names.indexOf(over.id);
       const newGrades = arrayMove(election.grades, activeIdx, overIdx);
-      newGrades.forEach((g, i) => (g.value = i));
+      newGrades.forEach((g, i) => (g.value = newGrades.length - i - 1));
       dispatch({
         type: ElectionTypes.SET,
         field: 'grades',

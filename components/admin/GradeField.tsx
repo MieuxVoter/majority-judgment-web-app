@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
-import { useSortable } from '@dnd-kit/sortable';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
-import { getGradeColor, gradeColors } from '@services/grades';
+import {useState} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faXmark, faRotateLeft} from '@fortawesome/free-solid-svg-icons';
+import {useSortable} from '@dnd-kit/sortable';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
+import {getGradeColor, gradeColors} from '@services/grades';
 import VerticalGripDots from '@components/VerticalGripDots';
 import GradeModalSet from './GradeModalSet';
 
@@ -11,7 +11,7 @@ export interface GradeInterface {
   value: number;
 }
 
-export default ({ value }: GradeInterface) => {
+export default ({value}: GradeInterface) => {
   const [election, dispatch] = useElection();
 
   const grade = election.grades.filter((g) => g.value === value)[0];
@@ -19,8 +19,8 @@ export default ({ value }: GradeInterface) => {
   const numGrades = activeGrade.length;
   const gradeIdx = activeGrade.map((g) => g.value).indexOf(value);
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: grade.name });
+  const {attributes, listeners, setNodeRef, transform, transition} =
+    useSortable({id: grade.name});
 
   const [visible, setVisible] = useState<boolean>(false);
   const toggle = () => setVisible((v) => !v);
@@ -37,7 +37,7 @@ export default ({ value }: GradeInterface) => {
     });
   };
 
-  const color = getGradeColor(gradeIdx, numGrades);
+  const color = getGradeColor(grade.value, numGrades);
 
   const style = {
     color: grade.active ? 'white' : '#8F88BA',
@@ -58,7 +58,7 @@ export default ({ value }: GradeInterface) => {
         <VerticalGripDots height={15} width={30} />
       </div>
       <div
-        style={{ touchAction: 'none' }}
+        style={{touchAction: 'none'}}
         className={grade.active ? '' : 'text-decoration-line-through'}
         role="button"
         onClick={toggle}
@@ -71,7 +71,7 @@ export default ({ value }: GradeInterface) => {
             <FontAwesomeIcon
               onClick={handleActive}
               icon={grade.active ? faXmark : faRotateLeft}
-              style={{ color: 'black', opacity: '25%' }}
+              style={{color: 'black', opacity: '25%'}}
             />
           </>
         ) : (
