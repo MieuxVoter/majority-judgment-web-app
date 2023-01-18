@@ -176,6 +176,7 @@
   "result.go-to-vote": "Souhaitez-vous accéder au vote ?",
   "result.no-votes": "Aucun vote n'a encore été enregistré.",
   "result.has-closed": "Terminée depuis",
+  "result.hide-results": "Les résults sont masqués jusqu'à la fermeture de l'élection.",
   "result.closed": "L'élection est terminée",
   "result.opened": "L'élection est en cours",
   "result.result": "Résultat du vote",

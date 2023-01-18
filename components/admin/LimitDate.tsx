@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useTranslation } from 'next-i18next';
-import { Container, Row, Col } from 'reactstrap';
+import {useState} from 'react';
+import {useTranslation} from 'next-i18next';
+import {Container, Row, Col} from 'reactstrap';
 import DatePicker from '@components/DatePicker';
 import Switch from '@components/Switch';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 
 const LimitDate = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const defaultEndDate = new Date();
   defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
   const [endDate, setEndDate] = useState(defaultEndDate);
@@ -30,8 +30,8 @@ const LimitDate = () => {
   return (
     <Container className="bg-white p-3 p-md-4 mt-1">
       <div className="d-flex">
-        <div className="me-auto d-flex flex-row justify-content-center">
-          <h5 className="mb-0 text-dark d-flex align-items-center">
+        <div className="me-auto d-flex align-items-start justify-content-center">
+          <h5 className="mb-0 text-dark gap-2 flex-column flex-md-row d-flex align-items-start">
             {t('admin.limit-duration')}
             {hasDate ? (
               <>

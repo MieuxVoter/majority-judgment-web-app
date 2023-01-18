@@ -44,8 +44,8 @@ export async function getServerSideProps({query, locale}) {
     serverSideTranslations(locale, ['resource']),
   ]);
 
-  if ('msg' in payload) {
-    return {props: {err: {message: payload.msg}, electionRef, ...translations}};
+  if ('message' in payload) {
+    return {props: {err: payload, electionRef, ...translations}};
   }
 
   const numGrades = payload.grades.length;
@@ -458,6 +458,7 @@ const Podium = ({candidates}: PodiumInterface) => {
 
 interface ErrorInterface {
   message: string;
+  details?: string;
 }
 interface ResultPageInterface {
   result?: ResultInterface;
@@ -483,9 +484,34 @@ const ResultPage = ({
           <>
             <p>{t('result.no-votes')}</p>
             <Link href={urlVote}>
-              <Button color="primary" icon={faArrowRight} position="right">
-                {t('result.go-to-vote')}
-              </Button>
+              <div className="d-md-flex d-grid">
+                <Button
+                  className="d-md-flex d-grid"
+                  color="primary" icon={faArrowRight} position="right">
+                  {t('result.go-to-vote')}
+                </Button>
+              </div>
+            </Link>
+          </>
+        }
+      </ErrorMessage>
+    );
+  }
+  console.log(err)
+
+  if (err && err.details.startsWith('The election is not closed')) {
+    const urlVote = getUrl(RouteTypes.VOTE, router, electionRef, token);
+    return (
+      <ErrorMessage>
+        {
+          <>
+            <p>{t('result.hide-results')}</p>
+            <Link href={urlVote}>
+              <div className="d-md-flex d-grid">
+                <Button color="primary" icon={faArrowRight} position="right">
+                  {t('result.go-to-vote')}
+                </Button>
+              </div>
             </Link>
           </>
         }
