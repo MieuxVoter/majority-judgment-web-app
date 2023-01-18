@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import {useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
 import Link from 'next/link';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Container, Row, Col } from 'reactstrap';
+import {useTranslation} from 'next-i18next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {Container, Row, Col} from 'reactstrap';
 import {
   faArrowRight,
   faSquarePollVertical,
 } from '@fortawesome/free-solid-svg-icons';
-import { getElection, updateElection } from '@services/api';
+import {getElection, updateElection} from '@services/api';
 import {
   ElectionContextInterface,
   ElectionProvider,
@@ -21,8 +21,8 @@ import {
   hasEnoughCandidates,
   canBeFinished,
 } from '@services/ElectionContext';
-import { CandidateItem, GradeItem } from '@services/type';
-import { gradeColors } from '@services/grades';
+import {CandidateItem, GradeItem} from '@services/type';
+import {gradeColors} from '@services/grades';
 import TitleField from '@components/admin/Title';
 import Button from '@components/Button';
 import AccessResults from '@components/admin/AccessResults';
@@ -33,12 +33,12 @@ import Order from '@components/admin/Order';
 import Private from '@components/admin/Private';
 import ErrorMessage from '@components/Error';
 import Blur from '@components/Blur';
-import { getUrl, RouteTypes } from '@services/routes';
-import { sendInviteMails } from '@services/mail';
-import { AppTypes, useAppContext } from '@services/context';
+import {getUrl, RouteTypes} from '@services/routes';
+import {sendInviteMails} from '@services/mail';
+import {AppTypes, useAppContext} from '@services/context';
 
-export async function getServerSideProps({ query, locale }) {
-  const { pid, tid: token } = query;
+export async function getServerSideProps({query, locale}) {
+  const {pid, tid: token} = query;
   const electionRef = pid.replaceAll('-', '');
 
   const [payload, translations] = await Promise.all([
@@ -46,11 +46,11 @@ export async function getServerSideProps({ query, locale }) {
     serverSideTranslations(locale, ['resource']),
   ]);
 
-  if ('msg' in payload) {
-    return { props: { err: payload.msg, ...translations } };
+  if ('message' in payload) {
+    return {props: {err: payload.message, ...translations}};
   }
 
-  const grades = payload.grades.map((g) => ({ ...g, active: true }));
+  const grades = payload.grades.map((g) => ({...g, active: true}));
 
   const candidates: Array<CandidateItem> = payload.candidates.map((c) => ({
     ...c,
@@ -91,8 +91,8 @@ const Spinner = () => {
   );
 };
 
-const HeaderRubbon = ({ token }) => {
-  const { t } = useTranslation();
+const HeaderRubbon = ({token}) => {
+  const {t} = useTranslation();
   const [election, dispatch] = useElection();
   const [_, dispatchApp] = useAppContext();
   const router = useRouter();
@@ -116,7 +116,7 @@ const HeaderRubbon = ({ token }) => {
       }));
     const grades = election.grades
       .filter((c) => c.active)
-      .map((g: GradeItem, i: number) => ({ name: g.name, value: i, id: g.id }));
+      .map((g: GradeItem, i: number) => ({name: g.name, value: i, id: g.id}));
 
     const response = await updateElection(
       election.ref,
@@ -168,7 +168,7 @@ const HeaderRubbon = ({ token }) => {
               icon={faArrowRight}
               color="primary"
               className="me-3"
-              style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
+              style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
               position="right"
             >
               {t('admin.go-to-vote')}
@@ -182,7 +182,7 @@ const HeaderRubbon = ({ token }) => {
               icon={faSquarePollVertical}
               color="primary"
               className="me-3"
-              style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
+              style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
               position="right"
             >
               {t('admin.go-to-result')}
@@ -193,7 +193,7 @@ const HeaderRubbon = ({ token }) => {
         {!isClosed(election) && (
           <Button
             className="me-3 btn_closing"
-            style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
+            style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
             onClick={handleClosing}
             position="right"
           >
@@ -205,8 +205,8 @@ const HeaderRubbon = ({ token }) => {
   );
 };
 
-const CreateElection = ({ context, token }) => {
-  const { t } = useTranslation();
+const CreateElection = ({context, token}) => {
+  const {t} = useTranslation();
   const [election, dispatch] = useElection();
   const [_, dispatchApp] = useAppContext();
   const router = useRouter();
@@ -214,7 +214,7 @@ const CreateElection = ({ context, token }) => {
 
   useEffect(() => {
     if (context) {
-      dispatch({ type: ElectionTypes.RESET, value: context });
+      dispatch({type: ElectionTypes.RESET, value: context});
     }
   }, [election.name, election.forceClose]);
 
@@ -265,7 +265,7 @@ const CreateElection = ({ context, token }) => {
       }));
     const grades = election.grades
       .filter((c) => c.active)
-      .map((g: GradeItem, i: number) => ({ name: g.name, value: i, id: g.id }));
+      .map((g: GradeItem, i: number) => ({name: g.name, value: i, id: g.id}));
     setWaiting(true);
 
     const response = await updateElection(
@@ -375,8 +375,8 @@ const CreateElection = ({ context, token }) => {
   );
 };
 
-const CreateElectionProviding = ({ err, context, token }) => {
-  const { t } = useTranslation();
+const CreateElectionProviding = ({err, context, token}) => {
+  const {t} = useTranslation();
   if (err) {
     return <ErrorMessage>{t('admin.error')}</ErrorMessage>;
   }
