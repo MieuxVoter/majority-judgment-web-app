@@ -102,7 +102,7 @@ export const createElection = async (
   const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
 
   if (!restricted && numVoters > 0) {
-    throw Error('Set the election as not restricted!');
+    throw new Error('Set the election as not restricted!');
   }
 
   try {
@@ -275,7 +275,7 @@ export const castBallot = (
     });
   } else {
     if (!token) {
-      throw Error('Missing token');
+      throw new Error('Missing token');
     }
     return fetch(endpoint.href, {
       method: 'PUT',

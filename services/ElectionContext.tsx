@@ -158,11 +158,17 @@ function electionReducer(
       return {...action.value};
     }
     case ElectionTypes.SET: {
+      if (isCreated(election) && action.field === 'candidates') {
+        throw new Error("The election has already started");
+      }
       return {...election, [action.field]: action.value};
     }
     case ElectionTypes.CANDIDATE_PUSH: {
+      if (isCreated(election)) {
+        throw new Error("The election has already started");
+      }
       if (typeof action.value === 'string' && action.value !== 'default') {
-        throw Error('Unexpected action');
+        throw new Error('Unexpected action');
       }
       const candidate =
         action.value === 'default' ? {...defaultCandidate} : action.value;
@@ -178,7 +184,7 @@ function electionReducer(
     }
     case ElectionTypes.CANDIDATE_RM: {
       if (typeof action.position !== 'number') {
-        throw Error(`Unexpected candidate position ${action.position}`);
+        throw new Error(`Unexpected candidate position ${action.position}`);
       }
       const candidates = [...election.candidates];
       candidates.splice(action.position, 1);
@@ -186,16 +192,16 @@ function electionReducer(
     }
     case ElectionTypes.CANDIDATE_SET: {
       if (typeof action.position !== 'number') {
-        throw Error(`Unexpected candidate position ${action.value}`);
+        throw new Error(`Unexpected candidate position ${action.value}`);
       }
       if (action.field === 'active') {
-        throw Error('You are not allowed the set the active flag');
+        throw new Error('You are not allowed the set the active flag');
       }
       const candidates = [...election.candidates];
       const candidate = candidates[action.position];
       candidate[action.field] = action.value;
       candidate['active'] = true;
-      if (candidates.filter((c) => !c.active).length === 0) {
+      if (!isCreated(election) && candidates.filter((c) => !c.active).length === 0) {
         return {
           ...election,
           candidates: [...candidates, {...defaultCandidate}],
@@ -209,7 +215,7 @@ function electionReducer(
     }
     case ElectionTypes.GRADE_RM: {
       if (typeof action.position !== 'number') {
-        throw Error(`Unexpected grade position ${action.position}`);
+        throw new Error(`Unexpected grade position ${action.position}`);
       }
       const grades = [...election.grades];
       grades.splice(action.position);
@@ -217,7 +223,7 @@ function electionReducer(
     }
     case ElectionTypes.GRADE_SET: {
       if (typeof action.position !== 'number') {
-        throw Error(`Unexpected grade position ${action.position}`);
+        throw new Error(`Unexpected grade position ${action.position}`);
       }
       const grades = [...election.grades];
       const grade = grades[action.position];

@@ -17,7 +17,6 @@ interface CandidateProps {
   position: number;
   className?: string;
   defaultAvatar?: any;
-  editable?: boolean;
   [props: string]: any;
 }
 
@@ -25,7 +24,6 @@ const CandidateField = ({
   position,
   className = '',
   defaultAvatar = whiteAvatar,
-  editable = true,
   ...props
 }: CandidateProps) => {
   const {t} = useTranslation();
@@ -84,28 +82,31 @@ const CandidateField = ({
           {candidate.name ? candidate.name : t('admin.add-candidate')}
         </div>
       </div>
-      {editable ? (
-        <div role="button" className="text-end">
-          {active ? (
-            <FontAwesomeIcon
-              icon={faTrashCan}
-              className="text-black opacity-25"
-              onClick={() => setModalDel((m) => !m)}
-            />
-          ) : (
-            <FontAwesomeIcon icon={faPlus} onClick={addCandidate} />
-          )}
-        </div>
-      ) : null}
-      <div
-        {...props}
-        {...attributes}
-        {...listeners}
-        role="button"
-        className="text-end ms-3"
-      >
-        {active ? <VerticalGripDots /> : null}
-      </div>
+      {!isCreated(election) && (
+        <>
+          <div role="button" className="text-end">
+            {active ? (
+              <FontAwesomeIcon
+                icon={faTrashCan}
+                className="text-black opacity-25"
+                onClick={() => setModalDel((m) => !m)}
+              />
+            ) : (
+              <FontAwesomeIcon icon={faPlus} onClick={addCandidate} />
+            )}
+          </div>
+
+          <div
+            {...props}
+            {...attributes}
+            {...listeners}
+            role="button"
+            className="text-end ms-3"
+          >
+            {active ? <VerticalGripDots /> : null}
+          </div>
+        </>
+      )}
 
       <CandidateModalSet
         toggle={toggleSet}

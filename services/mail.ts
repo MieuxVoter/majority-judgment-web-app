@@ -31,7 +31,7 @@ export const sendInviteMails = async (
 
   const locale = getLocaleShort(router);
   if (!availableLanguages.includes(locale)) {
-    throw Error(`{locale} is not available for mails`);
+    throw new Error(`{locale} is not available for mails`);
   }
 
   const req = await fetch('/.netlify/functions/send-emails', {

@@ -22,7 +22,7 @@ interface GradeInputInterface {
 }
 const GradeInput = ({gradeId, candidateId}: GradeInputInterface) => {
   const [ballot, dispatch] = useBallot();
-  if (!ballot) {throw Error("Ensure the election is loaded")}
+  if (!ballot) {throw new Error("Ensure the election is loaded")}
 
   const grade = ballot.election.grades[gradeId];
   const numGrades = ballot.election.grades.length;

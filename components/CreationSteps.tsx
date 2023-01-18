@@ -62,7 +62,7 @@ export const ProgressSteps = ({
   const { t } = useTranslation();
 
   if (!creationSteps.includes(step)) {
-    throw Error(`Unknown step {step}`);
+    throw new Error(`Unknown step {step}`);
   }
   const stepId = creationSteps.indexOf(step);
 

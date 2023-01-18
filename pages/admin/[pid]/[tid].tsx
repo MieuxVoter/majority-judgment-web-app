@@ -134,7 +134,7 @@ const HeaderRubbon = ({ token }) => {
     if (response.status === 200 && 'ref' in response) {
       if (election.restricted && election.emails.length > 0) {
         if (election.emails.length !== response.invites.length) {
-          throw Error('Unexpected number of invites!');
+          throw new Error('Unexpected number of invites!');
         }
         const urlVotes = response.invites.map((token: string) =>
           getUrl(RouteTypes.VOTE, router, response.ref, token)
@@ -284,7 +284,7 @@ const CreateElection = ({ context, token }) => {
     if (response.status === 200 && 'ref' in response) {
       if (election.restricted && election.emails.length > 0) {
         if (election.emails.length !== response.invites.length) {
-          throw Error('Unexpected number of invites!');
+          throw new Error('Unexpected number of invites!');
         }
         const urlVotes = response.invites.map((token: string) =>
           getUrl(RouteTypes.VOTE, router, response.ref, token)
@@ -342,7 +342,7 @@ const CreateElection = ({ context, token }) => {
               <h4>{t('common.the-vote')}</h4>
             </Container>
             <TitleField defaultName={context.name} />
-            <CandidatesConfirmField editable={false} />
+            <CandidatesConfirmField />
           </Col>
           {!isClosed(election) && (
             <Col className="col-lg-9 col-12 mt-3 mt-md-0">

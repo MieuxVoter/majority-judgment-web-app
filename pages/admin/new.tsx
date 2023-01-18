@@ -51,7 +51,7 @@ const CreateElectionForm = () => {
       />
     );
   } else {
-    throw Error(`Unknown step ${step}`);
+    throw new Error(`Unknown step ${step}`);
   }
 
   if (wait) {

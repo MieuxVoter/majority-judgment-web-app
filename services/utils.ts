@@ -21,7 +21,7 @@ export const getWindowUrl = (): string => {
 export const displayRef = (ref: string): string => {
   const cl = ref.replaceAll('-', '');
   if (cl.length !== 10) {
-    throw Error('Unexpected election ref');
+    throw new Error('Unexpected election ref');
   }
 
   return `${cl.substring(0, 3)}-${cl.substring(3, 6)}-${cl.substring(6)}`;

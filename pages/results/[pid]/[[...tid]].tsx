@@ -98,7 +98,7 @@ const getNumVotes = (result: ResultInterface) => {
   const numVotes = sum(result.meritProfiles[anyCandidateId]);
   Object.values(result.meritProfiles).forEach((v) => {
     if (sum(v) !== numVotes) {
-      throw Error(
+      throw new Error(
         'The election does not contain the same number of votes for each candidate'
       );
     }
@@ -435,7 +435,7 @@ const Podium = ({candidates}: PodiumInterface) => {
     .forEach((c) => (candidateByRank[c.rank] = c));
 
   if (numBest < 2) {
-    throw Error('Can not load enough candidates');
+    throw new Error('Can not load enough candidates');
   }
 
   if (numBest === 2) {
@@ -501,7 +501,7 @@ const ResultPage = ({
     typeof result.candidates === 'undefined' ||
     result.candidates.length === 0
   ) {
-    throw Error('No candidates were loaded in this election');
+    throw new Error('No candidates were loaded in this election');
   }
 
   const candidateByRank = {};

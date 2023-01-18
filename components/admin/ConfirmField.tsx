@@ -63,7 +63,7 @@ const submitElection = (
           typeof payload.invites === 'undefined' ||
           payload.invites.length !== election.emails.length
         ) {
-          throw Error('Can not send invite emails');
+          throw new Error('Can not send invite emails');
         }
         const urlVotes = payload.invites.map((token: string) =>
           getUrl(RouteTypes.VOTE, router, payload.ref, token)
