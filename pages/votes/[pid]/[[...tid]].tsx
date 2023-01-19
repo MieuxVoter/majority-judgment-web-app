@@ -1,141 +1,191 @@
-import { useRouter } from 'next/router';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
-import { Col, Container, Row } from 'reactstrap';
-import Link from 'next/link';
-import Share from '@components/Share';
+import {useEffect, useState} from 'react';
+import Head from 'next/head';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useTranslation} from 'next-i18next';
+import {Container} from 'reactstrap';
+import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import BallotDesktop from '@components/ballot/BallotDesktop';
 import Button from '@components/Button';
-import ExperienceRow from '@components/Experience';
-import AdvantagesRow from '@components/Advantages';
-import Logo from '@components/Logo';
-import { getUrl, RouteTypes } from '@services/routes';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { displayRef, getLocaleShort } from '@services/utils';
-import { MAJORITY_JUDGMENT_LINK } from '@services/constants';
+import BallotMobile from '@components/ballot/BallotMobile';
+import Blur from '@components/Blur';
+import {
+  getElection,
+  getBallot,
+  castBallot,
+  ElectionPayload,
+  BallotPayload,
+  ErrorPayload,
+} from '@services/api';
+import {
+  useBallot,
+  BallotTypes,
+  BallotProvider,
+} from '@services/BallotContext';
+import {getUrl, RouteTypes} from '@services/routes';
+import {isEnded} from '@services/utils';
+import WaitingBallot from '@components/WaitingBallot';
+import PatternedBackground from '@components/PatternedBackground';
 
-export async function getServerSideProps({ query: { pid, tid }, locale }) {
+const shuffle = (array) => array.sort(() => Math.random() - 0.5);
+
+export async function getServerSideProps({query: {pid, tid}, locale}) {
+  if (!pid) {
+    return {notFound: true};
+  }
+  const electionRef = pid.replaceAll('-', '');
+
+  const [election, ballot, translations] = await Promise.all([
+    getElection(electionRef),
+    tid ? getBallot(tid) : null,
+    serverSideTranslations(locale, ['resource']),
+  ]);
+
+  if ('message' in election) {
+    return {notFound: true};
+  }
+
+  if (isEnded(election.date_end)) {
+    return {
+      redirect: {
+        destination: getUrl(RouteTypes.ENDED_VOTE, electionRef),
+        permanent: false,
+      },
+    };
+  }
+
+  if (
+    !election ||
+    !election.candidates ||
+    !Array.isArray(election.candidates)
+  ) {
+    return {notFound: true};
+  }
+
+  const description = JSON.parse(election.description);
+
+  if (description.randomOrder) {
+    shuffle(election.candidates);
+  }
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['resource'])),
-      electionRef: pid.replaceAll('-', ''),
+      ...translations,
+      election,
       token: tid || null,
+      previousBallot: ballot || null,
     },
   };
 }
 
+const ButtonSubmit = () => {
+  const {t} = useTranslation();
+
+  const [ballot, dispatch] = useBallot();
+  const disabled = ballot.votes.length !== ballot.election.candidates.length;
+  return (
+    <Container className="my-5 d-md-flex d-grid justify-content-md-center">
+      <Button
+        outline={true}
+        color="secondary"
+        className="bg-blue"
+        role="submit"
+        disabled={disabled}
+        icon={faCheck}
+        position="left"
+      >
+        {t('vote.submit')}
+      </Button>
+    </Container>
+  );
+};
+
 interface VoteInterface {
-  electionRef: string;
+  election: ElectionPayload;
+  err: string;
   token?: string;
+  previousBallot: BallotPayload
 }
+const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
+  const {t} = useTranslation();
 
-const GoToBallotConfirmDesktop = ({ electionRef, token }) => {
-  const { t } = useTranslation();
-  const router = useRouter();
+  const [ballot, dispatch] = useBallot();
 
-  return (
-    <div className="sectionOneHomeForm d-none d-md-block">
-      <Row className="sectionOneHomeRowOne">
-        <Col className="sectionOneHomeContent">
-          <Logo height="128" />
-          <Row>
-            <h2 className="mb-4 mt-5">{t('common.welcome')}</h2>
-          </Row>
-          <Row>
-            <h4 className="mb-5">{t('vote.home-desc')}</h4>
-          </Row>
+  const [voting, setVoting] = useState(false);
+  const [payload, setPayload] = useState<BallotPayload | null>(null);
+  const [error, setError] = useState<ErrorPayload | null>(null);
 
-          <div className="w-100">
-            <Link
-              className="d-grid d-md-block w-100"
-              href={getUrl(RouteTypes.BALLOT, router, electionRef, token)}
-            >
-              <Button
-                color="secondary"
-                outline={true}
-                type="submit"
-                icon={faArrowRight}
-                position="right"
-              >
-                {t('vote.home-start')}
-              </Button>
-            </Link>
-          </div>
-          <Row className="noAds my-0">
-            <p>{t('home.noAds')}</p>
-          </Row>
-          <Row>
-            <Link href={MAJORITY_JUDGMENT_LINK}>
-              <Button color="black" outline={true} className="mt-2 mb-5">
-                {t('common.about-mj')}
-              </Button>
-            </Link>
-          </Row>
-        </Col>
-      </Row>
-    </div>
-  );
-};
-const GoToBallotConfirmMobile = ({ electionRef, token }) => {
-  const { t } = useTranslation();
-  const router = useRouter();
+  useEffect(() => {
+    dispatch({
+      type: BallotTypes.ELECTION,
+      election: election,
+    });
+  }, []);
+
+  if (!ballot.election) {
+    return <div>"Loading..."</div>;
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setVoting(true);
+
+    try {
+      const res = await castBallot(ballot.votes, ballot.election, token);
+      if (res.status !== 200) {
+        console.error(res);
+        const msg = await res.json();
+        setError(msg);
+      } else {
+        const msg = await res.json();
+        setPayload(msg);
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
+  };
+
+  if (voting) {
+    return (
+      <PatternedBackground>
+        <WaitingBallot ballot={payload} error={error} />
+      </PatternedBackground>
+    );
+  }
 
   return (
-    <div className="d-block d-md-none bg-primary py-5 px-3 min-vh-100 d-flex d-md-none flex-column align-items-center justify-content-between">
-      <Col className="sectionOneHomeContent">
-        <Logo width={164} />
-        <Row>
-          <h2 className="mb-4 mt-5">{t('common.welcome')}</h2>
-        </Row>
-        <Row>
-          <h4 className="mb-5">{t('vote.home-desc')}</h4>
-        </Row>
+    <form
+      className="w-100  flex-fill d-flex align-items-center"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
+      <Head>
+        <title>{election.name}</title>
 
-        <div className="w-100">
-          <Link
-            className="d-grid d-md-block w-100"
-            href={getUrl(RouteTypes.BALLOT, router, electionRef, token)}
-          >
-            <Button
-              color="secondary"
-              outline={true}
-              type="submit"
-              icon={faArrowRight}
-              position="right"
-            >
-              {t('vote.home-start')}
-            </Button>
-          </Link>
-        </div>
-        <Row className="noAds my-0">
-          <p>{t('home.noAds')}</p>
-        </Row>
-        <Row>
-          <Link href={MAJORITY_JUDGMENT_LINK}>
-            <Button className="btn-black mt-2 mb-5">
-              {t('common.about-mj')}
-            </Button>
-          </Link>
-        </Row>
-      </Col>
-    </div>
+        <meta key="og:title" property="og:title" content={election.name} />
+        <meta
+          property="og:description"
+          key="og:description"
+          content={t('common.application')}
+        />
+      </Head>
+
+      <Blur />
+      <div className="w-100 h-100 d-flex flex-column justify-content-center">
+        <BallotDesktop hasVoted={previousBallot != null} />
+        <BallotMobile hasVoted={previousBallot != null} />
+        <ButtonSubmit />
+      </div>
+    </form>
   );
 };
 
-const Vote = ({ electionRef, token }: VoteInterface) => {
+const Ballot = (props) => {
   return (
-    <>
-      <section>
-        <GoToBallotConfirmDesktop electionRef={electionRef} token={token} />
-        <GoToBallotConfirmMobile electionRef={electionRef} token={token} />
-      </section>
-      <section className="sectionTwoHome p-2 pb-5 text-center">
-        <div className=" pt-5 mt-5">
-          <AdvantagesRow />
-        </div>
-        <ExperienceRow />
-        <Share />
-      </section>
-    </>
+    <BallotProvider>
+      <VoteBallot {...props} />
+    </BallotProvider>
   );
 };
-export default Vote;
+
+export default Ballot;
