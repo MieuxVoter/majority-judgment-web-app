@@ -497,7 +497,6 @@ const ResultPage = ({
       </ErrorMessage>
     );
   }
-  console.log(err)
 
   if (err && err.details.startsWith('The election is not closed')) {
     const urlVote = getUrl(RouteTypes.VOTE, router, electionRef, token);

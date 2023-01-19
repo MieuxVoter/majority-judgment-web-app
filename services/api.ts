@@ -212,7 +212,6 @@ export const getResults = async (
     const response = await fetch(endpoint.href);
     if (response.status != 200) {
       const payload = await response.json();
-      console.log("PAYLOAD", payload)
       return {status: response.status, ...payload};
     }
     const payload = await response.json();
