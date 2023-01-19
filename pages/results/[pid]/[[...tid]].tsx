@@ -169,7 +169,7 @@ const ResultBanner = ({result}) => {
         <div className="text-muted">
           <div className="d-flex align-items-center">
             <Image alt="Calendar" src={calendar} className="me-2" />
-            <WillClose delay={closedSince} />
+            <WillClose delay={closedSince} forceClose={result.forceClose} />
           </div>
           <div className="d-flex align-items-center">
             <Image src={avatarBlue} alt="Avatar" className="me-2" />
