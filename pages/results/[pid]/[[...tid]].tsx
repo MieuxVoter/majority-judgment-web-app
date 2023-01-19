@@ -165,7 +165,7 @@ const ResultBanner = ({result}) => {
       {
         // DESKTOP
       }
-      <div className="w-100 bg-white p-5 d-md-flex d-none justify-content-between align-items-center">
+      <div className="w-100 bg-white gap-4 p-5 d-md-flex d-none justify-content-between align-items-center">
         <div className="text-muted">
           <div className="d-flex align-items-center">
             <Image alt="Calendar" src={calendar} className="me-2" />
@@ -440,7 +440,7 @@ const Podium = ({candidates}: PodiumInterface) => {
 
   if (numBest === 2) {
     return (
-      <div className="d-md-flex my-5 justify-content-center d-none">
+      <div className="d-md-flex my-5  text-center justify-content-center d-none">
         <CandidateRanked candidate={candidateByRank[1]} />
         <CandidateRanked candidate={candidateByRank[2]} />
       </div>
@@ -448,7 +448,7 @@ const Podium = ({candidates}: PodiumInterface) => {
   }
 
   return (
-    <div className="d-md-flex my-5 d-none justify-content-center">
+    <div className="d-md-flex my-5 d-none  text-center justify-content-center">
       <CandidateRanked candidate={candidateByRank[2]} />
       <CandidateRanked candidate={candidateByRank[1]} />
       <CandidateRanked candidate={candidateByRank[3]} />
@@ -544,11 +544,15 @@ const ResultPage = ({
       <TitleBanner electionRef={result.ref} token={token} name={result.name} />
       <ResultBanner result={result} />
 
-      <Podium candidates={result.candidates} />
+      <Container
+        style={{maxWidth: '1000px'}}
+      >
+        <Podium candidates={result.candidates} />
+      </Container>
 
       <Container
         style={{maxWidth: '750px'}}
-        className="mt-5 h-100 d-flex flex-fill flex-column justify-content-between"
+        className="my-5 h-100 d-flex flex-fill flex-column justify-content-between"
       >
         <div>
           <h5 className="text-white">{t('result.details')}</h5>

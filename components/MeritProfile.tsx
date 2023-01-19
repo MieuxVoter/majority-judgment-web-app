@@ -224,6 +224,7 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
           >
             {values
               .filter((v) => v < majorityGrade.value)
+              .reverse()
               .map((v) => {
                 const index = values.indexOf(v);
                 const size =

@@ -22,7 +22,7 @@ export const getMajorityGrade = (profile: MeritProfileInterface): number => {
     if (accBefore + profile[grade] > numVotes / 2 - 1e-5) {
       return grade;
     }
-    accBefore -= profile[grade];
+    accBefore += profile[grade];
   }
 
   return grades[grades.length - 1];
