@@ -106,9 +106,9 @@ const getNumVotes = (result: ResultInterface) => {
   return numVotes;
 };
 
-const WillClose = ({delay}) => {
+const WillClose = ({delay, forceClose}) => {
   const {t} = useTranslation();
-  if (delay < 365) {
+  if (delay < 365 || forceClose) {
     return <div>{t('result.closed')}</div>;
   } else if (delay < 0) {
     return (
@@ -149,7 +149,7 @@ const ResultBanner = ({result}) => {
         <div className="text-muted w-100 d-flex justify-content-between">
           <div className="d-flex align-items-center flex-fill border-end border-end-2">
             <Image alt="Calendar" src={calendar} className="me-2" />
-            <WillClose delay={closedSince} />
+            <WillClose delay={closedSince} forceClose={result.forceClose} />
           </div>
           <div className="d-flex align-items-center justify-content-end flex-fill">
             <Image src={avatarBlue} alt="Avatar" className="me-2" />

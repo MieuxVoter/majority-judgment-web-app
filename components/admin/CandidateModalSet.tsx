@@ -171,7 +171,7 @@ const CandidateModal = ({isOpen, position, toggle}) => {
                 </div>
               </div>
             </div>
-            <div className="">
+            <div className="mt-3">
               <Label className="fw-bold">
                 {t('common.description')}{' '}
                 <span className="text-muted"> ({t('admin.optional')})</span>

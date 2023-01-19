@@ -78,7 +78,9 @@ const Grades = () => {
       const activeIdx = names.indexOf(active.id);
       const overIdx = names.indexOf(over.id);
       const newGrades = arrayMove(election.grades, activeIdx, overIdx);
+      console.log(newGrades,election.grades, activeIdx,overIdx)
       newGrades.forEach((g, i) => (g.value = newGrades.length - i - 1));
+      console.log(newGrades)
       dispatch({
         type: ElectionTypes.SET,
         field: 'grades',

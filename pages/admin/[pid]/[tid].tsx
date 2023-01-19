@@ -116,7 +116,7 @@ const HeaderRubbon = ({token}) => {
       }));
     const grades = election.grades
       .filter((c) => c.active)
-      .map((g: GradeItem, i: number) => ({name: g.name, value: i, id: g.id}));
+      .map((g: GradeItem, i: number) => ({name: g.name, value: g.value, id: g.id}));
 
     const response = await updateElection(
       election.ref,
@@ -265,7 +265,7 @@ const CreateElection = ({context, token}) => {
       }));
     const grades = election.grades
       .filter((c) => c.active)
-      .map((g: GradeItem, i: number) => ({name: g.name, value: i, id: g.id}));
+      .map((g: GradeItem) => ({name: g.name, value: g.value, id: g.id}));
     setWaiting(true);
 
     const response = await updateElection(
