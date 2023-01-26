@@ -3,6 +3,7 @@
  */
 
 import { NextRouter } from 'next/router';
+import {URL_APP} from './constants';
 
 export const getLocaleShort = (router: NextRouter): string => {
   if (!router.locale) {
@@ -13,9 +14,11 @@ export const getLocaleShort = (router: NextRouter): string => {
 };
 
 export const getWindowUrl = (): string => {
-  return typeof window !== 'undefined' && window.location.origin
-    ? window.location.origin
-    : 'http://localhost';
+  if( typeof window !== 'undefined' && window.location.origin) 
+    return window.location.origin;
+  if (process.env.NODE_ENV === 'development')
+    return "http://localhost:3000";
+  return URL_APP
 };
 
 export const displayRef = (ref: string): string => {

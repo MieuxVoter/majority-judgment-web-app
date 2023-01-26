@@ -51,3 +51,5 @@ export const URL_SERVER =
 
 export const URL_LEGACY =
   process.env.NEXT_PUBLIC_URL_LEGACY || 'https://legacy.app.mieuxvoter.fr/';
+
+export const URL_APP = process.env.NEXT_PUBLIC_URL_APP || 'https://app.mieuxvoter.fr/';
