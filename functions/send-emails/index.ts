@@ -26,7 +26,6 @@ const mg = mailgun.client({
 
 i18next.init(i18n, (err, t) => {
   if (err) return console.log('something went wrong loading', err);
-  t("foo");
 });
 
 

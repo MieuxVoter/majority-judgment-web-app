@@ -66,7 +66,6 @@ const CandidateModal = ({isOpen, position, toggle}) => {
       return;
     }
     if (names.includes(state.name)) {
-      alert('foo');
       dispatchApp({
         type: AppTypes.TOAST_ADD,
         status: 'error',
