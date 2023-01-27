@@ -182,7 +182,6 @@ const CandidateModal = ({isOpen, position, toggle}) => {
                 placeholder={t('admin.candidate-desc-placeholder')}
                 onChange={handleDescription}
                 value={state.description}
-                maxLength={250}
               />
             </div>
             <div className="mt-3 gap-2 d-flex mb-3 justify-content-between">

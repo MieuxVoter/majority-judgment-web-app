@@ -53,12 +53,12 @@ const Grades = () => {
   const toggle = () => setVisible((v) => !v);
 
   useEffect(() => {
-    const defaultGrades = DEFAULT_GRADES.map((g, i) => ({
-      name: t(g),
-      value: DEFAULT_GRADES.length - 1 - i,
-      active: true,
-    }));
     if (election.grades.length < 2) {
+      const defaultGrades = DEFAULT_GRADES.map((g, i) => ({
+        name: t(g),
+        value: DEFAULT_GRADES.length - 1 - i,
+        active: true,
+      }));
       dispatch({
         type: ElectionTypes.SET,
         field: 'grades',

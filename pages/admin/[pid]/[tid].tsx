@@ -6,6 +6,9 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {Container, Row, Col} from 'reactstrap';
 import {
   faArrowRight,
+  faCheck,
+  faCheckToSlot,
+  faFloppyDisk,
   faSquarePollVertical,
 } from '@fortawesome/free-solid-svg-icons';
 import {getElection, updateElection} from '@services/api';
@@ -91,87 +94,83 @@ const Spinner = () => {
   );
 };
 
-const HeaderRubbon = ({token}) => {
+const ManageButtonsMobile = ({handleClosing, waiting}) => {
   const {t} = useTranslation();
-  const [election, dispatch] = useElection();
-  const [_, dispatchApp] = useAppContext();
+  const [election, _] = useElection();
   const router = useRouter();
-  const [waiting, setWaiting] = useState(false);
 
-  const handleClosing = async () => {
-    setWaiting(true);
-    dispatch({
-      type: ElectionTypes.SET,
-      field: 'forceClose',
-      value: true,
-    });
+  return (
+    <>
+      {!election.restricted && !isClosed(election) && (
+        <Link href={getUrl(RouteTypes.VOTE, router, election.ref)} className="d-grid">
+          <Button
+            icon={faArrowRight}
+            color="primary"
+            style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+            position="right"
+          >
+            {t('admin.go-to-vote')}
+          </Button>
+        </Link>
+      )}
 
-    const candidates = election.candidates
-      .filter((c) => c.active)
-      .map((c: CandidateItem) => ({
-        name: c.name,
-        description: c.description,
-        image: c.image,
-        id: c.id,
-      }));
-    const grades = election.grades
-      .filter((c) => c.active)
-      .map((g: GradeItem, i: number) => ({name: g.name, value: g.value, id: g.id}));
+      {canViewResults(election) && (
+        <Link href={getUrl(RouteTypes.RESULTS, router, election.ref)} className="d-grid">
+          <Button
+            icon={faSquarePollVertical}
+            color="primary"
+            style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+            position="right"
+          >
+            {t('admin.go-to-result')}
+          </Button>
+        </Link>
+      )}
 
-    const response = await updateElection(
-      election.ref,
-      election.name,
-      candidates,
-      grades,
-      election.description,
-      election.emails.length,
-      election.hideResults,
-      true,
-      election.restricted,
-      election.randomOrder,
-      token
-    );
-    if (response.status === 200 && 'ref' in response) {
-      if (election.restricted && election.emails.length > 0) {
-        if (election.emails.length !== response.invites.length) {
-          throw new Error('Unexpected number of invites!');
-        }
-        const urlVotes = response.invites.map((token: string) =>
-          getUrl(RouteTypes.VOTE, router, response.ref, token)
-        );
-        const urlResult = getUrl(RouteTypes.RESULTS, router, response.ref);
-        await sendInviteMails(
-          election.emails,
-          election.name,
-          urlVotes,
-          urlResult,
-          router
-        );
-      }
-      setWaiting(false);
-      dispatchApp({
-        type: AppTypes.TOAST_ADD,
-        status: 'success',
-        message: t('success.election-closed'),
-      });
-    }
-  };
+      {!isClosed(election) && (
+        <Button
+          className="d-grid btn_closing"
+          style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+          onClick={handleClosing}
+          position="right"
+        >
+          {waiting ? <Spinner /> : t('admin.close-election')}
+        </Button>
+      )}
+    </>
+  );
+};
+const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
+  const {t} = useTranslation();
+  const [election, _] = useElection();
+  const router = useRouter();
 
   return (
     <div className="w-100 p-4 bg-primary text-white d-flex justify-content-between align-items-center">
       <h5 className="mx-0">{t('admin.admin-title')}</h5>
 
       <div className="d-flex">
+        <Link href={getUrl(RouteTypes.VOTE, router, election.ref)}>
+          <Button
+            icon={faFloppyDisk}
+            color="primary"
+            className="me-3"
+            style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+            position="right"
+          >
+            {t('common.save')}
+          </Button>
+        </Link>
         {!election.restricted && !isClosed(election) && (
           <Link href={getUrl(RouteTypes.VOTE, router, election.ref)}>
             <Button
-              icon={faArrowRight}
+              icon={faCheckToSlot}
               color="primary"
               className="me-3"
               style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
               position="right"
             >
-              {t('admin.go-to-vote')}
+              {t('common.vote')}
             </Button>
           </Link>
         )}
@@ -185,7 +184,7 @@ const HeaderRubbon = ({token}) => {
               style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
               position="right"
             >
-              {t('admin.go-to-result')}
+              {t('common.results')}
             </Button>
           </Link>
         )}
@@ -204,6 +203,17 @@ const HeaderRubbon = ({token}) => {
     </div>
   );
 };
+
+
+const HeaderRubbonMobile = () => {
+  const {t} = useTranslation();
+  return (
+    <div className="w-100 px-4 text-white d-flex justify-content-between align-items-center"
+      style={{minHeight: "100px"}}>
+      <h5 className="mx-0 text-white">{t('admin.admin-title')}</h5>
+    </div>
+  )
+}
 
 const CreateElection = ({context, token}) => {
   const {t} = useTranslation();
@@ -313,6 +323,68 @@ const CreateElection = ({context, token}) => {
     }
   };
 
+  /** 
+   * Close an election
+   */
+  const handleClosing = async () => {
+    setWaiting(true);
+    dispatch({
+      type: ElectionTypes.SET,
+      field: 'forceClose',
+      value: true,
+    });
+
+    const candidates = election.candidates
+      .filter((c) => c.active)
+      .map((c: CandidateItem) => ({
+        name: c.name,
+        description: c.description,
+        image: c.image,
+        id: c.id,
+      }));
+    const grades = election.grades
+      .filter((c) => c.active)
+      .map((g: GradeItem, i: number) => ({name: g.name, value: g.value, id: g.id}));
+
+    const response = await updateElection(
+      election.ref,
+      election.name,
+      candidates,
+      grades,
+      election.description,
+      election.emails.length,
+      election.hideResults,
+      true,
+      election.restricted,
+      election.randomOrder,
+      token
+    );
+    if (response.status === 200 && 'ref' in response) {
+      if (election.restricted && election.emails.length > 0) {
+        if (election.emails.length !== response.invites.length) {
+          throw new Error('Unexpected number of invites!');
+        }
+        const urlVotes = response.invites.map((token: string) =>
+          getUrl(RouteTypes.VOTE, router, response.ref, token)
+        );
+        const urlResult = getUrl(RouteTypes.RESULTS, router, response.ref);
+        await sendInviteMails(
+          election.emails,
+          election.name,
+          urlVotes,
+          urlResult,
+          router
+        );
+      }
+      setWaiting(false);
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: 'success',
+        message: t('success.election-closed'),
+      });
+    }
+  };
+
   const numCandidates = election.candidates.filter(
     (c) => c.active && c.name != ''
   ).length;
@@ -328,7 +400,12 @@ const CreateElection = ({context, token}) => {
 
   return (
     <>
-      <HeaderRubbon token={token} />
+      <div className="d-none d-md-flex">
+        <HeaderRubbonDesktop handleSubmit={handleSubmit} handleClosing={handleClosing} waiting={waiting} />
+      </div>
+      <div className="d-flex d-md-none">
+        <HeaderRubbonMobile />
+      </div>
       <Container
         fluid="xl"
         className="my-5 flex-column d-flex justify-content-center"
@@ -369,6 +446,9 @@ const CreateElection = ({context, token}) => {
           >
             {waiting ? <Spinner /> : t('admin.confirm-edit')}
           </Button>
+          <div className="d-grid gap-3 mt-3 d-md-none">
+            <ManageButtonsMobile handleClosing={handleClosing} waiting={waiting} />
+          </div>
         </Container>
       </Container>
     </>

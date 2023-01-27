@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Col, Label, Input, Modal, ModalBody, Form } from 'reactstrap';
-import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useTranslation } from 'next-i18next';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import {useState, useEffect} from 'react';
+import {Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
+import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {useTranslation} from 'next-i18next';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import Button from '@components/Button';
-import { GradeItem } from '@services/type';
+import {GradeItem} from '@services/type';
 
-const GradeModal = ({ isOpen, toggle }) => {
-  const { t } = useTranslation();
+const GradeModal = ({isOpen, toggle}) => {
+  const {t} = useTranslation();
 
   const [election, dispatch] = useElection();
   const [grade, setGrade] = useState<GradeItem>({
@@ -19,20 +19,20 @@ const GradeModal = ({ isOpen, toggle }) => {
 
   useEffect(() => {
     const maxValue = Math.max(...election.grades.map((g) => g.value));
-    setGrade({ ...grade, value: maxValue + 1 });
+    setGrade({...grade, value: maxValue + 1});
   }, [election]);
 
   const save = () => {
     dispatch({
       type: ElectionTypes.SET,
       field: 'grades',
-      value: [...election.grades, grade],
+      value: [grade, ...election.grades],
     });
     toggle();
   };
 
   const handleName = (e) => {
-    setGrade((s) => ({ ...s, name: e.target.value }));
+    setGrade((s) => ({...s, name: e.target.value}));
   };
 
   const names = election.grades.map((g) => g.name);
