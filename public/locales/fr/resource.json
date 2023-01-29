@@ -51,7 +51,7 @@
 	"common.the-params": "Les paramètres",
 	"common.vote": "Voter",
 	"common.welcome": "Bienvenue !",
-  "common.results": "Résultats",
+	"common.results": "Résultats",
 	"error.help": "Besoin d'aide ?",
 	"error.cant-set-ongoing": "Vous ne pouvez pas modifier ce paramètre pour une élection déjà démarrée.",
 	"error.at-least-2-candidates": "Ajoutez au moins deux candidats.",
