@@ -22,6 +22,15 @@ const LimitDate = () => {
     });
   };
 
+  const handleDate = (date) => {
+    setEndDate(date)
+    dispatch({
+      type: ElectionTypes.SET,
+      field: 'dateEnd',
+      value: date.toString(),
+    });
+  }
+
   const desc = t('admin.limit-duration-desc');
   const now = new Date();
   const oneDay = 24 * 60 * 60 * 1000;
@@ -52,7 +61,7 @@ const LimitDate = () => {
       </div>
       {hasDate ? (
         <div className="mt-3">
-          <DatePicker date={endDate} setDate={setEndDate} />
+          <DatePicker date={endDate} setDate={handleDate} />
         </div>
       ) : null}
     </Container>
