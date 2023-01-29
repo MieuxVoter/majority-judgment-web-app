@@ -5,22 +5,23 @@ import {
   KeyboardEvent,
   MouseEventHandler,
 } from 'react';
-import { useTranslation } from 'next-i18next';
-import { Container } from 'reactstrap';
-import { DndContext } from '@dnd-kit/core';
-import { arrayMove, SortableContext } from '@dnd-kit/sortable';
-import { faArrowRight, faPen } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {useTranslation} from 'next-i18next';
+import {Container} from 'reactstrap';
+import {DndContext} from '@dnd-kit/core';
+import {arrayMove, SortableContext} from '@dnd-kit/sortable';
+import {faArrowRight, faPen} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import TitleModal from './TitleModal';
-import { MAX_NUM_CANDIDATES } from '@services/constants';
+import {MAX_NUM_CANDIDATES} from '@services/constants';
 import Alert from '@components/Alert';
 import Button from '@components/Button';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import {defaultCandidate, ElectionTypes, useElection} from '@services/ElectionContext';
 import CandidateField from './CandidateField';
-import { AppTypes, useAppContext } from '@services/context';
+import {AppTypes, useAppContext} from '@services/context';
+import VerticalGripDots from '@components/VerticalGripDots';
 
-const CandidatesField = ({ onSubmit }) => {
-  const { t } = useTranslation();
+const CandidatesField = ({onSubmit}) => {
+  const {t} = useTranslation();
   const submitReference = useRef(null);
 
   const [_, dispatchApp] = useAppContext();
@@ -35,11 +36,28 @@ const CandidatesField = ({ onSubmit }) => {
 
   const disabled = candidates.filter((c) => c.name !== '').length < 2;
 
+  // At mounting, if candidates are the default ones, change them for candidate.default translation string
+  // TODO
+  useEffect(() => {
+    if (candidates.length == 2 && candidates.every(c => c.name == "")) {
+      candidates.forEach(c => {
+        c.name = t("admin.candidate-name-placeholder");
+        c.active = true
+      })
+      dispatch({
+        type: ElectionTypes.SET,
+        field: "candidates",
+        value: [...candidates, defaultCandidate],
+      })
+    }
+  }, []);
+
+
   // What to do when we change the candidates
   useEffect(() => {
     // Initialize the list with at least two candidates
     if (candidates.length < 2) {
-      dispatch({ type: ElectionTypes.CANDIDATE_PUSH, value: 'default' });
+      dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
     }
     if (candidates.length > MAX_NUM_CANDIDATES) {
       setError('error.too-many-candidates');
@@ -74,7 +92,7 @@ const CandidatesField = ({ onSubmit }) => {
     /**
      * Update the list of grades after dragging an item
      */
-    const { active, over } = event;
+    const {active, over} = event;
 
     if (over && over.id && active.id && active.id !== over.id) {
       const newCandidates = arrayMove(candidates, active.id - 1, over.id - 1);
@@ -104,7 +122,9 @@ const CandidatesField = ({ onSubmit }) => {
           <Container className="candidate flex-grow-1 my-5 flex-column d-flex justify-content-between">
             <div className="d-flex flex-column">
               <h4 className="mb-4">{t('admin.add-candidates')}</h4>
-              <div className="mb-4">{t('admin.add-candidates-desc')}</div>
+              <div className="mb-4">{t('admin.add-candidates-desc')}{" "}
+                <VerticalGripDots fill="white" opacity={1} />
+              </div>
               <Alert msg={error} />
               <div className="d-flex flex-column mx-2 mx-md-0">
                 {candidates.map((_, index) => {
@@ -120,7 +140,7 @@ const CandidatesField = ({ onSubmit }) => {
             </div>
 
             <div
-              className="w-100 d-flex justify-content-center"
+              className="w-100 mt-3 d-flex justify-content-center"
               onClick={handleSubmit}
             >
               <Button

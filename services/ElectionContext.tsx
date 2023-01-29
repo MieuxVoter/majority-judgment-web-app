@@ -28,7 +28,7 @@ export interface ElectionContextInterface {
   ref?: string;
 }
 
-const defaultCandidate: CandidateItem = {
+export const defaultCandidate: CandidateItem = {
   name: '',
   image: '',
   description: '',

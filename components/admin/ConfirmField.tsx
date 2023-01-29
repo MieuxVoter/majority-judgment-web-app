@@ -1,7 +1,7 @@
-import { useTranslation } from 'next-i18next';
-import { NextRouter, useRouter } from 'next/router';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { Button, Row, Col, Container } from 'reactstrap';
+import {useTranslation} from 'next-i18next';
+import {NextRouter, useRouter} from 'next/router';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {Button, Row, Col, Container} from 'reactstrap';
 import TitleField from './Title';
 import CandidatesConfirmField from './CandidatesConfirmField';
 import AccessResults from './AccessResults';
@@ -17,12 +17,12 @@ import {
   checkName,
   canBeFinished,
 } from '@services/ElectionContext';
-import { createElection, ElectionCreatedPayload } from '@services/api';
-import { getUrl, RouteTypes } from '@services/routes';
-import { GradeItem, CandidateItem } from '@services/type';
-import { sendInviteMails } from '@services/mail';
-import { AppTypes, useAppContext } from '@services/context';
-import { useEffect } from 'react';
+import {createElection, ElectionCreatedPayload} from '@services/api';
+import {getUrl, RouteTypes} from '@services/routes';
+import {GradeItem, CandidateItem} from '@services/type';
+import {sendInviteMails} from '@services/mail';
+import {AppTypes, useAppContext} from '@services/context';
+import {useEffect} from 'react';
 
 const submitElection = (
   election: ElectionContextInterface,
@@ -54,6 +54,7 @@ const submitElection = (
     election.forceClose,
     election.restricted,
     election.randomOrder,
+    election.dateEnd,
     async (payload: ElectionCreatedPayload) => {
       if (
         typeof election.emails !== 'undefined' &&
@@ -83,8 +84,8 @@ const submitElection = (
   );
 };
 
-const ConfirmField = ({ onSubmit, onSuccess, onFailure }) => {
-  const { t } = useTranslation();
+const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
+  const {t} = useTranslation();
   const router = useRouter();
   const [election, _] = useElection();
   const [app, dispatchApp] = useAppContext();

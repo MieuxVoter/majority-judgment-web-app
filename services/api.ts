@@ -93,6 +93,7 @@ export const createElection = async (
   forceClose: boolean,
   restricted: boolean,
   randomOrder: boolean,
+  dateEnd: string,
   successCallback: Function = null,
   failureCallback: Function = console.log
 ) => {
@@ -122,6 +123,7 @@ export const createElection = async (
         num_voters: numVoters,
         hide_results: hideResults,
         force_close: forceClose,
+        date_end: dateEnd,
         restricted,
       }),
     });
