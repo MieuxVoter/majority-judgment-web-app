@@ -38,6 +38,7 @@ Handlebars.registerHelper('i18n',
 
 interface RequestPayload {
   recipients: {[email: string]: {[key: string]: string}};
+  question: string;
   locale: string;
   action: "invite" | "admin";
 }
@@ -55,12 +56,19 @@ const handler: Handler = async (event) => {
     };
   }
 
-  const {recipients, action, locale} = JSON.parse(event.body) as RequestPayload;
+  const {recipients, action, locale, question} = JSON.parse(event.body) as RequestPayload;
 
   if (!recipients) {
     return {
       statusCode: 422,
       body: 'The list of recipients is missing.',
+    };
+  }
+
+  if (!question) {
+    return {
+      statusCode: 422,
+      body: 'The question is missing.',
     };
   }
 
@@ -94,7 +102,7 @@ const handler: Handler = async (event) => {
     // from: `${i18next.t("Mieux Voter")} <mailgun@>`,
     from: FROM_EMAIL_ADDRESS || '"Mieux Voter" <postmaster@mg.app.mieuxvoter.fr>',
     to: Object.keys(recipients),
-    subject: i18next.t(`email.${action}.subject`),
+    subject: i18next.t(`email.${action}.subject`, {question}),
     txt: contents[0],
     html: contents[1],
     'h:Reply-To': REPLY_TO_EMAIL_ADDRESS || 'app@mieuxvoter.fr',

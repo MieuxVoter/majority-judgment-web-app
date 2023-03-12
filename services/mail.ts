@@ -1,6 +1,6 @@
-import { NextRouter } from 'next/router';
-import { getLocaleShort } from './utils';
-import { availableLanguages } from '@functions/i18next';
+import {NextRouter} from 'next/router';
+import {getLocaleShort} from './utils';
+import {availableLanguages} from '@functions/i18next';
 
 export const sendInviteMails = async (
   mails: Array<string>,
@@ -41,6 +41,7 @@ export const sendInviteMails = async (
     },
     body: JSON.stringify({
       action: 'invite',
+      question: name,
       recipients,
       locale,
     }),
@@ -70,6 +71,7 @@ export const sendAdminMail = async (
     body: JSON.stringify({
       action: 'admin',
       locale,
+      question: name,
       recipients: {
         [mail]: {
           urlAdmin,
