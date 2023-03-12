@@ -55,7 +55,7 @@ export default ({value}: GradeInterface) => {
       className="py-2 pe-3 m-1 fw-bold rounded-1 d-flex justify-content-between gap-1"
     >
       <div {...attributes} {...listeners} className="d-flex align-items-center">
-        <VerticalGripDots height={15} width={30} />
+        <VerticalGripDots />
       </div>
       <div
         style={{touchAction: 'none'}}
