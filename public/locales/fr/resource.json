@@ -66,6 +66,8 @@
 	"error.uncorrect-name": "The title is incorrect",
 	"error.not-enough-grades": "Il manque des mentions",
 	"error.not-enough-candidates": "Il manque des candidats",
+	"error.restricted-election-title": "L'élection est restreinte",
+	"error.restricted-election-desc": "Vous ne pouvez accéder à cette élection que par une invitation.",
 	"faq.title": "Foire aux questions",
 	"faq.sec-1-title": "Qu'est-ce que le jugement majoritaire ?",
 	"faq.sec-1-desc": "Un principe simple et intuitif, qui change tout : l’électeur vote en donnant son avis sur tous les candidats, en leur attribuant à chacun une mention sur une échelle de valeurs (par exemple. Très bien, Bien, Assez bien, Passable, Insuffisant, À Rejeter). Le candidat le mieux évalué par une majorité remporte l’élection (celui qui obtient la meilleure mention « majoritaire »).",

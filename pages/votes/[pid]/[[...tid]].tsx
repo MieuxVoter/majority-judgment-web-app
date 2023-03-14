@@ -25,6 +25,7 @@ import {getUrl, RouteTypes} from '@services/routes';
 import {isEnded} from '@services/utils';
 import WaitingBallot from '@components/WaitingBallot';
 import PatternedBackground from '@components/PatternedBackground';
+import {useRouter} from 'next/router';
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
@@ -109,6 +110,7 @@ const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
   const {t} = useTranslation();
 
   const [ballot, dispatch] = useBallot();
+  const router = useRouter();
 
   const [voting, setVoting] = useState(false);
   const [payload, setPayload] = useState<BallotPayload | null>(null);
@@ -144,6 +146,11 @@ const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
       setError(err.message);
     }
   };
+
+  if (election.restricted) {
+    const url = getUrl(RouteTypes.RESTRICTED_VOTE, router)
+    router.push(url);
+  }
 
   if (voting) {
     return (

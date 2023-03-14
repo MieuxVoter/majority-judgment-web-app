@@ -150,17 +150,16 @@ const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
       <h5 className="mx-0">{t('admin.admin-title')}</h5>
 
       <div className="d-flex">
-        <Link href={getUrl(RouteTypes.VOTE, router, election.ref)}>
-          <Button
-            icon={faFloppyDisk}
-            color="primary"
-            className="me-3"
-            style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
-            position="right"
-          >
-            {t('common.save')}
-          </Button>
-        </Link>
+        <Button
+          icon={faFloppyDisk}
+          color="primary"
+          className="me-3"
+          onClick={handleSubmit}
+          style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+          position="right"
+        >
+          {t('common.save')}
+        </Button>
         {!election.restricted && !isClosed(election) && (
           <Link href={getUrl(RouteTypes.VOTE, router, election.ref)}>
             <Button
@@ -200,7 +199,7 @@ const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
           </Button>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 

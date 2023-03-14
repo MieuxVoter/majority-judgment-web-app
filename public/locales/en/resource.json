@@ -64,6 +64,8 @@
 	"error.not-enough-grades": "Not enough grades",
 	"error.not-enough-candidates": "Not enough candidates",
 	"error.uncorrect-name": "The title is incorrect",
+	"error.restricted-election-title": "The election is restricted",
+	"error.restricted-election-desc": "You can only vote if you have been invited.",
 	"faq.title": "Frequently asked questions",
 	"faq.sec-1-title": "What is majority judgment?",
 	"faq.sec-1-desc": "A simple and intuitive principle, which changes everything: the voter votes by giving his/her opinion on all the candidates, by attributing to each one a mention on a scale of values (e.g. Very good, Good, Fair, Insufficient, To be rejected). The candidate with the highest majority rating wins the election (the one with \"the highest majority\" rating).",

@@ -1,8 +1,8 @@
 /**
  * This file provides the paths to the pages
  */
-import { NextRouter } from 'next/router';
-import { getWindowUrl, displayRef, getLocaleShort } from './utils';
+import {NextRouter} from 'next/router';
+import {getWindowUrl, displayRef, getLocaleShort} from './utils';
 
 export enum RouteTypes {
   ADMIN = 'admin',
@@ -13,6 +13,7 @@ export enum RouteTypes {
   HOME = '',
   RESULTS = 'results',
   VOTE = 'votes',
+  RESTRICTED_VOTE = 'errors/restricted',
 }
 
 export const getUrl = (
