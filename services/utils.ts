@@ -2,10 +2,11 @@
  * This file contains several utils functions
  */
 
-import { NextRouter } from 'next/router';
+import {NextRouter} from 'next/router';
 import {URL_APP} from './constants';
 
 export const getLocaleShort = (router: NextRouter): string => {
+  console.log("router", router)
   if (!router.locale) {
     return router.defaultLocale.substring(0, 2);
   }
@@ -14,7 +15,7 @@ export const getLocaleShort = (router: NextRouter): string => {
 };
 
 export const getWindowUrl = (): string => {
-  if( typeof window !== 'undefined' && window.location.origin) 
+  if (typeof window !== 'undefined' && window.location.origin)
     return window.location.origin;
   if (process.env.NODE_ENV === 'development')
     return "http://localhost:3000";

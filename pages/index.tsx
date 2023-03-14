@@ -1,29 +1,31 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { GetStaticProps } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
-import { Container, Row, Col, Input } from 'reactstrap';
+import {GetStaticProps} from 'next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useTranslation} from 'next-i18next';
+import {Container, Row, Col, Input} from 'reactstrap';
 import Logo from '@components/Logo';
 import Share from '@components/Share';
 import AdvantagesRow from '@components/Advantages';
 import ExperienceRow from '@components/Experience';
 import Button from '@components/Button';
-import { getUrl, RouteTypes } from '@services/routes';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { useRouter } from 'next/router';
+import {getUrl, RouteTypes} from '@services/routes';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {useRouter} from 'next/router';
+import {getLocaleShort} from '@services/utils';
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
 
 const StartForm = () => {
-  const { t } = useTranslation('resource');
+  const {t} = useTranslation('resource');
   const [name, setName] = useState(null);
   const router = useRouter();
+  const locale = getLocaleShort(router);
 
   return (
     <>
@@ -55,9 +57,9 @@ const StartForm = () => {
                 href={{
                   pathname: getUrl(
                     RouteTypes.CREATE_ELECTION,
-                    router
+                    locale
                   ).toString(),
-                  query: { name: name },
+                  query: {name: name},
                 }}
               >
                 <Button
@@ -88,7 +90,7 @@ const StartForm = () => {
         <h2 className="d-none d-md-block">{t('home.slogan')}</h2>
         <h2
           className="d-block  d-mg-none text-center"
-          style={{ fontSize: '32px' }}
+          style={{fontSize: '32px'}}
         >
           {t('home.slogan')}
         </h2>
@@ -109,8 +111,8 @@ const StartForm = () => {
           <Link
             className="d-grid w-100"
             href={{
-              pathname: getUrl(RouteTypes.CREATE_ELECTION, router).toString(),
-              query: { name: name },
+              pathname: getUrl(RouteTypes.CREATE_ELECTION, locale).toString(),
+              query: {name: name},
             }}
           >
             <Button
@@ -131,7 +133,7 @@ const StartForm = () => {
 };
 
 const Home = () => {
-  const { t } = useTranslation('resource');
+  const {t} = useTranslation('resource');
   return (
     <>
       <div className="bg-primary">

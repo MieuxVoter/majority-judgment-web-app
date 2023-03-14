@@ -1,14 +1,14 @@
 /* eslint react/prop-types: 0 */
-import { useState } from 'react';
-import { Collapse, Nav, NavItem, Button } from 'reactstrap';
+import {useState} from 'react';
+import {Collapse, Nav, NavItem, Button} from 'reactstrap';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
-import { useAppContext } from '@services/context';
+import {useTranslation} from 'next-i18next';
+import {useAppContext} from '@services/context';
 import LanguageSelector from './LanguageSelector';
 import openMenuIcon from '../../public/open-menu-icon.svg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import {
   CONTACT_MAIL,
   MAJORITY_JUDGMENT_LINK,
@@ -17,14 +17,16 @@ import {
   WHO_WE_ARE_LINK,
 } from '@services/constants';
 import ShareRow from '@components/Share';
-import { getUrl, RouteTypes } from '@services/routes';
-import { useRouter } from 'next/router';
+import {getUrl, RouteTypes} from '@services/routes';
+import {useRouter} from 'next/router';
 import Logo from '@components/Logo';
+import {getLocaleShort} from '@services/utils';
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
-  const { t } = useTranslation();
+  const locale = getLocaleShort(router);
+  const {t} = useTranslation();
   const [app, _] = useAppContext();
 
   const toggle = () => setOpen(!isOpen);
@@ -61,7 +63,7 @@ const Header = () => {
     {
       component: (
         <Link
-          href={getUrl(RouteTypes.FAQ, router)}
+          href={getUrl(RouteTypes.FAQ, locale)}
           className="navbar-my-link nav-link"
         >
           {t('menu.faq')}

@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Input, Modal, ModalBody, Form } from 'reactstrap';
-import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useTranslation } from 'next-i18next';
+import {useState} from 'react';
+import {Input, Modal, ModalBody, Form} from 'reactstrap';
+import {faArrowLeft, faCheck} from '@fortawesome/free-solid-svg-icons';
+import {useTranslation} from 'next-i18next';
 import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
-import { sendAdminMail, validateMail } from '@services/mail';
-import { getUrl, RouteTypes } from '@services/routes';
-import { useElection } from '@services/ElectionContext';
-import { getLocaleShort } from '@services/utils';
-import { useRouter } from 'next/router';
+import {sendAdminMail, validateMail} from '@services/mail';
+import {getUrl, RouteTypes} from '@services/routes';
+import {useElection} from '@services/ElectionContext';
+import {getLocaleShort} from '@services/utils';
+import {useRouter} from 'next/router';
 
 interface AdminModalEmailInterface {
   isOpen: boolean;
@@ -23,14 +23,15 @@ const AdminModalEmail = ({
   electionRef,
   adminToken,
 }: AdminModalEmailInterface) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const router = useRouter();
   const [email, setEmail] = useState(undefined);
   const [election, _] = useElection();
+  const locale = getLocaleShort(router);
 
   const adminUrl =
     electionRef && adminToken
-      ? getUrl(RouteTypes.ADMIN, router, electionRef, adminToken)
+      ? getUrl(RouteTypes.ADMIN, locale, electionRef, adminToken)
       : null;
 
   const handleEmail = (e) => {

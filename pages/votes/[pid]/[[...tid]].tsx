@@ -22,7 +22,7 @@ import {
   BallotProvider,
 } from '@services/BallotContext';
 import {getUrl, RouteTypes} from '@services/routes';
-import {isEnded} from '@services/utils';
+import {getLocaleShort, isEnded} from '@services/utils';
 import WaitingBallot from '@components/WaitingBallot';
 import PatternedBackground from '@components/PatternedBackground';
 import {useRouter} from 'next/router';
@@ -46,9 +46,10 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
   }
 
   if (isEnded(election.date_end)) {
+    const url = getUrl(RouteTypes.ENDED_VOTE, locale, electionRef)
     return {
       redirect: {
-        destination: getUrl(RouteTypes.ENDED_VOTE, electionRef),
+        destination: url.toString(),
         permanent: false,
       },
     };
@@ -148,7 +149,8 @@ const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
   };
 
   if (election.restricted) {
-    const url = getUrl(RouteTypes.RESTRICTED_VOTE, router)
+    const locale = getLocaleShort(router);
+    const url = getUrl(RouteTypes.RESTRICTED_VOTE, locale)
     router.push(url);
   }
 

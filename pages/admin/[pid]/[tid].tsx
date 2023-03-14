@@ -39,6 +39,7 @@ import Blur from '@components/Blur';
 import {getUrl, RouteTypes} from '@services/routes';
 import {sendInviteMails} from '@services/mail';
 import {AppTypes, useAppContext} from '@services/context';
+import {getLocaleShort} from '@services/utils';
 
 export async function getServerSideProps({query, locale}) {
   const {pid, tid: token} = query;
@@ -98,11 +99,12 @@ const ManageButtonsMobile = ({handleClosing, waiting}) => {
   const {t} = useTranslation();
   const [election, _] = useElection();
   const router = useRouter();
+  const locale = getLocaleShort(router);
 
   return (
     <>
       {!election.restricted && !isClosed(election) && (
-        <Link href={getUrl(RouteTypes.VOTE, router, election.ref)} className="d-grid">
+        <Link href={getUrl(RouteTypes.VOTE, locale, election.ref)} className="d-grid">
           <Button
             icon={faArrowRight}
             color="primary"
@@ -115,7 +117,7 @@ const ManageButtonsMobile = ({handleClosing, waiting}) => {
       )}
 
       {canViewResults(election) && (
-        <Link href={getUrl(RouteTypes.RESULTS, router, election.ref)} className="d-grid">
+        <Link href={getUrl(RouteTypes.RESULTS, locale, election.ref)} className="d-grid">
           <Button
             icon={faSquarePollVertical}
             color="primary"
@@ -144,6 +146,7 @@ const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
   const {t} = useTranslation();
   const [election, _] = useElection();
   const router = useRouter();
+  const locale = getLocaleShort(router);
 
   return (
     <div className="w-100 p-4 bg-primary text-white d-flex justify-content-between align-items-center">
@@ -161,7 +164,7 @@ const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
           {t('common.save')}
         </Button>
         {!election.restricted && !isClosed(election) && (
-          <Link href={getUrl(RouteTypes.VOTE, router, election.ref)}>
+          <Link href={getUrl(RouteTypes.VOTE, locale, election.ref)}>
             <Button
               icon={faCheckToSlot}
               color="primary"
@@ -175,7 +178,7 @@ const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
         )}
 
         {canViewResults(election) && (
-          <Link href={getUrl(RouteTypes.RESULTS, router, election.ref)}>
+          <Link href={getUrl(RouteTypes.RESULTS, locale, election.ref)}>
             <Button
               icon={faSquarePollVertical}
               color="primary"
@@ -295,12 +298,14 @@ const CreateElection = ({context, token}) => {
         if (election.emails.length !== response.invites.length) {
           throw new Error('Unexpected number of invites!');
         }
+
+        const locale = getLocaleShort(router);
         const urlVotes = response.invites.map((token: string) =>
-          getUrl(RouteTypes.VOTE, router, response.ref, token)
+          getUrl(RouteTypes.VOTE, locale, response.ref, token)
         );
         const urlResult = getUrl(
           RouteTypes.RESULTS,
-          router,
+          locale,
           response.ref,
           token
         );
@@ -363,10 +368,12 @@ const CreateElection = ({context, token}) => {
         if (election.emails.length !== response.invites.length) {
           throw new Error('Unexpected number of invites!');
         }
+
+        const locale = getLocaleShort(router);
         const urlVotes = response.invites.map((token: string) =>
-          getUrl(RouteTypes.VOTE, router, response.ref, token)
+          getUrl(RouteTypes.VOTE, locale, response.ref, token)
         );
-        const urlResult = getUrl(RouteTypes.RESULTS, router, response.ref);
+        const urlResult = getUrl(RouteTypes.RESULTS, locale, response.ref);
         await sendInviteMails(
           election.emails,
           election.name,

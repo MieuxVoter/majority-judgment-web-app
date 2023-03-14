@@ -1,21 +1,23 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
-import { Button, Row, Col } from 'reactstrap';
+import {useRouter} from 'next/router';
+import {useTranslation} from 'next-i18next';
+import {Button, Row, Col} from 'reactstrap';
 import Logo from '@components/Logo';
 import LanguageSelector from '@components/layouts/LanguageSelector';
-import { useAppContext } from '@services/context';
+import {useAppContext} from '@services/context';
 import {
   MAJORITY_JUDGMENT_LINK,
   NEWS_LINK,
   PAYPAL,
   WHO_WE_ARE_LINK,
 } from '@services/constants';
-import { getUrl, RouteTypes } from '@services/routes';
+import {getUrl, RouteTypes} from '@services/routes';
+import {getLocaleShort} from '@services/utils';
 
 const Footer = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const router = useRouter();
+  const locale = getLocaleShort(router);
   const [app, _] = useAppContext();
 
   if (app.fullPage) {
@@ -46,7 +48,7 @@ const Footer = () => {
     },
     {
       component: (
-        <Link href={getUrl(RouteTypes.FAQ, router)}>{t('menu.faq')}</Link>
+        <Link href={getUrl(RouteTypes.FAQ, locale)}>{t('menu.faq')}</Link>
       ),
     },
     {

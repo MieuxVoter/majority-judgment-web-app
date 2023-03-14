@@ -1,25 +1,26 @@
-import { Col, Container, Row } from 'reactstrap';
-import { useTranslation } from 'next-i18next';
+import {Col, Container, Row} from 'reactstrap';
+import {useTranslation} from 'next-i18next';
 import Link from 'next/link';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { GetStaticProps } from 'next';
-import { getLocaleShort } from '@services/utils';
-import { getUrl, RouteTypes } from '@services/routes';
-import { useRouter } from 'next/router';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {GetStaticProps} from 'next';
+import {getLocaleShort} from '@services/utils';
+import {getUrl, RouteTypes} from '@services/routes';
+import {useRouter} from 'next/router';
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
     ...(await serverSideTranslations(locale, ['resource'])),
   },
 });
 
 const PrivacyPolicy = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const router = useRouter();
+  const locale = getLocaleShort(router);
   return (
     <Container>
       <Row>
-        <Link href={getUrl(RouteTypes.HOME, router)} className="d-block mb-4">
+        <Link href={getUrl(RouteTypes.HOME, locale)} className="d-block mb-4">
           <img src="/logos/logo-line-white.svg" alt="logo" height="128" />
         </Link>
       </Row>

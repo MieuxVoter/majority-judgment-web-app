@@ -1,7 +1,6 @@
 /**
  * This file provides the paths to the pages
  */
-import {NextRouter} from 'next/router';
 import {getWindowUrl, displayRef, getLocaleShort} from './utils';
 
 export enum RouteTypes {
@@ -18,11 +17,10 @@ export enum RouteTypes {
 
 export const getUrl = (
   type: RouteTypes,
-  router: NextRouter,
+  locale: string,
   ref?: string,
   token?: string
 ): URL => {
-  const locale = getLocaleShort(router);
 
   if (ref) {
     if (token) {

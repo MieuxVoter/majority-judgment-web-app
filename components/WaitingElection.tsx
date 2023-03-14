@@ -1,21 +1,21 @@
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
-import { CSSProperties, useEffect, useState } from 'react';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {useTranslation} from 'next-i18next';
+import {CSSProperties, useEffect, useState} from 'react';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
 import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
 import AdminModalEmail from '@components/admin/AdminModalEmail';
-import { ElectionCreatedPayload, ErrorPayload } from '@services/api';
-import { AppTypes, useAppContext } from '@services/context';
-import { getUrl, RouteTypes } from '@services/routes';
+import {ElectionCreatedPayload, ErrorPayload} from '@services/api';
+import {AppTypes, useAppContext} from '@services/context';
+import {getUrl, RouteTypes} from '@services/routes';
 import urne from '../public/urne.svg';
 import star from '../public/star.svg';
-import { Container } from 'reactstrap';
-import { useRouter } from 'next/router';
-import { getLocaleShort } from '@services/utils';
+import {Container} from 'reactstrap';
+import {useRouter} from 'next/router';
+import {getLocaleShort} from '@services/utils';
 
 export interface WaitingBallotInterface {
   election?: ElectionCreatedPayload;
@@ -26,8 +26,8 @@ interface InfoElectionInterface extends WaitingBallotInterface {
   display: string;
 }
 
-const InfoElection = ({ election, error, display }: InfoElectionInterface) => {
-  const { t } = useTranslation();
+const InfoElection = ({election, error, display}: InfoElectionInterface) => {
+  const {t} = useTranslation();
   const router = useRouter();
 
   const [modal, setModal] = useState(false);
@@ -35,8 +35,9 @@ const InfoElection = ({ election, error, display }: InfoElectionInterface) => {
 
   if (!election) return null;
 
-  const urlVote = getUrl(RouteTypes.VOTE, router, election.ref);
-  const urlResults = getUrl(RouteTypes.RESULTS, router, election.ref);
+  const locale = getLocaleShort(router);
+  const urlVote = getUrl(RouteTypes.VOTE, locale, election.ref);
+  const urlResults = getUrl(RouteTypes.RESULTS, locale, election.ref);
 
   return (
     <div
@@ -94,7 +95,7 @@ const InfoElection = ({ election, error, display }: InfoElectionInterface) => {
   );
 };
 
-export default ({ election, error }: WaitingBallotInterface) => {
+export default ({election, error}: WaitingBallotInterface) => {
   const [_, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({
@@ -116,7 +117,7 @@ export default ({ election, error }: WaitingBallotInterface) => {
   });
 
   useEffect(() => {
-    dispatch({ type: AppTypes.FULLPAGE, value: true });
+    dispatch({type: AppTypes.FULLPAGE, value: true});
 
     setUrne((urne) => ({
       ...urne,
@@ -155,7 +156,7 @@ export default ({ election, error }: WaitingBallotInterface) => {
     }, 3000);
 
     const timer3 = setTimeout(() => {
-      setElection({ display: 'grid' });
+      setElection({display: 'grid'});
     }, 4500);
 
     return () => {

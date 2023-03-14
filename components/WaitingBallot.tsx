@@ -1,36 +1,37 @@
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
-import { CSSProperties, useEffect, useState } from 'react';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col, Container, Row } from 'reactstrap';
+import {useTranslation} from 'next-i18next';
+import {CSSProperties, useEffect, useState} from 'react';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Col, Container, Row} from 'reactstrap';
 import Button from '@components/Button';
 import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
-import { BallotPayload, ErrorPayload } from '@services/api';
-import { AppTypes, useAppContext } from '@services/context';
-import { displayRef, isEnded } from '@services/utils';
-import { getUrl, RouteTypes } from '@services/routes';
+import {BallotPayload, ErrorPayload} from '@services/api';
+import {AppTypes, useAppContext} from '@services/context';
+import {displayRef, getLocaleShort, isEnded} from '@services/utils';
+import {getUrl, RouteTypes} from '@services/routes';
 import Logo from './Logo';
-import { FORM_FEEDBACK, MAJORITY_JUDGMENT_LINK } from '@services/constants';
+import {FORM_FEEDBACK, MAJORITY_JUDGMENT_LINK} from '@services/constants';
 import urne from '../public/urne.svg';
 import star from '../public/star.svg';
 import logo from '../public/logo-red-blue.svg';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
 export interface WaitingBallotInterface {
   ballot?: BallotPayload;
   error?: ErrorPayload;
 }
 
-const ButtonResults = ({ election }) => {
-  const { t } = useTranslation();
+const ButtonResults = ({election}) => {
+  const {t} = useTranslation();
   const router = useRouter();
+  const locale = getLocaleShort(router);
 
   if (!election.hideResults || isEnded(election.date_end)) {
     return (
-      <Link href={getUrl(RouteTypes.RESULTS, router, election.ref)}>
+      <Link href={getUrl(RouteTypes.RESULTS, locale, election.ref)}>
         <div className="w-100 d-grid">
           <Button
             color="light"
@@ -49,7 +50,7 @@ const ButtonResults = ({ election }) => {
 };
 
 const DiscoverMajorityJudgment = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Col className="d-flex flex-column justify-content-between  bg-secondary p-4 text-white">
       <div>
@@ -71,7 +72,7 @@ const DiscoverMajorityJudgment = () => {
 };
 
 const SupportBetterVote = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Col className="d-flex flex-column justify-content-between  text-secondary p-4 bg-white">
       <div>
@@ -92,7 +93,7 @@ const SupportBetterVote = () => {
 };
 
 const Thanks = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <>
       <h5>{t('vote.thanks')}</h5>
@@ -106,8 +107,8 @@ const Thanks = () => {
   );
 };
 
-const Info = ({ ballot, error }: WaitingBallotInterface) => {
-  const { t } = useTranslation();
+const Info = ({ballot, error}: WaitingBallotInterface) => {
+  const {t} = useTranslation();
 
   const [ballotProperties, setBallot] = useState<CSSProperties>({
     display: 'none',
@@ -115,7 +116,7 @@ const Info = ({ ballot, error }: WaitingBallotInterface) => {
 
   useEffect(() => {
     setTimeout(() => {
-      setBallot({ display: 'grid' });
+      setBallot({display: 'grid'});
     }, 4500);
   }, []);
   if (!ballot) return null;
@@ -166,7 +167,7 @@ const AnimationBallot = () => {
   });
 
   useEffect(() => {
-    dispatch({ type: AppTypes.FULLPAGE, value: true });
+    dispatch({type: AppTypes.FULLPAGE, value: true});
 
     setUrne((urne) => ({
       ...urne,
@@ -240,7 +241,7 @@ const AnimationBallot = () => {
   );
 };
 
-export default ({ ballot, error }: WaitingBallotInterface) => {
+export default ({ballot, error}: WaitingBallotInterface) => {
   return (
     <Container className="d-flex min-vh-100 min-vw-100 align-items-between justify-content-center flex-column pb-5">
       <AnimationBallot />

@@ -136,7 +136,8 @@ const ResultBanner = ({result}) => {
 
   const numVotes = getNumVotes(result);
 
-  const url = getUrl(RouteTypes.RESULTS, router, result.ref);
+  const locale = getLocaleShort(router);
+  const url = getUrl(RouteTypes.RESULTS, locale, result.ref);
 
   return (
     <>
@@ -234,7 +235,8 @@ const BottomButtonsMobile = ({result}) => {
   const {t} = useTranslation();
 
   const router = useRouter();
-  const url = getUrl(RouteTypes.RESULTS, router, result.ref);
+  const locale = getLocaleShort(router);
+  const url = getUrl(RouteTypes.RESULTS, locale, result.ref);
 
   return (
     <div className="d-flex flex-column align-items-center d-md-none m-3">
@@ -295,7 +297,7 @@ const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
         </div>
         {token ? (
           <div className="d-flex">
-            <Link href={getUrl(RouteTypes.ADMIN, router, electionRef, token)}>
+            <Link href={getUrl(RouteTypes.ADMIN, locale, electionRef, token)}>
               <Button icon={faGear} position="left">
                 {t('result.go-to-admin')}
               </Button>
@@ -315,7 +317,7 @@ const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
         </div>
         {token ? (
           <div className="d-flex">
-            <Link href={getUrl(RouteTypes.ADMIN, router, electionRef, token)}>
+            <Link href={getUrl(RouteTypes.ADMIN, locale, electionRef, token)}>
               <Button icon={faGear} position="left">
                 {t('result.go-to-admin')}
               </Button>
@@ -475,9 +477,10 @@ const ResultPage = ({
 }: ResultPageInterface) => {
   const {t} = useTranslation();
   const router = useRouter();
+  const locale = getLocaleShort(router);
 
   if (err && err.message.startsWith('No votes')) {
-    const urlVote = getUrl(RouteTypes.VOTE, router, electionRef, token);
+    const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
     return (
       <ErrorMessage>
         {
@@ -499,7 +502,7 @@ const ResultPage = ({
   }
 
   if (err && err.details.startsWith('The election is not closed')) {
-    const urlVote = getUrl(RouteTypes.VOTE, router, electionRef, token);
+    const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
     return (
       <ErrorMessage>
         {

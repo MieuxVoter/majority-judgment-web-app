@@ -23,6 +23,7 @@ import {GradeItem, CandidateItem} from '@services/type';
 import {sendInviteMails} from '@services/mail';
 import {AppTypes, useAppContext} from '@services/context';
 import {useEffect} from 'react';
+import {getLocaleShort} from '@services/utils';
 
 const submitElection = (
   election: ElectionContextInterface,
@@ -66,10 +67,12 @@ const submitElection = (
         ) {
           throw new Error('Can not send invite emails');
         }
+
+        const locale = getLocaleShort(router);
         const urlVotes = payload.invites.map((token: string) =>
-          getUrl(RouteTypes.VOTE, router, payload.ref, token)
+          getUrl(RouteTypes.VOTE, locale, payload.ref, token)
         );
-        const urlResult = getUrl(RouteTypes.RESULTS, router, payload.ref);
+        const urlResult = getUrl(RouteTypes.RESULTS, locale, payload.ref);
         await sendInviteMails(
           election.emails,
           election.name,
