@@ -26,6 +26,7 @@ import {getLocaleShort, isEnded} from '@services/utils';
 import WaitingBallot from '@components/WaitingBallot';
 import PatternedBackground from '@components/PatternedBackground';
 import {useRouter} from 'next/router';
+import TitleBar from '@components/ballot/TitleBar';
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
@@ -74,7 +75,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
       ...translations,
       election,
       token: tid || null,
-      previousBallot: ballot || null,
+      previousBallot: ballot && ballot.status != 404 ? ballot : null,
     },
   };
 }
@@ -116,6 +117,8 @@ const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
   const [voting, setVoting] = useState(false);
   const [payload, setPayload] = useState<BallotPayload | null>(null);
   const [error, setError] = useState<ErrorPayload | null>(null);
+
+  console.log("previous ballot", previousBallot)
 
   useEffect(() => {
     dispatch({
@@ -163,11 +166,8 @@ const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
   }
 
   return (
-    <form
-      className="w-100  flex-fill d-flex align-items-center"
-      onSubmit={handleSubmit}
-      autoComplete="off"
-    >
+    <><TitleBar election={ballot.election} />
+
       <Head>
         <title>{election.name}</title>
 
@@ -178,14 +178,20 @@ const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
           content={t('common.application')}
         />
       </Head>
+      <form
+        className="w-100  flex-fill d-flex align-items-center"
+        onSubmit={handleSubmit}
+        autoComplete="off"
+      >
 
-      <Blur />
-      <div className="w-100 h-100 d-flex flex-column justify-content-center">
-        <BallotDesktop hasVoted={previousBallot != null} />
-        <BallotMobile hasVoted={previousBallot != null} />
-        <ButtonSubmit />
-      </div>
-    </form>
+        <Blur />
+        <div className="w-100 h-100 d-flex flex-column justify-content-center">
+          <BallotDesktop hasVoted={previousBallot != null} />
+          <BallotMobile hasVoted={previousBallot != null} />
+          <ButtonSubmit />
+        </div>
+      </form>
+    </>
   );
 };
 

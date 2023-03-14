@@ -15,25 +15,21 @@ const TitleBar = ({election}: TitleBarInterface) => {
   const router = useRouter();
   const locale = getLocaleShort(router);
 
-  const dateEnd = new Date(election.date_end);
-  const farAway = new Date();
-  farAway.setFullYear(farAway.getFullYear() + 1);
-  const isFarAway = +dateEnd > +farAway;
-
-  if (!isFarAway) {
-    return (
-      <div className="w-100 bg-light p-2 text-black justify-content-center d-flex ">
-        <div className="me-2">
-          <FontAwesomeIcon icon={faCalendarDays} />
-        </div>
-        <div>
-          {` ${t("vote.open-until")}   ${new Date(election.date_end).toLocaleDateString(locale, {dateStyle: "long"})}`}
-        </div>
-      </div>
-    )
-  } else {
+  if (!election.date_end) {
     return null;
   }
+
+
+  return (
+    <div className="w-100 bg-light p-2 text-black justify-content-center d-md-flex d-none ">
+      <div className="me-2">
+        <FontAwesomeIcon icon={faCalendarDays} />
+      </div>
+      <div>
+        {` ${t("vote.open-until")}   ${new Date(election.date_end).toLocaleDateString(locale, {dateStyle: "long"})}`}
+      </div>
+    </div>
+  )
 };
 
 export default TitleBar

@@ -18,8 +18,7 @@ const BallotDesktop = ({hasVoted}) => {
   const [candidate, setCandidate] = useState<CandidatePayload | null>(null);
 
   return (
-    <div className="w-100 h-100 d-none d-md-block">
-      <TitleBar election={ballot.election} />
+    <div className="w-100 h-100 d-none d-md-flex justify-content-between">
       <Container
         className="w-100 h-100 d-flex flex-column justify-content-center align-items-center"
         style={{maxWidth: '1050px'}}

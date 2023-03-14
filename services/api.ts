@@ -42,6 +42,7 @@ export interface HTTPPayload {
 
 export interface ElectionPayload {
   name: string;
+  status?: number;
   description: string;
   ref: string;
   date_start: string;
@@ -62,7 +63,6 @@ export interface ElectionCreatedPayload extends ElectionPayload {
 export interface ElectionUpdatedPayload extends ElectionPayload {
   invites: Array<string>;
   num_voters: number;
-  status?: number;
 }
 
 export interface ResultsPayload extends ElectionPayload {
