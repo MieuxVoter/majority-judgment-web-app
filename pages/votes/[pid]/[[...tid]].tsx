@@ -45,7 +45,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
     return {notFound: true};
   }
 
-  if (election.date_end && isEnded(election.date_end)) {
+  if (isEnded(election.date_end)) {
     const url = getUrl(RouteTypes.ENDED_VOTE, locale, electionRef)
     return {
       redirect: {
