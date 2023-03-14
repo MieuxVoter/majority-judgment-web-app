@@ -6,7 +6,6 @@ import {NextRouter} from 'next/router';
 import {URL_APP} from './constants';
 
 export const getLocaleShort = (router: NextRouter): string => {
-  console.log("router", router)
   if (!router.locale) {
     return router.defaultLocale.substring(0, 2);
   }

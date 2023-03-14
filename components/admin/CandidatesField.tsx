@@ -36,23 +36,6 @@ const CandidatesField = ({onSubmit}) => {
 
   const disabled = candidates.filter((c) => c.name !== '').length < 2;
 
-  // At mounting, if candidates are the default ones, change them for candidate.default translation string
-  // TODO
-  useEffect(() => {
-    if (candidates.length == 2 && candidates.every(c => c.name == "")) {
-      candidates.forEach(c => {
-        c.name = t("admin.candidate-name-placeholder");
-        c.active = true
-      })
-      dispatch({
-        type: ElectionTypes.SET,
-        field: "candidates",
-        value: [...candidates, defaultCandidate],
-      })
-    }
-  }, []);
-
-
   // What to do when we change the candidates
   useEffect(() => {
     // Initialize the list with at least two candidates
