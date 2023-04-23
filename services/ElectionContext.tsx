@@ -226,7 +226,7 @@ function electionReducer(
         throw new Error(`Unexpected grade position ${action.position}`);
       }
       const grades = [...election.grades];
-      const grade = grades[action.position];
+      const grade = grades.find(grade => grade.value == action.position)
       grade[action.field] = action.value;
       return {...election, grades};
     }

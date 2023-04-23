@@ -7,13 +7,28 @@ import {Container, Row, Col} from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {DndContext} from '@dnd-kit/core';
-import {arrayMove, SortableContext} from '@dnd-kit/sortable';
+import {
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  rectSwappingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import {DEFAULT_GRADES} from '@services/constants';
 import {ElectionTypes, useElection} from '@services/ElectionContext';
 import GradeField from './GradeField';
 import GradeModalAdd from './GradeModalAdd';
 import {gradeColors} from '@services/grades';
 import Switch from '@components/Switch';
+import SortableItem from '@components/admin/SortableGrade'
 
 const AddField = () => {
   const {t} = useTranslation();
@@ -47,10 +62,22 @@ const AddField = () => {
 const Grades = () => {
   const {t} = useTranslation();
 
+
   const [election, dispatch] = useElection();
+  const grades = election.grades;
+  const numGrades = grades.filter((g) => g.active).length;
+  const disabled = numGrades >= gradeColors.length;
 
   const [visible, setVisible] = useState(false);
-  const toggle = () => setVisible((v) => !v);
+  const toggle = () => setVisible((m) => !m);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
 
   useEffect(() => {
     if (election.grades.length < 2) {
@@ -67,25 +94,20 @@ const Grades = () => {
     }
   }, []);
 
-  const handleDragEnd = (event) => {
-    /**
-     * Update the list of grades after dragging an item
-     */
-    const {active, over} = event;
-
+  const handleDragEnd = ({active, over}) => {
+    console.log(active, over)
     if (active.id !== over.id) {
-      const names = election.grades.map((g) => g.name);
-      const activeIdx = names.indexOf(active.id);
-      const overIdx = names.indexOf(over.id);
-      const newGrades = arrayMove(election.grades, activeIdx, overIdx);
-      newGrades.forEach((g, i) => (g.value = newGrades.length - i - 1));
+      const values = grades.map((g) => g.value);
+      const oldIndex = values.indexOf(active.id);
+      const newIndex = values.indexOf(over.id);
       dispatch({
         type: ElectionTypes.SET,
         field: 'grades',
-        value: newGrades,
+        value: arrayMove(grades, oldIndex, newIndex),
       });
     }
-  };
+  }
+
 
   return (
     <Container className="bg-white p-3 p-md-4 mt-1">
@@ -98,17 +120,26 @@ const Grades = () => {
       {visible && (
         <>
           <p className="text-muted">{t('admin.grades-desc')}</p>
-          <Row className="gx-1">
-            <DndContext onDragEnd={handleDragEnd}>
-              <SortableContext items={election.grades.map((g) => g.name)}>
-                {election.grades.map((grade, i) => (
-                  <Col key={i} className="col col-auto">
+          <Row className="gx-1 text-black">
+
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={grades.map(g => g.value)}
+                strategy={rectSwappingStrategy}
+              >
+                {grades.map((grade) => (
+                  <Col key={grade.value} className="col col-auto">
                     <GradeField value={grade.value} />
-                  </Col>
-                ))}
+                  </Col>))
+                }
                 <Col className="col col-auto">
                   <AddField />
                 </Col>
+
               </SortableContext>
             </DndContext>
           </Row>

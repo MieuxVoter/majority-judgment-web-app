@@ -1,24 +1,25 @@
-import { useState, useEffect, MouseEvent, ChangeEvent } from 'react';
-import { Col, Label, Input, Modal, ModalBody, Form } from 'reactstrap';
-import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useTranslation } from 'next-i18next';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import {useState, useEffect, MouseEvent, ChangeEvent} from 'react';
+import {Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
+import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {useTranslation} from 'next-i18next';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
 import Button from '@components/Button';
 
-const GradeModal = ({ isOpen, toggle, value }) => {
-  const { t } = useTranslation();
+const GradeModal = ({isOpen, toggle, value}) => {
+  const {t} = useTranslation();
 
   const [election, dispatch] = useElection();
-  const grade = election.grades.filter((g) => g.value === value)[0];
+  const grade = election.grades.find((g) => g.value === value);
 
   const [name, setName] = useState<string>(grade.name);
 
-  useEffect(() => {
-    setName(grade.name);
-  }, [grade]);
+  const names = election.grades.map((g) => g.name);
+  const disabled = name != grade.name && (name === '' || names.includes(name));
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (disabled) return;
+
     dispatch({
       type: ElectionTypes.GRADE_SET,
       position: election.grades.map((g) => g.value).indexOf(value),
@@ -31,6 +32,11 @@ const GradeModal = ({ isOpen, toggle, value }) => {
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
+
+  useEffect(() => {
+    setName(grade.name);
+  }, [grade]);
+
 
   return (
     <Modal
@@ -77,6 +83,7 @@ const GradeModal = ({ isOpen, toggle, value }) => {
               </Button>
               <Button
                 color="primary"
+                disabled={disabled}
                 onClick={handleSubmit}
                 icon={faPlus}
                 role="submit"

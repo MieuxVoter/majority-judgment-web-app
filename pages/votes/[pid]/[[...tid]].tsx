@@ -118,7 +118,6 @@ const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
   const [payload, setPayload] = useState<BallotPayload | null>(null);
   const [error, setError] = useState<ErrorPayload | null>(null);
 
-  console.log("previous ballot", previousBallot)
 
   useEffect(() => {
     dispatch({

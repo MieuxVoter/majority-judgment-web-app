@@ -14,30 +14,31 @@ export interface GradeInterface {
 export default ({value}: GradeInterface) => {
   const [election, dispatch] = useElection();
 
-  const grade = election.grades.filter((g) => g.value === value)[0];
+  const grade = election.grades.find((g) => g.value === value);
   const activeGrade = election.grades.filter((g) => g.active);
   const numGrades = activeGrade.length;
-  const gradeIdx = activeGrade.map((g) => g.value).indexOf(value);
 
   const {attributes, listeners, setNodeRef, transform, transition} =
-    useSortable({id: grade.name});
+    useSortable({id: grade.value});
 
   const [visible, setVisible] = useState<boolean>(false);
   const toggle = () => setVisible((v) => !v);
 
   const handleActive = () => {
+    console.log(grade)
     if (!grade.active && numGrades >= gradeColors.length) {
       return;
     }
     dispatch({
       type: ElectionTypes.GRADE_SET,
-      position: election.grades.map((g) => g.value).indexOf(value),
+      position: grade.value,
       field: 'active',
       value: !grade.active,
     });
   };
 
-  const color = getGradeColor(grade.value, numGrades);
+  const gradeIndex = activeGrade.findIndex((g) => g.value === grade.value);
+  const color = getGradeColor(numGrades - gradeIndex - 1, numGrades);
 
   const style = {
     color: grade.active ? 'white' : '#8F88BA',
@@ -54,7 +55,16 @@ export default ({value}: GradeInterface) => {
       ref={setNodeRef}
       className="py-2 pe-3 m-1 fw-bold rounded-1 d-flex justify-content-between gap-1"
     >
-      <div {...attributes} {...listeners} className="d-flex align-items-center">
+      <div
+        role="button"
+        tabIndex="0"
+        aria-roledescription='draggable grade'
+        aria-describedby={`draggable grade ${value}`}
+        style={{touchAction: 'none'}}
+        {...attributes}
+        {...listeners}
+        className="d-flex align-items-center"
+      >
         <VerticalGripDots />
       </div>
       <div
