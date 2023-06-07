@@ -217,7 +217,7 @@ const HeaderRubbonMobile = () => {
   )
 }
 
-const CreateElection = ({context, token}) => {
+const ManageElection = ({context, token}) => {
   const {t} = useTranslation();
   const [election, dispatch] = useElection();
   const [_, dispatchApp] = useAppContext();
@@ -461,7 +461,7 @@ const CreateElection = ({context, token}) => {
   );
 };
 
-const CreateElectionProviding = ({err, context, token}) => {
+const ManageElectionProviding = ({err, context, token}) => {
   const {t} = useTranslation();
   if (err) {
     return <ErrorMessage>{t('admin.error')}</ErrorMessage>;
@@ -469,9 +469,9 @@ const CreateElectionProviding = ({err, context, token}) => {
   return (
     <ElectionProvider>
       <Blur />
-      <CreateElection context={context} token={token} />
+      <ManageElection context={context} token={token} />
     </ElectionProvider>
   );
 };
 
-export default CreateElectionProviding;
+export default ManageElectionProviding;

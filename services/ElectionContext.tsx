@@ -158,15 +158,15 @@ function electionReducer(
       return {...action.value};
     }
     case ElectionTypes.SET: {
-      if (isCreated(election) && action.field === 'candidates') {
-        throw new Error("The election has already started");
-      }
+      // if (isCreated(election) && action.field === 'candidates') {
+      //   throw new Error("The election has already started");
+      // }
       return {...election, [action.field]: action.value};
     }
     case ElectionTypes.CANDIDATE_PUSH: {
-      if (isCreated(election)) {
-        throw new Error("The election has already started");
-      }
+      // if (isCreated(election)) {
+      //   throw new Error("The election has already started");
+      // }
       if (typeof action.value === 'string' && action.value !== 'default') {
         throw new Error('Unexpected action');
       }
@@ -238,6 +238,10 @@ export const isCreated = (election: ElectionContextInterface) => {
 };
 
 export const isClosed = (election: ElectionContextInterface) => {
+  if (election.dateEnd === null) {
+    return election.forceClose;
+  }
+
   const dateEnd = new Date(election.dateEnd);
   const now = new Date();
   const isOver = +dateEnd < +now;

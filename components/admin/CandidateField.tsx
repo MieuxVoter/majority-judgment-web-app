@@ -58,7 +58,6 @@ const CandidateField = ({
       : null,
     transition,
   };
-  console.log("CANDIDATE", candidate)
 
   return (
     <div

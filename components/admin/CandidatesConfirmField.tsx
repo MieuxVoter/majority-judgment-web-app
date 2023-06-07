@@ -1,10 +1,11 @@
 import {useTranslation} from 'next-i18next';
 import {Container, Row, Col} from 'reactstrap';
-import {ElectionTypes, useElection} from '@services/ElectionContext';
 import {DndContext} from '@dnd-kit/core';
 import {arrayMove, SortableContext} from '@dnd-kit/sortable';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPen} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {ElectionTypes, useElection} from '@services/ElectionContext';
+import Button from '@components/Button';
 import CandidateField from './CandidateField';
 
 const CandidatesConfirmField = () => {
@@ -32,27 +33,32 @@ const CandidatesConfirmField = () => {
     }
   };
 
-  const sortIds = election.candidates.map((_, i) => i + 1);
+  const addCandidate = () => {
+    dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
+  };
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <SortableContext items={sortIds}>
-        <Container className="bg-white p-4 mt-3 mt-md-0">
-          <Row>
-            <Col className="col-auto me-auto">
-              <h5 className="text-dark">{t('admin.confirm-candidates')}</h5>
-            </Col>
-          </Row>
-          {election.candidates.map((_, i) => (
-            <CandidateField
-              position={i}
-              key={i}
-              className="text-primary m-0"
-            />
-          ))}
-        </Container>
-      </SortableContext>
-    </DndContext>
+    <Container className="bg-white p-4 mt-3 mt-md-0">
+      <Row>
+        <Col className="col-auto me-auto">
+          <h5 className="text-dark">{t('admin.confirm-candidates')}</h5>
+        </Col>
+      </Row>
+      {election.candidates.map((_, i) => (
+        <CandidateField
+          position={i}
+          key={i}
+          className="text-primary m-0"
+        />
+      ))}
+      <Button
+        icon={faPlus}
+        onClick={addCandidate}
+        className="bg-primary text-white w-100 text-center"
+      >
+        {t('admin.add-candidate')}
+      </Button>
+    </Container>
   );
 };
 
