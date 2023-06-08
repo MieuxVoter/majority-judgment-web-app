@@ -16,11 +16,9 @@ import {
 } from '@dnd-kit/core';
 import {
   arrayMove,
-  horizontalListSortingStrategy,
   rectSwappingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import {DEFAULT_GRADES} from '@services/constants';
 import {ElectionTypes, useElection} from '@services/ElectionContext';
@@ -28,7 +26,6 @@ import GradeField from './GradeField';
 import GradeModalAdd from './GradeModalAdd';
 import {gradeColors} from '@services/grades';
 import Switch from '@components/Switch';
-import SortableItem from '@components/admin/SortableGrade'
 
 const AddField = () => {
   const {t} = useTranslation();
