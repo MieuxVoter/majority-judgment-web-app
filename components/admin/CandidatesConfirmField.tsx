@@ -51,13 +51,14 @@ const CandidatesConfirmField = () => {
           className="text-primary m-0"
         />
       ))}
-      <Button
+      { /*  Ajout d'un nouveau candidat <Button
         icon={faPlus}
         onClick={addCandidate}
         className="bg-primary text-white w-100 text-center"
       >
         {t('admin.add-candidate')}
       </Button>
+      */ }
     </Container>
   );
 };
