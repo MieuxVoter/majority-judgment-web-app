@@ -10,6 +10,7 @@ import {
   faCheckToSlot,
   faFloppyDisk,
   faSquarePollVertical,
+  faSquareXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {getElection, updateElection} from '@services/api';
 import {
@@ -193,9 +194,11 @@ const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
 
         {!isClosed(election) && (
           <Button
-            className="me-3 btn_closing"
+            className="me-3"
+            color="primary"
             style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
             onClick={handleClosing}
+            icon={faSquareXmark}
             position="right"
           >
             {waiting ? <Spinner /> : t('admin.close-election')}
@@ -288,7 +291,7 @@ const ManageElection = ({context, token}) => {
       election.description,
       election.emails.length,
       election.hideResults,
-      true,
+      election.forceClose,
       election.restricted,
       election.randomOrder,
       token
