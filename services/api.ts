@@ -152,6 +152,7 @@ export const updateElection = async (
   candidates: Array<Candidate>,
   grades: Array<Grade>,
   description: string,
+  dateEnd: string,
   numVoters: number,
   hideResults: boolean,
   forceClose: boolean,
@@ -183,6 +184,7 @@ export const updateElection = async (
         num_voters: numVoters,
         hide_results: hideResults,
         force_close: forceClose,
+        date_end: dateEnd,
         restricted,
       }),
     });

@@ -6,7 +6,6 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {Container, Row, Col} from 'reactstrap';
 import {
   faArrowRight,
-  faCheck,
   faCheckToSlot,
   faFloppyDisk,
   faSquarePollVertical,
@@ -289,6 +288,7 @@ const ManageElection = ({context, token}) => {
       candidates,
       grades,
       election.description,
+      election.dateEnd,
       election.emails.length,
       election.hideResults,
       election.forceClose,
@@ -359,6 +359,7 @@ const ManageElection = ({context, token}) => {
       candidates,
       grades,
       election.description,
+      election.dateEnd,
       election.emails.length,
       election.hideResults,
       true,
