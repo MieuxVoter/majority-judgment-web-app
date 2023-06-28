@@ -6,12 +6,13 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {Container, Row, Col} from 'reactstrap';
 import {
   faArrowRight,
+  faCheck,
   faCheckToSlot,
   faFloppyDisk,
   faSquarePollVertical,
   faSquareXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import {getElection, updateElection} from '@services/api';
+import {getElection, updateElection, closeElection, openElection} from '@services/api';
 import {
   ElectionContextInterface,
   ElectionProvider,
@@ -142,7 +143,7 @@ const ManageButtonsMobile = ({handleClosing, waiting}) => {
     </>
   );
 };
-const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
+const HeaderRubbonDesktop = ({handleClosing, handleOpening, handleSubmit, waiting}) => {
   const {t} = useTranslation();
   const [election, _] = useElection();
   const router = useRouter();
@@ -191,18 +192,30 @@ const HeaderRubbonDesktop = ({handleClosing, handleSubmit, waiting}) => {
           </Link>
         )}
 
-        {!isClosed(election) && (
+        {isClosed(election) ? (
           <Button
             className="me-3"
             color="primary"
             style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
-            onClick={handleClosing}
+            onClick={handleOpening}
             icon={faSquareXmark}
             position="right"
           >
-            {waiting ? <Spinner /> : t('admin.close-election')}
+            {waiting ? <Spinner /> : t('admin.open-election')}
           </Button>
-        )}
+        )
+          : (
+            <Button
+              className="me-3"
+              color="primary"
+              style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+              onClick={handleClosing}
+              icon={faCheck}
+              position="right"
+            >
+              {waiting ? <Spinner /> : t('admin.close-election')}
+            </Button>
+          )}
       </div>
     </div >
   );
@@ -230,7 +243,7 @@ const ManageElection = ({context, token}) => {
     if (context) {
       dispatch({type: ElectionTypes.RESET, value: context});
     }
-  }, [election.name, election.forceClose]);
+  }, [context]);
 
   const handleSubmit = async () => {
     if (!checkName(election)) {
@@ -319,7 +332,15 @@ const ManageElection = ({context, token}) => {
           urlResult,
           router
         );
+        // Remove emails
+        dispatch({
+          type: ElectionTypes.SET,
+          field: 'emails',
+          value: [],
+        });
+
       }
+
       setWaiting(false);
 
       dispatchApp({
@@ -331,67 +352,45 @@ const ManageElection = ({context, token}) => {
   };
 
   /** 
+   * Open an election
+   */
+  const handleOpening = async () => {
+    setWaiting(true);
+    const response = await openElection(election.ref, token);
+    if (response.status === 200 && 'ref' in response) {
+      setWaiting(false);
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: 'success',
+        message: t('success.election-opened'),
+      });
+      dispatch({
+        type: ElectionTypes.SET,
+        field: 'forceClose',
+        value: false,
+      });
+
+    }
+  };
+
+  /** 
    * Close an election
    */
   const handleClosing = async () => {
     setWaiting(true);
-    dispatch({
-      type: ElectionTypes.SET,
-      field: 'forceClose',
-      value: true,
-    });
-
-    const candidates = election.candidates
-      .filter((c) => c.active)
-      .map((c: CandidateItem) => ({
-        name: c.name,
-        description: c.description,
-        image: c.image,
-        id: c.id,
-      }));
-    const grades = election.grades
-      .filter((c) => c.active)
-      .map((g: GradeItem, i: number) => ({name: g.name, value: g.value, id: g.id}));
-
-    const response = await updateElection(
-      election.ref,
-      election.name,
-      candidates,
-      grades,
-      election.description,
-      election.dateEnd,
-      election.emails.length,
-      election.hideResults,
-      true,
-      election.restricted,
-      election.randomOrder,
-      token
-    );
+    const response = await closeElection(election.ref, token);
     if (response.status === 200 && 'ref' in response) {
-      if (election.restricted && election.emails.length > 0) {
-        if (election.emails.length !== response.invites.length) {
-          throw new Error('Unexpected number of invites!');
-        }
-
-        const locale = getLocaleShort(router);
-        const urlVotes = response.invites.map((token: string) =>
-          getUrl(RouteTypes.VOTE, locale, response.ref, token)
-        );
-        const urlResult = getUrl(RouteTypes.RESULTS, locale, response.ref);
-        await sendInviteMails(
-          election.emails,
-          election.name,
-          urlVotes,
-          urlResult,
-          router
-        );
-      }
-      setWaiting(false);
       dispatchApp({
         type: AppTypes.TOAST_ADD,
         status: 'success',
         message: t('success.election-closed'),
       });
+      dispatch({
+        type: ElectionTypes.SET,
+        field: 'forceClose',
+        value: true,
+      });
+      setWaiting(false);
     }
   };
 
@@ -411,7 +410,10 @@ const ManageElection = ({context, token}) => {
   return (
     <>
       <div className="d-none d-md-flex">
-        <HeaderRubbonDesktop handleSubmit={handleSubmit} handleClosing={handleClosing} waiting={waiting} />
+        <HeaderRubbonDesktop handleSubmit={handleSubmit}
+          handleClosing={handleClosing}
+          handleOpening={handleOpening}
+          waiting={waiting} />
       </div>
       <div className="d-flex d-md-none">
         <HeaderRubbonMobile />

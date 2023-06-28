@@ -200,6 +200,66 @@ export const updateElection = async (
   }
 };
 
+export const closeElection = async (
+  ref: string,
+  token: string
+): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+  const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
+
+  try {
+    const req = await fetch(endpoint.href, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        ref,
+        force_close: true,
+      }),
+    });
+    if (!req.ok || req.status !== 200) {
+      const payload = await req.json();
+      return {status: req.status, ...payload};
+    }
+    const payload = await req.json();
+    return {status: 200, ...payload};
+  } catch (e) {
+    console.error(e);
+    return {status: 400, message: `Unknown API error: ${e}`};
+  }
+};
+
+export const openElection = async (
+  ref: string,
+  token: string
+): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+  const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
+
+  try {
+    const req = await fetch(endpoint.href, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        ref,
+        force_close: false,
+      }),
+    });
+    if (!req.ok || req.status !== 200) {
+      const payload = await req.json();
+      return {status: req.status, ...payload};
+    }
+    const payload = await req.json();
+    return {status: 200, ...payload};
+  } catch (e) {
+    console.error(e);
+    return {status: 400, message: `Unknown API error: ${e}`};
+  }
+};
+
 /**
  * Fetch results from external API
  */
