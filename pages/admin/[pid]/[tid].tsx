@@ -12,7 +12,7 @@ import {
   faSquarePollVertical,
   faSquareXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import {getElection, updateElection, closeElection, openElection} from '@services/api';
+import {getElection, updateElection, closeElection, getProgress, openElection} from '@services/api';
 import {
   ElectionContextInterface,
   ElectionProvider,
@@ -46,14 +46,22 @@ export async function getServerSideProps({query, locale}) {
   const {pid, tid: token} = query;
   const electionRef = pid.replaceAll('-', '');
 
-  const [payload, translations] = await Promise.all([
+  const [payload, translations, progress] = await Promise.all([
     getElection(electionRef),
     serverSideTranslations(locale, ['resource']),
+    getProgress(electionRef, token),
   ]);
 
   if ('message' in payload) {
     return {props: {err: payload.message, ...translations}};
   }
+
+  if ('message' in progress) {
+    console.log("NOT PROGRESS", progress, progress.message.detail, token)
+    return {props: {err: progress.message, ...translations}};
+  }
+
+  console.log("PROGRESS", progress);
 
   const grades = payload.grades.map((g) => ({...g, active: true}));
 
@@ -73,6 +81,8 @@ export async function getServerSideProps({query, locale}) {
     hideResults: payload.hide_results,
     forceClose: payload.force_close,
     restricted: payload.restricted,
+    numVoters: progress.num_voters ?? null,
+    numVoted: progress.num_voters_voted ?? null,
     randomOrder,
     emails: [],
     grades,
@@ -421,6 +431,12 @@ const ManageElection = ({token}) => {
           <Col className={isClosed(election) ? 'col-12' : 'col-lg-3 col-12'}>
             <Container className="py-4 d-none d-md-block">
               <h4>{t('common.the-vote')}</h4>
+              {election.numVoters !== undefined &&
+                <h5>{t('admin.num-voters')} {election.numVoters}</h5>
+              }
+              {election.numVoted !== undefined &&
+                <h5>{t('admin.num-voted')} {election.numVoted}</h5>
+              }
             </Container>
             <TitleField defaultName={election.name} />
             <CandidatesConfirmField />

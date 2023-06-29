@@ -26,6 +26,8 @@ export interface ElectionContextInterface {
   dateEnd: string;
   dateStart?: string;
   ref?: string;
+  numVoters?: number;
+  numVoted?: number;
 }
 
 export const defaultCandidate: CandidateItem = {

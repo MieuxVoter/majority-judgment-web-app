@@ -175,6 +175,8 @@
 	"admin.go-to-vote": "Access to the vote",
 	"admin.go-to-result": "View results",
 	"admin.error": "Unable to load the election.",
+	"admin.num-voters": "Number of voters:",
+	"admin.num-voted": "Number of votes:",
 	"result.download": "Download results",
 	"result.go-to-admin": "Manage the election",
 	"result.go-to-vote": "Do you want to go to the voting page?",

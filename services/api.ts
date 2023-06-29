@@ -6,6 +6,7 @@ export const api = {
     setElection: 'elections',
     getElection: 'elections/:slug',
     getResults: 'results/:slug',
+    getProgress: 'elections/:slug/progress',
     voteElection: 'ballots',
   },
 };
@@ -52,6 +53,11 @@ export interface ElectionPayload {
   restricted: boolean;
   grades: Array<GradePayload>;
   candidates: Array<CandidatePayload>;
+}
+
+export interface ProgressPayload {
+  num_voters: number;
+  num_voters_voted: number;
 }
 
 export interface ElectionCreatedPayload extends ElectionPayload {
@@ -300,6 +306,42 @@ export const getElection = async (
 
   try {
     const response = await fetch(endpoint.href);
+
+    if (response.status != 200) {
+      const payload = await response.json();
+      return {status: response.status, message: payload};
+    }
+    const payload = await response.json();
+    return {...payload, status: response.status};
+  } catch (error) {
+    return {status: 400, message: 'Unknown API error'};
+  }
+};
+
+
+export const getProgress = async (
+  pid: string,
+  token: string,
+): Promise<ProgressPayload | HTTPPayload> => {
+  /**
+   * Fetch progress (number of voters) from external API
+   */
+  const path = api.routesServer.getProgress.replace(
+    new RegExp(':slug', 'g'),
+    pid
+  );
+  const endpoint = new URL(path, URL_SERVER);
+
+  try {
+    const response = await fetch(
+      endpoint.href, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      }
+    })
+      ;
 
     if (response.status != 200) {
       const payload = await response.json();
