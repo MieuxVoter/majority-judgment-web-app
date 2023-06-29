@@ -57,11 +57,9 @@ export async function getServerSideProps({query, locale}) {
   }
 
   if ('message' in progress) {
-    console.log("NOT PROGRESS", progress, progress.message.detail, token)
     return {props: {err: progress.message, ...translations}};
   }
 
-  console.log("PROGRESS", progress);
 
   const grades = payload.grades.map((g) => ({...g, active: true}));
 
