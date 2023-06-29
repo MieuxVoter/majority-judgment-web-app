@@ -232,18 +232,12 @@ const HeaderRubbonMobile = () => {
   )
 }
 
-const ManageElection = ({context, token}) => {
+const ManageElection = ({token}) => {
   const {t} = useTranslation();
   const [election, dispatch] = useElection();
   const [_, dispatchApp] = useAppContext();
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
-
-  useEffect(() => {
-    if (context) {
-      dispatch({type: ElectionTypes.RESET, value: context});
-    }
-  }, [context]);
 
   const handleSubmit = async () => {
     if (!checkName(election)) {
@@ -400,6 +394,7 @@ const ManageElection = ({context, token}) => {
   const numGrades = election.grades.filter(
     (g) => g.active && g.name != ''
   ).length;
+  console.log(election.name, numCandidates, numGrades)
   const disabled =
     !election.name ||
     election.name == '' ||
@@ -422,15 +417,12 @@ const ManageElection = ({context, token}) => {
         fluid="xl"
         className="my-5 flex-column d-flex justify-content-center"
       >
-        <Container className="px-0 d-md-none mb-5">
-          <h4>{t('admin.confirm-title')}</h4>
-        </Container>
         <Row>
           <Col className={isClosed(election) ? 'col-12' : 'col-lg-3 col-12'}>
             <Container className="py-4 d-none d-md-block">
               <h4>{t('common.the-vote')}</h4>
             </Container>
-            <TitleField defaultName={context.name} />
+            <TitleField defaultName={election.name} />
             <CandidatesConfirmField />
           </Col>
           {!isClosed(election) && (
@@ -473,9 +465,9 @@ const ManageElectionProviding = ({err, context, token}) => {
     return <ErrorMessage>{t('admin.error')}</ErrorMessage>;
   }
   return (
-    <ElectionProvider>
+    <ElectionProvider initialValue={context}>
       <Blur />
-      <ManageElection context={context} token={token} />
+      <ManageElection token={token} />
     </ElectionProvider>
   );
 };

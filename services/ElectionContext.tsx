@@ -112,11 +112,16 @@ const ElectionContext = createContext<[ElectionContextInterface, DispatchType]>(
   [defaultElection, () => {}]
 );
 
-export function ElectionProvider({children}) {
+type ElectionProviderType = {
+  children: React.ReactNode;
+  initialValue?: ElectionContextInterface;
+};
+
+export const ElectionProvider = ({children, initialValue}: ElectionProviderType) => {
   /**
    * Provide the election and the dispatch to all children components
    */
-  const [election, dispatch] = useReducer(electionReducer, defaultElection);
+  const [election, dispatch] = useReducer(electionReducer, initialValue || defaultElection);
 
   // At the initialization, set the name using GET param
   const router = useRouter();
