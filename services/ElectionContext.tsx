@@ -10,6 +10,7 @@ import {
   SetStateAction,
 } from 'react';
 import {useRouter} from 'next/router';
+import LogRocket from 'logrocket';
 import {CandidateItem, GradeItem} from './type';
 import {gradeColors} from '@services/grades';
 
@@ -135,6 +136,12 @@ export const ElectionProvider = ({children, initialValue}: ElectionProviderType)
         type: ElectionTypes.SET,
         field: 'name',
         value: router.query.name,
+      });
+    }
+
+    if (election.ref != "") {
+      LogRocket.identify(election.ref, {
+        name: election.name,
       });
     }
   }, [router.isReady]);

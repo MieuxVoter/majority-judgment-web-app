@@ -7,6 +7,9 @@ import Footer from '@components/layouts/Footer';
 import '@styles/globals.css';
 import '@styles/scss/config.scss';
 
+import LogRocket from 'logrocket';
+LogRocket.init('mieux-voter/application-de-vote');
+
 function Application({Component, pageProps}) {
   const origin =
     typeof window !== 'undefined' && window.location.origin
