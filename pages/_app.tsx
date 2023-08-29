@@ -1,13 +1,13 @@
 import Head from 'next/head';
-import '@styles/globals.css';
-import '@styles/scss/config.scss';
+import {appWithTranslation} from 'next-i18next';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import { appWithTranslation } from 'next-i18next';
-import { AppProvider } from '@services/context';
+import {AppProvider} from '@services/context';
 import Header from '@components/layouts/Header';
 import Footer from '@components/layouts/Footer';
+import '@styles/globals.css';
+import '@styles/scss/config.scss';
 
-function Application({ Component, pageProps }) {
+function Application({Component, pageProps}) {
   const origin =
     typeof window !== 'undefined' && window.location.origin
       ? window.location.origin
@@ -34,7 +34,7 @@ function Application({ Component, pageProps }) {
   );
 }
 
-const AppWithContext = ({ Component, pageProps }) => (
+const AppWithContext = ({Component, pageProps}) => (
   <AppProvider>
     <Application Component={Component} pageProps={pageProps} />
   </AppProvider>

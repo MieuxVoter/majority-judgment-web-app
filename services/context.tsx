@@ -1,4 +1,4 @@
-import {createContext, useEffect, useReducer, useContext, Dispatch} from 'react';
+import {createContext, useEffect, useReducer, useContext, Dispatch, ReactNode} from 'react';
 
 
 interface ToastMessage {
@@ -78,7 +78,7 @@ const reducer = (app: Application, action: AppActionTypes) => {
   }
 }
 
-export function AppProvider({children}) {
+export function AppProvider({children}: {children: ReactNode}) {
   const [app, dispatch] = useReducer(reducer, defaultApp);
 
   const removeToast = (i: number) => {
