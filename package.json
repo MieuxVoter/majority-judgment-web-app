@@ -29,6 +29,7 @@
 		"eslint-config-next": "^13.0.0",
 		"framer-motion": "^7.6.4",
 		"i18next": "^22.0.6",
+		"logrocket": "^5.0.1",
 		"next": "^13.0.5",
 		"next-i18next": "^12.1.0",
 		"react": "^18.2.0",
