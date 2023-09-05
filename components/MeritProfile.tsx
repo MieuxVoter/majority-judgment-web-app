@@ -1,30 +1,14 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GradeResultInterface, MeritProfileInterface } from '@services/type';
 import { getMajorityGrade } from '@services/majorityJudgment';
-
-interface ParamsInterface {
-  numVotes: number;
-  outgaugeThreshold: number;
-}
 
 interface GradeBarInterface {
   grade: GradeResultInterface;
   size: number;
-  index: number;
-  params: ParamsInterface;
 }
 
-const GradeBar = ({ index, grade, size, params }: GradeBarInterface) => {
-  if (isNaN(size)) {
-    //  throw new Error('size is NaN');
-    console.log('gradebar', index, grade, size);
-  }
-
+const GradeBar = ({ grade, size }: GradeBarInterface) => {
   const width = `${size * 100}%`;
-  const textWidth = Math.floor(100 * size);
-
-  const left = `${(size * 100) / 2}%`;
-  const top = index % 2 ? '20px' : '-20px';
 
   if (size < 0.001) {
     return null;
@@ -38,25 +22,7 @@ const GradeBar = ({ index, grade, size, params }: GradeBarInterface) => {
         backgroundColor: grade.color,
         minHeight: '20px',
       }}
-    >
-      {/* size < params.outgaugeThreshold ? (
-          <span
-            style={{
-              left: left,
-              top: top,
-              display: "relative",
-              backgroundColor: grade.color,
-            }}
-          >
-            {textWidth}%
-          </span>
-        ) : (
-          <span>
-            {Math.floor(100 * size)}%
-          </span>
-        )
-*/}
-    </div>
+    ></div>
   );
 };
 
@@ -153,17 +119,6 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
   // is proponent higher than opposant?
   const proponentMajority = proponentWidth > opponentWidth;
 
-  // for mobile phone, we outgauge earlier than on desktop
-  const innerWidth =
-    typeof window !== 'undefined' && window.innerWidth
-      ? window.innerWidth
-      : 1000;
-
-  const params: ParamsInterface = {
-    outgaugeThreshold: innerWidth <= 760 ? 0.05 : 0.03,
-    numVotes,
-  };
-
   return (
     <>
       <MajorityGrade
@@ -181,18 +136,11 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
             {values
               .filter((v) => v > majorityGrade.value)
               .reverse()
-              .map((v) => {
-                const index = values.indexOf(v);
+              .map((v, i) => {
                 const size =
                   proponentWidth < 1e-3 ? 0 : normalized[v] / proponentWidth;
                 return (
-                  <GradeBar
-                    index={index}
-                    params={params}
-                    grade={gradesByValue[v]}
-                    key={index}
-                    size={size}
-                  />
+                  <GradeBar grade={gradesByValue[v]} key={i} size={size} />
                 );
               })}
           </div>
@@ -208,20 +156,8 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
         >
           {values
             .filter((v) => v === majorityGrade.value)
-            .map((v) => {
-              const index = values.indexOf(v);
-              if (index === -1) {
-                throw new Error('index is not found');
-              }
-              return (
-                <GradeBar
-                  index={index}
-                  params={params}
-                  grade={gradesByValue[v]}
-                  key={index}
-                  size={1}
-                />
-              );
+            .map((v, i) => {
+              return <GradeBar grade={gradesByValue[v]} key={i} size={1} />;
             })}
         </div>
         {opponentWidth > 1e-5 ? (
@@ -234,21 +170,11 @@ const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
             {values
               .filter((v) => v < majorityGrade.value)
               .reverse()
-              .map((v) => {
-                const index = values.indexOf(v);
-                if (index === -1) {
-                  throw new Error('index is not found');
-                }
+              .map((v, i) => {
                 const size =
                   opponentWidth < 1e-3 ? 0 : normalized[v] / opponentWidth;
                 return (
-                  <GradeBar
-                    index={index}
-                    params={params}
-                    grade={gradesByValue[v]}
-                    key={index}
-                    size={size}
-                  />
+                  <GradeBar grade={gradesByValue[v]} key={i} size={size} />
                 );
               })}
           </div>

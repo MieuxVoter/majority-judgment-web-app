@@ -62,7 +62,6 @@ export async function getServerSideProps({ query, locale }) {
   });
   const gradesByValue: { [key: number]: GradeResultInterface } = {};
   grades.forEach((g) => (gradesByValue[g.value] = g));
-  console.log('Grades', grades);
 
   const result: ResultInterface = {
     name: payload.name,
