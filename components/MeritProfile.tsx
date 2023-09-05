@@ -1,6 +1,6 @@
-import {useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {GradeResultInterface, MeritProfileInterface} from '@services/type';
-import {getMajorityGrade} from '@services/majorityJudgment';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { GradeResultInterface, MeritProfileInterface } from '@services/type';
+import { getMajorityGrade } from '@services/majorityJudgment';
 
 interface ParamsInterface {
   numVotes: number;
@@ -14,7 +14,12 @@ interface GradeBarInterface {
   params: ParamsInterface;
 }
 
-const GradeBar = ({index, grade, size, params}: GradeBarInterface) => {
+const GradeBar = ({ index, grade, size, params }: GradeBarInterface) => {
+  if (isNaN(size)) {
+    //  throw new Error('size is NaN');
+    console.log('gradebar', index, grade, size);
+  }
+
   const width = `${size * 100}%`;
   const textWidth = Math.floor(100 * size);
 
@@ -59,16 +64,14 @@ const DashedMedian = () => {
   return (
     <div
       className="d-flex justify-content-center"
-      style={{marginTop: '-40px', height: '50px'}}
+      style={{ marginTop: '-40px', height: '50px' }}
     >
-      <div className="border h-100 border-1 border-dark border-opacity-75 border-dashed position-relative"
-
-      ></div>
+      <div className="border h-100 border-1 border-dark border-opacity-75 border-dashed position-relative"></div>
     </div>
   );
 };
 
-const MajorityGrade = ({grade, left}) => {
+const MajorityGrade = ({ grade, left }) => {
   // const spanRef = useRef<HTMLDivElement>();
   const spanRef = useRef<HTMLDivElement>();
 
@@ -83,7 +86,7 @@ const MajorityGrade = ({grade, left}) => {
 
   return (
     <div
-      style={{left: `calc(${left * 100}% - ${width / 2}px)`}}
+      style={{ left: `calc(${left * 100}% - ${width / 2}px)` }}
       className="position-relative"
     >
       <div
@@ -123,8 +126,8 @@ interface MeritProfileBarInterface {
   grades: Array<GradeResultInterface>;
 }
 
-const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
-  const gradesByValue: {[key: number]: GradeResultInterface} = {};
+const MeritProfileBar = ({ profile, grades }: MeritProfileBarInterface) => {
+  const gradesByValue: { [key: number]: GradeResultInterface } = {};
   grades.forEach((g) => (gradesByValue[g.value] = g));
 
   const numVotes = Object.values(profile).reduce((a, b) => a + b, 0);
@@ -170,9 +173,10 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
       <div className="d-flex">
         {proponentWidth > 1e-5 ? (
           <div
-            className={`d-flex border border-${proponentMajority ? 2 : 1
-              } border-success`}
-            style={{flexBasis: `${proponentWidth * 100}%`}}
+            className={`d-flex border border-${
+              proponentMajority ? 2 : 1
+            } border-success`}
+            style={{ flexBasis: `${proponentWidth * 100}%` }}
           >
             {values
               .filter((v) => v > majorityGrade.value)
@@ -180,7 +184,7 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
               .map((v) => {
                 const index = values.indexOf(v);
                 const size =
-                  proponentWidth < 1e-3 ? 0 : normalized[index] / proponentWidth;
+                  proponentWidth < 1e-3 ? 0 : normalized[v] / proponentWidth;
                 return (
                   <GradeBar
                     index={index}
@@ -191,20 +195,24 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
                   />
                 );
               })}
-          </div>) : (
+          </div>
+        ) : (
           <div
             className="d-flex"
-            style={{flexBasis: `${proponentWidth * 100}%`}}
-          >
-          </div>)}
+            style={{ flexBasis: `${proponentWidth * 100}%` }}
+          ></div>
+        )}
         <div
           className="border border-2 border-primary"
-          style={{flexBasis: `${normalized[majorityValue] * 100}%`}}
+          style={{ flexBasis: `${normalized[majorityValue] * 100}%` }}
         >
           {values
             .filter((v) => v === majorityGrade.value)
             .map((v) => {
               const index = values.indexOf(v);
+              if (index === -1) {
+                throw new Error('index is not found');
+              }
               return (
                 <GradeBar
                   index={index}
@@ -218,17 +226,21 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
         </div>
         {opponentWidth > 1e-5 ? (
           <div
-            className={`d-flex border border-${proponentMajority ? 1 : 2
-              } border-danger`}
-            style={{flexBasis: `${opponentWidth * 100}%`}}
+            className={`d-flex border border-${
+              proponentMajority ? 1 : 2
+            } border-danger`}
+            style={{ flexBasis: `${opponentWidth * 100}%` }}
           >
             {values
               .filter((v) => v < majorityGrade.value)
               .reverse()
               .map((v) => {
                 const index = values.indexOf(v);
+                if (index === -1) {
+                  throw new Error('index is not found');
+                }
                 const size =
-                  opponentWidth < 1e-3 ? 0 : normalized[index] / opponentWidth;
+                  opponentWidth < 1e-3 ? 0 : normalized[v] / opponentWidth;
                 return (
                   <GradeBar
                     index={index}
@@ -239,9 +251,12 @@ const MeritProfileBar = ({profile, grades}: MeritProfileBarInterface) => {
                   />
                 );
               })}
-          </div>) : (
-          <div className="d-flex" style={{flexBasis: `${opponentWidth * 100}%`}} >
           </div>
+        ) : (
+          <div
+            className="d-flex"
+            style={{ flexBasis: `${opponentWidth * 100}%` }}
+          ></div>
         )}
       </div>
       {/* <div className='median dash'> </div> */}
