@@ -429,7 +429,7 @@ const ManageElection = ({token}) => {
           <Col className={isClosed(election) ? 'col-12' : 'col-lg-3 col-12'}>
             <Container className="py-4 d-none d-md-block">
               <h4>{t('common.the-vote')}</h4>
-              {election.numVoters !== undefined &&
+              {election.restricted && election.numVoters !== undefined &&
                 <h5>{t('admin.num-voters')} {election.numVoters}</h5>
               }
               {election.numVoted !== undefined &&
