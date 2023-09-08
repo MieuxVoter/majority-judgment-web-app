@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import {useTranslation} from 'next-i18next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
-import { Container, Collapse, Card, CardHeader, CardBody } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {Container, Collapse, Card, CardHeader, CardBody} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
   faChevronDown,
@@ -18,25 +18,25 @@ import CSVLink from '@components/CSVLink';
 import Logo from '@components/Logo';
 import MeritProfile from '@components/MeritProfile';
 import Button from '@components/Button';
-import { getResults } from '@services/api';
+import {getResults} from '@services/api';
 import {
   GradeResultInterface,
   ResultInterface,
   MeritProfileInterface,
   CandidateResultInterface,
 } from '@services/type';
-import { getUrl, RouteTypes } from '@services/routes';
-import { displayRef, getLocaleShort } from '@services/utils';
-import { getMajorityGrade } from '@services/majorityJudgment';
+import {getUrl, RouteTypes} from '@services/routes';
+import {displayRef, getLocaleShort} from '@services/utils';
+import {getMajorityGrade} from '@services/majorityJudgment';
 import avatarBlue from '../../../public/avatarBlue.svg';
 import calendar from '../../../public/calendar.svg';
 import arrowUpload from '../../../public/arrowUpload.svg';
 import arrowLink from '../../../public/arrowL.svg';
-import { getGradeColor } from '@services/grades';
-import { useRouter } from 'next/router';
+import {getGradeColor} from '@services/grades';
+import {useRouter} from 'next/router';
 
-export async function getServerSideProps({ query, locale }) {
-  const { pid, tid: token } = query;
+export async function getServerSideProps({query, locale}) {
+  const {pid, tid: token} = query;
   const electionRef = pid.replaceAll('-', '');
 
   const [payload, translations] = await Promise.all([
@@ -45,7 +45,7 @@ export async function getServerSideProps({ query, locale }) {
   ]);
 
   if ('message' in payload) {
-    return { props: { err: payload, electionRef, ...translations } };
+    return {props: {err: payload, electionRef, ...translations}};
   }
 
   const numGrades = payload.grades.length;
@@ -58,9 +58,9 @@ export async function getServerSideProps({ query, locale }) {
 
     const color = getGradeColor(gradeIdx, numGrades);
 
-    return { ...g, color };
+    return {...g, color};
   });
-  const gradesByValue: { [key: number]: GradeResultInterface } = {};
+  const gradesByValue: {[key: number]: GradeResultInterface} = {};
   grades.forEach((g) => (gradesByValue[g.value] = g));
 
   const result: ResultInterface = {
@@ -113,33 +113,47 @@ const getNumVotes = (result: ResultInterface) => {
   return numVotes;
 };
 
-const WillClose = ({ delay, forceClose }) => {
-  const { t } = useTranslation();
+interface ElectionStatusProps {
+  delay: number | null;
+  forceClose: boolean;
+}
+
+const ElectionStatus = ({delay, forceClose}: ElectionStatusProps) => {
+  const {t} = useTranslation();
+  console.log(delay, forceClose,);
+
+  if (!delay) {
+    if (forceClose) {
+      return <div>{t('result.closed')}</div>;
+    } else {
+      return <div>{t('result.opened')}</div>;
+    }
+  }
+
   if (delay < 365 || forceClose) {
     return <div>{t('result.closed')}</div>;
-  } else if (delay < 0) {
+  }
+  if (delay < 0) {
     return (
       <div>{`${t('result.has-closed')} ${delay} ${t('common.days')}`}</div>
     );
-  } else if (delay > 365) {
-    return <div>{t('result.opened')}</div>;
-  } else {
-    return (
-      <div>{`${t('result.will-close')} ${delay} ${t('common.days')}`}</div>
-    );
   }
+  if (delay > 365) {
+    return <div>{t('result.opened')}</div>;
+  }
+  return (
+    <div>{`${t('result.will-close')} ${delay} ${t('common.days')}`}</div>
+  );
 };
 
 interface ResultBanner {
   result: ResultInterface;
 }
-const ResultBanner = ({ result }) => {
-  const { t } = useTranslation();
+const ResultBanner = ({result}) => {
+  const {t} = useTranslation();
   const router = useRouter();
 
-  const dateEnd = new Date(result.dateEnd);
-  const now = new Date();
-  const closedSince = +dateEnd - +now;
+  const closedSince = typeof result.dateEnd === "string" ? +(new Date(result.dateEnd)) - +(new Date()) : null;
 
   const numVotes = getNumVotes(result);
 
@@ -157,7 +171,7 @@ const ResultBanner = ({ result }) => {
         <div className="text-muted w-100 d-flex justify-content-between">
           <div className="d-flex align-items-center flex-fill border-end border-end-2">
             <Image alt="Calendar" src={calendar} className="me-2" />
-            <WillClose delay={closedSince} forceClose={result.forceClose} />
+            <ElectionStatus delay={closedSince} forceClose={result.forceClose} />
           </div>
           <div className="d-flex align-items-center justify-content-end flex-fill">
             <Image src={avatarBlue} alt="Avatar" className="me-2" />
@@ -177,7 +191,7 @@ const ResultBanner = ({ result }) => {
         <div className="text-muted">
           <div className="d-flex align-items-center">
             <Image alt="Calendar" src={calendar} className="me-2" />
-            <WillClose delay={closedSince} forceClose={result.forceClose} />
+            <ElectionStatus delay={closedSince} forceClose={result.forceClose} />
           </div>
           <div className="d-flex align-items-center">
             <Image src={avatarBlue} alt="Avatar" className="me-2" />
@@ -215,16 +229,16 @@ const ResultBanner = ({ result }) => {
   );
 };
 
-const Downloader = ({ result, children, ...rest }) => {
+const Downloader = ({result, children, ...rest}) => {
   const values = result.grades.map((v) => v.value).sort();
   const data = result.candidates.map((c) => {
     const grades = {};
     result.grades.forEach(
       (g) =>
-        (grades[g.name] =
-          g.value in c.meritProfile ? c.meritProfile[g.value].toString() : '0')
+      (grades[g.name] =
+        g.value in c.meritProfile ? c.meritProfile[g.value].toString() : '0')
     );
-    return { name: c.name, ...grades };
+    return {name: c.name, ...grades};
   });
 
   return (
@@ -238,8 +252,8 @@ const Downloader = ({ result, children, ...rest }) => {
   );
 };
 
-const BottomButtonsMobile = ({ result }) => {
-  const { t } = useTranslation();
+const BottomButtonsMobile = ({result}) => {
+  const {t} = useTranslation();
 
   const router = useRouter();
   const locale = getLocaleShort(router);
@@ -285,8 +299,8 @@ interface TitleBannerInterface {
   token?: string;
 }
 
-const TitleBanner = ({ name, electionRef, token }: TitleBannerInterface) => {
-  const { t } = useTranslation();
+const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
+  const {t} = useTranslation();
   const router = useRouter();
   const locale = getLocaleShort(router);
 
@@ -340,7 +354,7 @@ interface ButtonGradeResultInterface {
   grade: GradeResultInterface;
 }
 
-const ButtonGrade = ({ grade }: ButtonGradeResultInterface) => {
+const ButtonGrade = ({grade}: ButtonGradeResultInterface) => {
   const style = {
     color: 'white',
     backgroundColor: grade.color,
@@ -360,7 +374,7 @@ interface CandidateRankedInterface {
   candidate: CandidateResultInterface;
 }
 
-const CandidateRanked = ({ candidate }: CandidateRankedInterface) => {
+const CandidateRanked = ({candidate}: CandidateRankedInterface) => {
   const isFirst = candidate.rank == 1;
   return (
     <div className="m-3 d-flex flex-column justify-content-end align-items-center candidate_rank fw-bold">
@@ -386,8 +400,8 @@ interface CandidateCardInterface {
   grades: Array<GradeResultInterface>;
 }
 
-const CandidateCard = ({ candidate, grades }: CandidateCardInterface) => {
-  const { t } = useTranslation();
+const CandidateCard = ({candidate, grades}: CandidateCardInterface) => {
+  const {t} = useTranslation();
   const [collapse, setCollapse] = useState(true);
 
   return (
@@ -433,8 +447,8 @@ interface PodiumInterface {
   candidates: Array<CandidateResultInterface>;
 }
 
-const Podium = ({ candidates }: PodiumInterface) => {
-  const { t } = useTranslation();
+const Podium = ({candidates}: PodiumInterface) => {
+  const {t} = useTranslation();
 
   // get best candidates
   const numBest = Math.min(3, candidates.length);
@@ -482,7 +496,7 @@ const ResultPage = ({
   err,
   electionRef,
 }: ResultPageInterface) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const router = useRouter();
   const locale = getLocaleShort(router);
 
@@ -555,12 +569,12 @@ const ResultPage = ({
       <TitleBanner electionRef={result.ref} token={token} name={result.name} />
       <ResultBanner result={result} />
 
-      <Container style={{ maxWidth: '1000px' }}>
+      <Container style={{maxWidth: '1000px'}}>
         <Podium candidates={result.candidates} />
       </Container>
 
       <Container
-        style={{ maxWidth: '750px' }}
+        style={{maxWidth: '750px'}}
         className="my-5 h-100 d-flex flex-fill flex-column justify-content-between"
       >
         <div>
