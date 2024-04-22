@@ -1,36 +1,38 @@
-import {useEffect, useState} from 'react';
-import {useTranslation} from 'next-i18next';
-import {Container, Row, Col} from 'reactstrap';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'next-i18next';
+import { Container, Row, Col } from 'reactstrap';
 import DatePicker from '@components/DatePicker';
 import Switch from '@components/Switch';
-import {ElectionTypes, useElection} from '@services/ElectionContext';
+import { ElectionTypes, useElection } from '@services/ElectionContext';
 
 const LimitDate = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [election, dispatch] = useElection();
 
   const defaultEndDate = new Date();
   defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
-  const [endDate, setEndDate] = useState(election.dateEnd ? new Date(election.dateEnd) : defaultEndDate);
+  const [endDate, setEndDate] = useState(
+    election.dateEnd ? new Date(election.dateEnd) : defaultEndDate
+  );
   const hasDate = election.dateEnd !== null;
 
   const toggle = () => {
     dispatch({
       type: ElectionTypes.SET,
       field: 'dateEnd',
-      value: hasDate ? null : endDate,
+      value: hasDate ? null : endDate.toISOString(),
     });
   };
 
   const handleDate = (date) => {
-    setEndDate(date)
+    setEndDate(date);
     dispatch({
       type: ElectionTypes.SET,
       field: 'dateEnd',
-      value: date.toString(),
+      value: date.toISOString(),
     });
-  }
+  };
 
   const desc = t('admin.limit-duration-desc');
   const now = new Date();
@@ -43,7 +45,6 @@ const LimitDate = () => {
       setEndDate(new Date(election.dateEnd));
     }
   }, [election.dateEnd]);
-
 
   return (
     <Container className="bg-white p-3 p-md-4 mt-1">

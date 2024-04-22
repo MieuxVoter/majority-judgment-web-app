@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import {useTranslation} from 'next-i18next';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
-import {Container, Row, Col} from 'reactstrap';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { Container, Row, Col } from 'reactstrap';
 import {
   faArrowRight,
   faCheck,
@@ -12,7 +12,13 @@ import {
   faSquarePollVertical,
   faSquareXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import {getElection, updateElection, closeElection, getProgress, openElection} from '@services/api';
+import {
+  getElection,
+  updateElection,
+  closeElection,
+  getProgress,
+  openElection,
+} from '@services/api';
 import {
   ElectionContextInterface,
   ElectionProvider,
@@ -25,8 +31,8 @@ import {
   hasEnoughCandidates,
   canBeFinished,
 } from '@services/ElectionContext';
-import {CandidateItem, GradeItem} from '@services/type';
-import {gradeColors} from '@services/grades';
+import { CandidateItem, GradeItem } from '@services/type';
+import { gradeColors } from '@services/grades';
 import TitleField from '@components/admin/Title';
 import Button from '@components/Button';
 import AccessResults from '@components/admin/AccessResults';
@@ -37,13 +43,13 @@ import Order from '@components/admin/Order';
 import Private from '@components/admin/Private';
 import ErrorMessage from '@components/Error';
 import Blur from '@components/Blur';
-import {getUrl, RouteTypes} from '@services/routes';
-import {sendInviteMails} from '@services/mail';
-import {AppTypes, useAppContext} from '@services/context';
-import {getLocaleShort} from '@services/utils';
+import { getUrl, RouteTypes } from '@services/routes';
+import { sendInviteMails } from '@services/mail';
+import { AppTypes, useAppContext } from '@services/context';
+import { getLocaleShort } from '@services/utils';
 
-export async function getServerSideProps({query, locale}) {
-  const {pid, tid: token} = query;
+export async function getServerSideProps({ query, locale }) {
+  const { pid, tid: token } = query;
   const electionRef = pid.replaceAll('-', '');
 
   const [payload, translations, progress] = await Promise.all([
@@ -53,15 +59,14 @@ export async function getServerSideProps({query, locale}) {
   ]);
 
   if ('message' in payload) {
-    return {props: {err: payload.message, ...translations}};
+    return { props: { err: payload.message, ...translations } };
   }
 
   if ('message' in progress) {
-    return {props: {err: progress.message, ...translations}};
+    return { props: { err: progress.message, ...translations } };
   }
 
-
-  const grades = payload.grades.map((g) => ({...g, active: true}));
+  const grades = payload.grades.map((g) => ({ ...g, active: true }));
 
   const candidates: Array<CandidateItem> = payload.candidates.map((c) => ({
     ...c,
@@ -104,8 +109,8 @@ const Spinner = () => {
   );
 };
 
-const ManageButtonsMobile = ({handleClosing, waiting}) => {
-  const {t} = useTranslation();
+const ManageButtonsMobile = ({ handleClosing, waiting }) => {
+  const { t } = useTranslation();
   const [election, _] = useElection();
   const router = useRouter();
   const locale = getLocaleShort(router);
@@ -113,11 +118,14 @@ const ManageButtonsMobile = ({handleClosing, waiting}) => {
   return (
     <>
       {!election.restricted && !isClosed(election) && (
-        <Link href={getUrl(RouteTypes.VOTE, locale, election.ref)} className="d-grid">
+        <Link
+          href={getUrl(RouteTypes.VOTE, locale, election.ref)}
+          className="d-grid"
+        >
           <Button
             icon={faArrowRight}
             color="primary"
-            style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+            style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
             position="right"
           >
             {t('admin.go-to-vote')}
@@ -126,11 +134,14 @@ const ManageButtonsMobile = ({handleClosing, waiting}) => {
       )}
 
       {canViewResults(election) && (
-        <Link href={getUrl(RouteTypes.RESULTS, locale, election.ref)} className="d-grid">
+        <Link
+          href={getUrl(RouteTypes.RESULTS, locale, election.ref)}
+          className="d-grid"
+        >
           <Button
             icon={faSquarePollVertical}
             color="primary"
-            style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+            style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
             position="right"
           >
             {t('admin.go-to-result')}
@@ -141,7 +152,7 @@ const ManageButtonsMobile = ({handleClosing, waiting}) => {
       {!isClosed(election) && (
         <Button
           className="d-grid btn_closing"
-          style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+          style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
           onClick={handleClosing}
           position="right"
         >
@@ -151,8 +162,13 @@ const ManageButtonsMobile = ({handleClosing, waiting}) => {
     </>
   );
 };
-const HeaderRubbonDesktop = ({handleClosing, handleOpening, handleSubmit, waiting}) => {
-  const {t} = useTranslation();
+const HeaderRubbonDesktop = ({
+  handleClosing,
+  handleOpening,
+  handleSubmit,
+  waiting,
+}) => {
+  const { t } = useTranslation();
   const [election, _] = useElection();
   const router = useRouter();
   const locale = getLocaleShort(router);
@@ -167,7 +183,7 @@ const HeaderRubbonDesktop = ({handleClosing, handleOpening, handleSubmit, waitin
           color="primary"
           className="me-3"
           onClick={handleSubmit}
-          style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+          style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
           position="right"
         >
           {t('common.save')}
@@ -178,7 +194,7 @@ const HeaderRubbonDesktop = ({handleClosing, handleOpening, handleSubmit, waitin
               icon={faCheckToSlot}
               color="primary"
               className="me-3"
-              style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+              style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
               position="right"
             >
               {t('common.vote')}
@@ -192,7 +208,7 @@ const HeaderRubbonDesktop = ({handleClosing, handleOpening, handleSubmit, waitin
               icon={faSquarePollVertical}
               color="primary"
               className="me-3"
-              style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+              style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
               position="right"
             >
               {t('common.results')}
@@ -204,44 +220,44 @@ const HeaderRubbonDesktop = ({handleClosing, handleOpening, handleSubmit, waitin
           <Button
             className="me-3"
             color="primary"
-            style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
+            style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
             onClick={handleOpening}
             icon={faSquareXmark}
             position="right"
           >
             {waiting ? <Spinner /> : t('admin.open-election')}
           </Button>
-        )
-          : (
-            <Button
-              className="me-3"
-              color="primary"
-              style={{border: '2px solid rgba(255, 255, 255, 0.4)'}}
-              onClick={handleClosing}
-              icon={faCheck}
-              position="right"
-            >
-              {waiting ? <Spinner /> : t('admin.close-election')}
-            </Button>
-          )}
+        ) : (
+          <Button
+            className="me-3"
+            color="primary"
+            style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }}
+            onClick={handleClosing}
+            icon={faCheck}
+            position="right"
+          >
+            {waiting ? <Spinner /> : t('admin.close-election')}
+          </Button>
+        )}
       </div>
-    </div >
+    </div>
   );
 };
 
-
 const HeaderRubbonMobile = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-    <div className="w-100 px-4 text-white d-flex justify-content-between align-items-center"
-      style={{minHeight: "100px"}}>
+    <div
+      className="w-100 px-4 text-white d-flex justify-content-between align-items-center"
+      style={{ minHeight: '100px' }}
+    >
       <h5 className="mx-0 text-white">{t('admin.admin-title')}</h5>
     </div>
-  )
-}
+  );
+};
 
-const ManageElection = ({token}) => {
-  const {t} = useTranslation();
+const ManageElection = ({ token }) => {
+  const { t } = useTranslation();
   const [election, dispatch] = useElection();
   const [_, dispatchApp] = useAppContext();
   const router = useRouter();
@@ -294,7 +310,7 @@ const ManageElection = ({token}) => {
       }));
     const grades = election.grades
       .filter((c) => c.active)
-      .map((g: GradeItem) => ({name: g.name, value: g.value, id: g.id}));
+      .map((g: GradeItem) => ({ name: g.name, value: g.value, id: g.id }));
     setWaiting(true);
 
     const response = await updateElection(
@@ -340,7 +356,6 @@ const ManageElection = ({token}) => {
           field: 'emails',
           value: [],
         });
-
       }
 
       setWaiting(false);
@@ -353,7 +368,7 @@ const ManageElection = ({token}) => {
     }
   };
 
-  /** 
+  /**
    * Open an election
    */
   const handleOpening = async () => {
@@ -371,11 +386,10 @@ const ManageElection = ({token}) => {
         field: 'forceClose',
         value: false,
       });
-
     }
   };
 
-  /** 
+  /**
    * Close an election
    */
   const handleClosing = async () => {
@@ -402,7 +416,7 @@ const ManageElection = ({token}) => {
   const numGrades = election.grades.filter(
     (g) => g.active && g.name != ''
   ).length;
-  console.log(election.name, numCandidates, numGrades)
+  console.log(election.name, numCandidates, numGrades);
   const disabled =
     !election.name ||
     election.name == '' ||
@@ -413,10 +427,12 @@ const ManageElection = ({token}) => {
   return (
     <>
       <div className="d-none d-md-flex">
-        <HeaderRubbonDesktop handleSubmit={handleSubmit}
+        <HeaderRubbonDesktop
+          handleSubmit={handleSubmit}
           handleClosing={handleClosing}
           handleOpening={handleOpening}
-          waiting={waiting} />
+          waiting={waiting}
+        />
       </div>
       <div className="d-flex d-md-none">
         <HeaderRubbonMobile />
@@ -429,12 +445,16 @@ const ManageElection = ({token}) => {
           <Col className={isClosed(election) ? 'col-12' : 'col-lg-3 col-12'}>
             <Container className="py-4 d-none d-md-block">
               <h4>{t('common.the-vote')}</h4>
-              {election.restricted && election.numVoters !== undefined &&
-                <h5>{t('admin.num-voters')} {election.numVoters}</h5>
-              }
-              {election.numVoted !== undefined &&
-                <h5>{t('admin.num-voted')} {election.numVoted}</h5>
-              }
+              {election.restricted && election.numVoters !== undefined && (
+                <h5>
+                  {t('admin.num-voters')} {election.numVoters}
+                </h5>
+              )}
+              {election.numVoted !== undefined && (
+                <h5>
+                  {t('admin.num-voted')} {election.numVoted}
+                </h5>
+              )}
             </Container>
             <TitleField defaultName={election.name} />
             <CandidatesConfirmField />
@@ -465,7 +485,10 @@ const ManageElection = ({token}) => {
             {waiting ? <Spinner /> : t('admin.confirm-edit')}
           </Button>
           <div className="d-grid gap-3 mt-3 d-md-none">
-            <ManageButtonsMobile handleClosing={handleClosing} waiting={waiting} />
+            <ManageButtonsMobile
+              handleClosing={handleClosing}
+              waiting={waiting}
+            />
           </div>
         </Container>
       </Container>
@@ -473,8 +496,8 @@ const ManageElection = ({token}) => {
   );
 };
 
-const ManageElectionProviding = ({err, context, token}) => {
-  const {t} = useTranslation();
+const ManageElectionProviding = ({ err, context, token }) => {
+  const { t } = useTranslation();
   if (err) {
     return <ErrorMessage>{t('admin.error')}</ErrorMessage>;
   }
