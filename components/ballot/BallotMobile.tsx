@@ -42,7 +42,7 @@ const BallotMobile = ({hasVoted}) => {
       {hasVoted && <h6 className="d-flex text-start p-4">
         {t("vote.already-voted")}
       </h6>}
-      <div className="w-100 d-flex">
+      <div className="w-100 d-flex overflow-auto">
         {ballot.election.candidates.map((candidate, candidateId) => {
           return (
             <div key={candidateId} className="bg-white flex-column  d-flex my-4 mx-2 py-4 px-3 candidate-vote" style={{"left": offset === 0 ? 0 : offset + 30}}>
