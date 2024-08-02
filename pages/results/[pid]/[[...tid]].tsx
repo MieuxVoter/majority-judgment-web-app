@@ -560,7 +560,7 @@ const ResultPage = ({
   result.candidates.forEach((c) => (candidateByRank[c.rank] = c));
 
   return (
-    <Container className="h-100 resultContainer resultPage d-flex flex-column align-flex-stretch">
+    <Container className="h-100 resultContainer resultPage d-flex flex-column overflow-auto align-flex-stretch">
       <Head>
         <title>{result.name}</title>
         <link rel="icon" href="/favicon.ico" />
