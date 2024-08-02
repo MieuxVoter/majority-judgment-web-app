@@ -373,19 +373,31 @@ const ManageElection = ({ token }) => {
    */
   const handleOpening = async () => {
     setWaiting(true);
-    const response = await openElection(election.ref, token);
-    if (response.status === 200 && 'ref' in response) {
-      setWaiting(false);
+    try {
+      const response = await openElection(election, token);
+
+      if (response.status === 200 && 'ref' in response) {
+        dispatchApp({
+          type: AppTypes.TOAST_ADD,
+          status: 'success',
+          message: t('success.election-opened'),
+        });
+        dispatch({
+          type: ElectionTypes.SET,
+          field: 'forceClose',
+          value: false,
+        });
+
+        router.reload();
+      }
+    } catch {
       dispatchApp({
         type: AppTypes.TOAST_ADD,
-        status: 'success',
-        message: t('success.election-opened'),
+        status: 'error',
+        message: t('error.catch22'),
       });
-      dispatch({
-        type: ElectionTypes.SET,
-        field: 'forceClose',
-        value: false,
-      });
+    } finally {
+      setWaiting(false);
     }
   };
 

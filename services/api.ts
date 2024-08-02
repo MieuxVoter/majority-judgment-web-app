@@ -1,5 +1,6 @@
 import { Candidate, Grade, Vote } from './type';
 import { URL_SERVER } from './constants';
+import { ElectionContextInterface } from './ElectionContext';
 
 export const api = {
   routesServer: {
@@ -237,22 +238,34 @@ export const closeElection = async (
 };
 
 export const openElection = async (
-  ref: string,
+  election: ElectionContextInterface,
   token: string
 ): Promise<ElectionUpdatedPayload | HTTPPayload> => {
   const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
 
   try {
+    const params = {
+      ref:election.ref,
+      force_close: false,
+      date_end: null
+    };
+
+    if (election.dateEnd != null) {
+      var dateEnd = new Date(election.dateEnd);
+
+      if (dateEnd.getTime() <= Date.now()){
+        dateEnd.setDate(dateEnd.getDate()+1);
+        params.date_end = dateEnd.toISOString();
+      } 
+    }
+
     const req = await fetch(endpoint.href, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        ref,
-        force_close: false,
-      }),
+      body: JSON.stringify(params),
     });
     if (!req.ok || req.status !== 200) {
       const payload = await req.json();
