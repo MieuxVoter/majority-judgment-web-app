@@ -16,7 +16,7 @@ const ParamsField = ({ onSubmit }) => {
   const checkDisability =
     (election.restricted &&
       (typeof election.emails === 'undefined' ||
-        election.emails.length === 0)) ||
+        election.emails.length === 0) && election.qrCodeCount === 0) ||
     election.grades.filter((g) => g.active).length < 2;
 
   return (

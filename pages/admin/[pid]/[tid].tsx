@@ -47,6 +47,7 @@ import { getUrl, RouteTypes } from '@services/routes';
 import { sendInviteMails } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
 import { getLocaleShort } from '@services/utils';
+import { generateQRCodesPDF } from '@services/qrcode';
 
 export async function getServerSideProps({ query, locale }) {
   const { pid, tid: token } = query;
@@ -87,6 +88,7 @@ export async function getServerSideProps({ query, locale }) {
     numVoters: progress.num_voters ?? null,
     numVoted: progress.num_voters_voted ?? null,
     randomOrder,
+    qrCodeCount:0,
     emails: [],
     grades,
     candidates,
@@ -320,7 +322,7 @@ const ManageElection = ({ token }) => {
       grades,
       election.description,
       election.dateEnd,
-      election.emails.length,
+      election.emails.length + election.qrCodeCount,
       election.hideResults,
       election.forceClose,
       election.restricted,
@@ -328,8 +330,8 @@ const ManageElection = ({ token }) => {
       token
     );
     if (response.status === 200 && 'ref' in response) {
-      if (election.restricted && election.emails.length > 0) {
-        if (election.emails.length !== response.invites.length) {
+      if (election.restricted && (election.emails.length > 0 || election.qrCodeCount > 0)) {
+        if (election.emails.length + election.qrCodeCount !== response.invites.length) {
           throw new Error('Unexpected number of invites!');
         }
 
@@ -343,18 +345,34 @@ const ManageElection = ({ token }) => {
           response.ref,
           token
         );
-        await sendInviteMails(
-          election.emails,
-          election.name,
-          urlVotes,
-          urlResult,
-          router
-        );
+
+        // TODO: generate pdf
+        const emailVoteUrls = urlVotes.slice(0, election.emails.length);
+        const qrCodeVoteUrls = urlVotes.slice(election.emails.length);
+
+        if (qrCodeVoteUrls.length > 0) {
+          await generateQRCodesPDF(qrCodeVoteUrls);
+        }
+
+        if (emailVoteUrls.length > 0)
+          await sendInviteMails(
+            election.emails,
+            election.name,
+            emailVoteUrls,
+            urlResult,
+            router
+          );
         // Remove emails
         dispatch({
           type: ElectionTypes.SET,
           field: 'emails',
           value: [],
+        });
+
+        dispatch({
+          type: ElectionTypes.SET,
+          field: 'qrCodeCount',
+          value: 0,
         });
       }
 
@@ -428,7 +446,7 @@ const ManageElection = ({ token }) => {
   const numGrades = election.grades.filter(
     (g) => g.active && g.name != ''
   ).length;
-  console.log(election.name, numCandidates, numGrades);
+  
   const disabled =
     !election.name ||
     election.name == '' ||

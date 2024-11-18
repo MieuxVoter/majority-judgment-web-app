@@ -24,6 +24,7 @@ import {sendInviteMails} from '@services/mail';
 import {AppTypes, useAppContext} from '@services/context';
 import {useEffect} from 'react';
 import {getLocaleShort} from '@services/utils';
+import { generateQRCodesPDF } from '@services/qrcode';
 
 const submitElection = (
   election: ElectionContextInterface,
@@ -50,7 +51,7 @@ const submitElection = (
     candidates,
     grades,
     election.description,
-    election.emails.length,
+    election.emails.length + election.qrCodeCount,
     election.hideResults,
     election.forceClose,
     election.restricted,
@@ -58,28 +59,37 @@ const submitElection = (
     election.dateEnd,
     async (payload: ElectionCreatedPayload) => {
       if (
-        typeof election.emails !== 'undefined' &&
-        election.emails.length > 0
+        (typeof election.emails !== 'undefined' &&
+        election.emails.length > 0) || election.qrCodeCount > 0
       ) {
         if (
           typeof payload.invites === 'undefined' ||
-          payload.invites.length !== election.emails.length
+          payload.invites.length !== election.emails.length + election.qrCodeCount
         ) {
-          throw new Error('Can not send invite emails');
+          throw new Error('Can not send invite emails / generate QR codes');
         }
 
         const locale = getLocaleShort(router);
         const urlVotes = payload.invites.map((token: string) =>
           getUrl(RouteTypes.VOTE, locale, payload.ref, token)
         );
+
+        const emailVoteUrls = urlVotes.slice(0, election.emails.length);
+        const qrCodeVoteUrls = urlVotes.slice(election.emails.length);
+
         const urlResult = getUrl(RouteTypes.RESULTS, locale, payload.ref);
-        await sendInviteMails(
-          election.emails,
-          election.name,
-          urlVotes,
-          urlResult,
-          router
-        );
+
+        if (qrCodeVoteUrls.length > 0)
+          await generateQRCodesPDF(qrCodeVoteUrls);
+
+        if (emailVoteUrls.length > 0)
+          await sendInviteMails(
+            election.emails,
+            election.name,
+            emailVoteUrls,
+            urlResult,
+            router
+          );
       }
       successCallback(payload);
     },
