@@ -10,6 +10,7 @@ import ListInput from '@components/ListInput';
 import { ElectionTypes, useElection } from '@services/ElectionContext';
 import { validateMail } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
+import QRCodeCountInput from '@components/QRCodeCountInput';
 
 const Private = () => {
   const { t } = useTranslation();
@@ -35,6 +36,14 @@ const Private = () => {
     });
   };
 
+  const handleQrCodes = (count: number) => {
+    dispatch({
+      type: ElectionTypes.SET,
+      field: 'qrCodeCount',
+      value: count,
+    });
+  };
+
   const handleEmails = (emails: Array<string>) => {
     dispatch({
       type: ElectionTypes.SET,
@@ -55,12 +64,12 @@ const Private = () => {
                   {' '}
                   <div
                     className={`${
-                      election.emails.length > 0 || !isCreating
+                      (election.emails.length+election.qrCodeCount) > 0 || !isCreating
                         ? 'text-bg-light text-black-50'
                         : 'text-bg-danger text-white'
                     } badge ms-2`}
                   >
-                    {`${election.emails.length} ${t('common.invites')}`}
+                    {`${election.emails.length + election.qrCodeCount} ${t('common.invites')}`}
                   </div>{' '}
                 </>
               ) : null}
@@ -80,10 +89,13 @@ const Private = () => {
               inputs={election.emails}
               validator={validateMail}
             />
+          
             <div className="bg-light bt-3 p-2    text-muted fw-bold d-none d-md-flex align-items-center ">
               <FontAwesomeIcon icon={faCircleInfo} />
               <div className="ms-3">{t('admin.private-tip')}</div>
             </div>
+            <p className='my-3 text-muted d-md-block'>{t('admin.private-title-qrcode')}</p>
+            <QRCodeCountInput onEdit={handleQrCodes} value={election.qrCodeCount}/>
           </>
         ) : null}
       </Container>

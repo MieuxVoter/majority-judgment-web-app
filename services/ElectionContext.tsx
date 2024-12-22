@@ -24,6 +24,7 @@ export interface ElectionContextInterface {
   restricted: boolean;
   randomOrder: boolean;
   emails: Array<string>;
+  qrCodeCount:number;
   dateEnd: string;
   dateStart?: string;
   ref?: string;
@@ -47,6 +48,7 @@ const defaultElection: ElectionContextInterface = {
   hideResults: false,
   forceClose: false,
   restricted: false,
+  qrCodeCount:0,
   dateEnd: null,
   emails: [],
 };
