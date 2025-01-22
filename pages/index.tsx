@@ -14,6 +14,7 @@ import {getUrl, RouteTypes} from '@services/routes';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {useRouter} from 'next/router';
 import {getLocaleShort} from '@services/utils';
+import Papa from 'papaparse';
 
 export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
@@ -72,6 +73,62 @@ const StartForm = () => {
                   {t('home.start')}
                 </Button>
               </Link>
+            </Row>
+            <Row>
+              {/*<Link
+                href={{
+                  pathname: getUrl(
+                    RouteTypes.UPLOAD_CSV,
+                    locale
+                  ).toString(),
+                  query: {name: name},
+                }}
+              >*/}
+                <Button
+                  color="secondary"
+                  outline={true}
+                  type="submit"
+                  icon={faArrowRight}
+                  position="right"
+                  onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.csv';
+                    input.onchange = (e) => {
+                      const file = e.target.files[0];
+                      
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                          const result = Papa.parse(e.target.result);
+                          console.log(result);
+
+                          if (result.data) {
+                            const mentions = result.data[0].slice(1);
+                            const candidats = result.data.slice(1).map(t => t[0]);
+                            console.log(mentions)
+                            console.log(candidats)
+                            const candidatsAndResults = result.data.slice(1);
+
+                            router.push({
+                              pathname: '/results',
+                              query: {
+                                mentions: JSON.stringify(mentions),
+                                candidatsAndResults: JSON.stringify(candidatsAndResults)
+                              }
+                            });
+                          }
+                        };
+                        reader.readAsText(file);
+                        // Handle the file upload
+                      }
+                    };
+                    input.click();
+                  }}
+                >
+                  {t('home.uploadCSV')}
+                </Button>
+              {/*</Link>*/}
             </Row>
             <Row className="noAds">
               <p>{t('home.noAds')}</p>
