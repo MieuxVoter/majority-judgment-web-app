@@ -95,30 +95,42 @@ const StartForm = () => {
                     input.type = 'file';
                     input.accept = '.csv';
                     input.onchange = (e) => {
-                      const file = e.target.files[0];
+                      const target = e.target as HTMLInputElement;
+                      const file = target.files[0];
                       
                       if (file) {
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                          const result = Papa.parse(e.target.result);
-                          console.log(result);
+                          const target = e.target as FileReader;
+                          if (target.result) {
 
-                          if (result.data) {
-                            const mentions = result.data[0].slice(1);
-                            const candidatsAndResults = result.data.slice(1);
-
-                            router.push({
-                              pathname: '/result',
-                              query: {
-                                mentions: JSON.stringify(mentions),
-                                candidatsAndResults: JSON.stringify(candidatsAndResults),
-                                fromCSV:true
+                            try {
+                              const result = Papa.parse(target.result as string);
+                        
+                              if (result.data) {
+                                if (Array.isArray(result.data[0])) {
+                                  const mentions = result.data[0].slice(1);
+                                  const candidatsAndResults = result.data.slice(1);
+                            
+                                  router.push({
+                                    pathname: '/result',
+                                    query: {
+                                      mentions: JSON.stringify(mentions),
+                                      candidatsAndResults: JSON.stringify(candidatsAndResults),
+                                      fromCSV: true
+                                    }
+                                  });
+                                } else 
+                                  throw "invalid csv";
                               }
-                            });
+                            } catch(e) {
+                              console.error(e);
+                              alert("Invalid csv");
+                            }
                           }
                         };
+
                         reader.readAsText(file);
-                        // Handle the file upload
                       }
                     };
                     input.click();
