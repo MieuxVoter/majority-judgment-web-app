@@ -105,16 +105,14 @@ const StartForm = () => {
 
                           if (result.data) {
                             const mentions = result.data[0].slice(1);
-                            const candidats = result.data.slice(1).map(t => t[0]);
-                            console.log(mentions)
-                            console.log(candidats)
                             const candidatsAndResults = result.data.slice(1);
 
                             router.push({
-                              pathname: '/results',
+                              pathname: '/result',
                               query: {
                                 mentions: JSON.stringify(mentions),
-                                candidatsAndResults: JSON.stringify(candidatsAndResults)
+                                candidatsAndResults: JSON.stringify(candidatsAndResults),
+                                fromCSV:true
                               }
                             });
                           }

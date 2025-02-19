@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
@@ -7,7 +7,6 @@ import Link from 'next/link';
 import {Container, Collapse, Card, CardHeader, CardBody} from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
-  faArrowRight,
   faChevronDown,
   faChevronRight,
   faChevronUp,
@@ -18,7 +17,6 @@ import CSVLink from '@components/CSVLink';
 import Logo from '@components/Logo';
 import MeritProfile from '@components/MeritProfile';
 import Button from '@components/Button';
-import {getResults} from '@services/api';
 import {
   GradeResultInterface,
   ResultInterface,
@@ -26,9 +24,8 @@ import {
   CandidateResultInterface,
 } from '@services/type';
 import {getUrl, RouteTypes} from '@services/routes';
-import {displayRef, getLocaleShort} from '@services/utils';
+import {getLocaleShort} from '@services/utils';
 import avatarBlue from '../public/avatarBlue.svg';
-import calendar from '../public/calendar.svg';
 import arrowUpload from '../public/arrowUpload.svg';
 import arrowLink from '../public/arrowL.svg';
 import {getGradeColor} from '@services/grades';
@@ -36,83 +33,110 @@ import {useRouter} from 'next/router';
 import { MajorityJudgmentDeliberator, NormalizedTally, Proposal, Tally } from 'scalable-majority-judgment';
 
 export async function getServerSideProps({query, locale}) {
-  // TODO: check type
-  const mentions:string[] = JSON.parse(query.mentions).reverse();
-  // TODO: check type
-  const candidatsAndResults = JSON.parse(query.candidatsAndResults);
-
-  const grades = [];
-
-  for (let i = 0; i < mentions.length; ++i) {
-    grades.push({
-      name: mentions[i],
-      description:"",
-      value: i,
-      id:i,
-      color:getGradeColor(i, mentions.length)
-    });
-  }
-
   const translations = await serverSideTranslations(locale, ['resource']);
 
-  /*
-  TODO: handle error
-  if ('message' in payload) {
-    return {props: {err: payload, electionRef, ...translations}};
-  }*/
+  try {
+    if (!query.mentions)
+      throw "\"mentions\" query param is missing";
 
-  const candidates:CandidateResultInterface[] = [];
+    if (!query.candidatsAndResults)
+      throw "\"candidatsAndResults\" query param is missing";
 
-  const tally = new NormalizedTally(candidatsAndResults.map(t => new Proposal(t.slice(1).map(v => BigInt(v)).reverse())));
-  const deliberator = new MajorityJudgmentDeliberator();
-  const r = deliberator.deliberate(tally);
+    const parsedMentions = JSON.parse(query.mentions);
 
-  for (let i = 0; i < candidatsAndResults.length; ++i) {
-    candidates.push({
-      id : i,
-      description : "",
-      image : "",
-      name : candidatsAndResults[i][0],
-      rank : r.proposalResults[i].rank,
-      majorityGrade : grades[r.proposalResults[i].analysis.adhesionMentionIndex],
-      meritProfile : r.proposalResults[i].proposal.meritProfile.map(t => Number(t)),
+    if (!Array.isArray(parsedMentions)) {
+      throw "\"mentions\" query param is not an array";
+    }
+
+    if (parsedMentions.length < 2)
+      throw "\"mentions\" query param must contain at least 2 elements";
+
+    const mentions: string[] = parsedMentions.reverse();
+    // TODO: check type
+    const candidatsAndResults = JSON.parse(query.candidatsAndResults);
+
+    if (!Array.isArray(candidatsAndResults)) {
+      throw "\"candidatsAndResults\" query param is not an array of array";
+    }
+
+    if (candidatsAndResults.length < 2) {
+      throw "\"candidatsAndResults\" query param must contain at least 2 elements";
+    }
+
+    candidatsAndResults.forEach((candidatAndResult) => {
+      if (!Array.isArray(candidatAndResult)) {
+        throw "\"candidatsAndResults\" query param is not an array of array";
+      }
+
+      candidatAndResult.slice(1).forEach((result) => {
+        if (typeof result !== 'number' && typeof result !== 'bigint' && isNaN(Number(result))) {
+          throw "\"candidatsAndResults\" result part contains a non-numeric value";
+        }
+      });
     });
 
-    console.log(candidatsAndResults[i][0]);
-    console.log(r.proposalResults[i].rank);
-    console.log(r.proposalResults[i].analysis.adhesionMentionIndex);
+    const grades = [];
+
+    for (let i = 0; i < mentions.length; ++i) {
+      grades.push({
+        name: mentions[i],
+        description:"",
+        value: i,
+        id:i,
+        color:getGradeColor(i, mentions.length)
+      });
+    }
+
+    const candidates:CandidateResultInterface[] = [];
+
+    const tally = new NormalizedTally(candidatsAndResults.map(t => new Proposal(t.slice(1).map(v => BigInt(v)).reverse())));
+    const deliberator = new MajorityJudgmentDeliberator();
+    const r = deliberator.deliberate(tally);
+
+    for (let i = 0; i < candidatsAndResults.length; ++i) {
+      candidates.push({
+        id : i,
+        description : "",
+        image : "",
+        name : candidatsAndResults[i][0],
+        rank : r.proposalResults[i].rank,
+        majorityGrade : grades[r.proposalResults[i].analysis.medianMentionIndex],
+        meritProfile : r.proposalResults[i].proposal.meritProfile.map(t => Number(t)),
+      });
+    }
+
+    const result: ResultInterface = {
+      name: "",
+      description: "",
+      ref: "",
+      dateStart: "",
+      dateEnd: "",
+      hideResults: false,
+      forceClose: false,
+      restricted: false,
+      grades: grades,
+      candidates,
+      ranking: candidates.reduce((acc, candidate) => {
+        acc[candidate.id] = candidate.rank;
+        return acc;
+      }, {} as Record<number, number>),
+      meritProfiles: candidates.reduce((acc, candidate) => {
+        acc[candidate.id] = candidate.meritProfile;
+        return acc;
+      }, {} as Record<number, MeritProfileInterface>),
+    };
+
+    return {
+      props: {
+        result,
+        token: '',
+        fromCSV: (query.fromCSV || false).toString() === 'true',
+        ...translations,
+      },
+    };
+  } catch (e) {
+    return {props: {err: e.toString(), ...translations, fromCSV: (query.fromCSV || false).toString() === 'true'}};
   }
-
-  console.log(mentions);
-
-  const result: ResultInterface = {
-    name: "",
-    description: "",
-    ref: "",
-    dateStart: "",
-    dateEnd: "",
-    hideResults: false,
-    forceClose: false,
-    restricted: false,
-    grades: grades,
-    candidates,
-    ranking: candidates.reduce((acc, candidate) => {
-      acc[candidate.id] = candidate.rank;
-      return acc;
-    }, {} as Record<number, number>),
-    meritProfiles: candidates.reduce((acc, candidate) => {
-      acc[candidate.id] = candidate.meritProfile;
-      return acc;
-    }, {} as Record<number, MeritProfileInterface>),
-  };
-
-  return {
-    props: {
-      result,
-      token: '',
-      ...translations,
-    },
-  };
 }
 
 const getNumVotes = (result: ResultInterface) => {
@@ -135,33 +159,6 @@ interface ElectionStatusProps {
   forceClose: boolean;
 }
 
-const ElectionStatus = ({delay, forceClose}: ElectionStatusProps) => {
-  const {t} = useTranslation();
-
-  if (!delay) {
-    if (forceClose) {
-      return <div>{t('result.closed')}</div>;
-    } else {
-      return <div>{t('result.opened')}</div>;
-    }
-  }
-
-  if (delay < 365 || forceClose) {
-    return <div>{t('result.closed')}</div>;
-  }
-  if (delay < 0) {
-    return (
-      <div>{`${t('result.has-closed')} ${delay} ${t('common.days')}`}</div>
-    );
-  }
-  if (delay > 365) {
-    return <div>{t('result.opened')}</div>;
-  }
-  return (
-    <div>{`${t('result.will-close')} ${delay} ${t('common.days')}`}</div>
-  );
-};
-
 interface ResultBanner {
   result: ResultInterface;
 }
@@ -174,7 +171,13 @@ const ResultBanner = ({result}) => {
   const numVotes = getNumVotes(result);
 
   const locale = getLocaleShort(router);
-  const url = getUrl(RouteTypes.RESULTS, locale, result.ref);
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUrl(window.location.href);
+    }
+  }, []);
 
   return (
     <>
@@ -185,10 +188,6 @@ const ResultBanner = ({result}) => {
         <h4 className="text-black">{result.name}</h4>
 
         <div className="text-muted w-100 d-flex justify-content-between">
-          <div className="d-flex align-items-center flex-fill border-end border-end-2">
-            <Image alt="Calendar" src={calendar} className="me-2" />
-            <ElectionStatus delay={closedSince} forceClose={result.forceClose} />
-          </div>
           <div className="d-flex align-items-center justify-content-end flex-fill">
             <Image src={avatarBlue} alt="Avatar" className="me-2" />
             <div>
@@ -205,10 +204,6 @@ const ResultBanner = ({result}) => {
       }
       <div className="w-100 bg-white gap-4 p-5 d-md-flex d-none justify-content-between align-items-center">
         <div className="text-muted">
-          <div className="d-flex align-items-center">
-            <Image alt="Calendar" src={calendar} className="me-2" />
-            <ElectionStatus delay={closedSince} forceClose={result.forceClose} />
-          </div>
           <div className="d-flex align-items-center">
             <Image src={avatarBlue} alt="Avatar" className="me-2" />
             <div>
@@ -233,9 +228,10 @@ const ResultBanner = ({result}) => {
             href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
             rel="noopener noreferrer"
             target="_blank"
+            suppressHydrationWarning 
           >
             <div className="d-flex align-items-center">
-              <Image src={arrowLink} alt="Share" className="me-2" />
+              <Image src={arrowLink} alt="Share" className="me-2" suppressHydrationWarning/>
               <div className="text-muted">{t('result.share')}</div>
             </div>
           </a>
@@ -273,7 +269,12 @@ const BottomButtonsMobile = ({result}) => {
 
   const router = useRouter();
   const locale = getLocaleShort(router);
-  const url = getUrl(RouteTypes.RESULTS, locale, result.ref);
+  const [url, setUrl] = useState('');
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUrl(window.location.href);
+    }
+  }, []);
 
   return (
     <div className="d-flex flex-column align-items-center d-md-none m-3">
@@ -293,6 +294,7 @@ const BottomButtonsMobile = ({result}) => {
           href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
           rel="noopener noreferrer"
           target="_blank"
+          suppressHydrationWarning
         >
           <Button
             className="m-3 d-flex align-items-center justify-content-between"
@@ -327,14 +329,14 @@ const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
       }
       <div className="d-md-none d-flex  p-4 justify-content-between text-white">
         <div className="d-flex  flex-fill align-items-center pe-5">
-          <Link href="/">
+          <Link href="/" suppressHydrationWarning>
             <Logo title={false} />
           </Link>
           <h5 className="m-1 flex-fill text-center">{name}</h5>
         </div>
         {token ? (
           <div className="d-flex">
-            <Link href={getUrl(RouteTypes.ADMIN, locale, electionRef, token)}>
+            <Link href={getUrl(RouteTypes.ADMIN, locale, electionRef, token)} suppressHydrationWarning>
               <Button icon={faGear} position="left">
                 {t('result.go-to-admin')}
               </Button>
@@ -347,14 +349,14 @@ const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
       }
       <div className="d-none d-md-flex bg-primary p-4 justify-content-between text-white">
         <div className="d-flex align-items-center">
-          <Link href="/">
+          <Link href="/" suppressHydrationWarning>
             <Logo height={38} title={true} />
           </Link>
           <h5 className="m-1 ms-5">{t('result.result')}</h5>
         </div>
         {token ? (
           <div className="d-flex">
-            <Link href={getUrl(RouteTypes.ADMIN, locale, electionRef, token)}>
+            <Link href={getUrl(RouteTypes.ADMIN, locale, electionRef, token)} suppressHydrationWarning>
               <Button icon={faGear} position="left">
                 {t('result.go-to-admin')}
               </Button>
@@ -449,6 +451,7 @@ const CandidateCard = ({candidate, grades}: CandidateCardInterface) => {
             target="_blank"
             rel="noopener noreferrer"
             className="d-flex w-100 align-items-center justify-content-center mt-5 text-black-50 fs-5"
+            suppressHydrationWarning
           >
             <div>{t('result.how-to-interpret')}</div>
             <FontAwesomeIcon icon={faChevronRight} className="ms-3" />
@@ -495,14 +498,11 @@ const Podium = ({candidates}: PodiumInterface) => {
   );
 };
 
-interface ErrorInterface {
-  message: string;
-  details?: string;
-}
 interface ResultPageInterface {
   result?: ResultInterface;
   token?: string;
-  err?: ErrorInterface;
+  err?: string;
+  fromCSV:boolean;
   electionRef?: string;
 }
 
@@ -510,51 +510,30 @@ const ResultPage = ({
   result,
   token,
   err,
+  fromCSV,
   electionRef,
 }: ResultPageInterface) => {
   const {t} = useTranslation();
   const router = useRouter();
   const locale = getLocaleShort(router);
 
-  if (err && err.message.startsWith('No votes')) {
-    const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
-    return (
-      <ErrorMessage>
-        {
-          <>
-            <p>{t('result.no-votes')}</p>
-            <Link href={urlVote}>
-              <div className="d-md-flex d-grid">
-                <Button
-                  className="d-md-flex d-grid"
-                  color="primary"
-                  icon={faArrowRight}
-                  position="right"
-                >
-                  {t('result.go-to-vote')}
-                </Button>
-              </div>
-            </Link>
-          </>
-        }
-      </ErrorMessage>
-    );
-  }
+  if (err) {
+    let errorMessage;
 
-  if (err && err.details.startsWith('The election is not closed')) {
-    const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
+    if (fromCSV) {
+      errorMessage = t("error.wrong-csv-format");
+    } else {
+      if (err.indexOf("JSON") != -1)
+        errorMessage = "Fail to parse json from query params";
+      else
+        errorMessage = err;
+    }
+
     return (
       <ErrorMessage>
         {
           <>
-            <p>{t('result.hide-results')}</p>
-            <Link href={urlVote}>
-              <div className="d-md-flex d-grid">
-                <Button color="primary" icon={faArrowRight} position="right">
-                  {t('result.go-to-vote')}
-                </Button>
-              </div>
-            </Link>
+            <p>{errorMessage}</p>
           </>
         }
       </ErrorMessage>

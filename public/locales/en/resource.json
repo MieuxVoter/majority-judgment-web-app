@@ -58,6 +58,7 @@
 	"error.ended-election": "The election has ended",
 	"error.catch22": "Unknown error...",
 	"error.help": "Ask for our help",
+	"error.wrong-csv-format": "Fail to get result from your CSV file. Check your format and values. (Download csv result from existing elections to get valid format)",
 	"error.no-title": "Please add a title to your election.",
 	"error.twice-same-names": "Two items have the same name.",
 	"error.empty-name": "The name is empty",

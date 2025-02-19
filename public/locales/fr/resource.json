@@ -54,6 +54,7 @@
 	"common.welcome": "Bienvenue !",
 	"common.results": "Résultats",
 	"error.help": "Besoin d'aide ?",
+	"error.wrong-csv-format": "L'interprétation des résultats à partir de votre CSV a échoué. Vérifiez le format et les valeurs que vous avez utilisé. (Téléchargé les résultats CSV d'un vote existant pour observer un format valide)",
 	"error.cant-set-ongoing": "Vous ne pouvez pas modifier ce paramètre pour une élection déjà démarrée.",
 	"error.at-least-2-candidates": "Ajoutez au moins deux candidats.",
 	"error.no-title": "Ajoutez un titre à l'élection.",
