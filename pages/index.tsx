@@ -30,7 +30,7 @@ const StartForm = () => {
 
   return (
     <>
-      <form className="sectionOneHomeForm d-none d-md-block" autoComplete="off">
+      <div className="sectionOneHomeForm d-none d-md-block">
         <Row className="sectionOneHomeRowOne">
           <Col className="sectionOneHomeContent">
             <Logo height="128" />
@@ -40,40 +40,42 @@ const StartForm = () => {
             <Row>
               <h2>{t('home.slogan')}</h2>
             </Row>
-            <Row className="justify-content-end">
-              <Input
-                placeholder={t('home.writeQuestion')}
-                autoFocus
-                required
-                className="mt-2 mb-0 sectionOneHomeInput"
-                name="name"
-                value={name ? name : ''}
-                onChange={(e) => setName(e.target.value)}
-              />
+            <form autoComplete="off">
+              <Row className="justify-content-end">
+                <Input
+                  placeholder={t('home.writeQuestion')}
+                  autoFocus
+                  required
+                  className="mt-2 mb-0 sectionOneHomeInput"
+                  name="name"
+                  value={name ? name : ''}
+                  onChange={(e) => setName(e.target.value)}
+                />
 
-              <p className="pt-0 mt-0 maxLength">250</p>
-            </Row>
-            <Row>
-              <Link
-                href={{
-                  pathname: getUrl(
-                    RouteTypes.CREATE_ELECTION,
-                    locale
-                  ).toString(),
-                  query: {name: name},
-                }}
-              >
-                <Button
-                  color="secondary"
-                  outline={true}
-                  type="submit"
-                  icon={faArrowRight}
-                  position="right"
+                <p className="pt-0 mt-0 maxLength">250</p>
+              </Row>
+              <Row>
+                <Link
+                  href={{
+                    pathname: getUrl(
+                      RouteTypes.CREATE_ELECTION,
+                      locale
+                    ).toString(),
+                    query: {name: name},
+                  }}
                 >
-                  {t('home.start')}
-                </Button>
-              </Link>
-            </Row>
+                  <Button
+                    color="secondary"
+                    outline={true}
+                    type="submit"
+                    icon={faArrowRight}
+                    position="right"
+                  >
+                    {t('home.start')}
+                  </Button>
+                </Link>
+              </Row>
+            </form>
             <Row>
               {/*<Link
                 href={{
@@ -146,7 +148,7 @@ const StartForm = () => {
           </Col>
           <Col></Col>
         </Row>
-      </form>
+      </div>
 
       {/**
        * Mobile
