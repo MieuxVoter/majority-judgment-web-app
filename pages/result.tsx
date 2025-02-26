@@ -88,6 +88,23 @@ export async function getServerSideProps({query, locale}) {
     }
 
     const candidates:CandidateResultInterface[] = [];
+    const voteCounts = candidatsAndResults.map((candidatAndResult) => {
+      let voteCount = null;
+      candidatAndResult.slice(1).forEach(c => {
+        if (voteCount == null)
+          voteCount = BigInt(c);
+        else
+          voteCount += BigInt(c);
+      })
+
+      return voteCount;
+    });
+
+    let maxVoteCount = BigInt(0);
+
+    for (let i = 0; i < candidatsAndResults.length; ++i)
+      if (voteCounts[i] > maxVoteCount)
+        maxVoteCount = voteCounts[i];
 
     const tally = new NormalizedTally(candidatsAndResults.map(t => new Proposal(t.slice(1).map(v => BigInt(v)).reverse())));
     const deliberator = new MajorityJudgmentDeliberator();
@@ -116,6 +133,7 @@ export async function getServerSideProps({query, locale}) {
       restricted: false,
       grades: grades,
       candidates,
+      voteCount:maxVoteCount.toString(),
       ranking: candidates.reduce((acc, candidate) => {
         acc[candidate.id] = candidate.rank;
         return acc;
@@ -139,21 +157,6 @@ export async function getServerSideProps({query, locale}) {
   }
 }
 
-const getNumVotes = (result: ResultInterface) => {
-  const sum = (seq: MeritProfileInterface) =>
-    Object.values(seq).reduce((a, b) => a + b, 0);
-  const anyCandidateId = result.candidates[0].id;
-  const numVotes = sum(result.meritProfiles[anyCandidateId]);
-  Object.values(result.meritProfiles).forEach((v) => {
-    if (sum(v) !== numVotes) {
-      throw new Error(
-        'The election does not contain the same number of votes for each candidate'
-      );
-    }
-  });
-  return numVotes;
-};
-
 interface ElectionStatusProps {
   delay: number | null;
   forceClose: boolean;
@@ -162,22 +165,8 @@ interface ElectionStatusProps {
 interface ResultBanner {
   result: ResultInterface;
 }
-const ResultBanner = ({result}) => {
+const ResultBanner = ({name, voteCount}:{name:string, voteCount:bigint}) => {
   const {t} = useTranslation();
-  const router = useRouter();
-
-  const closedSince = typeof result.dateEnd === "string" ? +(new Date(result.dateEnd)) - +(new Date()) : null;
-
-  const numVotes = getNumVotes(result);
-
-  const locale = getLocaleShort(router);
-  const [url, setUrl] = useState('');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setUrl(window.location.href);
-    }
-  }, []);
 
   return (
     <>
@@ -185,14 +174,14 @@ const ResultBanner = ({result}) => {
         // MOBILE
       }
       <div className="w-100 bg-white p-4 d-flex flex-column d-md-none justify-content-center align-items-start">
-        <h4 className="text-black">{result.name}</h4>
+        <h4 className="text-black">{name}</h4>
 
         <div className="text-muted w-100 d-flex justify-content-between">
           <div className="d-flex align-items-center justify-content-end flex-fill">
             <Image src={avatarBlue} alt="Avatar" className="me-2" />
             <div>
-              {numVotes}{' '}
-              {numVotes > 1
+              {voteCount.toString()}{' '}
+              {voteCount > 1
                 ? t('common.participants')
                 : t('common.participant')}
             </div>
@@ -207,34 +196,12 @@ const ResultBanner = ({result}) => {
           <div className="d-flex align-items-center">
             <Image src={avatarBlue} alt="Avatar" className="me-2" />
             <div>
-              {numVotes}{' '}
-              {numVotes > 1
+              {voteCount.toString()}{' '}
+              {voteCount > 1
                 ? t('common.participants')
                 : t('common.participant')}
             </div>
           </div>
-        </div>
-
-        <h4 className="text-black">{result.name}</h4>
-
-        <div className="text-muted">
-          <Downloader result={result}>
-            <div role="button" className="d-flex align-items-center">
-              <Image alt="Download" src={arrowUpload} className="me-2" />
-              <div className="text-muted">{t('result.download')}</div>
-            </div>
-          </Downloader>
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
-            rel="noopener noreferrer"
-            target="_blank"
-            suppressHydrationWarning 
-          >
-            <div className="d-flex align-items-center">
-              <Image src={arrowLink} alt="Share" className="me-2" suppressHydrationWarning/>
-              <div className="text-muted">{t('result.share')}</div>
-            </div>
-          </a>
         </div>
       </div>
     </>
@@ -562,7 +529,7 @@ const ResultPage = ({
         <meta property="og:title" content={result.name} />
       </Head>
       <TitleBanner electionRef={result.ref} token={token} name={result.name} />
-      <ResultBanner result={result} />
+      <ResultBanner voteCount={BigInt(result.voteCount)} name={result.name} />
 
       <Container style={{maxWidth: '1000px'}}>
         <Podium candidates={result.candidates} />
