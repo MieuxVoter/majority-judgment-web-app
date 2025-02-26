@@ -11,10 +11,11 @@ import AdvantagesRow from '@components/Advantages';
 import ExperienceRow from '@components/Experience';
 import Button from '@components/Button';
 import {getUrl, RouteTypes} from '@services/routes';
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {faArrowRight, faQuestion} from '@fortawesome/free-solid-svg-icons';
 import {useRouter} from 'next/router';
 import {getLocaleShort} from '@services/utils';
 import Papa from 'papaparse';
+import IconButton from '@components/IconButton';
 
 export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
@@ -76,71 +77,69 @@ const StartForm = () => {
                 </Link>
               </Row>
             </form>
-            <Row>
-              {/*<Link
-                href={{
-                  pathname: getUrl(
-                    RouteTypes.UPLOAD_CSV,
-                    locale
-                  ).toString(),
-                  query: {name: name},
-                }}
-              >*/}
-                <Button
-                  color="secondary"
-                  outline={true}
-                  type="submit"
-                  icon={faArrowRight}
-                  position="right"
-                  onClick={() => {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = '.csv';
-                    input.onchange = (e) => {
-                      const target = e.target as HTMLInputElement;
-                      const file = target.files[0];
+            <Row className='justify-content-end'>
+              <Button
+                color="secondary"
+                outline={true}
+                type="submit"
+                icon={faArrowRight}
+                position="right"
+                onClick={() => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = '.csv';
+                  input.onchange = (e) => {
+                    const target = e.target as HTMLInputElement;
+                    const file = target.files[0];
+                    
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (e) => {
+                        const target = e.target as FileReader;
+                        if (target.result) {
+
+                          try {
+                            const result = Papa.parse(target.result as string);
                       
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                          const target = e.target as FileReader;
-                          if (target.result) {
-
-                            try {
-                              const result = Papa.parse(target.result as string);
-                        
-                              if (result.data) {
-                                if (Array.isArray(result.data[0])) {
-                                  const mentions = result.data[0].slice(1);
-                                  const candidatsAndResults = result.data.slice(1);
-                            
-                                  router.push({
-                                    pathname: '/result',
-                                    query: {
-                                      mentions: JSON.stringify(mentions),
-                                      candidatsAndResults: JSON.stringify(candidatsAndResults),
-                                      fromCSV: true
-                                    }
-                                  });
-                                } else 
-                                  throw "invalid csv";
-                              }
-                            } catch(e) {
-                              console.error(e);
-                              alert("Invalid csv");
+                            if (result.data) {
+                              if (Array.isArray(result.data[0])) {
+                                const mentions = result.data[0].slice(1);
+                                const candidatsAndResults = result.data.slice(1);
+                          
+                                router.push({
+                                  pathname: '/result',
+                                  query: {
+                                    mentions: JSON.stringify(mentions),
+                                    candidatsAndResults: JSON.stringify(candidatsAndResults),
+                                    fromCSV: true
+                                  }
+                                });
+                              } else 
+                                throw "invalid csv";
                             }
+                          } catch(e) {
+                            console.error(e);
+                            alert("Invalid csv");
                           }
-                        };
+                        }
+                      };
 
-                        reader.readAsText(file);
-                      }
-                    };
-                    input.click();
-                  }}
-                >
-                  {t('home.uploadCSV')}
-                </Button>
-              {/*</Link>*/}
+                      reader.readAsText(file);
+                    }
+                  };
+                  input.click();
+                }}
+              >
+                {t('home.uploadCSV')}
+              </Button>
+              <IconButton
+                color="secondary"
+                outline={true}
+                type="submit"
+                icon={faQuestion}
+                position="right"
+                style={{ width: 'auto' }}
+              />
             </Row>
             <Row className="noAds">
               <p>{t('home.noAds')}</p>
