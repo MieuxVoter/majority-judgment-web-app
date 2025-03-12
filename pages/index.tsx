@@ -16,6 +16,8 @@ import {useRouter} from 'next/router';
 import {getLocaleShort} from '@services/utils';
 import Papa from 'papaparse';
 import IconButton from '@components/IconButton';
+import Modal from '@components/Modal';
+import CSVModal from '@components/CSVModal';
 
 export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
@@ -29,8 +31,14 @@ const StartForm = () => {
   const router = useRouter();
   const locale = getLocaleShort(router);
 
+  const [showCSVModal, setShowCSVModal] = useState(false);
+  const invertShowCSVModal = ()=>{
+    setShowCSVModal(!showCSVModal);
+  };
+
   return (
     <>
+      <CSVModal show={showCSVModal} onClose={invertShowCSVModal}/>
       <div className="sectionOneHomeForm d-none d-md-block">
         <Row className="sectionOneHomeRowOne">
           <Col className="sectionOneHomeContent">
@@ -139,6 +147,7 @@ const StartForm = () => {
                 icon={faQuestion}
                 position="right"
                 style={{ width: 'auto' }}
+                onClick={invertShowCSVModal}
               />
             </Row>
             <Row className="noAds">
