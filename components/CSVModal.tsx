@@ -3,7 +3,8 @@ import { Table } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Button from '@components/Button';
-import { Row } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
+import Papa from 'papaparse';
 
 type ModalProps = {
     show: boolean;
@@ -11,8 +12,16 @@ type ModalProps = {
   };
 
 const CSVModal = ({show, onClose}:ModalProps) => {
-    const { t } = useTranslation();
-    
+  const { t } = useTranslation();
+  const candidate = t("home.uploadCSV.modal.candidate");
+
+  const csv = [
+      ["", t("grades.excellent"), t("grades.very-good"), t("grades.good"), t("grades.passable"), t("grades.inadequate")],
+      [`${candidate} 1`, 5, 3, 0, 4, 8],
+      [`${candidate} 2`, 7, 4, 2, 2, 5],
+      [`${candidate} 3`, 2, 7, 5, 3, 3],
+  ]
+
   return (
     <>
       <Modal show={show} onHide={onClose} animation={false}  size='lg' centered={true}>
@@ -20,62 +29,50 @@ const CSVModal = ({show, onClose}:ModalProps) => {
           <Modal.Title>{t("home.uploadCSV.modal.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Container>
             <p>{t("home.uploadCSV.modal.description")}</p>
             <p>{t("home.uploadCSV.modal.modelToFollow")}</p>
             <Table striped bordered hover width={"100%"} className='text-center'>
-                <thead>
+              <thead>
+                <tr>
+                  {csv[0].map(t => <th>{t}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {csv.slice(1).map(row=>{
+                  return (
                     <tr>
-                        <th></th>
-                        <th>{t("grades.excellent")}</th>
-                        <th>{t("grades.very-good")}</th>
-                        <th>{t("grades.good")}</th>
-                        <th>{t("grades.passable")}</th>
-                        <th>{t("grades.inadequate")}</th>
+                      {row.map(t => <td>{t}</td>)}
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Candidat 1</td>
-                        <td>5</td>
-                        <td>3</td>
-                        <td>8</td>
-                        <td>2</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>Candidat 2</td>
-                        <td>7</td>
-                        <td>3</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Candidat 3</td>
-                        <td>2</td>
-                        <td>7</td>
-                        <td>5</td>
-                        <td>3</td>
-                        <td>3</td>
-                    </tr>
-                </tbody>
+                  )
+                })}
+              </tbody>
             </Table>
             <br />
             <p>{t("home.uploadCSV.modal.warnAboutMentionOrder")}</p>
-            { /* <Row>
-                <Button
-                            color="secondary"
-                            outline={true}
-                            type="submit"
-                            icon={faArrowRight}
-                            position="right"
-                            onClick={() => {
-                            }}
-                        >
-                            fdssdf
-                            </Button>
-                            </Row>
-            */}
+            <Row>
+              <Button
+                color="primary"
+                outline={true}
+                type="submit"
+                icon={faArrowRight}
+                position="right"
+                onClick={() => {
+                  const csvContent = Papa.unparse(csv);
+                  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                  const link = document.createElement('a');
+                  const url = URL.createObjectURL(blob);
+                  link.setAttribute('href', url);
+                  link.setAttribute('download', 'election-model.csv');
+                  link.style.visibility = 'hidden';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}>
+                {t("home.uploadCSV.modal.downloadCSVModel")}
+              </Button>
+            </Row>
+          </Container>
         </Modal.Body>
       </Modal>
     </>

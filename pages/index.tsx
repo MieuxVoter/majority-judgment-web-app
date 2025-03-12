@@ -108,7 +108,8 @@ const StartForm = () => {
 
                           try {
                             const result = Papa.parse(target.result as string);
-                      
+                            console.log(result.data);
+
                             if (result.data) {
                               if (Array.isArray(result.data[0])) {
                                 const mentions = result.data[0].slice(1);
