@@ -33,7 +33,7 @@ export const gradeValues = [0, 1, 2, 3, 4, 5, 6, 7];
 export const getGradeColor = (gradeIdx: number, numGrades: number): string => {
   const extraColors = gradeColors.length - numGrades;
   if (extraColors < 0) {
-    throw new Error("More grades than available colors");
+    throw new Error(`More grades (${numGrades}) than available colors (${gradeColors.length})`);
   }
   const startIndex = Math.floor(extraColors / 2);
   const colors = gradeColors.slice(startIndex, gradeColors.length - (extraColors - startIndex));

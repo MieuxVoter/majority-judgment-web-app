@@ -13,6 +13,7 @@ export enum RouteTypes {
   RESULTS = 'results',
   VOTE = 'votes',
   RESTRICTED_VOTE = 'errors/restricted',
+  UPLOAD_CSV = 'upload-csv',
 }
 
 export const getUrl = (
