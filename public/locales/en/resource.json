@@ -187,6 +187,7 @@
 	"admin.num-voters": "Number of voters:",
 	"admin.num-voted": "Number of votes:",
 	"result.download": "Download results",
+	"result.end-date": "End of election:",
 	"result.go-to-admin": "Manage the election",
 	"result.go-to-vote": "Do you want to go to the voting page?",
 	"result.no-votes": "No vote has been recorded yet.",

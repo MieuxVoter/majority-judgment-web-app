@@ -18,7 +18,10 @@ import CSVLink from '@components/CSVLink';
 import Logo from '@components/Logo';
 import MeritProfile from '@components/MeritProfile';
 import Button from '@components/Button';
-import {getResults} from '@services/api';
+import {
+  getElection,
+  getResults,
+} from '@services/api';
 import {
   GradeResultInterface,
   ResultInterface,
@@ -479,6 +482,23 @@ const Podium = ({candidates}: PodiumInterface) => {
   );
 };
 
+const hideResultsText = (
+  electionRef: string,
+  locale: string
+): string => {
+
+  const {t} = useTranslation();
+  const election = getElection(electionRef);
+
+  if (election.dateEnd == null) {
+    return t('result.hide-results');
+  }
+
+  const dateEnd = new Date(election.dateEnd).toLocaleDateString(locale);
+
+  return t('result.hide-results') + ' ' + t('result.end-date') + ' ' + dateEnd;
+};
+
 interface ErrorInterface {
   message: string;
   details?: string;
@@ -527,11 +547,12 @@ const ResultPage = ({
 
   if (err && err.details.startsWith('The election is not closed')) {
     const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
+    const hideResults = hideResultsText(electionRef, locale);
     return (
       <ErrorMessage>
         {
           <>
-            <p>{t('result.hide-results')}</p>
+            <p>{hideResults}</p>
             <Link href={urlVote}>
               <div className="d-md-flex d-grid">
                 <Button color="primary" icon={faArrowRight} position="right">

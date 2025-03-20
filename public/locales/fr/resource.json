@@ -187,6 +187,7 @@
 	"admin.num-voters": "Nombre de participants :",
 	"admin.num-voted": "Nombre de votes :",
 	"result.download": "Télécharger les résultats",
+	"result.end-date": "Fin de l'élection:",
 	"result.go-to-admin": "Administrer le vote",
 	"result.go-to-vote": "Souhaitez-vous accéder au vote ?",
 	"result.no-votes": "Aucun vote n'a encore été enregistré.",
