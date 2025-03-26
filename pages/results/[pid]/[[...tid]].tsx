@@ -42,12 +42,18 @@ export async function getServerSideProps({query, locale}) {
   const {pid, tid: token} = query;
   const electionRef = pid.replaceAll('-', '');
 
-  const [payload, translations] = await Promise.all([
+  const [payload, electionPayload, translations] = await Promise.all([
     getResults(electionRef),
+    await getElection(electionRef),
     serverSideTranslations(locale, ['resource']),
   ]);
 
   if ('message' in payload) {
+    if (!('message' in electionPayload)) {
+      const dateEnd = new Date(electionPayload.date_end).toLocaleString(locale);
+      return {props: {err: payload, electionRef, dateEnd, ...translations}};
+    }
+
     return {props: {err: payload, electionRef, ...translations}};
   }
 
@@ -95,6 +101,7 @@ export async function getServerSideProps({query, locale}) {
   return {
     props: {
       result,
+      dateEnd: payload.date_end,
       token: token || '',
       ...translations,
     },
@@ -482,23 +489,6 @@ const Podium = ({candidates}: PodiumInterface) => {
   );
 };
 
-const hideResultsText = (
-  electionRef: string,
-  locale: string
-): string => {
-
-  const {t} = useTranslation();
-  const election = getElection(electionRef);
-
-  if (election.dateEnd == null) {
-    return t('result.hide-results');
-  }
-
-  const dateEnd = new Date(election.dateEnd).toLocaleDateString(locale);
-
-  return t('result.hide-results') + ' ' + t('result.end-date') + ' ' + dateEnd;
-};
-
 interface ErrorInterface {
   message: string;
   details?: string;
@@ -508,12 +498,14 @@ interface ResultPageInterface {
   token?: string;
   err?: ErrorInterface;
   electionRef?: string;
+  dateEnd:string,
 }
 
 const ResultPage = ({
   result,
   token,
   err,
+  dateEnd,
   electionRef,
 }: ResultPageInterface) => {
   const {t} = useTranslation();
@@ -547,12 +539,16 @@ const ResultPage = ({
 
   if (err && err.details.startsWith('The election is not closed')) {
     const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
-    const hideResults = hideResultsText(electionRef, locale);
+    let hideResults = t('result.hide-results');
+    
     return (
       <ErrorMessage>
         {
           <>
             <p>{hideResults}</p>
+            { dateEnd && 
+            <p>{t('result.end-date') + " " + dateEnd}</p>
+            }
             <Link href={urlVote}>
               <div className="d-md-flex d-grid">
                 <Button color="primary" icon={faArrowRight} position="right">
