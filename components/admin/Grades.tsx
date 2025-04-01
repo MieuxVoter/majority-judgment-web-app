@@ -16,7 +16,7 @@ import {
 } from '@dnd-kit/core';
 import {
   arrayMove,
-  rectSwappingStrategy,
+  horizontalListSortingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
@@ -122,7 +122,7 @@ const Grades = () => {
             >
               <SortableContext
                 items={grades.map((g) => `${g.value}`)}
-                strategy={rectSwappingStrategy}
+                strategy={horizontalListSortingStrategy}
               >
                 {grades.map((grade) => (
                   <Col key={grade.value} className="col col-auto">
