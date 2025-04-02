@@ -18,8 +18,9 @@ export default ({value}: GradeInterface) => {
   const activeGrade = election.grades.filter((g) => g.active);
   const numGrades = activeGrade.length;
 
+  const id = `${grade.value}`
   const {attributes, listeners, setNodeRef, transform, transition} =
-    useSortable({id: grade.value});
+    useSortable({ id });
 
   const [visible, setVisible] = useState<boolean>(false);
   const toggle = () => setVisible((v) => !v);

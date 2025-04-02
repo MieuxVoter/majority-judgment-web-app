@@ -22,7 +22,7 @@ const GradeModal = ({isOpen, toggle, value}) => {
 
     dispatch({
       type: ElectionTypes.GRADE_SET,
-      position: election.grades.map((g) => g.value).indexOf(value),
+      position: value,
       field: 'name',
       value: name,
     });

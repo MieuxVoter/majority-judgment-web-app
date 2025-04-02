@@ -16,7 +16,7 @@ import {
 } from '@dnd-kit/core';
 import {
   arrayMove,
-  rectSwappingStrategy,
+  horizontalListSortingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
@@ -93,8 +93,8 @@ const Grades = () => {
   const handleDragEnd = ({ active, over }) => {
     if (active.id !== over.id) {
       const values = grades.map((g) => g.value);
-      const oldIndex = values.indexOf(active.id);
-      const newIndex = values.indexOf(over.id);
+      const oldIndex = values.indexOf(parseInt(active.id));
+      const newIndex = values.indexOf(parseInt(over.id));
       dispatch({
         type: ElectionTypes.SET,
         field: 'grades',
@@ -121,8 +121,8 @@ const Grades = () => {
               onDragEnd={handleDragEnd}
             >
               <SortableContext
-                items={grades.map((g) => g.value)}
-                strategy={rectSwappingStrategy}
+                items={grades.map((g) => `${g.value}`)}
+                strategy={horizontalListSortingStrategy}
               >
                 {grades.map((grade) => (
                   <Col key={grade.value} className="col col-auto">
