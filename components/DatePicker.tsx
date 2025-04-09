@@ -70,6 +70,8 @@ const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
       customInput={<ExampleCustomInput value={null} onClick={null} />}
       onChange={handleChange}
       showTimeSelect
+      dateFormat="Pp"
+      timeFormat="HH:mm"
     />
   );
   //   {/*<Button className="example-custom-input"
