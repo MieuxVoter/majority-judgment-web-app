@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import { AppTypes, useAppContext } from '@services/context';
 import { useRouter } from 'next/router';
 
@@ -49,7 +50,7 @@ const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
                 </Col>
                 <Col className="col-auto">
                   {t('admin.until')}{' '}
-                  {new Date(value).toLocaleDateString(router.locale)}
+                  {new Date(value).toLocaleString(router.locale)}
                 </Col>
               </Row>
             </Col>
@@ -68,6 +69,7 @@ const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
       className={className}
       customInput={<ExampleCustomInput value={null} onClick={null} />}
       onChange={handleChange}
+      showTimeSelect
     />
   );
   //   {/*<Button className="example-custom-input"
