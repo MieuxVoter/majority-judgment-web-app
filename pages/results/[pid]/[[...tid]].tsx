@@ -29,7 +29,7 @@ import {
   CandidateResultInterface,
 } from '@services/type';
 import {getUrl, RouteTypes} from '@services/routes';
-import {displayRef, getLocaleShort} from '@services/utils';
+import {displayRef, getFormattedDatetime, getLocaleShort} from '@services/utils';
 import {getMajorityGrade} from '@services/majorityJudgment';
 import avatarBlue from '../../../public/avatarBlue.svg';
 import calendar from '../../../public/calendar.svg';
@@ -50,7 +50,7 @@ export async function getServerSideProps({query, locale}) {
 
   if ('message' in payload) {
     if (!('message' in electionPayload)) {
-      const dateEnd = new Date(electionPayload.date_end).toLocaleString(locale);
+      const dateEnd = getFormattedDatetime(locale, electionPayload.date_end);
       return {props: {err: payload, electionRef, dateEnd, ...translations}};
     }
 

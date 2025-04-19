@@ -5,6 +5,11 @@
 import {NextRouter} from 'next/router';
 import {URL_APP} from './constants';
 
+export const getFormattedDatetime = (locale:string, date:string):string => {
+  const d = new Date(date);
+  return `${d.toLocaleDateString(locale, {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})} ${d.toLocaleTimeString(locale, {hour: '2-digit', minute: '2-digit'})}`;
+}
+
 export const getLocaleShort = (router: NextRouter): string => {
   if (!router.locale) {
     return router.defaultLocale.substring(0, 2);
