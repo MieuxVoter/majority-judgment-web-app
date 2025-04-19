@@ -26,7 +26,7 @@ const TitleBar = ({election}: TitleBarInterface) => {
         <FontAwesomeIcon icon={faCalendarDays} />
       </div>
       <div>
-        {` ${t("vote.open-until")}   ${new Date(election.date_end).toLocaleDateString(locale, {dateStyle: "long"})}`}
+        {` ${t("vote.open-until")}   ${new Date(election.date_end).toLocaleString(router.locale)}`}
       </div>
     </div>
   )
