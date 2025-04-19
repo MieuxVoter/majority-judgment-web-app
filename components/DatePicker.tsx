@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import { AppTypes, useAppContext } from '@services/context';
 import { useRouter } from 'next/router';
+import { getFormattedDatetime } from '@services/utils';
 
 interface InputProps {
   children?: ReactNode;
@@ -49,7 +50,7 @@ const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
                 </Col>
                 <Col className="col-auto">
                   {t('admin.until')}{' '}
-                  {new Date(value).toLocaleString(router.locale)}
+                  {getFormattedDatetime(router.locale, value)}
                 </Col>
               </Row>
             </Col>
