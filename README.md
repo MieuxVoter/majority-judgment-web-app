@@ -57,7 +57,11 @@ You can add the environment variables on an `.env` file or directly on [Netlify]
 
 ## :world_map: I18N at heart
 
-You can directly modified the translation files in the folder `public/locales`.
+Translating the application is done using the [glorious **Weblate**](https://hosted.weblate.org/projects/majority-judgment-web-app).
+
+See [the wiki](https://github.com/MieuxVoter/majority-judgment-web-app/wiki/How-to-Translate-the-App) for more information.
+
+> You can also directly modify the translation files in the folder `public/locales`.
 
 In case you want to add support for another language, you need as well to add it on `net-i18next.config.js` and on the `LanguageSelector` component.
 
