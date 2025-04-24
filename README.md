@@ -57,7 +57,7 @@ You can add the environment variables on an `.env` file or directly on [Netlify]
 
 ## :world_map: I18N at heart
 
-Translating the application is done using the [glorious **Weblate**](https://hosted.weblate.org/projects/majority-judgment-web-app).
+Translating the application is done using the [glorious **Weblate**](https://hosted.weblate.org/engage/majority-judgment-web-app).
 
 See [the wiki](https://github.com/MieuxVoter/majority-judgment-web-app/wiki/How-to-Translate-the-App) for more information.
 
