@@ -16,7 +16,7 @@ const GradeModal = ({isOpen, toggle, value}) => {
   const names = election.grades.map((g) => g.name);
   const disabled = name != grade.name && (name === '' || names.includes(name));
 
-  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: {preventDefault:()=>void}) => {
     e.preventDefault();
     if (disabled) return;
 
@@ -59,7 +59,7 @@ const GradeModal = ({isOpen, toggle, value}) => {
       <ModalBody className="p-4">
         <p>{t('admin.add-grade-desc')}</p>
         <Col>
-          <Form className="container container-fluid">
+          <Form className="container container-fluid" onSubmit={handleSubmit}>
             <div className="mb-3">
               <Label className="fw-bold">{t('common.name')} </Label>
               <Input
@@ -69,6 +69,7 @@ const GradeModal = ({isOpen, toggle, value}) => {
                 onChange={handleName}
                 autoFocus
                 required
+                onSubmit={handleSubmit}
               />
             </div>
             <div className="mt-5 gap-2 d-grid mb-3 d-md-flex">

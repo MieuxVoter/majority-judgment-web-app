@@ -22,7 +22,9 @@ const GradeModal = ({isOpen, toggle}) => {
     setGrade({...grade, value: maxValue + 1});
   }, [election]);
 
-  const save = () => {
+  const save = (e: {preventDefault:()=>void}) => {
+    e.preventDefault();
+
     dispatch({
       type: ElectionTypes.SET,
       field: 'grades',
@@ -59,7 +61,7 @@ const GradeModal = ({isOpen, toggle}) => {
       <ModalBody className="p-4">
         <p>{t('admin.add-grade-desc')}</p>
         <Col>
-          <Form className="container container-fluid">
+          <Form className="container container-fluid" onSubmit={save}>
             <div className="mb-3">
               <Label className="fw-bold">{t('common.name')} </Label>
               <Input
@@ -69,6 +71,7 @@ const GradeModal = ({isOpen, toggle}) => {
                 onChange={handleName}
                 autoFocus
                 required
+                onSubmit={save}
               />
             </div>
             <div className="mt-5 gap-2 d-grid mb-3 d-md-flex">
