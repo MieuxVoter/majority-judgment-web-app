@@ -26,6 +26,7 @@ import GradeField from './GradeField';
 import GradeModalAdd from './GradeModalAdd';
 import { getDefaultGrades, gradeColors } from '@services/grades';
 import Switch from '@components/Switch';
+import ConfirmRevertCustomGradesModal from './ConfirmRevertCustomGradesModal';
 
 const AddField = () => {
   const { t } = useTranslation();
@@ -63,9 +64,19 @@ const Grades = () => {
   const [election, dispatch] = useElection();
   const grades = election.grades;
   const [visible, setVisible] = useState(JSON.stringify(election.grades) !== JSON.stringify(getDefaultGrades(t)));
+  const [modalRevert, setModalRevert] = useState(false);
+
+  const toggleModalRevert = () => {
+    setModalRevert(!modalRevert);
+  };
 
   const toggle = () => {
     if (visible) {
+      if (JSON.stringify(election.grades) !== JSON.stringify(getDefaultGrades(t))) {
+        toggleModalRevert();
+        return;
+      }
+
       dispatch({
         type: ElectionTypes.SET,
         field: 'grades',
@@ -141,6 +152,19 @@ const Grades = () => {
           </Row>
         </>
       )}
+      <ConfirmRevertCustomGradesModal
+        isOpen={modalRevert}
+        toggle={toggleModalRevert}
+        onConfirm={() => {
+          dispatch({
+            type: ElectionTypes.SET,
+            field: 'grades',
+            value: getDefaultGrades(t),
+          });
+          setVisible(false);
+          setModalRevert(false);
+        }}
+      />
     </Container>
   );
 };
