@@ -24,7 +24,7 @@ import { DEFAULT_GRADES } from '@services/constants';
 import { ElectionTypes, useElection } from '@services/ElectionContext';
 import GradeField from './GradeField';
 import GradeModalAdd from './GradeModalAdd';
-import { gradeColors } from '@services/grades';
+import { getDefaultGrades, gradeColors } from '@services/grades';
 import Switch from '@components/Switch';
 
 const AddField = () => {
@@ -62,11 +62,19 @@ const Grades = () => {
 
   const [election, dispatch] = useElection();
   const grades = election.grades;
-  const numGrades = grades.filter((g) => g.active).length;
-  const disabled = numGrades >= gradeColors.length;
+  const [visible, setVisible] = useState(JSON.stringify(election.grades) !== JSON.stringify(getDefaultGrades(t)));
 
-  const [visible, setVisible] = useState(false);
-  const toggle = () => setVisible((m) => !m);
+  const toggle = () => {
+    if (visible) {
+      dispatch({
+        type: ElectionTypes.SET,
+        field: 'grades',
+        value: getDefaultGrades(t),
+      });
+    }
+
+    setVisible((m) => !m)
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -77,16 +85,12 @@ const Grades = () => {
 
   useEffect(() => {
     if (election.grades.length < 2) {
-      const defaultGrades = DEFAULT_GRADES.map((g, i) => ({
-        name: t(g),
-        value: DEFAULT_GRADES.length - 1 - i,
-        active: true,
-      }));
       dispatch({
         type: ElectionTypes.SET,
         field: 'grades',
-        value: defaultGrades,
+        value: getDefaultGrades(t),
       });
+      setVisible(false);
     }
   }, []);
 
