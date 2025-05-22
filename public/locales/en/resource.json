@@ -121,7 +121,7 @@
     "grades.inadequate": "Inadequate",
     "grades.mediocre": "Mediocre",
     "admin.revert-custom-grades": "Revert to default grades",
-    "admin.revert-custom-grades-desc": "Reverting to default grades will delete all your custom grades (Press toggle on won't make them reappear).",
+    "admin.revert-custom-grades-desc": "Reverting to default grades will delete all your current custom grades (Reactivating custom grades won't make them reappear).",
     "admin.admin-title": "Voting management panel",
     "admin.close-election": "Close the election",
     "admin.open-election": "Open the election",
