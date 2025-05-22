@@ -1,4 +1,5 @@
 import { GradePayload } from './api';
+import { DEFAULT_GRADES } from './constants';
 
 export const gradeColors = [
   "#990000",
@@ -31,6 +32,14 @@ export const gradeClass = [
 ];
 
 export const gradeValues = [0, 1, 2, 3, 4, 5, 6, 7];
+
+export const getDefaultGrades = (t: (key: string) => string): ReadonlyArray<{name:string, value:number, active:boolean}> =>{
+  return DEFAULT_GRADES.map((g, i) => ({
+    name: t(g),
+    value: DEFAULT_GRADES.length - 1 - i,
+    active: true,
+  }))
+}
 
 export const getGradeColor = (gradeIdx: number, numGrades: number): string => {
   const extraColors = gradeColors.length - numGrades;

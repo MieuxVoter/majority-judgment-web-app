@@ -120,6 +120,8 @@
     "grades.good": "Bien",
     "grades.passable": "Passable",
     "grades.inadequate": "Insuffisant",
+    "admin.revert-custom-grades": "Revenir aux mentions par défaut",
+    "admin.revert-custom-grades-desc": "Toutes vos mentions ajoutées/modifiées seront supprimées (réactiver la personnalisation des mentions ne fera pas réapparaître votre configuration actuelle).",
     "admin.admin-title": "Administration du vote",
     "admin.close-election": "Clôturer l'élection",
     "admin.open-election": "Ré-ouvrir l'élection",
