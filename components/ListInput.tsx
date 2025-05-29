@@ -32,6 +32,8 @@ const ListInput = ({onEdit, inputs, validator}) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // if we press delete, we remove the last input
     if (e.key === "Backspace") {
+      e.preventDefault();
+      
       if (state === "") {
         onEdit([...inputs.slice(0, -1)]);
         return
