@@ -3,7 +3,6 @@
 [![aGPLV3](https://img.shields.io/badge/license-aGPLV3-lightgrey?style=for-the-badge)](./LICENSE.md)
 [![Netlify Status](https://img.shields.io/netlify/021c39c6-1018-4e3f-98e2-f808b4ea8f6d?style=for-the-badge)](https://app.netlify.com/sites/mieuxvoter-app-ui/deploys)
 [![Join the Discord chat at https://discord.gg/rAAQG9S](https://img.shields.io/discord/705322981102190593.svg?style=for-the-badge)](https://discord.gg/rAAQG9S)
-https://img.shields.io/github/stars/mieuxvoter/majority-judgment-web-app?style=for-the-badge
 
 
 :ballot_box: This project is going to be the default front-end for our [election application](https://app.mieuxvoter.fr).
@@ -23,12 +22,11 @@ The separation between the front-end and the back-end makes it easy to customize
 
 ## :gear: Install options
 
-**Option one:** One-click deploy
+### **Option one:** One-click deploy
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/MieuxVoter/majority-judgment-web-app&utm_source=github)
 
-
-**Option two:** Manual clone
+### **Option two:** Manual clone
 
 1. Clone this repo: `git clone https://github.com/MieuxVoter/majority-judgment-web-app.git`
 2. Navigate to the directory and install dependencies: `npm install` or `make`
@@ -36,9 +34,10 @@ The separation between the front-end and the back-end makes it easy to customize
 4. Make your changes
 5. Deploy your project.
 
-We advise for deploying the project to [Netlify](https://netlify.com), because we wrote the mail functions for the framework. Netlify parameters are written in `netlify.toml`.
+We recommend deploying the project to [Netlify](https://netlify.com), because we wrote the mail functions for the framework. Netlify parameters are written in `netlify.toml`.
 
-If you decide to deploy your project in another way, please fill a pull-request to guide futur users!
+If you decide to deploy your project in another way, please fill a merge request to guide future users!
+
 
 ## :incoming_envelope: Support for mail
 
