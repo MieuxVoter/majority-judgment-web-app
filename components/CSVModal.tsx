@@ -35,14 +35,14 @@ const CSVModal = ({show, onClose}:ModalProps) => {
             <Table striped bordered hover width={"100%"} className='text-center'>
               <thead>
                 <tr>
-                  {csv[0].map(t => <th>{t}</th>)}
+                  {csv[0].map((t, index) => <th key={`header-${index}`}>{t}</th>)}
                 </tr>
               </thead>
               <tbody>
-                {csv.slice(1).map(row=>{
+                {csv.slice(1).map((row, rowIndex)=>{
                   return (
-                    <tr>
-                      {row.map(t => <td>{t}</td>)}
+                    <tr key={`row-${rowIndex}`}>
+                      {row.map((t, columnIndex) => <td key={`cell-${rowIndex}-${columnIndex}`}>{t}</td>)}
                     </tr>
                   )
                 })}
