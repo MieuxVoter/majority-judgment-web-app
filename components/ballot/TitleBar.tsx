@@ -2,7 +2,7 @@ import {useRouter} from 'next/router';
 import Button from '@components/Button';
 import {useTranslation} from 'next-i18next';
 import {getElection, castBallot, apiErrors, ElectionPayload, CandidatePayload, GradePayload} from '@services/api';
-import {getLocaleShort} from '@services/utils';
+import {getFormattedDatetime, getLocaleShort} from '@services/utils';
 import {faCalendarDays} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
@@ -26,7 +26,7 @@ const TitleBar = ({election}: TitleBarInterface) => {
         <FontAwesomeIcon icon={faCalendarDays} />
       </div>
       <div>
-        {` ${t("vote.open-until")}   ${new Date(election.date_end).toLocaleDateString(locale, {dateStyle: "long"})}`}
+        {` ${t("vote.open-until")} ${getFormattedDatetime(router.locale, election.date_end)}`}
       </div>
     </div>
   )
