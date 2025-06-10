@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import Switch from '@components/Switch';
 import ListInput from '@components/ListInput';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import { ElectionTypes, useElection, getTotalInvites } from '@services/ElectionContext';
 import { validateMail } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
 import QRCodeCountInput from '@components/QRCodeCountInput';
@@ -44,6 +44,14 @@ const Private = () => {
     });
   };
 
+  const handleUrlCount = (count: number) => {
+    dispatch({
+      type: ElectionTypes.SET,
+      field: 'urlCount',
+      value: count,
+    });
+  };
+
   const handleEmails = (emails: Array<string>) => {
     dispatch({
       type: ElectionTypes.SET,
@@ -51,6 +59,8 @@ const Private = () => {
       value: emails,
     });
   };
+
+  const totalInvites = getTotalInvites(election);
 
   return (
     <>
@@ -64,12 +74,12 @@ const Private = () => {
                   {' '}
                   <div
                     className={`${
-                      (election.emails.length+election.qrCodeCount) > 0 || !isCreating
+                      totalInvites > 0 || !isCreating
                         ? 'text-bg-light text-black-50'
                         : 'text-bg-danger text-white'
                     } badge ms-2`}
                   >
-                    {`${election.emails.length + election.qrCodeCount} ${t('common.invites')}`}
+                    {`${totalInvites} ${t('common.invites')}`}
                   </div>{' '}
                 </>
               ) : null}
@@ -96,6 +106,10 @@ const Private = () => {
             </div>
             <p className='my-3 text-muted d-md-block'>{t('admin.private-title-qrcode')}</p>
             <QRCodeCountInput onEdit={handleQrCodes} value={election.qrCodeCount}/>
+            <div className="mt-3">
+               <p className='my-3 text-muted d-md-block'>{t('admin.or-generate-urls')}</p>
+               <QRCodeCountInput onEdit={handleUrlCount} value={election.urlCount || 0}/>
+            </div>
           </>
         ) : null}
       </Container>

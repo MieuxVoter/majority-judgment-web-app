@@ -1,7 +1,7 @@
 import jsPDF from "jspdf";
 import QRCode from 'qrcode';
 
-export const generateQRCodesPDF = async (voteUrls) => {
+export const generateQRCodesPDF = async (voteUrls: URL[]) => {
     const doc = new jsPDF('p', 'mm', 'a4', true);
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();

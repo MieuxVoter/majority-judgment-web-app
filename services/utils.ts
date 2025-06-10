@@ -41,3 +41,15 @@ export const isEnded = (date: string): boolean => {
   const now = new Date();
   return +dateEnd < +now;
 };
+
+export const showGeneratedUrlsInNewTab = (urls: URL[], locale: string) => {
+  if (typeof window !== 'undefined') {
+    try {
+      const urlStrings = urls.map(url => url.toString());
+      window.sessionStorage.setItem('generatedUrls', JSON.stringify(urlStrings));
+      window.open(`/${locale}/urls`, '_blank');
+    } catch (e) {
+      console.error('Failed to use sessionStorage or open new tab', e);
+    }
+  }
+};

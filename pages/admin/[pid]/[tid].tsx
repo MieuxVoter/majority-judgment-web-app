@@ -12,6 +12,7 @@ import {
   faSquarePollVertical,
   faSquareXmark,
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   getElection,
   updateElection,
@@ -30,6 +31,7 @@ import {
   hasEnoughGrades,
   hasEnoughCandidates,
   canBeFinished,
+  getTotalInvites,
 } from '@services/ElectionContext';
 import { CandidateItem, GradeItem } from '@services/type';
 import { gradeColors } from '@services/grades';
@@ -46,7 +48,7 @@ import Blur from '@components/Blur';
 import { getUrl, RouteTypes } from '@services/routes';
 import { sendInviteMails } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
-import { getLocaleShort } from '@services/utils';
+import { getLocaleShort, showGeneratedUrlsInNewTab } from '@services/utils';
 import { generateQRCodesPDF } from '@services/qrcode';
 
 export async function getServerSideProps({ query, locale }) {
@@ -89,6 +91,7 @@ export async function getServerSideProps({ query, locale }) {
     numVoted: progress.num_voters_voted ?? null,
     randomOrder,
     qrCodeCount:0,
+    urlCount: 0,
     emails: [],
     grades,
     candidates,
@@ -322,18 +325,24 @@ const ManageElection = ({ token }) => {
       grades,
       election.description,
       election.dateEnd,
-      election.emails.length + election.qrCodeCount,
+      getTotalInvites(election),
       election.hideResults,
       election.forceClose,
       election.restricted,
       election.randomOrder,
       token
     );
+
     if (response.status === 200 && 'ref' in response) {
-      if (election.restricted && (election.emails.length > 0 || election.qrCodeCount > 0)) {
-        if (election.emails.length + election.qrCodeCount !== response.invites.length) {
-          throw new Error('Unexpected number of invites!');
-        }
+      const totalInvites = getTotalInvites(election);
+
+      if (election.restricted && totalInvites > 0) {
+        const numEmails = election.emails?.length || 0;
+        const numQrCodes = election.qrCodeCount || 0;
+
+        if (totalInvites !== response.invites.length) {
+          throw new Error('Unexpected number of invites returned!');
+        };
 
         const locale = getLocaleShort(router);
         const urlVotes = response.invites.map((token: string) =>
@@ -346,12 +355,16 @@ const ManageElection = ({ token }) => {
           token
         );
 
-        // TODO: generate pdf
-        const emailVoteUrls = urlVotes.slice(0, election.emails.length);
-        const qrCodeVoteUrls = urlVotes.slice(election.emails.length);
+        const emailVoteUrls = urlVotes.slice(0, numEmails);
+        const qrCodeVoteUrls = urlVotes.slice(numEmails, numEmails + numQrCodes);
+        const manualVoteUrls = urlVotes.slice(numEmails + numQrCodes);
 
         if (qrCodeVoteUrls.length > 0) {
           await generateQRCodesPDF(qrCodeVoteUrls);
+        }
+
+        if (manualVoteUrls.length > 0) {
+          showGeneratedUrlsInNewTab(manualVoteUrls, router.locale);
         }
 
         if (emailVoteUrls.length > 0)
@@ -372,6 +385,12 @@ const ManageElection = ({ token }) => {
         dispatch({
           type: ElectionTypes.SET,
           field: 'qrCodeCount',
+          value: 0,
+        });
+
+        dispatch({
+          type: ElectionTypes.SET,
+          field: 'urlCount',
           value: 0,
         });
       }

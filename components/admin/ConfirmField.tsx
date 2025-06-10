@@ -16,6 +16,7 @@ import {
   hasEnoughGrades,
   checkName,
   canBeFinished,
+  getTotalInvites,
 } from '@services/ElectionContext';
 import {createElection, ElectionCreatedPayload} from '@services/api';
 import {getUrl, RouteTypes} from '@services/routes';
@@ -23,7 +24,7 @@ import {GradeItem, CandidateItem} from '@services/type';
 import {sendInviteMails} from '@services/mail';
 import {AppTypes, useAppContext} from '@services/context';
 import {useEffect} from 'react';
-import {getLocaleShort} from '@services/utils';
+import {getLocaleShort, showGeneratedUrlsInNewTab} from '@services/utils';
 import { generateQRCodesPDF } from '@services/qrcode';
 
 const submitElection = (
@@ -51,7 +52,7 @@ const submitElection = (
     candidates,
     grades,
     election.description,
-    election.emails.length + election.qrCodeCount,
+    getTotalInvites(election),
     election.hideResults,
     election.forceClose,
     election.restricted,
@@ -59,14 +60,13 @@ const submitElection = (
     election.dateEnd,
     async (payload: ElectionCreatedPayload) => {
       if (
-        (typeof election.emails !== 'undefined' &&
-        election.emails.length > 0) || election.qrCodeCount > 0
+        election.restricted && getTotalInvites(election) > 0
       ) {
         if (
           typeof payload.invites === 'undefined' ||
-          payload.invites.length !== election.emails.length + election.qrCodeCount
+          payload.invites.length !== getTotalInvites(election)
         ) {
-          throw new Error('Can not send invite emails / generate QR codes');
+          throw new Error('Unexpected number of invites returned!');
         }
 
         const locale = getLocaleShort(router);
@@ -75,7 +75,13 @@ const submitElection = (
         );
 
         const emailVoteUrls = urlVotes.slice(0, election.emails.length);
-        const qrCodeVoteUrls = urlVotes.slice(election.emails.length);
+        const qrCodeVoteUrls = urlVotes.slice(
+          election.emails.length,
+          election.emails.length + (election.qrCodeCount || 0)
+        );
+        const manualVoteUrls = urlVotes.slice(
+          election.emails.length + (election.qrCodeCount || 0)
+        );
 
         const urlResult = getUrl(RouteTypes.RESULTS, locale, payload.ref);
 
@@ -90,6 +96,9 @@ const submitElection = (
             urlResult,
             router
           );
+
+        if (manualVoteUrls.length > 0)
+          showGeneratedUrlsInNewTab(manualVoteUrls, router.locale);
       }
       successCallback(payload);
     },
