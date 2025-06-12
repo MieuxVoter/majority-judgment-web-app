@@ -54,6 +54,7 @@ export interface ElectionPayload {
   restricted: boolean;
   grades: Array<GradePayload>;
   candidates: Array<CandidatePayload>;
+  auth_for_result:boolean;
 }
 
 export interface ProgressPayload {
@@ -101,6 +102,7 @@ export const createElection = async (
   restricted: boolean,
   randomOrder: boolean,
   dateEnd: string,
+  authForResult: boolean,
   successCallback: Function = null,
   failureCallback: Function = console.log
 ) => {
@@ -132,6 +134,7 @@ export const createElection = async (
         force_close: forceClose,
         date_end: dateEnd,
         restricted,
+        auth_for_result: authForResult,
       }),
     });
     if (req.ok && req.status === 200) {
@@ -165,7 +168,8 @@ export const updateElection = async (
   forceClose: boolean,
   restricted: boolean,
   randomOrder: boolean,
-  token: string
+  authForResult:boolean,
+  token: string,
 ): Promise<ElectionUpdatedPayload | HTTPPayload> => {
   /**
    * Create an election from its title, its candidates and a bunch of options
@@ -192,6 +196,7 @@ export const updateElection = async (
         hide_results: hideResults,
         force_close: forceClose,
         date_end: dateEnd,
+        auth_for_result: authForResult,
         restricted,
       }),
     });
@@ -283,7 +288,7 @@ export const openElection = async (
  * Fetch results from external API
  */
 export const getResults = async (
-  pid: string
+  pid: string, token:string|null = null
 ): Promise<ResultsPayload | HTTPPayload> => {
   const endpoint = new URL(
     api.routesServer.getResults.replace(new RegExp(':slug', 'g'), pid),
@@ -291,7 +296,13 @@ export const getResults = async (
   );
 
   try {
-    const response = await fetch(endpoint.href);
+    const response = token == null ? await fetch(endpoint.href) : await fetch(endpoint.href, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
     if (response.status != 200) {
       const payload = await response.json();
       return { status: response.status, ...payload };

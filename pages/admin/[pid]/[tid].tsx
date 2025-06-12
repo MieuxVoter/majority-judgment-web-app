@@ -50,6 +50,7 @@ import { sendInviteMails } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
 import { getLocaleShort, showGeneratedUrlsInNewTab } from '@services/utils';
 import { generateQRCodesPDF } from '@services/qrcode';
+import ResultForAdminOnlyParam from '@components/admin/ResultForAdminOnlyParam';
 
 export async function getServerSideProps({ query, locale }) {
   const { pid, tid: token } = query;
@@ -87,6 +88,7 @@ export async function getServerSideProps({ query, locale }) {
     hideResults: payload.hide_results,
     forceClose: payload.force_close,
     restricted: payload.restricted,
+    authForResult: payload.auth_for_result ?? false,
     numVoters: progress.num_voters ?? null,
     numVoted: progress.num_voters_voted ?? null,
     randomOrder,
@@ -172,6 +174,7 @@ const HeaderRubbonDesktop = ({
   handleOpening,
   handleSubmit,
   waiting,
+  token
 }) => {
   const { t } = useTranslation();
   const [election, _] = useElection();
@@ -208,7 +211,7 @@ const HeaderRubbonDesktop = ({
         )}
 
         {canViewResults(election) && (
-          <Link href={getUrl(RouteTypes.RESULTS, locale, election.ref)}>
+          <Link href={getUrl(RouteTypes.RESULTS, locale, election.ref, token)}>
             <Button
               icon={faSquarePollVertical}
               color="primary"
@@ -330,6 +333,7 @@ const ManageElection = ({ token }) => {
       election.forceClose,
       election.restricted,
       election.randomOrder,
+      election.authForResult,
       token
     );
 
@@ -481,6 +485,7 @@ const ManageElection = ({ token }) => {
           handleClosing={handleClosing}
           handleOpening={handleOpening}
           waiting={waiting}
+          token={token}
         />
       </div>
       <div className="d-flex d-md-none">
@@ -514,6 +519,7 @@ const ManageElection = ({ token }) => {
                 <h4>{t('common.the-params')}</h4>
               </Container>
               <AccessResults />
+              <ResultForAdminOnlyParam/>
               <LimitDate />
               <Grades />
               <Order />

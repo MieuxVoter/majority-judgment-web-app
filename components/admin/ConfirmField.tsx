@@ -26,6 +26,7 @@ import {AppTypes, useAppContext} from '@services/context';
 import {useEffect} from 'react';
 import {getLocaleShort, showGeneratedUrlsInNewTab} from '@services/utils';
 import { generateQRCodesPDF } from '@services/qrcode';
+import ResultForAdminOnlyParam from './ResultForAdminOnlyParam';
 
 const submitElection = (
   election: ElectionContextInterface,
@@ -58,6 +59,7 @@ const submitElection = (
     election.restricted,
     election.randomOrder,
     election.dateEnd,
+    election.authForResult,
     async (payload: ElectionCreatedPayload) => {
       if (
         election.restricted && getTotalInvites(election) > 0
@@ -186,6 +188,7 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
             <h4>{t('common.the-params')}</h4>
           </Container>
           <AccessResults />
+          <ResultForAdminOnlyParam/>
           <LimitDate />
           <Grades />
           <Order />

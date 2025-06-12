@@ -8,6 +8,7 @@ import AccessResults from './AccessResults';
 import Order from './Order';
 import Private from './Private';
 import { useElection, getTotalInvites } from '@services/ElectionContext';
+import ResultForAdminOnlyParam from './ResultForAdminOnlyParam';
 
 const ParamsField = ({ onSubmit }) => {
   const { t } = useTranslation();
@@ -36,6 +37,7 @@ const ParamsField = ({ onSubmit }) => {
       <div className="d-flex flex-grow-1 flex-column justify-content-between">
         <div className="d-flex flex-column">
           <AccessResults />
+          <ResultForAdminOnlyParam/>
           <LimitDate />
           <Grades />
           <Order />

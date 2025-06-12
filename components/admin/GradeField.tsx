@@ -26,7 +26,6 @@ export default ({value}: GradeInterface) => {
   const toggle = () => setVisible((v) => !v);
 
   const handleActive = () => {
-    console.log(grade)
     if (!grade.active && numGrades >= gradeColors.length) {
       return;
     }
