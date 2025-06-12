@@ -7,17 +7,14 @@ import LimitDate from './LimitDate';
 import AccessResults from './AccessResults';
 import Order from './Order';
 import Private from './Private';
-import { useElection } from '@services/ElectionContext';
+import { useElection, getTotalInvites } from '@services/ElectionContext';
 
 const ParamsField = ({ onSubmit }) => {
   const { t } = useTranslation();
 
   const [election, _] = useElection();
-  const checkDisability =
-    (election.restricted &&
-      (typeof election.emails === 'undefined' ||
-        election.emails.length === 0) && election.qrCodeCount === 0) ||
-    election.grades.filter((g) => g.active).length < 2;
+  const checkDisability = (election.restricted && getTotalInvites(election) === 0) ||
+     election.grades.filter((g) => g.active).length < 2;
 
   return (
     <Container className="params d-flex flex-column flex-grow-1 my-5">

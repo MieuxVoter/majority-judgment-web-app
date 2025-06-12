@@ -25,6 +25,7 @@ export interface ElectionContextInterface {
   randomOrder: boolean;
   emails: Array<string>;
   qrCodeCount:number;
+  urlCount?: number;
   dateEnd: string;
   dateStart?: string;
   ref?: string;
@@ -49,8 +50,18 @@ const defaultElection: ElectionContextInterface = {
   forceClose: false,
   restricted: false,
   qrCodeCount:0,
+  urlCount: 0,
   dateEnd: null,
   emails: [],
+};
+
+export const getTotalInvites = (election: ElectionContextInterface): number => {
+  if (!election) return 0;
+  return (
+    (election.emails?.length || 0) +
+    (election.qrCodeCount || 0) +
+    (election.urlCount || 0)
+  );
 };
 
 export enum ElectionTypes {
