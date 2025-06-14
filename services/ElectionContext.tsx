@@ -31,6 +31,7 @@ export interface ElectionContextInterface {
   ref?: string;
   numVoters?: number;
   numVoted?: number;
+  authForResult:boolean;
 }
 
 export const defaultCandidate: CandidateItem = {
@@ -53,6 +54,7 @@ const defaultElection: ElectionContextInterface = {
   urlCount: 0,
   dateEnd: null,
   emails: [],
+  authForResult:false,
 };
 
 export const getTotalInvites = (election: ElectionContextInterface): number => {

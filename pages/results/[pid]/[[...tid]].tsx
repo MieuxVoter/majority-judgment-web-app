@@ -43,7 +43,7 @@ export async function getServerSideProps({query, locale}) {
   const electionRef = pid.replaceAll('-', '');
 
   const [payload, electionPayload, translations] = await Promise.all([
-    getResults(electionRef),
+    getResults(electionRef, token),
     await getElection(electionRef),
     serverSideTranslations(locale, ['resource']),
   ]);
@@ -511,6 +511,22 @@ const ResultPage = ({
   const {t} = useTranslation();
   const router = useRouter();
   const locale = getLocaleShort(router);
+
+  if (err && err.message.includes("Unautorized") && err.details != null) {
+    if (err.details.includes("auth for result")) {
+      return ( 
+        <ErrorMessage>
+          <p>{t('result.auth-required')}</p>
+        </ErrorMessage>
+      );
+    } else if (err.details.includes("Wrong authentication")) {
+      return ( 
+        <ErrorMessage>
+          <p>{t('result.wrong-auth')}</p>
+        </ErrorMessage>
+      );
+    }
+  }
 
   if (err && err.message.startsWith('No votes')) {
     const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);

@@ -10,25 +10,25 @@ const AccessResults = () => {
   const toggle = () => {
     dispatch({
       type: ElectionTypes.SET,
-      field: 'hideResults',
-      value: !election.hideResults,
+      field: 'authForResult',
+      value: !election.authForResult,
     });
   };
 
   return (
-    <Container className="bg-white p-3 p-md-4">
+    <Container className="bg-white p-3 p-md-4 mt-1">
       <div className="d-flex gap-3">
         <div className="me-auto d-flex flex-column justify-content-center">
           <h5 className="mb-0 text-dark d-flex align-items-center">
-            {t('admin.access-results')}
+            {t('admin.access-results-only-admin')}
           </h5>
-          {election.hideResults ? (
+          {election.authForResult ? (
             <p className="text-muted">
-              {t('admin.access-results-desc')}
+              {t('admin.access-results-only-admin-desc')}
             </p>
           ) : null}
         </div>
-        <Switch toggle={toggle} state={!election.hideResults} />
+        <Switch toggle={toggle} state={election.authForResult} />
       </div>
     </Container>
     
