@@ -68,7 +68,7 @@
     "error.no-title": "Please add a title to your election.",
     "error.twice-same-names": "Two items have the same name.",
     "error.empty-name": "The name is empty",
-    "error.date-past": "The date is in the past",
+    "error.date-past": "The date and time are in the past",
     "error.cant-be-finished": "The election will never be closed. Add invites, access to results, or a ending date.",
     "error.not-enough-grades": "Not enough grades",
     "error.not-enough-candidates": "Not enough candidates",
