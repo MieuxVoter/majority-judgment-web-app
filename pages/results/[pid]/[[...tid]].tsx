@@ -515,7 +515,7 @@ const ResultPage = ({
   if (err && err.message.includes("Unautorized") && err.details != null) {
     if (err.details.includes("auth for result")) {
       return ( 
-        <ErrorMessage>
+        <ErrorMessage displayErrorTitle={false}>
           <p>{t('result.auth-required')}</p>
         </ErrorMessage>
       );

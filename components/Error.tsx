@@ -4,14 +4,16 @@ import { CONTACT_MAIL } from '@services/constants';
 import Button from '@components/Button';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-const Error = ({ children }) => {
+const Error = ({ displayErrorTitle = true, children }) => {
   const { t } = useTranslation();
   if (!children) return null;
 
   return (
     <div className="flex-fill d-flex align-items-center bg-secondary pt-3 pb-5">
       <Container style={{ maxWidth: '700px' }} className="mb-5 ">
-        <h4>{t('common.error')}</h4>
+        { displayErrorTitle && 
+          <h4>{t('common.error')}</h4>
+        }
         <p>{children}</p>
 
         <a
