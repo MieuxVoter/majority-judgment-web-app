@@ -406,8 +406,14 @@ const ManageElection = ({ token }) => {
         status: 'success',
         message: t('success.election-updated'),
       });
+    } else {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: 'error',
+        message: t('error.catch22'),
+      });
     }
-  };
+  } 
 
   /**
    * Open an election
