@@ -2,34 +2,32 @@ import {NextRouter} from 'next/router';
 import {getLocaleShort} from './utils';
 import {availableLanguages} from '@functions/i18next';
 
+export type MailAndUrlVote = {mail:string, urlVote:string | URL};
+
 export const sendInviteMails = async (
-  mails: Array<string>,
+  mailAndUrlVotes: Array<MailAndUrlVote>,
   name: string,
-  urlVotes: Array<string | URL>,
   urlResult: string | URL,
   router: NextRouter
 ) => {
   /**
    * Send an invitation mail using a micro-service with Netlify
    */
-  if (!mails || !mails.length) {
+  if (!mailAndUrlVotes.length) {
     throw new Error('No emails are provided.');
   }
 
-  if (mails.length !== urlVotes.length) {
-    throw new Error('The number of emails differ from the number of tokens');
-  }
-
   const recipients = {};
-  mails.forEach((_, index: number) => {
-    recipients[mails[index]] = {
-      urlVote: urlVotes[index],
+  mailAndUrlVotes.forEach((e) => {
+    recipients[e.mail] = {
+      urlVote: e.urlVote,
       urlResult: urlResult,
       title: name,
     };
   });
 
-  const locale = getLocaleShort(router);
+  const locale = getLocaleShort(router);  
+
   if (!availableLanguages.includes(locale)) {
     throw new Error(`{locale} is not available for mails`);
   }
@@ -42,7 +40,7 @@ export const sendInviteMails = async (
     body: JSON.stringify({
       action: 'invite',
       question: name,
-      recipients,
+      recipients: mailAndUrlVotes,
       locale,
     }),
   });

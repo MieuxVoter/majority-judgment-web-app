@@ -57,15 +57,6 @@ const defaultElection: ElectionContextInterface = {
   authForResult:false,
 };
 
-export const getTotalInvites = (election: ElectionContextInterface): number => {
-  if (!election) return 0;
-  return (
-    (election.emails?.length || 0) +
-    (election.qrCodeCount || 0) +
-    (election.urlCount || 0)
-  );
-};
-
 export enum ElectionTypes {
   SET = 'set',
   RESET = 'reset',
