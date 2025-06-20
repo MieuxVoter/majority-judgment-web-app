@@ -7,10 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import Switch from '@components/Switch';
 import ListInput from '@components/ListInput';
-import { ElectionTypes, useElection, getTotalInvites } from '@services/ElectionContext';
+import { ElectionTypes, useElection } from '@services/ElectionContext';
 import { validateMail } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
 import QRCodeCountInput from '@components/QRCodeCountInput';
+import { getTotalInvites } from '@services/utils';
 
 const Private = () => {
   const { t } = useTranslation();
