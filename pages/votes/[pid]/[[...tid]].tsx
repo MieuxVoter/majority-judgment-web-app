@@ -74,6 +74,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
     props: {
       ...translations,
       election,
+      electionRef,
       token: tid || null,
       previousBallot: ballot && ballot.status != 404 ? ballot : null,
     },
@@ -104,11 +105,12 @@ const ButtonSubmit = () => {
 
 interface VoteInterface {
   election: ElectionPayload;
+  electionRef: string;
   err: string;
   token?: string;
   previousBallot: BallotPayload
 }
-const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
+const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterface) => {
   const {t} = useTranslation();
 
   const [ballot, dispatch] = useBallot();
@@ -157,6 +159,26 @@ const VoteBallot = ({election, token, previousBallot}: VoteInterface) => {
   }
 
   if (voting) {
+    if (error) {
+      const locale = getLocaleShort(router);
+      const url = getUrl(RouteTypes.ENDED_VOTE, locale, electionRef);
+
+      return (
+        <PatternedBackground>
+          <Container className="my-auto d-flex flex-column justify-content-center align-items-center text-center text-white h-100">
+            <h1 className="mb-4">{t('vote.error-closed-title')}</h1>
+            <p className="mb-4">{t('vote.error-closed-message')}</p>
+            <Button
+              color="secondary"
+              className="bg-blue"
+              onClick={() => router.push(url.toString())}
+            >
+              {t('vote.go-to-results')}
+            </Button>
+          </Container>
+        </PatternedBackground>
+      );
+    }
     return (
       <PatternedBackground>
         <WaitingBallot ballot={payload} error={error} />

@@ -232,5 +232,7 @@
     "vote.success-ballot": "Your vote has successfully been taken into account!",
     "vote.support-better-vote": "Support Better Vote",
     "vote.support-desc": "Better Vote is a transparent and non-profit association. By joining the association, you contribute to finance its functioning and activities.",
+    "vote.error-closed-title": "Vote Closed",
+    "vote.error-closed-message": "This election was closed while you were voting. Your vote has not been cast.",
     "vote.thanks": "Thanks for your participation!"
 }
