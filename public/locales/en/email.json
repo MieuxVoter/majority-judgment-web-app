@@ -1,6 +1,6 @@
 {
 	"email.hello": "Hi there! 🙂",
-	"email.invite.subject": "You are invited to vote",
+	"email.invite.subject": "[Invitation to vote] \"{{question}}\"",
 	"email.invite.happy": "We are happy to send you this email! You will be able to vote using majority judgment.",
 	"email.invite.why": "This email was sent to you because your email was filled out to participate in the vote on the subject:",
 	"email.invite.linkVote": "The link for the vote is as follows:",

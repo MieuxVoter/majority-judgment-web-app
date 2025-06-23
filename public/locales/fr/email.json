@@ -1,6 +1,6 @@
 {
     "email.hello": "Bonjour ! 🙂",
-    "email.invite.subject": "[IMPORTANT] Lien pour participer à un vote en cours",
+    "email.invite.subject": "[Invitation à voter] \"{{question}}\"",
     "email.invite.happy": "Vous avez été invité.e à participer à un vote en cours au jugement majoritaire.",
     "email.invite.why": "Exprimez vous sur toutes les options indépendamment. Il est possible de mettre la même évaluation à plusieurs options. La question du vote est :",
     "email.invite.linkVote": "Le lien pour voter est ci-dessous",
