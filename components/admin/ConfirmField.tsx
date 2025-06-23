@@ -60,15 +60,20 @@ const submitElection = (
       if (
         election.restricted && getTotalInvites(election) > 0
       ) {
-        await sendEmailsDownloadQRCodesPDFAndDisplayInvites({
-          electionName: election.name,
-          emails: election.emails,
-          qrCodeCount: election.qrCodeCount || 0,
-          urlCount: election.urlCount || 0,
-          invites: payload.invites,
-          ref: payload.ref,
-          router,
-        })
+        try {
+          await sendEmailsDownloadQRCodesPDFAndDisplayInvites({
+            electionName: election.name,
+            emails: election.emails,
+            qrCodeCount: election.qrCodeCount || 0,
+            urlCount: election.urlCount || 0,
+            invites: payload.invites,
+            ref: payload.ref,
+            router,
+          })
+        } catch (e) {
+          failureCallback(e);
+          return;
+        }
       }
       successCallback(payload);
     },
