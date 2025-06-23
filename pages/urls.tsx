@@ -96,7 +96,7 @@ const GeneratedUrlsPage = () => {
 
   return (
     <Container className="py-5 text-dark">
-      <h1>{t('admin.generated-vote-urls-title')}</h1>
+      <h4>{t('admin.generated-vote-urls-title')}</h4>
       <p>{t('admin.generated-vote-urls-description')}</p>
       {hasUrl() ? (
         <>
@@ -116,40 +116,54 @@ const GeneratedUrlsPage = () => {
             <FontAwesomeIcon icon={faDownload} className="me-2" />
             {t('admin.download-all-urls')}
           </ReactstrapButton>
-          <ListGroup flush>
+          <Container className="mt-5 px-0">
             {urls.manual.length > 0 && (
               <>
-                <h1>Manual</h1>
-                {urls.manual.map((url, index) => (
-                  <ListGroupItem key={`manual-${index}`} style={{ wordBreak: 'break-all' }}>
-                    {url.toString()}
-                  </ListGroupItem>
-                ))}
+                <Container className="mb-3 px-0">
+                  <h4>Manual</h4>
+                  <ListGroup flush>
+
+                    {urls.manual.map((url, index) => (
+                      <ListGroupItem key={`manual-${index}`} style={{ wordBreak: 'break-all' }}>
+                        {url.toString()}
+                      </ListGroupItem>
+                    ))}
+                  </ListGroup>
+                </Container>
               </>
             )}
 
             {urls.qrCodes.length > 0 && (
               <>
-                <h1>QRCodes</h1>
-                {urls.qrCodes.map((url, index) => (
-                  <ListGroupItem key={`qrcode-${index}`} style={{ wordBreak: 'break-all' }}>
-                    {url.toString()}
-                  </ListGroupItem>
-                ))}
+                  <Container className="mb-3 px-0">
+                  <h4>QRCodes</h4>
+                  <ListGroup flush>
+                    {urls.qrCodes.map((url, index) => (
+                    <ListGroupItem key={`qrcode-${index}`} style={{ wordBreak: 'break-all' }}>
+                      {url.toString()}
+                    </ListGroupItem>
+                    ))}
+                  </ListGroup>
+                  </Container>
+
               </>
             )}
 
             {urls.emails.length > 0 && (
               <>
-                <h1>Emails</h1>
-                {urls.emails.map((url, index) => (
-                  <ListGroupItem key={`emails-${index}`} style={{ wordBreak: 'break-all' }}>
-                    {url.mail}: {url.urlVote.toString()}
-                  </ListGroupItem>
-                ))}
+                <Container className="mb-3 px-0">
+                <h4>Emails</h4>
+                <ListGroup flush>
+                  {urls.emails.map((url, index) => (
+                    <ListGroupItem key={`emails-${index}`} style={{ wordBreak: 'break-all' }}>
+                      {url.mail}: {url.urlVote.toString()}
+                    </ListGroupItem>
+                  ))}
+                </ListGroup>
+                </Container>
               </>
             )}
-          </ListGroup>
+          </Container>
         </>
       ) : (
         <p>{t('admin.no-urls-generated')}</p>
