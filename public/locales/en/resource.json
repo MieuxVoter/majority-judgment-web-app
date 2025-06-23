@@ -195,6 +195,7 @@
     "admin.generated-vote-urls-title": "Generated Vote URLs",
     "admin.generated-vote-urls-description": "Here are the unique voting links...",
     "admin.copy-all-urls": "Copy All URLs",
+    "admin.download-all-urls": "Download all URLs",
     "admin.no-urls-generated": "No URLs were generated for manual distribution.",
     "admin.close": "Close",
     "result.auth-required": "This election is currently set so that only administrators can view the results. This setting can be changed later from the administration interface. If you are an administrator, please open this page from the administration interface.",

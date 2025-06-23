@@ -7,8 +7,9 @@ import LimitDate from './LimitDate';
 import AccessResults from './AccessResults';
 import Order from './Order';
 import Private from './Private';
-import { useElection, getTotalInvites } from '@services/ElectionContext';
+import { useElection } from '@services/ElectionContext';
 import ResultForAdminOnlyParam from './ResultForAdminOnlyParam';
+import { getTotalInvites } from '@services/utils';
 
 const ParamsField = ({ onSubmit }) => {
   const { t } = useTranslation();

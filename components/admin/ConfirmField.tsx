@@ -16,16 +16,12 @@ import {
   hasEnoughGrades,
   checkName,
   canBeFinished,
-  getTotalInvites,
 } from '@services/ElectionContext';
 import {createElection, ElectionCreatedPayload} from '@services/api';
-import {getUrl, RouteTypes} from '@services/routes';
 import {GradeItem, CandidateItem} from '@services/type';
-import {sendInviteMails} from '@services/mail';
 import {AppTypes, useAppContext} from '@services/context';
 import {useEffect} from 'react';
-import {getLocaleShort, showGeneratedUrlsInNewTab} from '@services/utils';
-import { generateQRCodesPDF } from '@services/qrcode';
+import {getTotalInvites, sendEmailsDownloadQRCodesPDFAndDisplayInvites, showGeneratedUrlsInNewTab} from '@services/utils';
 import ResultForAdminOnlyParam from './ResultForAdminOnlyParam';
 
 const submitElection = (
@@ -64,43 +60,20 @@ const submitElection = (
       if (
         election.restricted && getTotalInvites(election) > 0
       ) {
-        if (
-          typeof payload.invites === 'undefined' ||
-          payload.invites.length !== getTotalInvites(election)
-        ) {
-          throw new Error('Unexpected number of invites returned!');
+        try {
+          await sendEmailsDownloadQRCodesPDFAndDisplayInvites({
+            electionName: election.name,
+            emails: election.emails,
+            qrCodeCount: election.qrCodeCount || 0,
+            urlCount: election.urlCount || 0,
+            invites: payload.invites,
+            ref: payload.ref,
+            router,
+          })
+        } catch (e) {
+          failureCallback(e);
+          return;
         }
-
-        const locale = getLocaleShort(router);
-        const urlVotes = payload.invites.map((token: string) =>
-          getUrl(RouteTypes.VOTE, locale, payload.ref, token)
-        );
-
-        const emailVoteUrls = urlVotes.slice(0, election.emails.length);
-        const qrCodeVoteUrls = urlVotes.slice(
-          election.emails.length,
-          election.emails.length + (election.qrCodeCount || 0)
-        );
-        const manualVoteUrls = urlVotes.slice(
-          election.emails.length + (election.qrCodeCount || 0)
-        );
-
-        const urlResult = getUrl(RouteTypes.RESULTS, locale, payload.ref);
-
-        if (qrCodeVoteUrls.length > 0)
-          await generateQRCodesPDF(qrCodeVoteUrls);
-
-        if (emailVoteUrls.length > 0)
-          await sendInviteMails(
-            election.emails,
-            election.name,
-            emailVoteUrls,
-            urlResult,
-            router
-          );
-
-        if (manualVoteUrls.length > 0)
-          showGeneratedUrlsInNewTab(manualVoteUrls, router.locale);
       }
       successCallback(payload);
     },

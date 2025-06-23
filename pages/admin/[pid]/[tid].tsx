@@ -31,7 +31,6 @@ import {
   hasEnoughGrades,
   hasEnoughCandidates,
   canBeFinished,
-  getTotalInvites,
 } from '@services/ElectionContext';
 import { CandidateItem, GradeItem } from '@services/type';
 import { gradeColors } from '@services/grades';
@@ -48,7 +47,7 @@ import Blur from '@components/Blur';
 import { getUrl, RouteTypes } from '@services/routes';
 import { sendInviteMails } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
-import { getLocaleShort, showGeneratedUrlsInNewTab } from '@services/utils';
+import { getLocaleShort, getTotalInvites, sendEmailsDownloadQRCodesPDFAndDisplayInvites, showGeneratedUrlsInNewTab } from '@services/utils';
 import { generateQRCodesPDF } from '@services/qrcode';
 import ResultForAdminOnlyParam from '@components/admin/ResultForAdminOnlyParam';
 
@@ -264,7 +263,7 @@ const HeaderRubbonMobile = () => {
   );
 };
 
-const ManageElection = ({ token }) => {
+const ManageElection = ({ token }:{token:(string|undefined)}) => {
   const { t } = useTranslation();
   const [election, dispatch] = useElection();
   const [_, dispatchApp] = useAppContext();
@@ -338,47 +337,17 @@ const ManageElection = ({ token }) => {
     );
 
     if (response.status === 200 && 'ref' in response) {
-      const totalInvites = getTotalInvites(election);
+      try {
+        await sendEmailsDownloadQRCodesPDFAndDisplayInvites({
+          electionName: election.name,
+          emails: election.emails,
+          qrCodeCount: election.qrCodeCount,
+          urlCount: election.urlCount,
+          invites: response.invites,
+          ref: response.ref,
+          router,
+        });
 
-      if (election.restricted && totalInvites > 0) {
-        const numEmails = election.emails?.length || 0;
-        const numQrCodes = election.qrCodeCount || 0;
-
-        if (totalInvites !== response.invites.length) {
-          throw new Error('Unexpected number of invites returned!');
-        };
-
-        const locale = getLocaleShort(router);
-        const urlVotes = response.invites.map((token: string) =>
-          getUrl(RouteTypes.VOTE, locale, response.ref, token)
-        );
-        const urlResult = getUrl(
-          RouteTypes.RESULTS,
-          locale,
-          response.ref,
-          token
-        );
-
-        const emailVoteUrls = urlVotes.slice(0, numEmails);
-        const qrCodeVoteUrls = urlVotes.slice(numEmails, numEmails + numQrCodes);
-        const manualVoteUrls = urlVotes.slice(numEmails + numQrCodes);
-
-        if (qrCodeVoteUrls.length > 0) {
-          await generateQRCodesPDF(qrCodeVoteUrls);
-        }
-
-        if (manualVoteUrls.length > 0) {
-          showGeneratedUrlsInNewTab(manualVoteUrls, router.locale);
-        }
-
-        if (emailVoteUrls.length > 0)
-          await sendInviteMails(
-            election.emails,
-            election.name,
-            emailVoteUrls,
-            urlResult,
-            router
-          );
         // Remove emails
         dispatch({
           type: ElectionTypes.SET,
@@ -397,15 +366,22 @@ const ManageElection = ({ token }) => {
           field: 'urlCount',
           value: 0,
         });
-      }
 
-      setWaiting(false);
+        setWaiting(false);
 
-      dispatchApp({
-        type: AppTypes.TOAST_ADD,
-        status: 'success',
-        message: t('success.election-updated'),
-      });
+        dispatchApp({
+          type: AppTypes.TOAST_ADD,
+          status: 'success',
+          message: t('success.election-updated'),
+        });
+      } catch (err) {
+        dispatchApp({
+          type: AppTypes.TOAST_ADD,
+          status: 'error',
+          message: t('error.catch22'),
+        });
+        console.error(err);
+      }      
     } else {
       dispatchApp({
         type: AppTypes.TOAST_ADD,
