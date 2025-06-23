@@ -8,9 +8,10 @@ import {
   Button as ReactstrapButton,
 } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { AppTypes, useAppContext } from '@services/context';
 import { Urls } from '@services/utils';
+import Papa from 'papaparse';
 
 export async function getStaticProps({ locale }) {
   return {
@@ -46,6 +47,28 @@ const GeneratedUrlsPage = () => {
       }
     }
   }, []); // Empty array means effect will run once
+
+  const handleDownloadAll = async() => {
+    if (!hasUrl()) return;
+
+    const csv = [
+        ["Mode", "Url"],
+        ...urls.manual.map(e => ["Manual", e]),
+        ...urls.qrCodes.map(e => ["QR Code", e]),
+        ...urls.emails.map(e => [e.mail, e.urlVote]),
+    ]
+
+    const csvContent = Papa.unparse(csv);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'election-model.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
   const handleCopyAll = async () => {
     if (!hasUrl()) return;
@@ -84,6 +107,14 @@ const GeneratedUrlsPage = () => {
           >
             <FontAwesomeIcon icon={faCopy} className="me-2" />
             {t('admin.copy-all-urls')}
+          </ReactstrapButton>
+          <ReactstrapButton
+            color="primary"
+            onClick={handleDownloadAll}
+            className="mb-3"
+          >
+            <FontAwesomeIcon icon={faDownload} className="me-2" />
+            {t('admin.download-all-urls')}
           </ReactstrapButton>
           <ListGroup flush>
             {urls.manual.length > 0 && (

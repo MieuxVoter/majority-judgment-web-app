@@ -195,6 +195,7 @@
     "admin.generated-vote-urls-title": "URLs de vote générées",
     "admin.generated-vote-urls-description": "Voici les liens de vote uniques...",
     "admin.copy-all-urls": "Copier toutes les URLs",
+    "admin.download-all-urls": "Télécharger toutes les URLs",
     "admin.no-urls-generated": "Aucune URL n'a été générée pour distribution manuelle.",
     "admin.close": "Fermer",
     "result.auth-required": "Cette élection a été paramétrée pour que seuls les administrateurs puissent voir les résultats pour le moment. Ce paramétrage peut être modifiée à partir de l'interface d'administration plus tard. Si vous êtes administrateur, cette page est à ouvrir à partir de l'interface d'administration.",
