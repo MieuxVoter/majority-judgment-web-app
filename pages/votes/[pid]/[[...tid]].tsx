@@ -165,8 +165,8 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
 
       return (
         <PatternedBackground>
-          <Container className="my-auto d-flex flex-column justify-content-center align-items-center text-center text-white h-100">
-            <h1 className="mb-4">{t('vote.error-closed-title')}</h1>
+            <Container className="d-flex flex-column justify-content-center align-items-center text-center text-white" style={{minHeight: '100vh'}}>
+            <h4 className="mb-4">{t('vote.error-closed-title')}</h4>
             <p className="mb-4">{t('vote.error-closed-message')}</p>
             <Button
               color="secondary"
@@ -175,7 +175,7 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
             >
               {t('vote.go-to-results')}
             </Button>
-          </Container>
+            </Container>
         </PatternedBackground>
       );
     }
