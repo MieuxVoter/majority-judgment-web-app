@@ -40,7 +40,7 @@ export const sendInviteMails = async (
     body: JSON.stringify({
       action: 'invite',
       question: name,
-      recipients: mailAndUrlVotes,
+      recipients,
       locale,
     }),
   });
