@@ -112,7 +112,7 @@ const AdminModalEmail = ({
             className="bg-white text-black my-2 shadow-lg border-dark border py-3 px-4 border-3 justify-content-between gx-2 align-items-end"
             onClick={handleDownloadAdminShortcut}
           >
-            <div>{"Download admin shortcut"}</div>
+            <div>{t("admin.success-download-admin-shortcut")}</div>
             <div>
               <FontAwesomeIcon icon={faDownload} />
             </div>

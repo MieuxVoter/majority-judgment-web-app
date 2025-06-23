@@ -186,6 +186,7 @@
     "admin.success-copy-vote": "Copy the voting link",
     "admin.success-copy-result": "Copy the result link",
     "admin.success-copy-admin": "Copy the admin link",
+    "admin.success-download-admin-shortcut": "Download a shortcut to the admin link",
     "admin.go-to-admin": "Manage the vote",
     "admin.go-to-vote": "Access to the vote",
     "admin.go-to-result": "View results",
