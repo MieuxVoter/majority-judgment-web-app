@@ -14,9 +14,10 @@ const CandidateCard = ({candidate, onClick}: CandidateCardInterface) => {
     onClick={onClick}
     className="d-flex align-items-center flex-fill">
     <Image
-      src={defaultAvatar}
+      src={(candidate.image == "" || !candidate.image) ? defaultAvatar : candidate.image }
       width={32}
       height={32}
+      style={{ objectFit: 'cover' }}
       className="bg-light"
       alt={t('common.thumbnail')}
     />
