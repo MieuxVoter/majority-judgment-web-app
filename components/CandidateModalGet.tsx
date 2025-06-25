@@ -38,14 +38,21 @@ const CandidateModal = ({isOpen, toggle, candidate}) => {
         <div className="d-flex justify-content-between mb-4">
           <Image
             src={candidate && candidate.image ? candidate.image : defaultAvatar}
-            height={96}
-            width={96}
+            width={256}
+            height={256}
+            style={{ 
+              width: 'auto', 
+              height: '256px', 
+              maxWidth: '100%',
+              objectFit: 'contain',
+              maxHeight: 'min(256px, 80vh)'
+            }}
             alt={candidate && candidate.name}
-            className="rounded-circle bg-light"
+            className="bg-light mx-auto"
           />
           <FontAwesomeIcon onClick={toggle} icon={faXmark} />
         </div>
-        <div className="px-2">
+        <div className="px-2 text-center">
           <h5>{candidate && candidate.name}</h5>
           <p>{candidate && candidate.description}</p>
         </div>

@@ -76,6 +76,7 @@ const CandidateField = ({
           height={24}
           className={`${image == defaultAvatar ? 'default-avatar' : ''
             } bg-primary`}
+          style={{objectFit: 'cover'}}
           alt={t('common.thumbnail')}
         />
         <div className="ps-2 fw-bold">

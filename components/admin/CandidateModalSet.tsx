@@ -150,6 +150,7 @@ const CandidateModal = ({isOpen, position, toggle}) => {
                 alt={t('admin.photo')}
                 height={120}
                 width={120}
+                style={{objectFit: 'cover'}}
               />
               <div className="mb-3">
                 <p>{t('admin.photo-type')} jpg, png, pdf</p>
