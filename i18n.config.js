@@ -32,7 +32,7 @@ module.exports = {
     },
     lngs: ["en", "fr", "es", "de", "ru"],
     ns: ["resource"],
-    defaultLng: "en",
+    defaultLng: "fr",
     defaultNs: "resource",
     defaultValue: "__STRING_NOT_TRANSLATED__",
     resource: {

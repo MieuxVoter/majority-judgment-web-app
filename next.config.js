@@ -9,7 +9,7 @@ const remoteImage = process.env.IMGPUSH_URL
 module.exports = withTM({
   i18n: {
     locales: ['en', 'fr'],
-    defaultLocale: 'en',
+    defaultLocale: 'fr',
   },
   images: {
     remotePatterns: [
