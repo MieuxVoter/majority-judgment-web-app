@@ -34,12 +34,8 @@ export interface ErrorMessage {
 }
 
 export interface ErrorPayload {
-  detail: Array<ErrorMessage>;
-}
-
-export interface HTTPPayload {
-  status: number;
-  message: string;
+  error: string;   // e.g., "ELECTION_FINISHED"
+  message: string; // e.g., "The election has finished."
 }
 
 export interface ElectionPayload {
@@ -170,7 +166,7 @@ export const updateElection = async (
   randomOrder: boolean,
   authForResult:boolean,
   token: string,
-): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+): Promise<ElectionUpdatedPayload | ErrorPayload> => {
   /**
    * Create an election from its title, its candidates and a bunch of options
    */
@@ -208,14 +204,14 @@ export const updateElection = async (
     return { status: 200, ...payload };
   } catch (e) {
     console.error(e);
-    return { status: 400, message: `Unknown API error: ${e}` };
+    return { error: 'CLIENT_ERROR', message: `Unknown API error: ${e}` };
   }
 };
 
 export const closeElection = async (
   ref: string,
   token: string
-): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+): Promise<ElectionUpdatedPayload | ErrorPayload> => {
   const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
 
   try {
@@ -238,14 +234,14 @@ export const closeElection = async (
     return { status: 200, ...payload };
   } catch (e) {
     console.error(e);
-    return { status: 400, message: `Unknown API error: ${e}` };
+    return { error: 'CLIENT_ERROR', message: `Unknown API error: ${e}` };
   }
 };
 
 export const openElection = async (
   election: ElectionContextInterface,
   token: string
-): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+): Promise<ElectionUpdatedPayload | ErrorPayload> => {
   const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
 
   try {
@@ -280,7 +276,7 @@ export const openElection = async (
     return { status: 200, ...payload };
   } catch (e) {
     console.error(e);
-    return { status: 400, message: `Unknown API error: ${e}` };
+    return { error: 'CLIENT_ERROR', message: `Unknown API error: ${e}` };
   }
 };
 
@@ -289,7 +285,7 @@ export const openElection = async (
  */
 export const getResults = async (
   pid: string, token:string|null = null
-): Promise<ResultsPayload | HTTPPayload> => {
+): Promise<ResultsPayload | ErrorPayload> => {
   const endpoint = new URL(
     api.routesServer.getResults.replace(new RegExp(':slug', 'g'), pid),
     URL_SERVER
@@ -304,20 +300,18 @@ export const getResults = async (
     });
 
     if (response.status != 200) {
-      const payload = await response.json();
-      return { status: response.status, ...payload };
+      return await response.json();
     }
-    const payload = await response.json();
-    return { ...payload, status: response.status };
+    return await response.json();
   } catch (error) {
     console.error(error);
-    return { status: 400, message: `Unknown API error: ${error}` };
+    return { error: 'CLIENT_ERROR', message: `Unknown API error: ${error}` };
   }
 };
 
 export const getElection = async (
   pid: string
-): Promise<ElectionPayload | HTTPPayload> => {
+): Promise<ElectionPayload | ErrorPayload> => {
   /**
    * Fetch data from external API
    */
@@ -331,20 +325,18 @@ export const getElection = async (
     const response = await fetch(endpoint.href);
 
     if (response.status != 200) {
-      const payload = await response.json();
-      return { status: response.status, message: payload };
+      return await response.json();
     }
-    const payload = await response.json();
-    return { ...payload, status: response.status };
+    return await response.json();
   } catch (error) {
-    return { status: 400, message: 'Unknown API error' };
+    return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
 
 export const getProgress = async (
   pid: string,
   token: string
-): Promise<ProgressPayload | HTTPPayload> => {
+): Promise<ProgressPayload | ErrorPayload> => {
   /**
    * Fetch progress (number of voters) from external API
    */
@@ -363,13 +355,11 @@ export const getProgress = async (
       },
     });
     if (response.status != 200) {
-      const payload = await response.json();
-      return { status: response.status, message: payload };
+      return await response.json();
     }
-    const payload = await response.json();
-    return { ...payload, status: response.status };
+    return await response.json();
   } catch (error) {
-    return { status: 400, message: 'Unknown API error' };
+    return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
 
@@ -378,7 +368,7 @@ export const getProgress = async (
  */
 export const getBallot = async (
   token: string
-): Promise<ElectionPayload | HTTPPayload> => {
+): Promise<ElectionPayload | ErrorPayload> => {
   const path = api.routesServer.voteElection;
   const endpoint = new URL(path, URL_SERVER);
 
@@ -395,13 +385,12 @@ export const getBallot = async (
     });
 
     if (response.status != 200) {
-      return { status: response.status, message: 'Can not load this ballot' };
+      return await response.json();
     }
 
-    const payload = await response.json();
-    return { ...payload, status: response.status };
+    return await response.json();
   } catch (error) {
-    return { status: 400, message: 'Unknown API error' };
+    return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
 

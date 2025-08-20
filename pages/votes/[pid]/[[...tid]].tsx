@@ -76,7 +76,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
       election,
       electionRef,
       token: tid || null,
-      previousBallot: ballot && ballot.status != 404 ? ballot : null,
+      previousBallot: ballot && !('error' in ballot) ? ballot : null,
     },
   };
 }
