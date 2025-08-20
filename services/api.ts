@@ -434,33 +434,19 @@ export const castBallot = (
   }
 };
 
-export const UNKNOWN_ELECTION_ERROR = 'E1:';
-export const ONGOING_ELECTION_ERROR = 'E2:';
-export const NO_VOTE_ERROR = 'E3:';
-export const ELECTION_NOT_STARTED_ERROR = 'E4:';
-export const ELECTION_FINISHED_ERROR = 'E5:';
-export const INVITATION_ONLY_ERROR = 'E6:';
-export const UNKNOWN_TOKEN_ERROR = 'E7:';
-export const USED_TOKEN_ERROR = 'E8:';
-export const WRONG_ELECTION_ERROR = 'E9:';
-export const API_ERRORS = [
-  UNKNOWN_TOKEN_ERROR,
-  ONGOING_ELECTION_ERROR,
-  NO_VOTE_ERROR,
-  ELECTION_NOT_STARTED_ERROR,
-  ELECTION_FINISHED_ERROR,
-  INVITATION_ONLY_ERROR,
-  UNKNOWN_TOKEN_ERROR,
-  USED_TOKEN_ERROR,
-  WRONG_ELECTION_ERROR,
-];
-
-export const apiErrors = (error: string): string => {
-  const errorCode = `${error.split(':')[0]}:`;
-
-  if (API_ERRORS.includes(errorCode)) {
-    return `error.${error.split(':')[0].toLowerCase()}`;
-  } else {
-    return 'error.catch22';
-  }
-};
+export const BAD_REQUEST_ERROR_CODE = 'BAD_REQUEST';
+export const ELECTION_FINISHED_ERROR_CODE = 'ELECTION_FINISHED';
+export const ELECTION_IS_ACTIVE_ERROR_CODE = 'ELECTION_IS_ACTIVE';
+export const ELECTION_NOT_STARTED_ERROR_CODE = 'ELECTION_NOT_STARTED';
+export const ELECTION_RESTRICTED_ERROR_CODE = 'ELECTION_RESTRICTED';
+export const FORBIDDEN_ERROR_CODE = 'FORBIDDEN';
+export const IMMUTABLE_IDS_ERROR_CODE = 'IMMUTABLE_IDS';
+export const INCONSISTENT_BALLOT_ERROR_CODE = 'INCONSISTENT_BALLOT';
+export const INVALID_DATE_CONFIGURATION_ERROR_CODE = 'INVALID_DATE_CONFIGURATION';
+export const NO_RECORDED_VOTES_ERROR_CODE = 'NO_RECORDED_VOTES';
+export const NOT_FOUND_ERROR_CODE = 'NOT_FOUND';
+export const RESULTS_HIDDEN_ERROR_CODE = 'RESULTS_HIDDEN';
+export const SCHEMA_VALIDATION_ERROR_CODE = 'SCHEMA_VALIDATION_ERROR';
+export const UNAUTHORIZED_ERROR_CODE = 'UNAUTHORIZED';
+export const VALIDATION_ERROR_CODE = 'VALIDATION_ERROR';
+export const WRONG_ELECTION_ERROR_CODE = 'WRONG_ELECTION';
