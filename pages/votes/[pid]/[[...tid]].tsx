@@ -16,6 +16,9 @@ import {
   BallotPayload,
   ErrorPayload,
   ELECTION_FINISHED_ERROR_CODE,
+  UNAUTHORIZED_ERROR_CODE,
+  WRONG_ELECTION_ERROR_CODE,
+  NOT_FOUND_ERROR_CODE,
 } from '@services/api';
 import {
   useBallot,
@@ -171,6 +174,18 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
           message={t('vote.error-closed-message')}
           buttonText={t('vote.go-to-results')}
           onButtonClick={() => router.push(url.toString())}
+        />;
+      } else if (
+          error.error === UNAUTHORIZED_ERROR_CODE ||
+          error.error === WRONG_ELECTION_ERROR_CODE ||
+          error.error === NOT_FOUND_ERROR_CODE
+      ) {
+        // These errors strongly suggest the user's link/token is bad.
+        return <ErrorDisplay
+          title={t('vote.error-invalid-link-title')}
+          message={t('vote.error-invalid-link-message')}
+          buttonText={t('common.back-homepage')}
+          onButtonClick={() => router.push('/')}
         />;
       } else {
         return <ErrorDisplay
