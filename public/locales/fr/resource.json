@@ -237,6 +237,8 @@
     "vote.support-desc": "Mieux Voter est une association transpartisane et sans but lucratif. En adhérant à l’association, vous contribuez à financer son fonctionnement et ses activités.",
     "vote.error-closed-title": "Election clôturée",
     "vote.error-closed-message": "Cette élection s'est terminée pendant que vous votiez. Votre vote n'a pas été pris en compte.",
+    "vote.error-not-started-title": "Pas encore commencé",
+    "vote.error-not-started-message": "Le vote n'est pas encore ouvert. Merci de revenir plus tard.",
     "vote.error-invalid-link-title": "Lien invalide",
     "vote.error-invalid-link-message": "Ce lien de vote est invalide ou a déjà été utilisé. Vérifiez le lien ou contactez les organisateurs",
     "vote.error-generic-title": "Une erreur est survenue",

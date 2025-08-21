@@ -237,6 +237,8 @@
     "vote.support-desc": "Better Vote is a transparent and non-profit association. By joining the association, you contribute to finance its functioning and activities.",
     "vote.error-closed-title": "Vote Closed",
     "vote.error-closed-message": "This election was closed while you were voting. Your vote has not been cast.",
+    "vote.error-not-started-title": "Not Yet Open",
+    "vote.error-not-started-message": "This election has not opened for voting yet. Please come back later.",
     "vote.error-invalid-link-title": "Invalid Link",
     "vote.error-invalid-link-message": "This voting link is invalid or has already been used. Please check the link or contact the organizer.",
     "vote.error-generic-title": "An Error Occurred",

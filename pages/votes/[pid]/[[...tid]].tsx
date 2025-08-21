@@ -19,6 +19,7 @@ import {
   UNAUTHORIZED_ERROR_CODE,
   WRONG_ELECTION_ERROR_CODE,
   NOT_FOUND_ERROR_CODE,
+  ELECTION_NOT_STARTED_ERROR_CODE,
 } from '@services/api';
 import {
   useBallot,
@@ -174,6 +175,13 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
           message={t('vote.error-closed-message')}
           buttonText={t('vote.go-to-results')}
           onButtonClick={() => router.push(url.toString())}
+        />;
+      } else if (error.error === ELECTION_NOT_STARTED_ERROR_CODE) {
+        return <ErrorDisplay
+          title={t('vote.error-not-started-title')}
+          message={t('vote.error-not-started-message')}
+          buttonText={t('common.go-home', 'Go to Homepage')}
+          onButtonClick={() => router.push('/')}
         />;
       } else if (
           error.error === UNAUTHORIZED_ERROR_CODE ||
