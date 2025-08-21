@@ -59,6 +59,7 @@
     "common.the-vote": "The vote",
     "common.the-params": "The parameters",
     "common.welcome": "Welcome!",
+    "common.reload": "Try again",
     "error.at-least-2-candidates": "At least two candidates are required.",
     "error.cant-set-ongoing": "You can not set this parameter for an ongoing election.",
     "error.ended-election": "The election has ended",
@@ -236,5 +237,7 @@
     "vote.support-desc": "Better Vote is a transparent and non-profit association. By joining the association, you contribute to finance its functioning and activities.",
     "vote.error-closed-title": "Vote Closed",
     "vote.error-closed-message": "This election was closed while you were voting. Your vote has not been cast.",
+    "vote.error-generic-title": "An Error Occurred",
+    "vote.error-generic-message": "Your vote could not be submitted. This may be due to an invalid link or a network issue.",
     "vote.thanks": "Thanks for your participation!"
 }
