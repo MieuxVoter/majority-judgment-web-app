@@ -101,7 +101,7 @@
     "faq.sec-11-title": "Lorsque j’organise une élection, puis-je connaître le nombre et l’identité des votants ?",
     "faq.sec-11-desc": "Le nombre de votants est indiqué sur la page de résultats de votre élection. L’identité des votants est secrète, afin de respecter les conditions d’un vote démocratique où l’anonymat protège l’électeur et garantit la sincérité du vote.",
     "faq.sec-12-title": "Puis-je modifier mon vote ?",
-    "faq.sec-12-desc": "Une fois votre vote enregistré, vous ne pouvez plus le modifier.",
+    "faq.sec-12-desc": "Pour les votes par invitation (lien de vote unique par votant·e): Oui, tant que l'élection n'est pas clôturée, vous pouvez ré-utiliser votre lien pour modifier votre vote. Pour les votes publiques (lien de vote identique pour tous les votant·es), il n'est pas possible de changer son vote",
     "faq.sec-13-title": "Comment puis-je récupérer un lien vers le vote ou les résultats du vote si je l’ai perdu ?",
     "faq.sec-13-desc": "Vous ne pouvez pas récupérer un lien pour voter ou consulter les résultats après qu’il vous ait été communiqué. Gardez-le précieusement. Cependant, si vous disposez du lien du vote, nous pouvons vous transmettre le lien vers les résultats.",
     "faq.sec-14-title": "Comment puis-je récupérer un lien vers le panneau d'administration si je l’ai perdu ?",
