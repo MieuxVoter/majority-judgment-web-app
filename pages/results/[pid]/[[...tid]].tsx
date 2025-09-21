@@ -19,8 +19,12 @@ import Logo from '@components/Logo';
 import MeritProfile from '@components/MeritProfile';
 import Button from '@components/Button';
 import {
+  ErrorPayload,
   getElection,
   getResults,
+  NO_RECORDED_VOTES_ERROR_CODE,
+  RESULTS_HIDDEN_ERROR_CODE,
+  UNAUTHORIZED_ERROR_CODE,
 } from '@services/api';
 import {
   GradeResultInterface,
@@ -489,14 +493,10 @@ const Podium = ({candidates}: PodiumInterface) => {
   );
 };
 
-interface ErrorInterface {
-  message: string;
-  details?: string;
-}
 interface ResultPageInterface {
   result?: ResultInterface;
   token?: string;
-  err?: ErrorInterface;
+  err?: ErrorPayload;
   electionRef?: string;
   dateEnd:string,
 }
@@ -512,70 +512,71 @@ const ResultPage = ({
   const router = useRouter();
   const locale = getLocaleShort(router);
 
-  if (err && err.message.includes("Unautorized") && err.details != null) {
-    if (err.details.includes("auth for result")) {
+  if (err && err.error) {
+    if (err.error == UNAUTHORIZED_ERROR_CODE){
+      if (err.message.indexOf("Wrong authentication") !== -1)
+        return ( 
+          <ErrorMessage>
+            <p>{t('result.wrong-auth')}</p>
+          </ErrorMessage>
+        );
+
       return ( 
         <ErrorMessage displayErrorTitle={false}>
           <p>{t('result.auth-required')}</p>
         </ErrorMessage>
       );
-    } else if (err.details.includes("Wrong authentication")) {
-      return ( 
+    }
+
+    if (err.error == NO_RECORDED_VOTES_ERROR_CODE) {
+      const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
+      return (
         <ErrorMessage>
-          <p>{t('result.wrong-auth')}</p>
+          {
+            <>
+              <p>{t('result.no-votes')}</p>
+              <Link href={urlVote}>
+                <div className="d-md-flex d-grid">
+                  <Button
+                    className="d-md-flex d-grid"
+                    color="primary"
+                    icon={faArrowRight}
+                    position="right"
+                  >
+                    {t('result.go-to-vote')}
+                  </Button>
+                </div>
+              </Link>
+            </>
+          }
         </ErrorMessage>
       );
     }
-  }
 
-  if (err && err.message.startsWith('No votes')) {
-    const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
-    return (
-      <ErrorMessage>
-        {
-          <>
-            <p>{t('result.no-votes')}</p>
-            <Link href={urlVote}>
-              <div className="d-md-flex d-grid">
-                <Button
-                  className="d-md-flex d-grid"
-                  color="primary"
-                  icon={faArrowRight}
-                  position="right"
-                >
-                  {t('result.go-to-vote')}
-                </Button>
-              </div>
-            </Link>
-          </>
-        }
-      </ErrorMessage>
-    );
-  }
-
-  if (err && err.details.startsWith('The election is not closed')) {
-    const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
-    let hideResults = t('result.hide-results');
-    
-    return (
-      <ErrorMessage>
-        {
-          <>
-            <p>{hideResults}</p>
-            { dateEnd && 
-            <p>{t('result.end-date') + " " + dateEnd}</p>
-            }
-            <Link href={urlVote}>
-              <div className="d-md-flex d-grid">
-                <Button color="primary" icon={faArrowRight} position="right">
-                  {t('result.go-to-vote')}
-                </Button>
-              </div>
-            </Link>
-          </>
-        }
-      </ErrorMessage>
-    );
+    if (err.error == RESULTS_HIDDEN_ERROR_CODE) {
+      const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
+      let hideResults = t('result.hide-results');
+      
+      return (
+        <ErrorMessage>
+          {
+            <>
+              <p>{hideResults}</p>
+              { dateEnd && 
+              <p>{t('result.end-date') + " " + dateEnd}</p>
+              }
+              <Link href={urlVote}>
+                <div className="d-md-flex d-grid">
+                  <Button color="primary" icon={faArrowRight} position="right">
+                    {t('result.go-to-vote')}
+                  </Button>
+                </div>
+              </Link>
+            </>
+          }
+        </ErrorMessage>
+      );
+    }
   }
 
   if (!result) {
