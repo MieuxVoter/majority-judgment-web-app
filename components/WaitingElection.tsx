@@ -47,8 +47,8 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
       }}
     >
       <div className="d-flex flex-column align-items-center">
-        {error && error.detail ? (
-          <ErrorMessage>{error.detail[0].msg}</ErrorMessage>
+        {error ? (
+          <ErrorMessage>{error.message}</ErrorMessage>
         ) : null}
 
         {election && election.ref ? (

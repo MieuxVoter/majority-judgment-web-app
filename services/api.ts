@@ -34,12 +34,8 @@ export interface ErrorMessage {
 }
 
 export interface ErrorPayload {
-  detail: Array<ErrorMessage>;
-}
-
-export interface HTTPPayload {
-  status: number;
-  message: string;
+  error: string;   // e.g., "ELECTION_FINISHED"
+  message: string; // e.g., "The election has finished."
 }
 
 export interface ElectionPayload {
@@ -170,7 +166,7 @@ export const updateElection = async (
   randomOrder: boolean,
   authForResult:boolean,
   token: string,
-): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+): Promise<ElectionUpdatedPayload | ErrorPayload> => {
   /**
    * Create an election from its title, its candidates and a bunch of options
    */
@@ -208,14 +204,14 @@ export const updateElection = async (
     return { status: 200, ...payload };
   } catch (e) {
     console.error(e);
-    return { status: 400, message: `Unknown API error: ${e}` };
+    return { error: 'CLIENT_ERROR', message: `Unknown API error: ${e}` };
   }
 };
 
 export const closeElection = async (
   ref: string,
   token: string
-): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+): Promise<ElectionUpdatedPayload | ErrorPayload> => {
   const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
 
   try {
@@ -238,14 +234,14 @@ export const closeElection = async (
     return { status: 200, ...payload };
   } catch (e) {
     console.error(e);
-    return { status: 400, message: `Unknown API error: ${e}` };
+    return { error: 'CLIENT_ERROR', message: `Unknown API error: ${e}` };
   }
 };
 
 export const openElection = async (
   election: ElectionContextInterface,
   token: string
-): Promise<ElectionUpdatedPayload | HTTPPayload> => {
+): Promise<ElectionUpdatedPayload | ErrorPayload> => {
   const endpoint = new URL(api.routesServer.setElection, URL_SERVER);
 
   try {
@@ -280,7 +276,7 @@ export const openElection = async (
     return { status: 200, ...payload };
   } catch (e) {
     console.error(e);
-    return { status: 400, message: `Unknown API error: ${e}` };
+    return { error: 'CLIENT_ERROR', message: `Unknown API error: ${e}` };
   }
 };
 
@@ -289,7 +285,7 @@ export const openElection = async (
  */
 export const getResults = async (
   pid: string, token:string|null = null
-): Promise<ResultsPayload | HTTPPayload> => {
+): Promise<ResultsPayload | ErrorPayload> => {
   const endpoint = new URL(
     api.routesServer.getResults.replace(new RegExp(':slug', 'g'), pid),
     URL_SERVER
@@ -304,20 +300,18 @@ export const getResults = async (
     });
 
     if (response.status != 200) {
-      const payload = await response.json();
-      return { status: response.status, ...payload };
+      return await response.json();
     }
-    const payload = await response.json();
-    return { ...payload, status: response.status };
+    return await response.json();
   } catch (error) {
     console.error(error);
-    return { status: 400, message: `Unknown API error: ${error}` };
+    return { error: 'CLIENT_ERROR', message: `Unknown API error: ${error}` };
   }
 };
 
 export const getElection = async (
   pid: string
-): Promise<ElectionPayload | HTTPPayload> => {
+): Promise<ElectionPayload | ErrorPayload> => {
   /**
    * Fetch data from external API
    */
@@ -331,20 +325,18 @@ export const getElection = async (
     const response = await fetch(endpoint.href);
 
     if (response.status != 200) {
-      const payload = await response.json();
-      return { status: response.status, message: payload };
+      return await response.json();
     }
-    const payload = await response.json();
-    return { ...payload, status: response.status };
+    return await response.json();
   } catch (error) {
-    return { status: 400, message: 'Unknown API error' };
+    return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
 
 export const getProgress = async (
   pid: string,
   token: string
-): Promise<ProgressPayload | HTTPPayload> => {
+): Promise<ProgressPayload | ErrorPayload> => {
   /**
    * Fetch progress (number of voters) from external API
    */
@@ -363,13 +355,11 @@ export const getProgress = async (
       },
     });
     if (response.status != 200) {
-      const payload = await response.json();
-      return { status: response.status, message: payload };
+      return await response.json();
     }
-    const payload = await response.json();
-    return { ...payload, status: response.status };
+    return await response.json();
   } catch (error) {
-    return { status: 400, message: 'Unknown API error' };
+    return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
 
@@ -378,7 +368,7 @@ export const getProgress = async (
  */
 export const getBallot = async (
   token: string
-): Promise<ElectionPayload | HTTPPayload> => {
+): Promise<ElectionPayload | ErrorPayload> => {
   const path = api.routesServer.voteElection;
   const endpoint = new URL(path, URL_SERVER);
 
@@ -395,13 +385,12 @@ export const getBallot = async (
     });
 
     if (response.status != 200) {
-      return { status: response.status, message: 'Can not load this ballot' };
+      return await response.json();
     }
 
-    const payload = await response.json();
-    return { ...payload, status: response.status };
+    return await response.json();
   } catch (error) {
-    return { status: 400, message: 'Unknown API error' };
+    return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
 
@@ -445,33 +434,19 @@ export const castBallot = (
   }
 };
 
-export const UNKNOWN_ELECTION_ERROR = 'E1:';
-export const ONGOING_ELECTION_ERROR = 'E2:';
-export const NO_VOTE_ERROR = 'E3:';
-export const ELECTION_NOT_STARTED_ERROR = 'E4:';
-export const ELECTION_FINISHED_ERROR = 'E5:';
-export const INVITATION_ONLY_ERROR = 'E6:';
-export const UNKNOWN_TOKEN_ERROR = 'E7:';
-export const USED_TOKEN_ERROR = 'E8:';
-export const WRONG_ELECTION_ERROR = 'E9:';
-export const API_ERRORS = [
-  UNKNOWN_TOKEN_ERROR,
-  ONGOING_ELECTION_ERROR,
-  NO_VOTE_ERROR,
-  ELECTION_NOT_STARTED_ERROR,
-  ELECTION_FINISHED_ERROR,
-  INVITATION_ONLY_ERROR,
-  UNKNOWN_TOKEN_ERROR,
-  USED_TOKEN_ERROR,
-  WRONG_ELECTION_ERROR,
-];
-
-export const apiErrors = (error: string): string => {
-  const errorCode = `${error.split(':')[0]}:`;
-
-  if (API_ERRORS.includes(errorCode)) {
-    return `error.${error.split(':')[0].toLowerCase()}`;
-  } else {
-    return 'error.catch22';
-  }
-};
+export const BAD_REQUEST_ERROR_CODE = 'BAD_REQUEST';
+export const ELECTION_FINISHED_ERROR_CODE = 'ELECTION_FINISHED';
+export const ELECTION_IS_ACTIVE_ERROR_CODE = 'ELECTION_IS_ACTIVE';
+export const ELECTION_NOT_STARTED_ERROR_CODE = 'ELECTION_NOT_STARTED';
+export const ELECTION_RESTRICTED_ERROR_CODE = 'ELECTION_RESTRICTED';
+export const FORBIDDEN_ERROR_CODE = 'FORBIDDEN';
+export const IMMUTABLE_IDS_ERROR_CODE = 'IMMUTABLE_IDS';
+export const INCONSISTENT_BALLOT_ERROR_CODE = 'INCONSISTENT_BALLOT';
+export const INVALID_DATE_CONFIGURATION_ERROR_CODE = 'INVALID_DATE_CONFIGURATION';
+export const NO_RECORDED_VOTES_ERROR_CODE = 'NO_RECORDED_VOTES';
+export const NOT_FOUND_ERROR_CODE = 'NOT_FOUND';
+export const RESULTS_HIDDEN_ERROR_CODE = 'RESULTS_HIDDEN';
+export const SCHEMA_VALIDATION_ERROR_CODE = 'SCHEMA_VALIDATION_ERROR';
+export const UNAUTHORIZED_ERROR_CODE = 'UNAUTHORIZED';
+export const VALIDATION_ERROR_CODE = 'VALIDATION_ERROR';
+export const WRONG_ELECTION_ERROR_CODE = 'WRONG_ELECTION';

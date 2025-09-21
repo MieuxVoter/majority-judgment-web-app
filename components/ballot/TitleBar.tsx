@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router';
 import Button from '@components/Button';
 import {useTranslation} from 'next-i18next';
-import {getElection, castBallot, apiErrors, ElectionPayload, CandidatePayload, GradePayload} from '@services/api';
+import {getElection, castBallot, ElectionPayload, CandidatePayload, GradePayload} from '@services/api';
 import {getFormattedDatetime, getLocaleShort} from '@services/utils';
 import {faCalendarDays} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

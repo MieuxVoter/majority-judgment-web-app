@@ -15,6 +15,11 @@ import {
   ElectionPayload,
   BallotPayload,
   ErrorPayload,
+  ELECTION_FINISHED_ERROR_CODE,
+  UNAUTHORIZED_ERROR_CODE,
+  WRONG_ELECTION_ERROR_CODE,
+  NOT_FOUND_ERROR_CODE,
+  ELECTION_NOT_STARTED_ERROR_CODE,
 } from '@services/api';
 import {
   useBallot,
@@ -26,6 +31,7 @@ import {getLocaleShort, isEnded} from '@services/utils';
 import WaitingBallot from '@components/WaitingBallot';
 import PatternedBackground from '@components/PatternedBackground';
 import {useRouter} from 'next/router';
+import ErrorDisplay from '@components/ErrorDisplay';
 import TitleBar from '@components/ballot/TitleBar';
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
@@ -76,7 +82,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
       election,
       electionRef,
       token: tid || null,
-      previousBallot: ballot && ballot.status != 404 ? ballot : null,
+      previousBallot: ballot && !('error' in ballot) ? ballot : null,
     },
   };
 }
@@ -140,10 +146,10 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
       const res = await castBallot(ballot.votes, ballot.election, token);
       if (res.status !== 200) {
         console.error(res);
-        const msg = await res.json();
-        setError(msg);
+        const errorPayload: ErrorPayload = await res.json();
+        setError(errorPayload);
       } else {
-        const msg = await res.json();
+        const msg: BallotPayload = await res.json();
         setPayload(msg);
       }
     } catch (err) {
@@ -161,23 +167,42 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
   if (voting) {
     if (error) {
       const locale = getLocaleShort(router);
-      const url = getUrl(RouteTypes.ENDED_VOTE, locale, electionRef);
 
-      return (
-        <PatternedBackground>
-            <Container className="d-flex flex-column justify-content-center align-items-center text-center text-white" style={{minHeight: '100vh'}}>
-            <h4 className="mb-4">{t('vote.error-closed-title')}</h4>
-            <p className="mb-4">{t('vote.error-closed-message')}</p>
-            <Button
-              color="secondary"
-              className="bg-blue"
-              onClick={() => router.push(url.toString())}
-            >
-              {t('vote.go-to-results')}
-            </Button>
-            </Container>
-        </PatternedBackground>
-      );
+      if (error.error === ELECTION_FINISHED_ERROR_CODE) {
+        const url = getUrl(RouteTypes.ENDED_VOTE, locale, electionRef);
+        return <ErrorDisplay
+          title={t('vote.error-closed-title')}
+          message={t('vote.error-closed-message')}
+          buttonText={t('vote.go-to-results')}
+          onButtonClick={() => router.push(url.toString())}
+        />;
+      } else if (error.error === ELECTION_NOT_STARTED_ERROR_CODE) {
+        return <ErrorDisplay
+          title={t('vote.error-not-started-title')}
+          message={t('vote.error-not-started-message')}
+          buttonText={t('common.go-home', 'Go to Homepage')}
+          onButtonClick={() => router.push('/')}
+        />;
+      } else if (
+          error.error === UNAUTHORIZED_ERROR_CODE ||
+          error.error === WRONG_ELECTION_ERROR_CODE ||
+          error.error === NOT_FOUND_ERROR_CODE
+      ) {
+        // These errors strongly suggest the user's link/token is bad.
+        return <ErrorDisplay
+          title={t('vote.error-invalid-link-title')}
+          message={t('vote.error-invalid-link-message')}
+          buttonText={t('common.back-homepage')}
+          onButtonClick={() => router.push('/')}
+        />;
+      } else {
+        return <ErrorDisplay
+          title={t('vote.error-generic-title')}
+          message={t('vote.error-generic-message')}
+          buttonText={t('common.reload')}
+          onButtonClick={() => router.reload()}
+        />;
+      }
     }
     return (
       <PatternedBackground>

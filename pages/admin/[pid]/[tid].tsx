@@ -336,7 +336,7 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
       token
     );
 
-    if (response.status === 200 && 'ref' in response) {
+    if (!('error' in response)) {
       try {
         await sendEmailsDownloadQRCodesPDFAndDisplayInvites({
           electionName: election.name,
@@ -399,7 +399,7 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
     try {
       const response = await openElection(election, token);
 
-      if (response.status === 200 && 'ref' in response) {
+      if (!('error' in response)) {
         dispatchApp({
           type: AppTypes.TOAST_ADD,
           status: 'success',
@@ -430,7 +430,7 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
   const handleClosing = async () => {
     setWaiting(true);
     const response = await closeElection(election.ref, token);
-    if (response.status === 200 && 'ref' in response) {
+    if (!('error' in response)) {
       dispatchApp({
         type: AppTypes.TOAST_ADD,
         status: 'success',

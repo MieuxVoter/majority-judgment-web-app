@@ -122,7 +122,7 @@ const Info = ({ballot, error}: WaitingBallotInterface) => {
   if (!ballot) return null;
 
   if (error) {
-    return <ErrorMessage>{error.detail[0].msg}</ErrorMessage>;
+    return <ErrorMessage>{error.message}</ErrorMessage>;
   }
 
   return (
