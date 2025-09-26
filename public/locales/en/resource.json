@@ -101,7 +101,7 @@
     "faq.sec-11-title": "When I hold an election, can I know the number and identity of voters?",
     "faq.sec-11-desc": "The number of voters is shown on your election results page. The identity of voters is secret, in order to respect the conditions of a democratic vote where anonymity protects the voter and guarantees the sincerity of the vote.",
     "faq.sec-12-title": "Can I change my vote?",
-    "faq.sec-12-desc": "Once you have registered your vote, you cannot change it.",
+    "faq.sec-12-desc": "For votes by invitation (unique voting link per voter): Yes, as long as the election is not closed, you can reuse your link to change your vote. For public votes (identical voting link for all voters), it is not possible to change your vote.",
     "faq.sec-13-title": "How can I retrieve a link to the vote or the vote results if I lost it?",
     "faq.sec-13-desc": "You cannot retrieve a link to vote or view results after it has been communicated to you. Please keep it safe. However, if you have the voting link, we can send you the link to the results.",
     "faq.sec-14-title": "How can I retrieve a link to the admin panel if I lost it?",
