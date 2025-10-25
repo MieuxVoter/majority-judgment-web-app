@@ -55,6 +55,7 @@ const submitElection = (
     election.restricted,
     election.randomOrder,
     election.dateEnd,
+    election.dateStart,
     election.authForResult,
     async (payload: ElectionCreatedPayload) => {
       if (
