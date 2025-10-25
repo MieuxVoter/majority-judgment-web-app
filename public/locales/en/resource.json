@@ -63,6 +63,7 @@
     "error.at-least-2-candidates": "At least two candidates are required.",
     "error.cant-set-ongoing": "You can not set this parameter for an ongoing election.",
     "error.ended-election": "The election has ended",
+    "error.title": "An Error Occurred",
     "error.catch22": "Unknown error...",
     "error.help": "Need any help?",
     "error.wrong-csv-format": "Fail to get result from your CSV file. Check your format and values. (Download csv result from existing elections to get valid format)",
