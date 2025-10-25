@@ -70,6 +70,7 @@
     "error.empty-name": "Le nom est vite",
     "error.wrong-name": "Le titre de l'élection est incorrecte",
     "error.cant-be-finished": "L'élection ne se terminera jamais. Ajoutez une date limite, un accès aux résultats, ou des invitations.",
+    "error.title": "Une erreur est survenue",
     "error.catch22": "Erreur inconnue...",
     "error.date-past": "La date et l'heure sélectionnées sont passées",
     "error.uncorrect-name": "Le titre est incorrect",
