@@ -15,10 +15,11 @@ interface InputProps {
   children?: ReactNode;
   value: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
+  prefix: string;
 }
 export type ButtonRef = HTMLButtonElement;
 
-const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
+const CustomDatePicker = ({ date, setDate, prefix, className = '', ...props }) => {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -39,7 +40,7 @@ const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
   };
 
   const ExampleCustomInput = forwardRef<ButtonRef, InputProps>(
-    ({ value, onClick }, ref) => (
+    ({ value, onClick, prefix }, ref) => (
       <div className="d-grid">
         <button onClick={onClick} ref={ref}>
           <Row className="p-2 align-items-end">
@@ -49,7 +50,7 @@ const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
                   <FontAwesomeIcon icon={faCalendarDays} />
                 </Col>
                 <Col className="col-auto">
-                  {t('admin.until')}{' '}
+                  {prefix}{' '}
                   {getFormattedDatetime(router.locale, value)}
                 </Col>
               </Row>
@@ -67,7 +68,7 @@ const CustomDatePicker = ({ date, setDate, className = '', ...props }) => {
     <DatePicker
       selected={date}
       className={className}
-      customInput={<ExampleCustomInput value={null} onClick={null} />}
+      customInput={<ExampleCustomInput prefix={prefix} value={null} onClick={null} />}
       onChange={handleChange}
       showTimeSelect
       dateFormat="Pp"

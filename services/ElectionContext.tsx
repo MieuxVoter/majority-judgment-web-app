@@ -53,6 +53,7 @@ const defaultElection: ElectionContextInterface = {
   qrCodeCount:0,
   urlCount: 0,
   dateEnd: null,
+  dateStart: null,
   emails: [],
   authForResult:false,
 };

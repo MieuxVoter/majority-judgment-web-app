@@ -327,6 +327,7 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
       grades,
       election.description,
       election.dateEnd,
+      election.dateStart,
       getTotalInvites(election),
       election.hideResults,
       election.forceClose,
