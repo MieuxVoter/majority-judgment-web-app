@@ -13,36 +13,27 @@ import { getFormattedDatetime } from '@services/utils';
 
 interface InputProps {
   children?: ReactNode;
-  value: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  value?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   prefix: string;
+  isInvalid?: boolean;
 }
 export type ButtonRef = HTMLButtonElement;
 
-const CustomDatePicker = ({ date, setDate, prefix, className = '', ...props }) => {
+const CustomDatePicker = ({ date, setDate, prefix, isInvalid = false, className = '', ...props }) => {
   const { t } = useTranslation();
   const router = useRouter();
 
   const [_, dispatchApp] = useAppContext();
 
   const handleChange = (date) => {
-    const now = new Date();
-
-    if (+date < +now) {
-      dispatchApp({
-        type: AppTypes.TOAST_ADD,
-        status: 'error',
-        message: t('error.date-past'),
-      });
-    } else {
-      setDate(date);
-    }
+    setDate(date);
   };
 
   const ExampleCustomInput = forwardRef<ButtonRef, InputProps>(
-    ({ value, onClick, prefix }, ref) => (
+    ({ value, onClick, prefix, isInvalid }, ref) => (
       <div className="d-grid">
-        <button onClick={onClick} ref={ref}>
+        <button onClick={onClick} ref={ref} className={isInvalid ? 'is-invalid' : ''}>
           <Row className="p-2 align-items-end">
             <Col className="col-auto me-auto">
               <Row className="gx-3 align-items-end">
@@ -51,7 +42,7 @@ const CustomDatePicker = ({ date, setDate, prefix, className = '', ...props }) =
                 </Col>
                 <Col className="col-auto">
                   {prefix}{' '}
-                  {getFormattedDatetime(router.locale, value)}
+                  {value && getFormattedDatetime(router.locale, value)}
                 </Col>
               </Row>
             </Col>
@@ -68,7 +59,7 @@ const CustomDatePicker = ({ date, setDate, prefix, className = '', ...props }) =
     <DatePicker
       selected={date}
       className={className}
-      customInput={<ExampleCustomInput prefix={prefix} value={null} onClick={null} />}
+      customInput={<ExampleCustomInput prefix={prefix} isInvalid={isInvalid} />}
       onChange={handleChange}
       showTimeSelect
       dateFormat="Pp"

@@ -96,6 +96,7 @@ export async function getServerSideProps({ query, locale }) {
     emails: [],
     grades,
     candidates,
+    errors: [],
   };
 
   return {
@@ -458,7 +459,8 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
     election.name == '' ||
     numCandidates < 2 ||
     numGrades < 2 ||
-    numGrades > gradeColors.length;
+    numGrades > gradeColors.length ||
+    election.errors.length > 0;
 
   return (
     <>

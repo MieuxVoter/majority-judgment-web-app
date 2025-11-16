@@ -139,7 +139,8 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
     !checkName(election) ||
     !hasEnoughCandidates(election) ||
     !hasEnoughGrades(election) ||
-    !canBeFinished(election);
+    !canBeFinished(election) ||
+    election.errors.length > 0;
 
   return (
     <Container

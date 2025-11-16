@@ -71,6 +71,7 @@
     "error.twice-same-names": "Two items have the same name.",
     "error.empty-name": "The name is empty",
     "error.date-past": "The date and time are in the past",
+    "error.date-range-invalid": "The end date cannot be earlier than the start date.",
     "error.cant-be-finished": "The election will never be closed. Add invites, access to results, or a ending date.",
     "error.not-enough-grades": "Not enough grades",
     "error.not-enough-candidates": "Not enough candidates",

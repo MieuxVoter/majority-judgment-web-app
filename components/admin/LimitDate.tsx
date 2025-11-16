@@ -35,7 +35,7 @@ const LimitDate = () => {
     dispatch({
       type: ElectionTypes.SET,
       field: 'dateEnd',
-      value: date.toISOString(),
+      value: date ? date.toISOString() : null,
     });
   };
 
@@ -52,7 +52,7 @@ const LimitDate = () => {
     dispatch({
       type: ElectionTypes.SET,
       field: 'dateStart',
-      value: date.toISOString(),
+      value: date ? date.toISOString() : null,
     });
   };
 
@@ -60,16 +60,33 @@ const LimitDate = () => {
   const now = new Date();
   const oneDay = 24 * 60 * 60 * 1000;
   const remainingDays = Math.ceil((endDate.getTime() - now.getTime()) / oneDay);
+  const isDateRangeInvalid = hasStartDate && hasEndDate && startDate.getTime() > endDate.getTime();
+  const DATE_RANGE_ERROR_CODE = 'INVALID_DATE_RANGE';
 
-  // Update default dates with the one from the election
+  // Update default dates with the ones from the election
   useEffect(() => {
-    if (election.dateEnd !== null) {
+    if (election.dateEnd) {
       setEndDate(new Date(election.dateEnd));
     }
-    if (election.dateStart !== null) {
+    if (election.dateStart) {
       setStartDate(new Date(election.dateStart));
     }
   }, [election.dateEnd, election.dateStart]);
+
+  // Perform validation and update context with errors
+  useEffect(() => {
+    if (isDateRangeInvalid) {
+      dispatch({
+        type: ElectionTypes.ADD_ERROR,
+        value: DATE_RANGE_ERROR_CODE,
+      });
+    } else {
+      dispatch({
+        type: ElectionTypes.REMOVE_ERROR,
+        value: DATE_RANGE_ERROR_CODE,
+      });
+    }
+  }, [isDateRangeInvalid, dispatch]);
 
   return (
     <>
@@ -86,7 +103,12 @@ const LimitDate = () => {
         </div>
         {hasStartDate ? (
           <div className="mt-3">
-            <DatePicker date={startDate} setDate={handleStartDate} prefix={t('admin.from')} />
+            <DatePicker
+              date={startDate}
+              setDate={handleStartDate}
+              prefix={t('admin.from')}
+              isInvalid={isDateRangeInvalid}
+            />
           </div>
         ) : null}
       </Container>
@@ -115,9 +137,19 @@ const LimitDate = () => {
         </div>
         {hasEndDate ? (
           <div className="mt-3">
-            <DatePicker date={endDate} setDate={handleEndDate} prefix={t('admin.until')} />
+            <DatePicker
+              date={endDate}
+              setDate={handleEndDate}
+              prefix={t('admin.until')}
+              isInvalid={isDateRangeInvalid}
+            />
           </div>
         ) : null}
+        {isDateRangeInvalid && (
+          <div className="text-danger mt-2">
+            {t('error.date-range-invalid')}
+          </div>
+        )}
       </Container>
     </>
   );

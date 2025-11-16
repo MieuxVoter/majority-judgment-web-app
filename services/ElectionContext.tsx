@@ -32,6 +32,7 @@ export interface ElectionContextInterface {
   numVoters?: number;
   numVoted?: number;
   authForResult:boolean;
+  errors: string[];
 }
 
 export const defaultCandidate: CandidateItem = {
@@ -56,6 +57,7 @@ const defaultElection: ElectionContextInterface = {
   dateStart: null,
   emails: [],
   authForResult:false,
+  errors: [],
 };
 
 export enum ElectionTypes {
@@ -67,6 +69,8 @@ export enum ElectionTypes {
   GRADE_PUSH = 'grade-push',
   GRADE_RM = 'grade-rm',
   GRADE_SET = 'grade-set',
+  ADD_ERROR = 'add-error',
+  REMOVE_ERROR = 'remove-error',
 }
 
 export type SetAction = {
@@ -106,6 +110,14 @@ export type GradeSetAction = {
   field: string;
   value: any;
 };
+export type AddErrorAction = {
+  type: ElectionTypes.ADD_ERROR;
+  value: string;
+};
+export type RemoveErrorAction = {
+  type: ElectionTypes.REMOVE_ERROR;
+  value: string;
+};
 
 export type ElectionActionTypes =
   | SetAction
@@ -115,7 +127,9 @@ export type ElectionActionTypes =
   | CandidatePushAction
   | GradeRmAction
   | GradeSetAction
-  | GradePushAction;
+  | GradePushAction
+  | AddErrorAction
+  | RemoveErrorAction;
 
 type DispatchType = Dispatch<ElectionActionTypes>;
 const ElectionContext = createContext<[ElectionContextInterface, DispatchType]>(
@@ -250,6 +264,22 @@ function electionReducer(
       const grade = grades.find(grade => grade.value == action.position)
       grade[action.field] = action.value;
       return {...election, grades};
+    }
+    case ElectionTypes.ADD_ERROR: {
+      if (election.errors.includes(action.value)) {
+        return election; // Avoid duplicates
+      }
+      const errors = [...election.errors, action.value];
+      return { ...election, errors };
+    }
+    case ElectionTypes.REMOVE_ERROR: {
+      const errors = election.errors.filter(
+        (error) => error !== action.value
+      );
+      return { ...election, errors };
+    }
+    default: {
+      return election;
     }
   }
 }

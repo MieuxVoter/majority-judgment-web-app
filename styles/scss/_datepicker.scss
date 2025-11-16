@@ -517,6 +517,13 @@
     font-weight: bold;
     box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
   }
+
+  button.is-invalid {
+    // Use Bootstrap's CSS variable for the danger color to ensure consistency.
+    border-color: var(--bs-danger);
+    // Make the 3D shadow red as well for a clear visual cue.
+    box-shadow: 0px 4px 0px var(--bs-danger);
+  }
 }
 
 .react-datepicker__year-read-view,

@@ -73,6 +73,7 @@
     "error.title": "Une erreur est survenue",
     "error.catch22": "Erreur inconnue...",
     "error.date-past": "La date et l'heure sélectionnées sont passées",
+    "error.date-range-invalid": "La date de fin ne peut pas être antérieure à la date de début.",
     "error.uncorrect-name": "Le titre est incorrect",
     "error.not-enough-grades": "Il manque des mentions",
     "error.not-enough-candidates": "Il manque des candidats",
