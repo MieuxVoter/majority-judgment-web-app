@@ -15,7 +15,12 @@ import TitleModal from './TitleModal';
 import {MAX_NUM_CANDIDATES} from '@services/constants';
 import Alert from '@components/Alert';
 import Button from '@components/Button';
-import {defaultCandidate, ElectionTypes, useElection} from '@services/ElectionContext';
+import {
+  ElectionTypes,
+  useElection,
+  NAME_ERROR_CODE,
+  NAME_MAX_LENGTH,
+} from '@services/ElectionContext';
 import CandidateField from './CandidateField';
 import {AppTypes, useAppContext} from '@services/context';
 import VerticalGripDots from '@components/VerticalGripDots';
@@ -29,12 +34,15 @@ const CandidatesField = ({onSubmit}) => {
   const [election, dispatch] = useElection();
   const candidates = election.candidates;
 
+  const isNameInvalid = election.errors.includes(NAME_ERROR_CODE);
   const [modalTitle, setModalTitle] = useState(false);
   const toggleModalTitle = () => setModalTitle((m) => !m);
 
   const [error, setError] = useState(null);
 
-  const disabled = candidates.filter((c) => c.name !== '').length < 2;
+  const disabled =
+    candidates.filter((c) => c.name !== '').length < 2 ||
+    election.errors.length > 0;
 
   // What to do when we change the candidates
   useEffect(() => {
@@ -42,7 +50,7 @@ const CandidatesField = ({onSubmit}) => {
     if (candidates.length < 2) {
       dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
     }
-    if (candidates.length > MAX_NUM_CANDIDATES) {
+    if (candidates.length > Number(MAX_NUM_CANDIDATES)) {
       setError('error.too-many-candidates');
     }
   }, [candidates]);
@@ -54,11 +62,24 @@ const CandidatesField = ({onSubmit}) => {
   }, [disabled, submitReference]);
 
   const handleSubmit = (e) => {
-    if (disabled) {
+    if (candidates.filter((c) => c.name !== '').length < 2) {
       dispatchApp({
         type: AppTypes.TOAST_ADD,
         status: 'error',
         message: t('error.at-least-2-candidates'),
+      });
+    } else if (election.errors.includes(NAME_ERROR_CODE)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: 'error',
+        message: t('error.name-too-long', { maxLength: NAME_MAX_LENGTH }),
+      });
+    } else if (election.errors.length > 0) {
+      // Handle other potential errors
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: 'error',
+        message: t('error.catch22'),
       });
     } else {
       return onSubmit(e);
@@ -94,10 +115,16 @@ const CandidatesField = ({onSubmit}) => {
     <>
       <Container onClick={toggleModalTitle} className="candidate mt-5">
         <h4 className="mb-4">{t('admin.confirm-question')}</h4>
-        <div className="d-flex justify-content-between border border-dashed border-2 border-light border-opacity-25 px-4 py-3 mx-2 mx-md-0">
+        <div className={`d-flex justify-content-between border border-dashed border-2 px-4 py-3 mx-2 mx-md-0
+                         ${isNameInvalid ? 'border-danger' : 'border-light border-opacity-25'}`}>
           <h5 className="m-0 text-white">{election.name}</h5>
           <FontAwesomeIcon icon={faPen} />
         </div>
+        {isNameInvalid && (
+          <div className="text-danger mt-2 mx-2 mx-md-0">
+            {t('error.name-too-long', { maxLength: NAME_MAX_LENGTH })}
+          </div>
+        )}
         <TitleModal isOpen={modalTitle} toggle={toggleModalTitle} />
       </Container>
       <DndContext onDragEnd={handleDragEnd}>

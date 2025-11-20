@@ -1,8 +1,13 @@
 import {useState, useEffect, useRef, KeyboardEvent} from 'react';
-import {Label, Modal, ModalBody, Form} from 'reactstrap';
+import {Label, Modal, ModalBody, Form, FormFeedback, Input} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
-import {ElectionTypes, useElection} from '@services/ElectionContext';
+import {
+  ElectionTypes,
+  useElection,
+  NAME_MAX_LENGTH,
+  NAME_ERROR_CODE,
+} from '@services/ElectionContext';
 import Button from '@components/Button';
 import {AppTypes, useAppContext} from '@services/context';
 
@@ -11,7 +16,9 @@ const TitleModal = ({isOpen, toggle}) => {
   const [election, dispatch] = useElection();
   const [_, dispatchApp] = useAppContext();
   const [name, setName] = useState(election.name);
-  const disabled = name === '';
+
+  const isNameInvalid = name.length > NAME_MAX_LENGTH;
+  const disabled = name === '' || isNameInvalid;
 
   const inputRef = useRef(null);
 
@@ -27,6 +34,14 @@ const TitleModal = ({isOpen, toggle}) => {
       }
     }, 100);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isNameInvalid) {
+      dispatch({ type: ElectionTypes.ADD_ERROR, value: NAME_ERROR_CODE });
+    } else {
+      dispatch({ type: ElectionTypes.REMOVE_ERROR, value: NAME_ERROR_CODE });
+    }
+  }, [isNameInvalid, dispatch]);
 
   const save = (e) => {
     e.preventDefault();
@@ -82,15 +97,22 @@ const TitleModal = ({isOpen, toggle}) => {
         <Form className="container container-fluid" onKeyDown={handleKeyDown}>
           <div className="mb-3">
             <Label className="fw-bold">{t('common.name')} </Label>
-            <input
+            <Input
               type="text"
               placeholder={t('home.writeQuestion')}
               value={name}
               onChange={handleName}
               required
-              className="form-control"
-              ref={inputRef}
+              invalid={isNameInvalid}
+              innerRef={inputRef}
+              maxLength={NAME_MAX_LENGTH}
             />
+            <div className={`text-end small ${isNameInvalid ? 'text-danger' : 'text-muted'}`}>
+              {name.length} / {NAME_MAX_LENGTH}
+            </div>
+            {isNameInvalid && (
+              <FormFeedback>{t('error.name-too-long', { maxLength: NAME_MAX_LENGTH })}</FormFeedback>
+            )}
           </div>
           <div className="mt-5 gap-2 d-grid mb-3 d-md-flex">
             <Button

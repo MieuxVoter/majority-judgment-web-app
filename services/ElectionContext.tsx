@@ -332,3 +332,6 @@ export const canBeFinished = (election: ElectionContextInterface) => {
     !election.hideResults
   );
 };
+
+export const NAME_MAX_LENGTH = 250;
+export const NAME_ERROR_CODE = 'NAME_TOO_LONG';
