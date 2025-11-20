@@ -33,7 +33,7 @@ const CustomDatePicker = ({ date, setDate, prefix, isInvalid = false, className 
   const ExampleCustomInput = forwardRef<ButtonRef, InputProps>(
     ({ value, onClick, prefix, isInvalid }, ref) => (
       <div className="d-grid">
-        <button onClick={onClick} ref={ref} className={isInvalid ? 'is-invalid' : ''}>
+        <button type="button" onClick={onClick} ref={ref} className={isInvalid ? 'is-invalid' : ''}>
           <Row className="p-2 align-items-end">
             <Col className="col-auto me-auto">
               <Row className="gx-3 align-items-end">

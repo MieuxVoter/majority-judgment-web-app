@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { Container, Row, Col } from 'reactstrap';
 import DatePicker from '@components/DatePicker';
 import Switch from '@components/Switch';
-import { ElectionTypes, useElection } from '@services/ElectionContext';
+import { ElectionTypes, useElection, isCreated } from '@services/ElectionContext';
 
 const LimitDate = () => {
   const { t } = useTranslation();
@@ -62,6 +62,8 @@ const LimitDate = () => {
   const remainingDays = Math.ceil((endDate.getTime() - now.getTime()) / oneDay);
   const isDateRangeInvalid = hasStartDate && hasEndDate && startDate.getTime() > endDate.getTime();
   const DATE_RANGE_ERROR_CODE = 'INVALID_DATE_RANGE';
+  const isEndDateInPast = hasEndDate && endDate.getTime() < now.getTime();
+  const DATE_PAST_ERROR_CODE = 'DATE_PAST';
 
   // Update default dates with the ones from the election
   useEffect(() => {
@@ -87,6 +89,20 @@ const LimitDate = () => {
       });
     }
   }, [isDateRangeInvalid, dispatch]);
+
+  useEffect(() => {
+    if (isEndDateInPast && !isCreated(election)) {
+      dispatch({
+        type: ElectionTypes.ADD_ERROR,
+        value: DATE_PAST_ERROR_CODE,
+      });
+    } else {
+      dispatch({
+        type: ElectionTypes.REMOVE_ERROR,
+        value: DATE_PAST_ERROR_CODE,
+      });
+    }
+  }, [isEndDateInPast, dispatch]);
 
   return (
     <>
@@ -141,15 +157,19 @@ const LimitDate = () => {
               date={endDate}
               setDate={handleEndDate}
               prefix={t('admin.until')}
-              isInvalid={isDateRangeInvalid}
+              isInvalid={isDateRangeInvalid || (isEndDateInPast && !isCreated(election))}
             />
           </div>
         ) : null}
-        {isDateRangeInvalid && (
+        {isDateRangeInvalid ? (
           <div className="text-danger mt-2">
             {t('error.date-range-invalid')}
           </div>
-        )}
+        ) : isEndDateInPast ? (
+          <div className={isCreated(election) ? "text-warning mt-2" : "text-danger mt-2"}>
+            {t('error.date-past')}
+          </div>
+        ) : null}
       </Container>
     </>
   );
