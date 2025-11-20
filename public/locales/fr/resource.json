@@ -81,6 +81,7 @@
     "error.restricted-election-desc": "Vous ne pouvez accéder à cette élection que par une invitation.",
     "error.urls-copy-failed": "Echec de la copie des URLs.",
     "error.name-too-long": "Ce champ ne peut pas contenir plus de {{maxLength}} caractères.",
+    "error.candidate-description-too-long": "La description du candidat ne peut pas contenir plus de {{maxLength}} caractères.",
     "faq.title": "Foire aux questions",
     "faq.sec-1-title": "Qu'est-ce que le jugement majoritaire ?",
     "faq.sec-1-desc": "Un principe simple et intuitif, qui change tout : l’électeur vote en donnant son avis sur tous les candidats, en leur attribuant à chacun une mention sur une échelle de valeurs (par exemple. Très bien, Bien, Assez bien, Passable, Insuffisant, À Rejeter). Le candidat le mieux évalué par une majorité remporte l’élection (celui qui obtient la meilleure mention « majoritaire »).",

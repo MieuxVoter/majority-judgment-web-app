@@ -20,6 +20,8 @@ import {
   useElection,
   NAME_ERROR_CODE,
   NAME_MAX_LENGTH,
+  CANDIDATE_DESCRIPTION_ERROR_CODE,
+  CANDIDATE_DESCRIPTION_MAX_LENGTH,
 } from '@services/ElectionContext';
 import CandidateField from './CandidateField';
 import {AppTypes, useAppContext} from '@services/context';
@@ -73,6 +75,12 @@ const CandidatesField = ({onSubmit}) => {
         type: AppTypes.TOAST_ADD,
         status: 'error',
         message: t('error.name-too-long', { maxLength: NAME_MAX_LENGTH }),
+      });
+    } else if (election.errors.includes(CANDIDATE_DESCRIPTION_ERROR_CODE)) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: 'error',
+        message: t('error.candidate-description-too-long', { maxLength: CANDIDATE_DESCRIPTION_MAX_LENGTH }),
       });
     } else if (election.errors.length > 0) {
       // Handle other potential errors

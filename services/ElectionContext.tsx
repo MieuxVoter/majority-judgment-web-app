@@ -335,3 +335,5 @@ export const canBeFinished = (election: ElectionContextInterface) => {
 
 export const NAME_MAX_LENGTH = 250;
 export const NAME_ERROR_CODE = 'NAME_TOO_LONG';
+export const CANDIDATE_DESCRIPTION_MAX_LENGTH = 1000;
+export const CANDIDATE_DESCRIPTION_ERROR_CODE = 'CANDIDATE_DESCRIPTION_TOO_LONG';

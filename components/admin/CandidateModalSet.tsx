@@ -3,7 +3,12 @@ import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
 import Image from 'next/image';
-import {ElectionTypes, useElection} from '@services/ElectionContext';
+import {
+  ElectionTypes,
+  useElection,
+  CANDIDATE_DESCRIPTION_MAX_LENGTH,
+  CANDIDATE_DESCRIPTION_ERROR_CODE
+} from '@services/ElectionContext';
 import Button from '@components/Button';
 import {upload} from '@services/imgpush';
 import {IMGPUSH_URL} from '@services/constants';
@@ -35,8 +40,8 @@ const CandidateModal = ({isOpen, position, toggle}) => {
   const disabled = state.name === '' || names.includes(state.name);
 
   useEffect(() => {
-    setState(election.candidates[position]);
-  }, [election]);
+    setState(candidate);
+  }, [candidate]);
 
   useEffect(() => {
     // When isOpen got active, we put the focus on the input field
@@ -46,6 +51,21 @@ const CandidateModal = ({isOpen, position, toggle}) => {
       }
     }, 100);
   }, [isOpen]);
+
+  // Add/remove error based on description length
+  useEffect(() => {
+    if (state.description && state.description.length > CANDIDATE_DESCRIPTION_MAX_LENGTH) {
+      dispatch({
+        type: ElectionTypes.ADD_ERROR,
+        value: CANDIDATE_DESCRIPTION_ERROR_CODE,
+      });
+    } else {
+      dispatch({
+        type: ElectionTypes.REMOVE_ERROR,
+        value: CANDIDATE_DESCRIPTION_ERROR_CODE,
+      });
+    }
+  }, [state.description, dispatch]);
 
   // check if key down is enter
   const handleKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -70,6 +90,15 @@ const CandidateModal = ({isOpen, position, toggle}) => {
         type: AppTypes.TOAST_ADD,
         status: 'error',
         message: t('error.twice-same-names'),
+      });
+      return;
+    }
+
+    if (state.description && state.description.length > CANDIDATE_DESCRIPTION_MAX_LENGTH) {
+      dispatchApp({
+        type: AppTypes.TOAST_ADD,
+        status: 'error',
+        message: t('error.candidate-description-too-long', { maxLength: CANDIDATE_DESCRIPTION_MAX_LENGTH }),
       });
       return;
     }
@@ -139,6 +168,9 @@ const CandidateModal = ({isOpen, position, toggle}) => {
                 required={true}
                 ref={inputRef}
               />
+              <div className="text-end small text-muted">
+                {state.name ? state.name.length : 0} / 250
+              </div>
             </div>
             <Label className="fw-bold">
               {t('admin.photo')}{' '}
@@ -178,11 +210,15 @@ const CandidateModal = ({isOpen, position, toggle}) => {
               </Label>
               <textarea
                 rows={3}
-                className="form-control"
+                className={`form-control ${state.description && state.description.length > CANDIDATE_DESCRIPTION_MAX_LENGTH ? 'is-invalid' : ''}`}
                 placeholder={t('admin.candidate-desc-placeholder')}
                 onChange={handleDescription}
                 value={state.description}
+                maxLength={CANDIDATE_DESCRIPTION_MAX_LENGTH}
               />
+              <div className="text-end small text-muted">
+                {state.description ? state.description.length : 0} / {CANDIDATE_DESCRIPTION_MAX_LENGTH}
+              </div>
             </div>
             <div className="mt-3 gap-2 d-flex mb-3 justify-content-between">
               <Button
