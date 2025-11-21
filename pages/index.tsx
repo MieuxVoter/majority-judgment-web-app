@@ -59,9 +59,10 @@ const StartForm = () => {
                   name="name"
                   value={name ? name : ''}
                   onChange={(e) => setName(e.target.value)}
+                  maxLength={250}
                 />
 
-                <p className="pt-0 mt-0 maxLength">250</p>
+                <p className="pt-0 mt-0 maxLength">{name ? name.length : 0} / 250</p>
               </Row>
               <Row>
                 <Link
@@ -180,9 +181,10 @@ const StartForm = () => {
             name="name"
             value={name ? name : ''}
             onChange={(e) => setName(e.target.value)}
+            maxLength={250}
           />
 
-          <p className="pt-0 mt-0 text-end text-muted">250</p>
+          <p className="pt-0 mt-0 text-end text-muted">{name ? name.length : 0} / 250</p>
         </div>
         <form autoComplete="off" className="w-100">
           <Link

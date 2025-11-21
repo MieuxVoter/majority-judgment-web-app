@@ -55,6 +55,7 @@ const submitElection = (
     election.restricted,
     election.randomOrder,
     election.dateEnd,
+    election.dateStart,
     election.authForResult,
     async (payload: ElectionCreatedPayload) => {
       if (
@@ -138,7 +139,8 @@ const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
     !checkName(election) ||
     !hasEnoughCandidates(election) ||
     !hasEnoughGrades(election) ||
-    !canBeFinished(election);
+    !canBeFinished(election) ||
+    election.errors.length > 0;
 
   return (
     <Container

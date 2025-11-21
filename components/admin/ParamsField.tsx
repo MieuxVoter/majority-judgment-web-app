@@ -15,8 +15,10 @@ const ParamsField = ({ onSubmit }) => {
   const { t } = useTranslation();
 
   const [election, _] = useElection();
-  const checkDisability = (election.restricted && getTotalInvites(election) === 0) ||
-     election.grades.filter((g) => g.active).length < 2;
+  const checkDisability =
+    (election.restricted && getTotalInvites(election) === 0) ||
+    election.grades.filter((g) => g.active).length < 2 ||
+    election.errors.length > 0;
 
   return (
     <Container className="params d-flex flex-column flex-grow-1 my-5">

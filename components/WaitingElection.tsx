@@ -33,11 +33,9 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal((m) => !m);
 
-  if (!election) return null;
+  if (!election && !error) return null;
 
   const locale = getLocaleShort(router);
-  const urlVote = getUrl(RouteTypes.VOTE, locale, election.ref);
-  const urlResults = getUrl(RouteTypes.RESULTS, locale, election.ref);
 
   return (
     <div
@@ -47,25 +45,40 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
       }}
     >
       <div className="d-flex flex-column align-items-center">
-        {error ? (
-          <ErrorMessage>{error.message}</ErrorMessage>
-        ) : null}
+        {/* --- ERROR STATE --- */}
+        {error && (
+          <>
+            <h4 className="text-center">{t('error.title')}</h4>
+            <ErrorMessage>{error.message || t('error.catch22')}</ErrorMessage>
+            <div className="d-grid w-100 mt-3">
+              <Button
+                color="info"
+                outline={false}
+                onClick={() => router.back()} // Go back to the previous page
+                className="border-dark border-4 py-3"
+              >
+                {t('common.go-back')}
+              </Button>
+            </div>
+          </>
+        )}
 
-        {election && election.ref ? (
+        {/* --- SUCCESS STATE --- */}
+        {election && election.ref && (
           <>
             <h4 className="text-center">{t('admin.success-election')}</h4>
 
-            {election && election.restricted ? (
+            {election.restricted ? (
               <h5 className="text-center">{t('admin.success-emails')}</h5>
             ) : (
               <div className="d-grid w-100">
                 <ButtonCopy
                   text={t('admin.success-copy-vote')}
-                  content={urlVote}
+                  content={getUrl(RouteTypes.VOTE, locale, election.ref)}
                 />
                 <ButtonCopy
                   text={t('admin.success-copy-result')}
-                  content={urlResults}
+                  content={getUrl(RouteTypes.RESULTS, locale, election.ref)}
                 />
               </div>
             )}
@@ -89,7 +102,7 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
               adminToken={election.admin}
             />
           </>
-        ) : null}
+        )}
       </div>
     </div>
   );

@@ -96,6 +96,7 @@ export async function getServerSideProps({ query, locale }) {
     emails: [],
     grades,
     candidates,
+    errors: [],
   };
 
   return {
@@ -327,6 +328,7 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
       grades,
       election.description,
       election.dateEnd,
+      election.dateStart,
       getTotalInvites(election),
       election.hideResults,
       election.forceClose,
@@ -457,7 +459,8 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
     election.name == '' ||
     numCandidates < 2 ||
     numGrades < 2 ||
-    numGrades > gradeColors.length;
+    numGrades > gradeColors.length ||
+    election.errors.length > 0;
 
   return (
     <>
@@ -478,7 +481,7 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
         className="my-5 flex-column d-flex justify-content-center"
       >
         <Row>
-          <Col className={isClosed(election) ? 'col-12' : 'col-lg-3 col-12'}>
+          <Col className={election.forceClose ? 'col-12' : 'col-lg-3 col-12'}>
             <Container className="py-4 d-none d-md-block">
               <h4>{t('common.the-vote')}</h4>
               {election.restricted && election.numVoters !== undefined && (
@@ -495,8 +498,7 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
             <TitleField defaultName={election.name} />
             <CandidatesConfirmField />
           </Col>
-          {!isClosed(election) && (
-            <Col className="col-lg-9 col-12 mt-3 mt-md-0">
+          <Col className="col-lg-9 col-12 mt-3 mt-md-0">
               <Container className="py-4 d-none d-md-block">
                 <h4>{t('common.the-params')}</h4>
               </Container>
@@ -507,7 +509,6 @@ const ManageElection = ({ token }:{token:(string|undefined)}) => {
               <Order />
               {election.restricted && <Private />}
             </Col>
-          )}
         </Row>
         <Container className="my-5 d-md-flex d-grid justify-content-md-center">
           <Button
