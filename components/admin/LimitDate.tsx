@@ -17,8 +17,12 @@ const LimitDate = () => {
   );
   const hasEndDate = election.dateEnd !== null;
 
+  // Set a default start date 5 minutes in the future to avoid race condition
+  const defaultStartDate = new Date();
+  defaultStartDate.setMinutes(defaultStartDate.getMinutes() + 5);
+
   const [startDate, setStartDate] = useState(
-    election.dateStart ? new Date(election.dateStart) : new Date()
+    election.dateStart ? new Date(election.dateStart) : defaultStartDate
   );
   const hasStartDate = election.dateStart !== null;
 
@@ -64,6 +68,7 @@ const LimitDate = () => {
   const DATE_RANGE_ERROR_CODE = 'INVALID_DATE_RANGE';
   const isEndDateInPast = hasEndDate && endDate.getTime() < now.getTime();
   const DATE_PAST_ERROR_CODE = 'DATE_PAST';
+  const isStartDateInPast = hasStartDate && !isCreated(election) && startDate.getTime() < now.getTime();
 
   // Update default dates with the ones from the election
   useEffect(() => {
@@ -127,6 +132,9 @@ const LimitDate = () => {
             />
           </div>
         ) : null}
+        {isStartDateInPast && (
+          <div className="text-warning mt-2">{t('admin.start-date-past')}</div>
+        )}
       </Container>
 
       <Container className="bg-white p-3 p-md-4 mt-1">

@@ -168,6 +168,7 @@
     "admin.limit-duration": "Limit the duration of the vote",
     "admin.limit-duration-desc": "",
     "admin.limit-start-date": "Set a start date",
+    "admin.start-date-past": "By default, an election starts now. Your start date is in the past, which results in the same behavior. You might want to disable this option or set a date in the future.",
     "admin.photo": "Picture",
     "admin.optional": "optional",
     "admin.photo-import": "Import a picture",
