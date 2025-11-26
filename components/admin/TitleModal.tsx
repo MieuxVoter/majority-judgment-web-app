@@ -17,7 +17,7 @@ const TitleModal = ({isOpen, toggle}) => {
   const [_, dispatchApp] = useAppContext();
   const [name, setName] = useState(election.name);
 
-  const isNameInvalid = name.length > NAME_MAX_LENGTH;
+  const isNameInvalid = name != null && name.length > NAME_MAX_LENGTH;
   const disabled = name === '' || isNameInvalid;
 
   const inputRef = useRef(null);
@@ -108,7 +108,7 @@ const TitleModal = ({isOpen, toggle}) => {
               maxLength={NAME_MAX_LENGTH}
             />
             <div className={`text-end small ${isNameInvalid ? 'text-danger' : 'text-muted'}`}>
-              {name.length} / {NAME_MAX_LENGTH}
+              {name == null ? 0 : name.length} / {NAME_MAX_LENGTH}
             </div>
             {isNameInvalid && (
               <FormFeedback>{t('error.name-too-long', { maxLength: NAME_MAX_LENGTH })}</FormFeedback>

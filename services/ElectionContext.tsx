@@ -152,7 +152,7 @@ export const ElectionProvider = ({children, initialValue}: ElectionProviderType)
   useEffect(() => {
     if (!router.isReady) return;
 
-    if (election.name === '' && router.query.name !== '') {
+    if (election.name === '' && router.query.name) {
       dispatch({
         type: ElectionTypes.SET,
         field: 'name',
