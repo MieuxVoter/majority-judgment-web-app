@@ -23,9 +23,14 @@ const AccessResults = () => {
             {t('admin.access-results-only-admin')}
           </h5>
           {election.authForResult ? (
-            <p className="text-muted">
-              {t('admin.access-results-only-admin-desc')}
-            </p>
+            <>
+              <p className="text-muted">
+                {t('admin.access-results-only-admin-desc')}
+              </p>
+              <div className="text-warning mt-2">
+                {t('admin.admin-only-results-warning')}
+              </div>
+            </>
           ) : null}
         </div>
         <Switch toggle={toggle} state={election.authForResult} />

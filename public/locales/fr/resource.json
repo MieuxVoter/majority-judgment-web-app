@@ -155,6 +155,7 @@
     "admin.params-title": "Les paramètres",
     "admin.access-results-only-admin": "Accès aux résultats uniquement pour l'administrateur",
     "admin.access-results-only-admin-desc": "Seul l'administrateur du vote pourra accéder aux résultats. Les participants ne pourront pas les consulter.",
+    "admin.admin-only-results-warning": "⚠️ Assurez-vous de conserver le lien administrateur, sinon personne ne pourra accéder aux résultats.",
     "admin.access-results": "Accès immédiat aux résultats",
     "admin.access-results-desc": "Personne ne pourra accéder aux résultats tant que le vote ne sera pas clôturé.",
     "admin.limit-duration": "Limiter la durée du vote",
