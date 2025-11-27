@@ -163,6 +163,7 @@
     "admin.params-title": "The parameters",
     "admin.access-results-only-admin": "Results only accessible to the administrator",
     "admin.access-results-only-admin-desc": "Only the administrator will be able to see the results. Participants will not be able to see the results.",
+    "admin.admin-only-results-warning": "⚠️ Make sure to keep the administrator link, otherwise no one will be able to access the results.",
     "admin.access-results": "Immediate access to the results",
     "admin.access-results-desc": "No one can access to the results as long as the vote is not closed.",
     "admin.limit-duration": "Limit the duration of the vote",
