@@ -135,7 +135,7 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
   }, []);
 
   if (!ballot.election) {
-    return <div>"Loading..."</div>;
+    return <div>Loading...</div>;
   }
 
   const handleSubmit = async (event) => {

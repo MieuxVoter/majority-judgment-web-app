@@ -6,7 +6,7 @@ export interface SortableInterface {
   className?: string;
 }
 
-export default ({id, children, className = ""}: SortableInterface) => {
+const SortableItem = ({id, children, className = ""}: SortableInterface) => {
   const {
     attributes,
     listeners,
@@ -26,3 +26,5 @@ export default ({id, children, className = ""}: SortableInterface) => {
     </div>
   );
 }
+
+export default SortableItem;

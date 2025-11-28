@@ -241,7 +241,7 @@ const AnimationBallot = () => {
   );
 };
 
-export default ({ballot, error}: WaitingBallotInterface) => {
+const WaitingBallot = ({ballot, error}: WaitingBallotInterface) => {
   return (
     <Container className="d-flex min-vh-100 min-vw-100 align-items-between justify-content-center flex-column pb-5">
       <AnimationBallot />
@@ -249,3 +249,5 @@ export default ({ballot, error}: WaitingBallotInterface) => {
     </Container>
   );
 };
+
+export default WaitingBallot;

@@ -55,6 +55,8 @@ const CustomDatePicker = ({ date, setDate, prefix, isInvalid = false, className 
     )
   );
 
+  ExampleCustomInput.displayName = 'ExampleCustomInput';
+
   return (
     <DatePicker
       selected={date}

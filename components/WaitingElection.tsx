@@ -108,7 +108,7 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
   );
 };
 
-export default ({election, error}: WaitingBallotInterface) => {
+const WaitingElection = ({election, error}: WaitingBallotInterface) => {
   const [_, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({
@@ -226,3 +226,5 @@ export default ({election, error}: WaitingBallotInterface) => {
     </Container>
   );
 };
+
+export default WaitingElection;

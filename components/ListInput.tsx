@@ -43,9 +43,13 @@ const ListInput = ({onEdit, inputs, validator}) => {
       }
     }
 
-    if (['Enter', 'Tab', ';', ' ', ','].includes(e.key) && validator(state.trim())) {
-      onEdit([...inputs, state]);
-      setState('');
+    if (['Enter', 'Tab', ';', ' ', ','].includes(e.key)) {
+      const value = state.trim();
+      if (validator(value) && !inputs.includes(value)) {
+        e.preventDefault();
+        onEdit([...inputs, value]);
+        setState('');
+      }
     }
   };
 
@@ -67,7 +71,7 @@ const ListInput = ({onEdit, inputs, validator}) => {
       splits.forEach((email) => {
         if (email == '')
           return
-        if (validator(email)) {
+        if (validator(email) && !inputs.includes(email)) {
           validEmails.push(email)
         }
         else {
@@ -75,7 +79,10 @@ const ListInput = ({onEdit, inputs, validator}) => {
         }
       });
 
-      onEdit([...inputs, ...validEmails])
+      // Filter duplicates within the new batch itself
+      const uniqueNewEmails = [...new Set(validEmails)];
+
+      onEdit([...inputs, ...uniqueNewEmails])
       setState(invalidEmails.join(', '))
     };
 
@@ -84,8 +91,8 @@ const ListInput = ({onEdit, inputs, validator}) => {
   return (
     <Row className="list_input gx-2 p-1  my-3 align-items-center">
       {inputs.map((item, i) => (
-        <Col className="col-auto">
-          <InputField key={i} value={item} onDelete={() => handleDelete(i)} />
+        <Col key={item} className="col-auto">
+          <InputField value={item} onDelete={() => handleDelete(i)} />
         </Col>
       ))}
       <Col>

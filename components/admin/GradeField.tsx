@@ -11,7 +11,7 @@ export interface GradeInterface {
   value: number;
 }
 
-export default ({value}: GradeInterface) => {
+const GradeField = ({value}: GradeInterface) => {
   const [election, dispatch] = useElection();
 
   const grade = election.grades.find((g) => g.value === value);
@@ -92,3 +92,5 @@ export default ({value}: GradeInterface) => {
     </div>
   );
 };
+
+export default GradeField;

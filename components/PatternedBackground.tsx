@@ -1,3 +1,5 @@
-export default ({ children }) => {
+const PatternedBackground = ({ children }) => {
   return <div className="waiting min-vh-100 min-vw-100">{children}</div>;
 };
+
+export default PatternedBackground;
