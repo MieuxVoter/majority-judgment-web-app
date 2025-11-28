@@ -325,9 +325,7 @@ const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
       }
       <div className="d-md-none d-flex  p-4 justify-content-between text-white">
         <div className="d-flex  flex-fill align-items-center pe-5">
-          <Link href="/">
-            <Logo title={false} />
-          </Link>
+          <Logo title={false} />
           <h5 className="m-1 flex-fill text-center">{name}</h5>
         </div>
         {token ? (
@@ -345,9 +343,7 @@ const TitleBanner = ({name, electionRef, token}: TitleBannerInterface) => {
       }
       <div className="d-none d-md-flex bg-primary p-4 justify-content-between text-white">
         <div className="d-flex align-items-center">
-          <Link href="/">
-            <Logo height={38} title={true} />
-          </Link>
+          <Logo height={38} title={true} />
           <h5 className="m-1 ms-5">{t('result.result')}</h5>
         </div>
         {token ? (
