@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 // import dynamic from 'next/dynamic'
 // import {buildURI} from 'react-csv';
 // /**
@@ -87,31 +87,43 @@ export const toCSV = (data, headers, separator, enclosingCharacter) => {
 
 
 const CSVLink = ({filename, data, children, ...rest}) => {
+  const [href, setHref] = useState('');
 
-  const buildURI = ((data, uFEFF, headers, separator, enclosingCharacter) => {
-    const csv = toCSV(data, headers, separator, enclosingCharacter);
-    const type = isSafari() ? 'application/csv' : 'text/csv';
-    const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type});
-    const dataURI = `data:${type};charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
+  useEffect(() => {
+    // Generate the CSV URI only on the client side
+    const buildURI = ((data, uFEFF, headers, separator, enclosingCharacter) => {
+      const csv = toCSV(data, headers, separator, enclosingCharacter);
+      const type = isSafari() ? 'application/csv' : 'text/csv';
+      const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type});
+      const dataURI = `data:${type};charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
 
-    const URL = window.URL || window.webkitURL;
+      const URL = window.URL || window.webkitURL;
 
-    return (typeof URL.createObjectURL === 'undefined')
-      ? dataURI
-      : URL.createObjectURL(blob);
-  });
+      return (typeof URL.createObjectURL === 'undefined')
+        ? dataURI
+        : URL.createObjectURL(blob);
+    });
 
-  const isNodeEnvironment = typeof window === 'undefined';
-  const uFEFF = true;
-  const headers = undefined;
-  const separator = ",";
-  const enclosingCharacter = '"';
-  const href = isNodeEnvironment ? '' : buildURI(data, uFEFF, headers, separator, enclosingCharacter)
+    const uFEFF = true;
+    const headers = undefined;
+    const separator = ",";
+    const enclosingCharacter = '"';
+    
+    const generatedHref = buildURI(data, uFEFF, headers, separator, enclosingCharacter);
+    setHref(generatedHref);
+
+    // Cleanup blob URL on unmount
+    return () => {
+      if (generatedHref && generatedHref.startsWith('blob:')) {
+        URL.revokeObjectURL(generatedHref);
+      }
+    };
+  }, [data]);
+
 
   return (
     <a
       download={filename}
-      target="_blank"
       {...rest}
       href={href}
     >
