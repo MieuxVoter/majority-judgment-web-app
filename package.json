@@ -33,7 +33,6 @@
 		"logrocket": "^5.0.1",
 		"next": "^16.0.7",
 		"next-i18next": "^15.4.3",
-		"next-transpile-modules": "^10.0.1",
 		"papaparse": "^5.5.1",
 		"qrcode": "^1.5.4",
 		"react": "^18.2.0",

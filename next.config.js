@@ -1,12 +1,8 @@
-// const {i18n} = require('./next-i18next.config.js');
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Native replacement for next-transpile-modules
+  transpilePackages: ['scalable-majority-judgment'],
 
-const withTM = require('next-transpile-modules')(['scalable-majority-judgment']);
-
-const remoteImage = process.env.IMGPUSH_URL
-  ? process.env.IMGPUSH_URL.split('/')[-1]
-  : 'imgpush.mieuxvoter.fr';
-
-module.exports = withTM({
   i18n: {
     locales: ['en', 'fr'],
     defaultLocale: 'fr',
@@ -15,9 +11,17 @@ module.exports = withTM({
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: remoteImage,
+        hostname: process.env.IMGPUSH_URL
+          ? process.env.IMGPUSH_URL.split('/').pop()
+          : 'imgpush.mieuxvoter.fr',
         pathname: '**',
       },
     ],
   },
-});
+  // Ensure we don't have any rogue eslint settings
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+};
+
+module.exports = nextConfig;
