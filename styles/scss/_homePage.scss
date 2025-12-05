@@ -246,3 +246,27 @@ $desktop: 1680px;
     margin: 60px 0px 75px;
   }
 }
+
+.content-container {
+  background-color: transparent;
+  padding: 30px;
+  border-radius: 15px;
+}
+
+.mobile-content-container {
+  background-color: transparent;
+}
+
+.buttonWrapStyle {
+  white-space: normal;
+  text-align: left;
+  max-width: none;
+}
+
+.iconButtonStyle {
+  width: auto;
+}
+
+.mobileSloganStyle {
+  font-size: 32px;
+}
