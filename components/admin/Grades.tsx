@@ -101,7 +101,6 @@ const Grades = () => {
         field: 'grades',
         value: getDefaultGrades(t),
       });
-      setVisible(false);
     }
   }, []);
 

@@ -23,10 +23,6 @@ const TitleModal = ({isOpen, toggle}) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    setName(election.name);
-  }, [election.name]);
-
-  useEffect(() => {
     // When isOpen got active, we put the focus on the input field
     setTimeout(() => {
       if (isOpen && inputRef && inputRef.current) {

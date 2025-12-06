@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
-import { Container, Row, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
 import DatePicker from '@components/DatePicker';
 import Switch from '@components/Switch';
 import { ElectionTypes, useElection, isCreated } from '@services/ElectionContext';
@@ -12,18 +12,14 @@ const LimitDate = () => {
 
   const defaultEndDate = new Date();
   defaultEndDate.setUTCDate(defaultEndDate.getUTCDate() + 15);
-  const [endDate, setEndDate] = useState(
-    election.dateEnd ? new Date(election.dateEnd) : defaultEndDate
-  );
+  const endDate = election.dateEnd ? new Date(election.dateEnd) : defaultEndDate;
   const hasEndDate = election.dateEnd !== null;
 
   // Set a default start date 5 minutes in the future to avoid race condition
   const defaultStartDate = new Date();
   defaultStartDate.setMinutes(defaultStartDate.getMinutes() + 5);
 
-  const [startDate, setStartDate] = useState(
-    election.dateStart ? new Date(election.dateStart) : defaultStartDate
-  );
+  const startDate = election.dateStart ? new Date(election.dateStart) : defaultStartDate;
   const hasStartDate = election.dateStart !== null;
 
   const toggleEndDate = () => {
@@ -35,7 +31,6 @@ const LimitDate = () => {
   };
 
   const handleEndDate = (date) => {
-    setEndDate(date);
     dispatch({
       type: ElectionTypes.SET,
       field: 'dateEnd',
@@ -52,7 +47,6 @@ const LimitDate = () => {
   };
 
   const handleStartDate = (date) => {
-    setStartDate(date);
     dispatch({
       type: ElectionTypes.SET,
       field: 'dateStart',
@@ -70,15 +64,6 @@ const LimitDate = () => {
   const DATE_PAST_ERROR_CODE = 'DATE_PAST';
   const isStartDateInPast = hasStartDate && !isCreated(election) && startDate.getTime() < now.getTime();
 
-  // Update default dates with the ones from the election
-  useEffect(() => {
-    if (election.dateEnd) {
-      setEndDate(new Date(election.dateEnd));
-    }
-    if (election.dateStart) {
-      setStartDate(new Date(election.dateStart));
-    }
-  }, [election.dateEnd, election.dateStart]);
 
   // Perform validation and update context with errors
   useEffect(() => {
