@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function AddPicture() {
   const [, setImage] = useState(null);
@@ -17,7 +18,9 @@ export default function AddPicture() {
     <div className="ajout-avatar">
       <div>
         <div className="avatar-placeholer">
-          <img src={createObjectURL} />
+          {createObjectURL && (
+            <Image src={createObjectURL} width={100} height={100} alt="preview" />
+          )}
         </div>
       </div>
       <div className="avatar-text">
