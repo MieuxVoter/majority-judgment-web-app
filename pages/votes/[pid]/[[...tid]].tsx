@@ -132,7 +132,7 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
       type: BallotTypes.ELECTION,
       election: election,
     });
-  }, []);
+  }, [dispatch, election]);
 
   if (!ballot.election) {
     return <div>Loading...</div>;

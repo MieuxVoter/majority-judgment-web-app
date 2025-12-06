@@ -164,7 +164,7 @@ export const ElectionProvider = ({children, initialValue}: ElectionProviderType)
         name: election.name,
       });
     }
-  }, [router.isReady]);
+  }, [router.isReady, router.query.name, election.name, election.ref, dispatch]);
 
   return (
     <ElectionContext.Provider value={[election, dispatch]}>
