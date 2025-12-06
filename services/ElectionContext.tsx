@@ -76,7 +76,7 @@ export enum ElectionTypes {
 export type SetAction = {
   type: ElectionTypes.SET;
   field: string;
-  value: any;
+  value: unknown;
 };
 export type ResetAction = {
   type: ElectionTypes.RESET;
@@ -94,7 +94,7 @@ export type CandidateSetAction = {
   type: ElectionTypes.CANDIDATE_SET;
   position: number;
   field: string;
-  value: any;
+  value: unknown;
 };
 export type GradePushAction = {
   type: ElectionTypes.GRADE_PUSH;
@@ -108,7 +108,7 @@ export type GradeSetAction = {
   type: ElectionTypes.GRADE_SET;
   position: number;
   field: string;
-  value: any;
+  value: unknown;
 };
 export type AddErrorAction = {
   type: ElectionTypes.ADD_ERROR;

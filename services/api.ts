@@ -30,7 +30,7 @@ export interface ErrorMessage {
   loc: Array<string>;
   msg: string;
   type: string;
-  ctx: any;
+  ctx: unknown;
 }
 
 export interface ErrorPayload {
