@@ -203,7 +203,7 @@ const AnimationBallot = () => {
         height: 200,
       }));
     }, 3000);
-  }, []);
+  }, [dispatch]);
 
   return (
     <div

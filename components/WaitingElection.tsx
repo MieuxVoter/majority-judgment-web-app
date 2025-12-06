@@ -176,7 +176,7 @@ const WaitingElection = ({election, error}: WaitingBallotInterface) => {
       clearTimeout(timer2);
       clearTimeout(timer3);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container
