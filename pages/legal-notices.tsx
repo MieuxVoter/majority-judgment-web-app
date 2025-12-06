@@ -10,7 +10,7 @@ export const getStaticProps: GetStaticProps = async ({locale}) => ({
   },
 });
 
-const LegalNotices = (props) => {
+const LegalNotices = () => {
   const {t} = useTranslation();
   return (
     <Container>

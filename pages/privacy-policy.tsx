@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps = async ({locale}) => ({
   },
 });
 
-const PrivacyPolicy = (props) => {
+const PrivacyPolicy = () => {
   const {t} = useTranslation();
   const router = useRouter();
   const locale = getLocaleShort(router);
