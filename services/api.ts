@@ -145,7 +145,7 @@ export const createElection = async (
       try {
         const payload = await req.json();
         failureCallback(payload);
-      } catch (e) {
+      } catch {
         failureCallback(req.statusText);
       }
     }
@@ -332,7 +332,7 @@ export const getElection = async (
       return await response.json();
     }
     return await response.json();
-  } catch (_) {
+  } catch {
     return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
@@ -362,7 +362,7 @@ export const getProgress = async (
       return await response.json();
     }
     return await response.json();
-  } catch (_) {
+  } catch {
     return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
@@ -393,7 +393,7 @@ export const getBallot = async (
     }
 
     return await response.json();
-  } catch (_) {
+  } catch {
     return { error: 'CLIENT_ERROR', message: 'Unknown API error' };
   }
 };
