@@ -31,13 +31,14 @@ const GeneratedUrlsPage = () => {
       try {
         const urls = JSON.parse(storedUrls);
         urls.emails.sort((a, b) => a.mail.localeCompare(b.mail));
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setUrls(urls);
         sessionStorage.removeItem('generatedUrls');
       } catch (e) {
         console.error('Failed to parse stored URLs', e);
       }
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
   const [_, dispatchApp] = useAppContext();
 
   const hasUrl = () => {

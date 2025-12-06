@@ -100,8 +100,8 @@ export const createElection = async (
   dateEnd: string,
   dateStart: string,
   authForResult: boolean,
-  successCallback: Function = null,
-  failureCallback: Function = console.log
+  successCallback: ((payload: unknown) => void) | null = null,
+  failureCallback: ((error: unknown) => void) = console.log
 ) => {
   /**
    * Create an election from its title, its candidates and a bunch of options
@@ -256,12 +256,12 @@ export const openElection = async (
     };
 
     if (election.dateEnd != null) {
-      var dateEnd = new Date(election.dateEnd);
+      const dateEnd = new Date(election.dateEnd);
 
       if (dateEnd.getTime() <= Date.now()){
         dateEnd.setDate(dateEnd.getDate()+1);
         params.date_end = dateEnd.toISOString();
-      } 
+      }
     }
 
     const req = await fetch(endpoint.href, {

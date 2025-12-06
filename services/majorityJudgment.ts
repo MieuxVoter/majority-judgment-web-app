@@ -15,7 +15,6 @@ export const getMajorityGrade = (profile: MeritProfileInterface): number => {
   }
 
   const numVotes = Object.values(profile).reduce((a, b) => a + b, 0);
-  let majorityGrade = grades[0];
   let accBefore = 0;
 
   for (const grade of grades) {
