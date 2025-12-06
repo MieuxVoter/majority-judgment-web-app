@@ -115,7 +115,7 @@ const Header = () => {
             <div>
               <div className="d-flex flex-row justify-content-between align-items-center nav-logo">
                 <Link href="/" className="navbar-brand navbar-brand-mobile">
-                  <img src="/logos/logo.svg" alt="logo" height="80" />
+                  <Image src="/logos/logo.svg" alt="logo" height={80} width={175} />
                 </Link>
 
                 <FontAwesomeIcon

@@ -40,7 +40,7 @@ const CandidatesField = ({onSubmit}) => {
   const [modalTitle, setModalTitle] = useState(false);
   const toggleModalTitle = () => setModalTitle((m) => !m);
 
-  const [error, setError] = useState(null);
+  const error = candidates.length > Number(MAX_NUM_CANDIDATES) ? 'error.too-many-candidates' : null;
 
   const disabled =
     candidates.filter((c) => c.name !== '').length < 2 ||
@@ -51,9 +51,6 @@ const CandidatesField = ({onSubmit}) => {
     // Initialize the list with at least two candidates
     if (candidates.length < 2) {
       dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
-    }
-    if (candidates.length > Number(MAX_NUM_CANDIDATES)) {
-      setError('error.too-many-candidates');
     }
   }, [candidates]);
 

@@ -239,6 +239,7 @@ const BottomButtonsMobile = ({result}) => {
   const [url, setUrl] = useState('');
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUrl(window.location.href);
     }
   }, []);
