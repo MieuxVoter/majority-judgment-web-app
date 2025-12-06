@@ -19,7 +19,7 @@ const GradeModal = ({isOpen, toggle}) => {
 
   useEffect(() => {
     const maxValue = Math.max(...election.grades.map((g) => g.value));
-    setGrade({...grade, value: maxValue + 1});
+    setGrade(g => ({...g, value: maxValue + 1}));
   }, [election]);
 
   const save = (e: {preventDefault:()=>void}) => {
