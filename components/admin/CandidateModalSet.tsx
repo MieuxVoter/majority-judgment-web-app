@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef, KeyboardEvent} from 'react';
-import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
+import {Col, Label, Modal, ModalBody, Form} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
 import Image from 'next/image';

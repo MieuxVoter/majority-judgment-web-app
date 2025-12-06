@@ -1,4 +1,4 @@
-import {useState, useEffect, MouseEvent, ChangeEvent} from 'react';
+import {useState, useEffect, ChangeEvent} from 'react';
 import {Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';

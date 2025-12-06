@@ -2,7 +2,7 @@
  * This component manages the title of the election
  */
 import { useTranslation } from 'next-i18next';
-import { useEffect, useState } from 'react';
+import {useState} from 'react';
 import { Container } from 'reactstrap';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

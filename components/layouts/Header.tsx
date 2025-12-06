@@ -10,7 +10,6 @@ import openMenuIcon from '../../public/open-menu-icon.svg';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import {
-  CONTACT_MAIL,
   MAJORITY_JUDGMENT_LINK,
   NEWS_LINK,
   PAYPAL,
@@ -19,7 +18,6 @@ import {
 import ShareRow from '@components/Share';
 import {getUrl, RouteTypes} from '@services/routes';
 import {useRouter} from 'next/router';
-import Logo from '@components/Logo';
 import {getLocaleShort} from '@services/utils';
 
 const Header = () => {
