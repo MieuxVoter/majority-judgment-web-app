@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,7 +30,7 @@ const TrashButton = ({ className, label, onClick }) => {
         <ModalFooter>
           <Button type="button" className={className} onClick={toggle}>
             <div className="annuler">
-              <img src="/arrow-dark-left.svg" /> {t('No')}
+              <Image src="/arrow-dark-left.svg" width={16} height={16} alt="arrow" /> {t('No')}
             </div>
           </Button>
           <Button

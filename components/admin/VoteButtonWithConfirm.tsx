@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -38,7 +39,7 @@ const VoteButtonWithConfirm = ({ action }) => {
             }}
           >
             {t('Validez mon vote')}
-            <img src="/arrow-white.svg" />
+            <Image src="/arrow-white.svg" width={16} height={16} alt="arrow" />
           </Button>
           <Button className="removeButton backToVoteBtn my-4" onClick={toggle}>
             {t('Revenir au vote')}
