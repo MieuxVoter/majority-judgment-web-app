@@ -39,7 +39,7 @@ const GeneratedUrlsPage = () => {
       }
     }
   }, []);
-  const [_, dispatchApp] = useAppContext();
+  const [, dispatchApp] = useAppContext();
 
   const hasUrl = () => {
     return urls != null && (

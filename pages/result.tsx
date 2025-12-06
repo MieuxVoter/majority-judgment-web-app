@@ -229,7 +229,6 @@ const Downloader = ({result, children, ...rest}) => {
 const BottomButtonsMobile = ({result}) => {
   const {t} = useTranslation();
 
-  const router = useRouter();
   const [url, setUrl] = useState('');
   useEffect(() => {
     if (typeof window !== 'undefined') {
