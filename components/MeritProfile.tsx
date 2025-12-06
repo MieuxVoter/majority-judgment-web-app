@@ -42,13 +42,14 @@ const MajorityGrade = ({ grade, left }) => {
   const spanRef = useRef<HTMLDivElement>();
 
   const [width, setWidth] = useState(0);
-  const offsetWidth = spanRef && spanRef.current && spanRef.current.offsetWidth;
 
   useEffect(() => {
     setTimeout(() => {
-      setWidth(spanRef.current.offsetWidth);
+      if (spanRef.current) {
+        setWidth(spanRef.current.offsetWidth);
+      }
     }, 100);
-  }, [offsetWidth]);
+  }, [grade]);
 
   return (
     <div
