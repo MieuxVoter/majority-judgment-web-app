@@ -99,7 +99,7 @@ const Grades = () => {
         value: getDefaultGrades(t),
       });
     }
-  }, []);
+  }, [election.grades.length, dispatch, t]);
 
   const handleDragEnd = ({ active, over }) => {
     if (active.id !== over.id) {

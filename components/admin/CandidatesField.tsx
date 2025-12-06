@@ -51,7 +51,7 @@ const CandidatesField = ({onSubmit}) => {
     if (candidates.length < 2) {
       dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
     }
-  }, [candidates]);
+  }, [candidates, dispatch]);
 
   useEffect(() => {
     if (!disabled && submitReference.current) {
