@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { URL_LEGACY } from '@services/constants';
 import { useEffect } from 'react';
 
-export async function getServerSideProps({ query, locale }) {
+export async function getServerSideProps({ query }) {
   const { pid, tid: token } = query;
 
   return {

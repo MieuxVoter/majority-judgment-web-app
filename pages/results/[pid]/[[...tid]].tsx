@@ -549,7 +549,7 @@ const ResultPage = ({
 
     if (err.error == RESULTS_HIDDEN_ERROR_CODE) {
       const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
-      let hideResults = t('result.hide-results');
+      const hideResults = t('result.hide-results');
       
       return (
         <ErrorMessage>
