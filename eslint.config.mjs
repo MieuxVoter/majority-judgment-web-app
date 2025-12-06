@@ -33,6 +33,7 @@ export default tseslint.config(
       },
     },
     plugins: {
+	"react": pluginReact,
         "react-hooks": pluginReactHooks,
         "@next/next": pluginNext,
     },
@@ -46,6 +47,9 @@ export default tseslint.config(
         ...pluginNext.configs.recommended.rules,
         ...pluginNext.configs["core-web-vitals"].rules,
         "react/react-in-jsx-scope": "off",
+	// Disable prop-types as we use TypeScript
+        "react/prop-types": "off",
+        "react/require-default-props": "off",
     }
   },
 
