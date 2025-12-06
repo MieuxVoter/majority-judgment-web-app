@@ -2,7 +2,6 @@ import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
 import {CSSProperties, useEffect, useState} from 'react';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
 import Share from '@components/Share';

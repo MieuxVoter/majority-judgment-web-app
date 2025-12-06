@@ -4,7 +4,7 @@
 import { useTranslation } from 'next-i18next';
 import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-const { Row, Col, Container } = require('reactstrap');
+import { Row, Col } from 'reactstrap';
 
 const DesktopStep = ({ name, position, active, checked, onClick }) => {
   const { t } = useTranslation();
