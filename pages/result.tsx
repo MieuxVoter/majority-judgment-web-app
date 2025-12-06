@@ -425,7 +425,6 @@ interface PodiumInterface {
 }
 
 const Podium = ({candidates}: PodiumInterface) => {
-  const {t} = useTranslation();
 
   // get best candidates
   const numBest = Math.min(3, candidates.length);
@@ -470,7 +469,6 @@ const ResultPage = ({
   fromCSV,
 }: ResultPageInterface) => {
   const {t} = useTranslation();
-  const router = useRouter();
 
   if (err) {
     let errorMessage;
