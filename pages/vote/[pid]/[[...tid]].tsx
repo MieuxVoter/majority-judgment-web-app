@@ -21,7 +21,7 @@ const Votes = ({ token, pid }) => {
 
   useEffect(() => {
     router.push(url.href);
-  }, []);
+  }, [router, url.href]);
 
   return <p>Redirecting to {url.href}</p>;
 };

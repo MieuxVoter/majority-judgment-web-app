@@ -92,7 +92,7 @@ const LimitDate = () => {
         value: DATE_PAST_ERROR_CODE,
       });
     }
-  }, [isEndDateInPast, dispatch]);
+  }, [isEndDateInPast, dispatch, election]);
 
   return (
     <>
