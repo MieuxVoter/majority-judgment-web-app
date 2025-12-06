@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import {Container, Row, Col} from 'reactstrap';
 import {useTranslation} from 'next-i18next';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
@@ -16,7 +17,7 @@ const LegalNotices = () => {
     <Container>
       <Row>
         <Link href="/" className="d-block  mb-4">
-          <img src="/logos/logo-line-white.svg" alt="logo" height="128" />
+          <Image src="/logos/logo-line-white.svg" alt="logo" width={128} height={128} />
         </Link>
       </Row>
       <Row className="mt-4">

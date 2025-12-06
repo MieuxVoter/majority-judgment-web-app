@@ -1,6 +1,7 @@
 import {Col, Container, Row} from 'reactstrap';
 import {useTranslation} from 'next-i18next';
 import Link from 'next/link';
+import Image from 'next/image';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {GetStaticProps} from 'next';
 import {getLocaleShort} from '@services/utils';
@@ -21,7 +22,7 @@ const PrivacyPolicy = () => {
     <Container>
       <Row>
         <Link href={getUrl(RouteTypes.HOME, locale)} className="d-block mb-4">
-          <img src="/logos/logo-line-white.svg" alt="logo" height="128" />
+          <Image src="/logos/logo-line-white.svg" alt="logo" width={128} height={128} />
         </Link>
       </Row>
       <Row className="mt-4">
