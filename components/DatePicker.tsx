@@ -1,13 +1,11 @@
-import { useState, forwardRef, ReactNode } from 'react';
-import { Button, Row, Col } from 'reactstrap';
-import { useTranslation } from 'next-i18next';
+import { forwardRef, ReactNode } from 'react';
+import { Row, Col } from 'reactstrap';
 import {
   faCalendarDays,
   faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
-import { AppTypes, useAppContext } from '@services/context';
 import { useRouter } from 'next/router';
 import { getFormattedDatetime } from '@services/utils';
 
@@ -47,11 +45,8 @@ const ExampleCustomInput = forwardRef<ButtonRef, InputProps & { locale: string }
 
 ExampleCustomInput.displayName = 'ExampleCustomInput';
 
-const CustomDatePicker = ({ date, setDate, prefix, isInvalid = false, className = '', ...props }) => {
-  const { t } = useTranslation();
+const CustomDatePicker = ({ date, setDate, prefix, isInvalid = false, className = '' }) => {
   const router = useRouter();
-
-  const [_, dispatchApp] = useAppContext();
 
   const handleChange = (date) => {
     setDate(date);

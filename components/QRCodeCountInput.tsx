@@ -1,5 +1,4 @@
 import { Col, Row } from "reactstrap";
-import {useTranslation} from 'next-i18next';
 
 const QRCodeCountInput = ({onEdit, value}) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

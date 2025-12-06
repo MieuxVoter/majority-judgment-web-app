@@ -91,7 +91,7 @@ const CandidatesField = ({onSubmit}) => {
     }
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key == 'Enter' && !disabled) {
       onSubmit();
     }

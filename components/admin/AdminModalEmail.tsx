@@ -107,7 +107,7 @@ const AdminModalEmail = ({
       <ModalBody className="p-4">
         <p>{t('admin.modal-desc')}</p>
         <div className="d-grid w-100 mb-5">
-          <ButtonCopy text={t('admin.success-copy-admin')} content={adminUrl} />
+          <ButtonCopy text={t('admin.success-copy-admin')} content={adminUrl.toString()} />
           <Button
             className="bg-white text-black my-2 shadow-lg border-dark border py-3 px-4 border-3 justify-content-between gx-2 align-items-end"
             onClick={handleDownloadAdminShortcut}

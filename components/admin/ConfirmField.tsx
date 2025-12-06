@@ -26,8 +26,8 @@ import ResultForAdminOnlyParam from './ResultForAdminOnlyParam';
 
 const submitElection = (
   election: ElectionContextInterface,
-  successCallback: Function,
-  failureCallback: Function,
+  successCallback: (payload: ElectionCreatedPayload) => void,
+  failureCallback: (error: unknown) => void,
   router: NextRouter
 ) => {
   const candidates = election.candidates

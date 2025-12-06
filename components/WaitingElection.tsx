@@ -74,11 +74,11 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
               <div className="d-grid w-100">
                 <ButtonCopy
                   text={t('admin.success-copy-vote')}
-                  content={getUrl(RouteTypes.VOTE, locale, election.ref)}
+                  content={getUrl(RouteTypes.VOTE, locale, election.ref).toString()}
                 />
                 <ButtonCopy
                   text={t('admin.success-copy-result')}
-                  content={getUrl(RouteTypes.RESULTS, locale, election.ref)}
+                  content={getUrl(RouteTypes.RESULTS, locale, election.ref).toString()}
                 />
               </div>
             )}

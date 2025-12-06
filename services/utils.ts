@@ -71,7 +71,6 @@ export const sendEmailsDownloadQRCodesPDFAndDisplayInvites = async (params:Invit
   if (totalInvites > 0) {
     const numEmails = params.emails?.length || 0;
     const numQrCodes = params.qrCodeCount || 0;
-    const numUrls = params.urlCount || 0;
 
     const locale = getLocaleShort(params.router);
     const urlVotes = params.invites.map((token: string) =>

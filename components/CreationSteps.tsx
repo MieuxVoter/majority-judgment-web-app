@@ -49,7 +49,6 @@ interface ProgressStepsProps {
   goToParams: GoToStep;
   goToCandidates: GoToStep;
   className?: string;
-  [props: string]: any;
 }
 
 export const ProgressSteps = ({
