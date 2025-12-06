@@ -24,7 +24,7 @@ const mg = mailgun.client({
 });
 
 
-i18next.init(i18n, (err, t) => {
+i18next.init(i18n, (err) => {
   if (err) return console.log('something went wrong loading', err);
 });
 
@@ -86,7 +86,7 @@ const handler: Handler = async (event) => {
     };
   }
 
-  const err = await i18next.changeLanguage(locale, (err, t) => {
+  const err = await i18next.changeLanguage(locale, (err) => {
 
     if (err) return {"error": err}
   });
