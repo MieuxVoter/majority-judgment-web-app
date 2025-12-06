@@ -18,10 +18,6 @@ const nextConfig = {
       },
     ],
   },
-  // Ensure we don't have any rogue eslint settings
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
 };
 
 module.exports = nextConfig;
