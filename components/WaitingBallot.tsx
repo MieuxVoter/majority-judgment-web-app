@@ -169,7 +169,7 @@ const AnimationBallot = () => {
   useEffect(() => {
     dispatch({type: AppTypes.FULLPAGE, value: true});
 
-    setUrne((urne) => ({
+    setUrne((urne) => ({ // eslint-disable-line react-hooks/set-state-in-effect
       ...urne,
       width: 300,
       height: 300,

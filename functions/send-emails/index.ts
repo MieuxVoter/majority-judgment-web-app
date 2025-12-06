@@ -1,6 +1,6 @@
 import fs from 'fs';
 import {Handler} from "@netlify/functions";
-import formData from 'form-data';
+import * as formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import Handlebars from 'handlebars';
 import {i18n} from '../i18next';

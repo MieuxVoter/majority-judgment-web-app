@@ -24,6 +24,20 @@ export async function getStaticProps({ locale }) {
 const GeneratedUrlsPage = () => {
   const { t } = useTranslation();
   const [urls, setUrls] = useState<Urls | null>(null);
+
+  useEffect(() => {
+    const storedUrls = sessionStorage.getItem('generatedUrls');
+    if (storedUrls) {
+      try {
+        const urls = JSON.parse(storedUrls);
+        urls.emails.sort((a, b) => a.mail.localeCompare(b.mail));
+        setUrls(urls);
+        sessionStorage.removeItem('generatedUrls');
+      } catch (e) {
+        console.error('Failed to parse stored URLs', e);
+      }
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [_, dispatchApp] = useAppContext();
 
   const hasUrl = () => {
@@ -33,20 +47,6 @@ const GeneratedUrlsPage = () => {
       || urls.emails.length > 0
     );
   }
-
-  useEffect(() => {
-    const storedUrls = sessionStorage.getItem('generatedUrls');
-    if (storedUrls) {
-      try {
-        const urls = JSON.parse(storedUrls);
-        urls.emails.sort((a, b) => a.mail.localeCompare(b.mail));
-        setUrls(JSON.parse(storedUrls));
-        sessionStorage.removeItem('generatedUrls');
-      } catch (e) {
-        console.error('Failed to parse stored URLs', e);
-      }
-    }
-  }, []); // Empty array means effect will run once
 
   const handleDownloadAll = async() => {
     if (!hasUrl()) return;
