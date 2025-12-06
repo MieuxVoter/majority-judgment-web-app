@@ -149,7 +149,7 @@ const Info = ({ballot, error}: WaitingBallotInterface) => {
 };
 
 const AnimationBallot = () => {
-  const [_, dispatch] = useAppContext();
+  const [, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({
     width: 0,

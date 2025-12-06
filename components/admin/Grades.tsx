@@ -20,7 +20,6 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
-import { DEFAULT_GRADES } from '@services/constants';
 import { ElectionTypes, useElection } from '@services/ElectionContext';
 import GradeField from './GradeField';
 import GradeModalAdd from './GradeModalAdd';
@@ -29,12 +28,10 @@ import Switch from '@components/Switch';
 import ConfirmRevertCustomGradesModal from './ConfirmRevertCustomGradesModal';
 
 const AddField = () => {
-  const { t } = useTranslation();
-
   const [modal, setModal] = useState(false);
   const toggle = () => setModal((m) => !m);
 
-  const [election, _] = useElection();
+  const [election] = useElection();
   const numGrades = election.grades.filter((g) => g.active).length;
   const disabled = numGrades >= gradeColors.length;
 

@@ -11,7 +11,7 @@ import { useElection } from '@services/ElectionContext';
 
 const TitleField = ({ defaultName = '' }) => {
   const { t } = useTranslation();
-  const [election, _] = useElection();
+  const [election] = useElection();
   const [modal, setModal] = useState(false);
   const toggle = () => setModal((m) => !m);
   const name =

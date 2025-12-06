@@ -27,7 +27,7 @@ const CandidateModal = ({isOpen, position, toggle}) => {
     setState((s) => ({...s, image: `${IMGPUSH_URL}/${payload['filename']}`}));
   };
 
-  const [app, dispatchApp] = useAppContext();
+  const [, dispatchApp] = useAppContext();
 
   // to manage the hidden ugly file input
   const hiddenFileInput = useRef(null);

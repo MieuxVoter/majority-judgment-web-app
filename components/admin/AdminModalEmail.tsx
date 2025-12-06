@@ -27,7 +27,7 @@ const AdminModalEmail = ({
   const {t} = useTranslation();
   const router = useRouter();
   const [email, setEmail] = useState(undefined);
-  const [election, _] = useElection();
+  const [election] = useElection();
   const locale = getLocaleShort(router);
 
   const adminUrl =

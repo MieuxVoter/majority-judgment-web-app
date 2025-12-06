@@ -109,7 +109,7 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
 };
 
 const WaitingElection = ({election, error}: WaitingBallotInterface) => {
-  const [_, dispatch] = useAppContext();
+  const [, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({
     width: 0,

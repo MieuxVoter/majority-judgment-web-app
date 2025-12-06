@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {Container} from 'reactstrap';
 import {useBallot} from '@services/BallotContext';
 import CandidateCard from '@components/ballot/CandidateCard';
-import TitleBar from '@components/ballot/TitleBar';
 import GradeInput from '@components/ballot/GradeInput';
 import {CandidatePayload} from '@services/api';
 import CandidateModal from '@components/CandidateModalGet';
@@ -11,9 +10,8 @@ import {useTranslation} from 'next-i18next';
 const BallotDesktop = ({hasVoted}) => {
   const {t} = useTranslation();
 
-  const [ballot, dispatch] = useBallot();
+  const [ballot] = useBallot();
   const numGrades = ballot.election.grades.length;
-  const disabled = ballot.votes.length !== ballot.election.candidates.length;
 
   const [candidate, setCandidate] = useState<CandidatePayload | null>(null);
 

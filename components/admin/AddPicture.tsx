@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export default function AddPicture(props) {
-  const [image, setImage] = useState(null);
+export default function AddPicture() {
+  const [, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
   const uploadToClient = (event) => {

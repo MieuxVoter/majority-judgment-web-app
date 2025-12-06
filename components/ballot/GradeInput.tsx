@@ -1,4 +1,3 @@
-import {useState, useCallback, useEffect, MouseEvent} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import {useBallot, BallotTypes} from '@services/BallotContext';
@@ -25,9 +24,8 @@ const GradeInput = ({gradeId, candidateId}: GradeInputInterface) => {
   if (!ballot) {throw new Error("Ensure the election is loaded")}
 
   const grade = ballot.election.grades[gradeId];
-  const numGrades = ballot.election.grades.length;
 
-  const handleClick = (event: MouseEvent<HTMLInputElement>) => {
+  const handleClick = () => {
     dispatch({type: BallotTypes.VOTE, candidateId: candidateId, gradeId: gradeId})
   };
 

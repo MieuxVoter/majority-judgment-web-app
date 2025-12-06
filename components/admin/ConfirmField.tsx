@@ -21,7 +21,7 @@ import {createElection, ElectionCreatedPayload} from '@services/api';
 import {GradeItem, CandidateItem} from '@services/type';
 import {AppTypes, useAppContext} from '@services/context';
 import {useEffect} from 'react';
-import {getTotalInvites, sendEmailsDownloadQRCodesPDFAndDisplayInvites, showGeneratedUrlsInNewTab} from '@services/utils';
+import {getTotalInvites, sendEmailsDownloadQRCodesPDFAndDisplayInvites} from '@services/utils';
 import ResultForAdminOnlyParam from './ResultForAdminOnlyParam';
 
 const submitElection = (
@@ -85,12 +85,12 @@ const submitElection = (
 const ConfirmField = ({onSubmit, onSuccess, onFailure}) => {
   const {t} = useTranslation();
   const router = useRouter();
-  const [election, _] = useElection();
-  const [app, dispatchApp] = useAppContext();
+  const [election] = useElection();
+  const [, dispatchApp] = useAppContext();
 
   useEffect(() => {
     // move to the head of the page on component loading
-    window && window.scrollTo(0, 0);
+    if (window) window.scrollTo(0, 0);
   }, []);
 
   const handleSubmit = () => {

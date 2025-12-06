@@ -31,7 +31,7 @@ const CandidatesField = ({onSubmit}) => {
   const {t} = useTranslation();
   const submitReference = useRef(null);
 
-  const [_, dispatchApp] = useAppContext();
+  const [, dispatchApp] = useAppContext();
 
   const [election, dispatch] = useElection();
   const candidates = election.candidates;

@@ -16,7 +16,7 @@ import { getTotalInvites } from '@services/utils';
 const Private = () => {
   const { t } = useTranslation();
 
-  const [_, dispatchApp] = useAppContext();
+  const [, dispatchApp] = useAppContext();
   const [election, dispatch] = useElection();
 
   const isCreating = !election.ref || election.ref === '';
