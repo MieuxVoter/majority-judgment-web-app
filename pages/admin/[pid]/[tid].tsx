@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
@@ -12,7 +12,6 @@ import {
   faSquarePollVertical,
   faSquareXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   getElection,
   updateElection,
@@ -45,10 +44,8 @@ import Private from '@components/admin/Private';
 import ErrorMessage from '@components/Error';
 import Blur from '@components/Blur';
 import { getUrl, RouteTypes } from '@services/routes';
-import { sendInviteMails } from '@services/mail';
 import { AppTypes, useAppContext } from '@services/context';
-import { getLocaleShort, getTotalInvites, sendEmailsDownloadQRCodesPDFAndDisplayInvites, showGeneratedUrlsInNewTab } from '@services/utils';
-import { generateQRCodesPDF } from '@services/qrcode';
+import { getLocaleShort, getTotalInvites, sendEmailsDownloadQRCodesPDFAndDisplayInvites } from '@services/utils';
 import ResultForAdminOnlyParam from '@components/admin/ResultForAdminOnlyParam';
 
 export async function getServerSideProps({ query, locale }) {
@@ -118,7 +115,7 @@ const Spinner = () => {
 
 const ManageButtonsMobile = ({ handleClosing, waiting }) => {
   const { t } = useTranslation();
-  const [election, _] = useElection();
+  const [election] = useElection();
   const router = useRouter();
   const locale = getLocaleShort(router);
 
@@ -177,7 +174,7 @@ const HeaderRubbonDesktop = ({
   token
 }) => {
   const { t } = useTranslation();
-  const [election, _] = useElection();
+  const [election] = useElection();
   const router = useRouter();
   const locale = getLocaleShort(router);
 
@@ -267,7 +264,7 @@ const HeaderRubbonMobile = () => {
 const ManageElection = ({ token }:{token:(string|undefined)}) => {
   const { t } = useTranslation();
   const [election, dispatch] = useElection();
-  const [_, dispatchApp] = useAppContext();
+  const [, dispatchApp] = useAppContext();
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 

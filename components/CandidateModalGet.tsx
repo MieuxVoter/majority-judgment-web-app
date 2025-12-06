@@ -12,7 +12,7 @@ import defaultAvatar from '../public/avatarBlue.svg';
 
 interface CandidateModal {
   isOpen: boolean;
-  toggle: Function;
+  toggle: () => void;
   candidate: CandidatePayload;
 }
 
