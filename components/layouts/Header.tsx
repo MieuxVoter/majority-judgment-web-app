@@ -27,7 +27,7 @@ const Header = () => {
   const router = useRouter();
   const locale = getLocaleShort(router);
   const {t} = useTranslation();
-  const [app, _] = useAppContext();
+  const [app] = useAppContext();
 
   const toggle = () => setOpen(!isOpen);
 

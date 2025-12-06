@@ -14,7 +14,7 @@ import {AppTypes, useAppContext} from '@services/context';
 const TitleModal = ({isOpen, toggle}) => {
   const {t} = useTranslation();
   const [election, dispatch] = useElection();
-  const [_, dispatchApp] = useAppContext();
+  const [, dispatchApp] = useAppContext();
   const [name, setName] = useState(election.name);
 
   const isNameInvalid = name != null && name.length > NAME_MAX_LENGTH;

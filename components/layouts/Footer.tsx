@@ -18,7 +18,7 @@ const Footer = () => {
   const {t} = useTranslation();
   const router = useRouter();
   const locale = getLocaleShort(router);
-  const [app, _] = useAppContext();
+  const [app] = useAppContext();
 
   if (app.fullPage) {
     return null;

@@ -219,7 +219,6 @@ const StartForm = () => {
 };
 
 const Home = () => {
-  const {t} = useTranslation('resource');
   return (
     <>
       <div className="bg-primary">
