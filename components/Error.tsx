@@ -14,7 +14,9 @@ const Error = ({ displayErrorTitle = true, children }) => {
         { displayErrorTitle && 
           <h4>{t('common.error')}</h4>
         }
-        <p>{children}</p>
+        <div className="mb-3">
+          {children}
+        </div>
 
         <a
           href={`mailto:${CONTACT_MAIL}?subject=[HELP]`}
