@@ -18,6 +18,12 @@ const nextConfig = {
       },
     ],
   },
+  sassOptions: {
+    // Silence warnings from dependencies (like Bootstrap)
+    quietDeps: true,
+    // Silence specific deprecations that are unavoidable in Bootstrap 5
+    silenceDeprecations: ['import', 'global-builtin', 'color-functions'],
+  },
 };
 
 module.exports = nextConfig;
