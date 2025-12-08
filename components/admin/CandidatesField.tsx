@@ -3,7 +3,6 @@ import {
   useEffect,
   useRef,
   KeyboardEvent,
-  MouseEventHandler,
 } from 'react';
 import {useTranslation} from 'next-i18next';
 import {Container} from 'reactstrap';
@@ -31,7 +30,7 @@ const CandidatesField = ({onSubmit}) => {
   const {t} = useTranslation();
   const submitReference = useRef(null);
 
-  const [_, dispatchApp] = useAppContext();
+  const [, dispatchApp] = useAppContext();
 
   const [election, dispatch] = useElection();
   const candidates = election.candidates;
@@ -40,7 +39,7 @@ const CandidatesField = ({onSubmit}) => {
   const [modalTitle, setModalTitle] = useState(false);
   const toggleModalTitle = () => setModalTitle((m) => !m);
 
-  const [error, setError] = useState(null);
+  const error = candidates.length > Number(MAX_NUM_CANDIDATES) ? 'error.too-many-candidates' : null;
 
   const disabled =
     candidates.filter((c) => c.name !== '').length < 2 ||
@@ -52,10 +51,7 @@ const CandidatesField = ({onSubmit}) => {
     if (candidates.length < 2) {
       dispatch({type: ElectionTypes.CANDIDATE_PUSH, value: 'default'});
     }
-    if (candidates.length > Number(MAX_NUM_CANDIDATES)) {
-      setError('error.too-many-candidates');
-    }
-  }, [candidates]);
+  }, [candidates, dispatch]);
 
   useEffect(() => {
     if (!disabled && submitReference.current) {
@@ -94,7 +90,7 @@ const CandidatesField = ({onSubmit}) => {
     }
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key == 'Enter' && !disabled) {
       onSubmit();
     }

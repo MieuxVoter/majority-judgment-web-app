@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ButtonCopyInterface {
   text: string;
-  content: any;
+  content: string;
 }
 
 const ButtonCopy = ({ text, content }: ButtonCopyInterface) => {

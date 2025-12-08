@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,7 +15,7 @@ const ButtonWithConfirm = ({ className, label, onDelete }) => {
     <div className="input-group-append cancelButton">
       <button type="button" className={'btn ' + className} onClick={toggle}>
         <div className="annuler">
-          <img src="/arrow-dark-left.svg" />
+          <Image src="/arrow-dark-left.svg" width={16} height={16} alt="arrow" />
           <p>Annuler</p>
         </div>
       </button>
@@ -34,7 +35,7 @@ const ButtonWithConfirm = ({ className, label, onDelete }) => {
         <ModalFooter>
           <Button className={className} onClick={toggle}>
             <div className="annuler">
-              <img src="/arrow-dark-left.svg" /> {t('No')}
+              <Image src="/arrow-dark-left.svg" width={16} height={16} alt="arrow" /> {t('No')}
             </div>
           </Button>
           <Button

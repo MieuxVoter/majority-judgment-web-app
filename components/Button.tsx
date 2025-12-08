@@ -1,13 +1,12 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'reactstrap';
+import { ButtonProps as BootstrapButtonProps } from 'reactstrap';
 
-interface ButtonProps {
-  children?: React.ReactNode;
+interface ButtonProps extends BootstrapButtonProps {
   icon?: IconProp;
   customIcon?: JSX.Element;
   position?: 'left' | 'right';
-  [props: string]: any;
 }
 const ButtonWithIcon = ({
   icon,

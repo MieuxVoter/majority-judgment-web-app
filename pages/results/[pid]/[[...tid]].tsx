@@ -244,7 +244,6 @@ const ResultBanner = ({result}) => {
 };
 
 const Downloader = ({result, children, ...rest}) => {
-  const values = result.grades.map((v) => v.value).sort();
   const data = result.candidates.map((c) => {
     const grades = {};
     result.grades.forEach(
@@ -458,7 +457,6 @@ interface PodiumInterface {
 }
 
 const Podium = ({candidates}: PodiumInterface) => {
-  const {t} = useTranslation();
 
   // get best candidates
   const numBest = Math.min(3, candidates.length);
@@ -551,7 +549,7 @@ const ResultPage = ({
 
     if (err.error == RESULTS_HIDDEN_ERROR_CODE) {
       const urlVote = getUrl(RouteTypes.VOTE, locale, electionRef, token);
-      let hideResults = t('result.hide-results');
+      const hideResults = t('result.hide-results');
       
       return (
         <ErrorMessage>

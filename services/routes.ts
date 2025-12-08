@@ -1,7 +1,7 @@
 /**
  * This file provides the paths to the pages
  */
-import {getWindowUrl, displayRef, getLocaleShort} from './utils';
+import {getWindowUrl, displayRef} from './utils';
 
 export enum RouteTypes {
   ADMIN = 'admin',

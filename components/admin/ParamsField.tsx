@@ -14,7 +14,7 @@ import { getTotalInvites } from '@services/utils';
 const ParamsField = ({ onSubmit }) => {
   const { t } = useTranslation();
 
-  const [election, _] = useElection();
+  const [election] = useElection();
   const checkDisability =
     (election.restricted && getTotalInvites(election) === 0) ||
     election.grades.filter((g) => g.active).length < 2 ||

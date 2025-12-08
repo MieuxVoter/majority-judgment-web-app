@@ -108,9 +108,9 @@ const CSVLink = ({filename, data, children, ...rest}) => {
     const headers = undefined;
     const separator = ",";
     const enclosingCharacter = '"';
-    
+
     const generatedHref = buildURI(data, uFEFF, headers, separator, enclosingCharacter);
-    setHref(generatedHref);
+    setHref(generatedHref); // eslint-disable-line react-hooks/set-state-in-effect
 
     // Cleanup blob URL on unmount
     return () => {

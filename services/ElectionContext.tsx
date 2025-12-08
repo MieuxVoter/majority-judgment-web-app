@@ -7,7 +7,6 @@ import {
   useReducer,
   useEffect,
   Dispatch,
-  SetStateAction,
 } from 'react';
 import {useRouter} from 'next/router';
 import LogRocket from 'logrocket';
@@ -76,7 +75,7 @@ export enum ElectionTypes {
 export type SetAction = {
   type: ElectionTypes.SET;
   field: string;
-  value: any;
+  value: unknown;
 };
 export type ResetAction = {
   type: ElectionTypes.RESET;
@@ -94,7 +93,7 @@ export type CandidateSetAction = {
   type: ElectionTypes.CANDIDATE_SET;
   position: number;
   field: string;
-  value: any;
+  value: unknown;
 };
 export type GradePushAction = {
   type: ElectionTypes.GRADE_PUSH;
@@ -108,7 +107,7 @@ export type GradeSetAction = {
   type: ElectionTypes.GRADE_SET;
   position: number;
   field: string;
-  value: any;
+  value: unknown;
 };
 export type AddErrorAction = {
   type: ElectionTypes.ADD_ERROR;
@@ -165,7 +164,7 @@ export const ElectionProvider = ({children, initialValue}: ElectionProviderType)
         name: election.name,
       });
     }
-  }, [router.isReady]);
+  }, [router.isReady, router.query.name, election.name, election.ref, dispatch]);
 
   return (
     <ElectionContext.Provider value={[election, dispatch]}>

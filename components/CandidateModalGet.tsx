@@ -2,15 +2,7 @@
 /**
  * A modal to details a candidate
  */
-import {
-  Button,
-  Col,
-  Container,
-  Row,
-  Modal,
-  ModalHeader,
-  ModalBody,
-} from 'reactstrap';
+import { Modal } from 'reactstrap';
 import Image from 'next/image';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +12,7 @@ import defaultAvatar from '../public/avatarBlue.svg';
 
 interface CandidateModal {
   isOpen: boolean;
-  toggle: Function;
+  toggle: () => void;
   candidate: CandidatePayload;
 }
 

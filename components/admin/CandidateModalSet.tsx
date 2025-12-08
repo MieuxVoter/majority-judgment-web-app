@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef, KeyboardEvent} from 'react';
-import {Row, Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
+import {Col, Label, Modal, ModalBody, Form} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
 import Image from 'next/image';
@@ -27,7 +27,7 @@ const CandidateModal = ({isOpen, position, toggle}) => {
     setState((s) => ({...s, image: `${IMGPUSH_URL}/${payload['filename']}`}));
   };
 
-  const [app, dispatchApp] = useAppContext();
+  const [, dispatchApp] = useAppContext();
 
   // to manage the hidden ugly file input
   const hiddenFileInput = useRef(null);

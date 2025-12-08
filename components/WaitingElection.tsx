@@ -2,7 +2,6 @@ import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
 import {CSSProperties, useEffect, useState} from 'react';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Button from '@components/Button';
 import ButtonCopy from '@components/ButtonCopy';
 import Share from '@components/Share';
@@ -74,11 +73,11 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
               <div className="d-grid w-100">
                 <ButtonCopy
                   text={t('admin.success-copy-vote')}
-                  content={getUrl(RouteTypes.VOTE, locale, election.ref)}
+                  content={getUrl(RouteTypes.VOTE, locale, election.ref).toString()}
                 />
                 <ButtonCopy
                   text={t('admin.success-copy-result')}
-                  content={getUrl(RouteTypes.RESULTS, locale, election.ref)}
+                  content={getUrl(RouteTypes.RESULTS, locale, election.ref).toString()}
                 />
               </div>
             )}
@@ -109,7 +108,7 @@ const InfoElection = ({election, error, display}: InfoElectionInterface) => {
 };
 
 const WaitingElection = ({election, error}: WaitingBallotInterface) => {
-  const [_, dispatch] = useAppContext();
+  const [, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({
     width: 0,
@@ -132,7 +131,7 @@ const WaitingElection = ({election, error}: WaitingBallotInterface) => {
   useEffect(() => {
     dispatch({type: AppTypes.FULLPAGE, value: true});
 
-    setUrne((urne) => ({
+    setUrne((urne) => ({ // eslint-disable-line react-hooks/set-state-in-effect
       ...urne,
       width: 300,
       height: 300,
@@ -177,7 +176,7 @@ const WaitingElection = ({election, error}: WaitingBallotInterface) => {
       clearTimeout(timer2);
       clearTimeout(timer3);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container

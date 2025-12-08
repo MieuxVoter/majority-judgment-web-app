@@ -30,7 +30,7 @@ import arrowUpload from '../public/arrowUpload.svg';
 import arrowLink from '../public/arrowL.svg';
 import {getGradeColor} from '@services/grades';
 import {useRouter} from 'next/router';
-import { MajorityJudgmentDeliberator, NormalizedTally, Proposal, Tally } from 'scalable-majority-judgment';
+import { MajorityJudgmentDeliberator, NormalizedTally, Proposal } from 'scalable-majority-judgment';
 
 export async function getServerSideProps({query, locale}) {
   const translations = await serverSideTranslations(locale, ['resource']);
@@ -157,10 +157,6 @@ export async function getServerSideProps({query, locale}) {
   }
 }
 
-interface ElectionStatusProps {
-  delay: number | null;
-  forceClose: boolean;
-}
 
 interface ResultBanner {
   result: ResultInterface;
@@ -209,7 +205,6 @@ const ResultBanner = ({name, voteCount}:{name:string, voteCount:bigint}) => {
 };
 
 const Downloader = ({result, children, ...rest}) => {
-  const values = result.grades.map((v) => v.value).sort();
   const data = result.candidates.map((c) => {
     const grades = {};
     result.grades.forEach(
@@ -234,11 +229,10 @@ const Downloader = ({result, children, ...rest}) => {
 const BottomButtonsMobile = ({result}) => {
   const {t} = useTranslation();
 
-  const router = useRouter();
-  const locale = getLocaleShort(router);
   const [url, setUrl] = useState('');
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUrl(window.location.href);
     }
   }, []);
@@ -430,7 +424,6 @@ interface PodiumInterface {
 }
 
 const Podium = ({candidates}: PodiumInterface) => {
-  const {t} = useTranslation();
 
   // get best candidates
   const numBest = Math.min(3, candidates.length);
@@ -466,7 +459,6 @@ interface ResultPageInterface {
   token?: string;
   err?: string;
   fromCSV:boolean;
-  electionRef?: string;
 }
 
 const ResultPage = ({
@@ -474,11 +466,8 @@ const ResultPage = ({
   token,
   err,
   fromCSV,
-  electionRef,
 }: ResultPageInterface) => {
   const {t} = useTranslation();
-  const router = useRouter();
-  const locale = getLocaleShort(router);
 
   if (err) {
     let errorMessage;

@@ -1,5 +1,4 @@
 const fs = require("fs");
-const chalk = require("chalk");
 
 module.exports = {
   input: [
@@ -52,7 +51,6 @@ module.exports = {
     "use strict";
     const parser = this.parser;
     const content = fs.readFileSync(file.path, enc);
-    let count = 0;
 
     parser.parseFuncFromString(
       content,
@@ -65,7 +63,6 @@ module.exports = {
             keySeparator: false
           })
         );
-        ++count;
       }
     );
 

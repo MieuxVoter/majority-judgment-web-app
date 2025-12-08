@@ -90,7 +90,7 @@ export async function getServerSideProps({query: {pid, tid}, locale}) {
 const ButtonSubmit = () => {
   const {t} = useTranslation();
 
-  const [ballot, dispatch] = useBallot();
+  const [ballot] = useBallot();
   const disabled = ballot.votes.length !== ballot.election.candidates.length;
   return (
     <Container className="my-5 d-md-flex d-grid justify-content-md-center">
@@ -132,7 +132,7 @@ const VoteBallot = ({election, electionRef, token, previousBallot}: VoteInterfac
       type: BallotTypes.ELECTION,
       election: election,
     });
-  }, []);
+  }, [dispatch, election]);
 
   if (!ballot.election) {
     return <div>Loading...</div>;

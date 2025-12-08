@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { URL_LEGACY } from '@services/constants';
 import { useEffect } from 'react';
 
-export async function getServerSideProps({ query, locale }) {
+export async function getServerSideProps({ query }) {
   const { pid, tid: token } = query;
 
   return {
@@ -21,7 +21,7 @@ const Results = ({ token, pid }) => {
 
   useEffect(() => {
     router.push(url.href);
-  }, []);
+  }, [router, url.href]);
 
   return <p>Redirecting to {url.href}</p>;
 };

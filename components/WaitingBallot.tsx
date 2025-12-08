@@ -3,13 +3,13 @@ import {useTranslation} from 'next-i18next';
 import {CSSProperties, useEffect, useState} from 'react';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Col, Container, Row} from 'reactstrap';
+import {Col, Container} from 'reactstrap';
 import Button from '@components/Button';
 import Share from '@components/Share';
 import ErrorMessage from '@components/Error';
 import {BallotPayload, ErrorPayload} from '@services/api';
 import {AppTypes, useAppContext} from '@services/context';
-import {displayRef, getLocaleShort, isEnded} from '@services/utils';
+import {getLocaleShort, isEnded} from '@services/utils';
 import {getUrl, RouteTypes} from '@services/routes';
 import Logo from './Logo';
 import {FORM_FEEDBACK, MAJORITY_JUDGMENT_LINK} from '@services/constants';
@@ -149,7 +149,7 @@ const Info = ({ballot, error}: WaitingBallotInterface) => {
 };
 
 const AnimationBallot = () => {
-  const [_, dispatch] = useAppContext();
+  const [, dispatch] = useAppContext();
 
   const [urneProperties, setUrne] = useState<CSSProperties>({
     width: 0,
@@ -169,7 +169,7 @@ const AnimationBallot = () => {
   useEffect(() => {
     dispatch({type: AppTypes.FULLPAGE, value: true});
 
-    setUrne((urne) => ({
+    setUrne((urne) => ({ // eslint-disable-line react-hooks/set-state-in-effect
       ...urne,
       width: 300,
       height: 300,
@@ -203,7 +203,7 @@ const AnimationBallot = () => {
         height: 200,
       }));
     }, 3000);
-  }, []);
+  }, [dispatch]);
 
   return (
     <div

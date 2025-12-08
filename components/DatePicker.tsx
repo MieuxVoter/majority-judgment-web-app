@@ -1,13 +1,11 @@
-import { useState, forwardRef, ReactNode } from 'react';
-import { Button, Row, Col } from 'reactstrap';
-import { useTranslation } from 'next-i18next';
+import { forwardRef, ReactNode } from 'react';
+import { Row, Col } from 'reactstrap';
 import {
   faCalendarDays,
   faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
-import { AppTypes, useAppContext } from '@services/context';
 import { useRouter } from 'next/router';
 import { getFormattedDatetime } from '@services/utils';
 
@@ -20,48 +18,45 @@ interface InputProps {
 }
 export type ButtonRef = HTMLButtonElement;
 
-const CustomDatePicker = ({ date, setDate, prefix, isInvalid = false, className = '', ...props }) => {
-  const { t } = useTranslation();
-  const router = useRouter();
+const ExampleCustomInput = forwardRef<ButtonRef, InputProps & { locale: string }>(
+  ({ value, onClick, prefix, isInvalid, locale }, ref) => (
+    <div className="d-grid">
+      <button type="button" onClick={onClick} ref={ref} className={isInvalid ? 'is-invalid' : ''}>
+        <Row className="p-2 align-items-end">
+          <Col className="col-auto me-auto">
+            <Row className="gx-3 align-items-end">
+              <Col className="col-auto">
+                <FontAwesomeIcon icon={faCalendarDays} />
+              </Col>
+              <Col className="col-auto">
+                {prefix}{' '}
+                {value && getFormattedDatetime(locale, value)}
+              </Col>
+            </Row>
+          </Col>
+          <Col className="col-auto">
+            <FontAwesomeIcon className="text-muted" icon={faChevronDown} />
+          </Col>
+        </Row>
+      </button>
+    </div>
+  )
+);
 
-  const [_, dispatchApp] = useAppContext();
+ExampleCustomInput.displayName = 'ExampleCustomInput';
+
+const CustomDatePicker = ({ date, setDate, prefix, isInvalid = false, className = '' }) => {
+  const router = useRouter();
 
   const handleChange = (date) => {
     setDate(date);
   };
 
-  const ExampleCustomInput = forwardRef<ButtonRef, InputProps>(
-    ({ value, onClick, prefix, isInvalid }, ref) => (
-      <div className="d-grid">
-        <button type="button" onClick={onClick} ref={ref} className={isInvalid ? 'is-invalid' : ''}>
-          <Row className="p-2 align-items-end">
-            <Col className="col-auto me-auto">
-              <Row className="gx-3 align-items-end">
-                <Col className="col-auto">
-                  <FontAwesomeIcon icon={faCalendarDays} />
-                </Col>
-                <Col className="col-auto">
-                  {prefix}{' '}
-                  {value && getFormattedDatetime(router.locale, value)}
-                </Col>
-              </Row>
-            </Col>
-            <Col className="col-auto">
-              <FontAwesomeIcon className="text-muted" icon={faChevronDown} />
-            </Col>
-          </Row>
-        </button>
-      </div>
-    )
-  );
-
-  ExampleCustomInput.displayName = 'ExampleCustomInput';
-
   return (
     <DatePicker
       selected={date}
       className={className}
-      customInput={<ExampleCustomInput prefix={prefix} isInvalid={isInvalid} />}
+      customInput={<ExampleCustomInput prefix={prefix} isInvalid={isInvalid} locale={router.locale} />}
       onChange={handleChange}
       showTimeSelect
       dateFormat="Pp"

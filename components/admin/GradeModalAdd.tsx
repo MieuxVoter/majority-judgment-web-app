@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {Col, Label, Input, Modal, ModalBody, Form} from 'reactstrap';
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'next-i18next';
@@ -10,17 +10,15 @@ const GradeModal = ({isOpen, toggle}) => {
   const {t} = useTranslation();
 
   const [election, dispatch] = useElection();
-  const [grade, setGrade] = useState<GradeItem>({
-    name: '',
-    description: '',
-    value: -1,
-    active: true,
-  });
-
-  useEffect(() => {
+  const [grade, setGrade] = useState<GradeItem>(() => {
     const maxValue = Math.max(...election.grades.map((g) => g.value));
-    setGrade({...grade, value: maxValue + 1});
-  }, [election]);
+    return {
+      name: '',
+      description: '',
+      value: maxValue + 1,
+      active: true,
+    };
+  });
 
   const save = (e: {preventDefault:()=>void}) => {
     e.preventDefault();

@@ -10,7 +10,6 @@ import openMenuIcon from '../../public/open-menu-icon.svg';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import {
-  CONTACT_MAIL,
   MAJORITY_JUDGMENT_LINK,
   NEWS_LINK,
   PAYPAL,
@@ -19,7 +18,6 @@ import {
 import ShareRow from '@components/Share';
 import {getUrl, RouteTypes} from '@services/routes';
 import {useRouter} from 'next/router';
-import Logo from '@components/Logo';
 import {getLocaleShort} from '@services/utils';
 
 const Header = () => {
@@ -27,7 +25,7 @@ const Header = () => {
   const router = useRouter();
   const locale = getLocaleShort(router);
   const {t} = useTranslation();
-  const [app, _] = useAppContext();
+  const [app] = useAppContext();
 
   const toggle = () => setOpen(!isOpen);
 
@@ -115,7 +113,7 @@ const Header = () => {
             <div>
               <div className="d-flex flex-row justify-content-between align-items-center nav-logo">
                 <Link href="/" className="navbar-brand navbar-brand-mobile">
-                  <img src="/logos/logo.svg" alt="logo" height="80" />
+                  <Image src="/logos/logo.svg" alt="logo" height={80} width={175} />
                 </Link>
 
                 <FontAwesomeIcon

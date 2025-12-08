@@ -2,7 +2,7 @@
  * This component manages the title of the election
  */
 import { useTranslation } from 'next-i18next';
-import { useEffect, useState } from 'react';
+import {useState} from 'react';
 import { Container } from 'reactstrap';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +11,7 @@ import { useElection } from '@services/ElectionContext';
 
 const TitleField = ({ defaultName = '' }) => {
   const { t } = useTranslation();
-  const [election, _] = useElection();
+  const [election] = useElection();
   const [modal, setModal] = useState(false);
   const toggle = () => setModal((m) => !m);
   const name =

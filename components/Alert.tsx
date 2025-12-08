@@ -2,7 +2,7 @@ import { UncontrolledAlert } from 'reactstrap';
 import { useTranslation } from 'next-i18next';
 import { CONTACT_MAIL } from '@services/constants';
 
-const AlertDismissible = ({ msg, color }) => {
+const AlertDismissible = ({ msg, color = 'danger' }) => {
   const { t } = useTranslation();
 
   if (msg) {
@@ -21,10 +21,6 @@ const AlertDismissible = ({ msg, color }) => {
     );
   }
   return null;
-};
-
-AlertDismissible.defaultProps = {
-  color: 'danger',
 };
 
 export default AlertDismissible;

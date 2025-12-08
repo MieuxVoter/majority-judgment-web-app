@@ -2,7 +2,7 @@
  * This is the candidate field used during election creation
  */
 import {useState} from 'react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import {useTranslation} from 'next-i18next';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons';
@@ -16,8 +16,8 @@ import CandidateModalDel from './CandidateModalDel';
 interface CandidateProps {
   position: number;
   className?: string;
-  defaultAvatar?: any;
-  [props: string]: any;
+  defaultAvatar?: string | StaticImageData;
+  [props: string]: unknown;
 }
 
 const CandidateField = ({

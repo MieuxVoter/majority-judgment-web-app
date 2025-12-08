@@ -24,7 +24,7 @@ const TitleName = ({name}: TitleInterface) => {
 const BallotMobile = ({hasVoted}) => {
   const {t} = useTranslation();
 
-  const [ballot, _] = useBallot();
+  const [ballot] = useBallot();
   const [offset, setOffset] = useState(0);
 
   const numGrades = ballot.election.grades.length;

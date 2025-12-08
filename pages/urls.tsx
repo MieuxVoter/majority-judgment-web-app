@@ -24,7 +24,22 @@ export async function getStaticProps({ locale }) {
 const GeneratedUrlsPage = () => {
   const { t } = useTranslation();
   const [urls, setUrls] = useState<Urls | null>(null);
-  const [_, dispatchApp] = useAppContext();
+
+  useEffect(() => {
+    const storedUrls = sessionStorage.getItem('generatedUrls');
+    if (storedUrls) {
+      try {
+        const urls = JSON.parse(storedUrls);
+        urls.emails.sort((a, b) => a.mail.localeCompare(b.mail));
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setUrls(urls);
+        sessionStorage.removeItem('generatedUrls');
+      } catch (e) {
+        console.error('Failed to parse stored URLs', e);
+      }
+    }
+  }, []);
+  const [, dispatchApp] = useAppContext();
 
   const hasUrl = () => {
     return urls != null && (
@@ -33,20 +48,6 @@ const GeneratedUrlsPage = () => {
       || urls.emails.length > 0
     );
   }
-
-  useEffect(() => {
-    const storedUrls = sessionStorage.getItem('generatedUrls');
-    if (storedUrls) {
-      try {
-        const urls = JSON.parse(storedUrls);
-        urls.emails.sort((a, b) => a.mail.localeCompare(b.mail));
-        setUrls(JSON.parse(storedUrls));
-        sessionStorage.removeItem('generatedUrls');
-      } catch (e) {
-        console.error('Failed to parse stored URLs', e);
-      }
-    }
-  }, []); // Empty array means effect will run once
 
   const handleDownloadAll = async() => {
     if (!hasUrl()) return;

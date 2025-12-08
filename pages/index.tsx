@@ -1,10 +1,9 @@
 import {useState} from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {GetStaticProps} from 'next';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {useTranslation} from 'next-i18next';
-import {Container, Row, Col, Input} from 'reactstrap';
+import {Row, Col, Input} from 'reactstrap';
 import Logo from '@components/Logo';
 import Share from '@components/Share';
 import AdvantagesRow from '@components/Advantages';
@@ -16,7 +15,6 @@ import {useRouter} from 'next/router';
 import {getLocaleShort} from '@services/utils';
 import Papa from 'papaparse';
 import IconButton from '@components/IconButton';
-import Modal from '@components/Modal';
 import CSVModal from '@components/CSVModal';
 export const getStaticProps: GetStaticProps = async ({locale}) => ({
   props: {
@@ -219,7 +217,6 @@ const StartForm = () => {
 };
 
 const Home = () => {
-  const {t} = useTranslation('resource');
   return (
     <>
       <div className="bg-primary">

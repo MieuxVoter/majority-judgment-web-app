@@ -1,6 +1,6 @@
 import fs from 'fs';
 import {Handler} from "@netlify/functions";
-import formData from 'form-data';
+import * as formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import Handlebars from 'handlebars';
 import {i18n} from '../i18next';
@@ -24,7 +24,7 @@ const mg = mailgun.client({
 });
 
 
-i18next.init(i18n, (err, t) => {
+i18next.init(i18n, (err) => {
   if (err) return console.log('something went wrong loading', err);
 });
 
@@ -86,7 +86,7 @@ const handler: Handler = async (event) => {
     };
   }
 
-  const err = await i18next.changeLanguage(locale, (err, t) => {
+  const err = await i18next.changeLanguage(locale, (err) => {
 
     if (err) return {"error": err}
   });
