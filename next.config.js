@@ -19,10 +19,17 @@ const nextConfig = {
     ],
   },
   sassOptions: {
+    // The the binary compiler is much faster and respects silence options better
+    implementation: 'sass-embedded',
     // Silence warnings from dependencies (like Bootstrap)
     quietDeps: true,
     // Silence specific deprecations that are unavoidable in Bootstrap 5
-    silenceDeprecations: ['import', 'global-builtin', 'color-functions'],
+    silenceDeprecations: [
+	    'import',
+	    'global-builtin',
+	    'color-functions',
+	    'legacy-js-api'
+    ],
   },
 };
 

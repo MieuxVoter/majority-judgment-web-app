@@ -13,7 +13,8 @@ export default tseslint.config(
       "node_modules/",
       "public/",
       ".vscode/",
-      "next-env.d.ts"
+      "next-env.d.ts",
+      ".netlify/",
     ],
   },
 
