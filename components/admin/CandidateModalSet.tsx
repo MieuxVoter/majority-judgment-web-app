@@ -151,13 +151,13 @@ const CandidateModal = ({isOpen, position, toggle}) => {
       </div>
 
       <ModalBody className="p-4">
-        <p>{t('admin.add-candidate-desc')}</p>
+        <p className="text-dark">{t('admin.add-candidate-desc')}</p>
         <Col>
           <Form className="container container-fluid" onKeyDown={handleKeyDown}>
             <div className="my-3">
-              <Label className="fw-bold">{t('common.name')} </Label>
+              <Label className="fw-bold text-dark">{t('common.name')} </Label>
               <input
-                className="form-control"
+                className="form-control text-dark"
                 type="text"
                 placeholder={t('admin.candidate-name-placeholder')}
                 tabIndex={position + 1}
@@ -168,13 +168,13 @@ const CandidateModal = ({isOpen, position, toggle}) => {
                 required={true}
                 ref={inputRef}
               />
-              <div className="text-end small text-muted">
+              <div className="text-end small text-black-50">
                 {state.name ? state.name.length : 0} / 250
               </div>
             </div>
-            <Label className="fw-bold">
+            <Label className="fw-bold text-dark">
               {t('admin.photo')}{' '}
-              <span className="text-muted"> ({t('admin.optional')})</span>
+              <span className="text-black-50"> ({t('admin.optional')})</span>
             </Label>
             <div className="d-flex flex-column flex-md-row gap-2 justify-content-md-between justify-content-center align-items-center">
               <Image
@@ -185,7 +185,7 @@ const CandidateModal = ({isOpen, position, toggle}) => {
                 style={{objectFit: 'cover'}}
               />
               <div className="mb-3">
-                <p>{t('admin.photo-type')} jpg, png, pdf</p>
+                <p className="text-black-50">{t('admin.photo-type')} jpg, png, pdf</p>
                 <div className="w-100 d-md-block d-grid">
                   <input
                     type="file"
@@ -204,19 +204,19 @@ const CandidateModal = ({isOpen, position, toggle}) => {
               </div>
             </div>
             <div className="mt-3">
-              <Label className="fw-bold">
+              <Label className="fw-bold text-dark">
                 {t('common.description')}{' '}
-                <span className="text-muted"> ({t('admin.optional')})</span>
+                <span className="text-black-50"> ({t('admin.optional')})</span>
               </Label>
               <textarea
                 rows={3}
-                className={`form-control ${state.description && state.description.length > CANDIDATE_DESCRIPTION_MAX_LENGTH ? 'is-invalid' : ''}`}
+                className={`form-control text-dark ${state.description && state.description.length > CANDIDATE_DESCRIPTION_MAX_LENGTH ? 'is-invalid' : ''}`}
                 placeholder={t('admin.candidate-desc-placeholder')}
                 onChange={handleDescription}
                 value={state.description}
                 maxLength={CANDIDATE_DESCRIPTION_MAX_LENGTH}
               />
-              <div className="text-end small text-muted">
+              <div className="text-end small text-black-50">
                 {state.description ? state.description.length : 0} / {CANDIDATE_DESCRIPTION_MAX_LENGTH}
               </div>
             </div>
