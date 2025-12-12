@@ -67,26 +67,30 @@ const LimitDate = () => {
 
   // Perform validation and update context with errors
   useEffect(() => {
-    if (isDateRangeInvalid) {
+    const hasError = election.errors?.includes(DATE_RANGE_ERROR_CODE);
+    if (isDateRangeInvalid && !hasError) {
       dispatch({
         type: ElectionTypes.ADD_ERROR,
         value: DATE_RANGE_ERROR_CODE,
       });
-    } else {
+    } else if (!isDateRangeInvalid && hasError) {
       dispatch({
         type: ElectionTypes.REMOVE_ERROR,
         value: DATE_RANGE_ERROR_CODE,
       });
     }
-  }, [isDateRangeInvalid, dispatch]);
+  }, [isDateRangeInvalid, dispatch, election.errors]);
 
   useEffect(() => {
-    if (isEndDateInPast && !isCreated(election)) {
+    const hasError = election.errors?.includes(DATE_PAST_ERROR_CODE);
+    const shouldHaveError = isEndDateInPast && !isCreated(election);
+
+    if (shouldHaveError && !hasError) {
       dispatch({
         type: ElectionTypes.ADD_ERROR,
         value: DATE_PAST_ERROR_CODE,
       });
-    } else {
+    } else if (!shouldHaveError && hasError) {
       dispatch({
         type: ElectionTypes.REMOVE_ERROR,
         value: DATE_PAST_ERROR_CODE,
