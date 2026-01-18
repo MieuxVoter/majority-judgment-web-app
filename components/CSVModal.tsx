@@ -26,13 +26,13 @@ const CSVModal = ({show, onClose}:ModalProps) => {
     <>
       <Modal show={show} onHide={onClose} animation={false}  size='lg' centered={true}>
         <Modal.Header closeButton>
-          <Modal.Title>{t("home.uploadCSV.modal.title")}</Modal.Title>
+          <Modal.Title className="text-dark">{t("home.uploadCSV.modal.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
-            <p>{t("home.uploadCSV.modal.description")}</p>
-            <p>{t("home.uploadCSV.modal.modelToFollow")}</p>
-            <Table striped bordered hover width={"100%"} className='text-center'>
+            <p className="text-dark">{t("home.uploadCSV.modal.description")}</p>
+            <p className="text-dark">{t("home.uploadCSV.modal.modelToFollow")}</p>
+            <Table striped bordered hover width={"100%"} className='text-center text-dark'>
               <thead>
                 <tr>
                   {csv[0].map((t, index) => <th key={`header-${index}`}>{t}</th>)}
@@ -49,7 +49,7 @@ const CSVModal = ({show, onClose}:ModalProps) => {
               </tbody>
             </Table>
             <br />
-            <p>{t("home.uploadCSV.modal.warnAboutMentionOrder")}</p>
+            <p className="text-dark">{t("home.uploadCSV.modal.warnAboutMentionOrder")}</p>
             <Row>
               <Button
                 color="primary"
