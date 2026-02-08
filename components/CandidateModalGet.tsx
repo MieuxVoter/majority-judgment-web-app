@@ -42,11 +42,11 @@ const CandidateModal = ({isOpen, toggle, candidate}) => {
             alt={candidate && candidate.name}
             className="bg-light mx-auto"
           />
-          <FontAwesomeIcon onClick={toggle} icon={faXmark} />
+          <FontAwesomeIcon onClick={toggle} icon={faXmark} className="text-dark cursor-pointer" />
         </div>
         <div className="px-2 text-center">
-          <h5>{candidate && candidate.name}</h5>
-          <p>{candidate && candidate.description}</p>
+          <h5 className="text-dark">{candidate && candidate.name}</h5>
+          <p className="text-dark">{candidate && candidate.description}</p>
         </div>
       </div>
     </Modal >
