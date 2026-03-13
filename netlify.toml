@@ -5,7 +5,11 @@
 
 [dev]
   command = "npm run dev"
+  functions = "functions"
+  publish = ".next"
 
 [functions]
   included_files = ["functions/**"]
 
+[env.production]
+  SECRETS_SCAN_OMIT_PATHS = "functions/send-emails/index.ts,.netlify/functions-internal/___netlify-server-handler/functions/send-emails/index.ts"
