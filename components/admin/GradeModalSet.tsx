@@ -57,11 +57,11 @@ const GradeModal = ({isOpen, toggle, value}) => {
       </div>
 
       <ModalBody className="p-4">
-        <p>{t('admin.add-grade-desc')}</p>
+        <p className="text-dark">{t('admin.add-grade-desc')}</p>
         <Col>
           <Form className="container container-fluid" onSubmit={handleSubmit}>
             <div className="mb-3">
-              <Label className="fw-bold">{t('common.name')} </Label>
+              <Label className="fw-bold text-dark">{t('common.name')} </Label>
               <Input
                 type="text"
                 placeholder={t('admin.grade-name-placeholder')}

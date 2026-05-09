@@ -92,7 +92,7 @@ const TitleModal = ({isOpen, toggle}) => {
       <ModalBody className="p-4">
         <Form className="container container-fluid" onKeyDown={handleKeyDown}>
           <div className="mb-3">
-            <Label className="fw-bold">{t('common.name')} </Label>
+            <Label className="fw-bold text-dark">{t('common.name')} </Label>
             <Input
               type="text"
               placeholder={t('home.writeQuestion')}

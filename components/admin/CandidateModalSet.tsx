@@ -157,7 +157,7 @@ const CandidateModal = ({isOpen, position, toggle}) => {
             <div className="my-3">
               <Label className="fw-bold text-dark">{t('common.name')} </Label>
               <input
-                className="form-control text-dark"
+                className="form-control"
                 type="text"
                 placeholder={t('admin.candidate-name-placeholder')}
                 tabIndex={position + 1}
