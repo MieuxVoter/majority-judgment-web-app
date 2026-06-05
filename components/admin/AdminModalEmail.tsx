@@ -105,7 +105,7 @@ const AdminModalEmail = ({
       </div>
 
       <ModalBody className="p-4">
-        <p>{t('admin.modal-desc')}</p>
+        <p className="text-dark">{t('admin.modal-desc')}</p>
         <div className="d-grid w-100 mb-5">
           <ButtonCopy text={t('admin.success-copy-admin')} content={adminUrl.toString()} />
           <Button
@@ -118,8 +118,8 @@ const AdminModalEmail = ({
             </div>
           </Button>
         </div>
-        <p>{t('admin.modal-email')}</p>
-        <p className="text-muted">{t('admin.modal-disclaimer')}</p>
+<p className="text-dark">{t('admin.modal-email')}</p>
+        <p className="text-black-50">{t('admin.modal-disclaimer')}</p>
         <Form className="container container-fluid">
           <div className="mb-3">
             <Input
