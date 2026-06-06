@@ -1,9 +1,9 @@
 # Front-end election web application using NextJs
 
 [![aGPLV3](https://img.shields.io/badge/license-aGPLV3-lightgrey?style=for-the-badge)](./LICENSE.md)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/1e7d1d6b-af1a-44e6-a17f-19cdfd995951/deploy-status)](https://app.netlify.com/projects/app-mieuxvoter/deploys)
-[![Join the Discord chat at https://discord.gg/rAAQG9S](https://img.shields.io/discord/705322981102190593.svg?style=for-the-badge)](https://discord.gg/rAAQG9S)
-https://img.shields.io/github/stars/mieuxvoter/majority-judgment-web-app?style=for-the-badge
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1e7d1d6b-af1a-44e6-a17f-19cdfd995951/deploy-status?style=for-the-badge)](https://app.netlify.com/projects/app-mieuxvoter/deploys)
+[![Join the Discord chat at https://discord.gg/k9YRuZPSZs](https://img.shields.io/discord/705322981102190593.svg?style=for-the-badge)](https://discord.gg/k9YRuZPSZs)
+![Stars](https://img.shields.io/github/stars/mieuxvoter/majority-judgment-web-app?style=for-the-badge)
 
 
 :ballot_box: This project is going to be the default front-end for our [election application](https://app.mieuxvoter.fr).
