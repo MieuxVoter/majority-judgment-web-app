@@ -252,5 +252,7 @@
     "vote.error-generic-title": "Une erreur est survenue",
     "vote.error-generic-message": "Votre vote n'a pas pu être pris en compte. Cela peut être dû à un lien invalide ou à un problème de réseau.",
     "vote.thanks": "Merci de votre participation !",
-    "grades.mediocre": "Médiocre"
+    "grades.mediocre": "Médiocre",
+    "maintenance.title": "Maintenance en cours",
+    "maintenance.description": "Le site est temporairement indisponible pour cause de maintenance. Merci de revenir un peu plus tard."
 }
