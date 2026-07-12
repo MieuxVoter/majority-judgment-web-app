@@ -53,3 +53,12 @@ export const URL_LEGACY =
   process.env.NEXT_PUBLIC_URL_LEGACY || 'https://legacy.app.mieuxvoter.fr/';
 
 export const URL_APP = process.env.NEXT_PUBLIC_URL_APP || 'https://app.mieuxvoter.fr/';
+
+// Page publique décrivant l'incident de sécurité de juin-juillet 2026.
+export const INCIDENT_PAGE_LINK =
+  process.env.NEXT_PUBLIC_INCIDENT_PAGE ||
+  'https://mieuxvoter.fr/incident-2026-06';
+
+// La bannière d'incident cesse de s'afficher après cette date (un mois).
+export const INCIDENT_BANNER_EXPIRY =
+  process.env.NEXT_PUBLIC_INCIDENT_BANNER_EXPIRY || '2026-08-12';

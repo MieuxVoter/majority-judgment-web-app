@@ -6,6 +6,7 @@ import Logo from '@components/Logo';
 import LanguageSelector from '@components/layouts/LanguageSelector';
 import {useAppContext} from '@services/context';
 import {
+  INCIDENT_PAGE_LINK,
   MAJORITY_JUDGMENT_LINK,
   NEWS_LINK,
   PAYPAL,
@@ -62,6 +63,17 @@ const Footer = () => {
       component: (
         <a href="mailto:app@mieuxvoter.fr?subject=[HELP]">
           {t('menu.contact-us')}
+        </a>
+      ),
+    },
+    {
+      component: (
+        <a
+          href={INCIDENT_PAGE_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t('menu.incident')}
         </a>
       ),
     },
