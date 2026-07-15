@@ -61,4 +61,4 @@ export const INCIDENT_PAGE_LINK =
 
 // La bannière d'incident cesse de s'afficher après cette date (un mois).
 export const INCIDENT_BANNER_EXPIRY =
-  process.env.NEXT_PUBLIC_INCIDENT_BANNER_EXPIRY || '2026-08-12';
+  process.env.NEXT_PUBLIC_INCIDENT_BANNER_EXPIRY || '2026-08-15';

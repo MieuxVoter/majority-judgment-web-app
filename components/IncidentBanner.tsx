@@ -32,7 +32,7 @@ const IncidentBanner = () => {
     <div className="incident-banner shadow" role="alert">
       <div className="d-flex align-items-start justify-content-between gap-3">
         <span>
-          Un incident de sécurité a affecté notre infrastructure fin juin 2026.{' '}
+          Fin juin 2026, Mieux Voter a été victime d’une attaque malveillante.{' '}
           <a
             href={INCIDENT_PAGE_LINK}
             target="_blank"
