@@ -8,9 +8,9 @@
 
 :ballot_box: This project is going to be the default front-end for our [election application](https://app.mieuxvoter.fr).
 
-:computer: It is connected to our [back-end](https://github.com/MieuxVoter/mv-api-server-apiplatform). The back-end is used for storing the votes and computing the majority judgment ranking. You can use our back-end free of charge, but you can also start your own instance of the back-end using our Dockerfiles.
+:computer: It is connected to our [back-end](https://github.com/MieuxVoter/app.mieuxvoter.fr-back). The back-end is used for storing the votes and computing the majority judgment ranking. You can use our back-end free of charge, but you can also start your own instance of the back-end using our Dockerfiles.
 
-:incoming_envelope: The front-end is responsable for sending the invitation mails. You can find the mail templates [on the functions folder](./functions/send-invite-email).
+:incoming_envelope: The front-end is responsable for sending the invitation mails. You can find the mail templates [on the functions folder](./functions/send-emails).
 
 :world_map: The front-end stores its own translations. See below how you can edit them easily.
 
@@ -18,7 +18,6 @@
 ## :paintbrush: Customize your own application
 
 The separation between the front-end and the back-end makes it easy to customize your own application. Just install 
-
 
 
 ## :gear: Install options
@@ -30,7 +29,7 @@ The separation between the front-end and the back-end makes it easy to customize
 
 **Option two:** Manual clone
 
-1. Clone this repo: `git clone https://github.com/MieuxVoter/majority-judgment-web-app.git`
+1. Clone this repo: `git clone https://github.com/MieuxVoter/app.mieuxvoter.fr-front.git`
 2. Navigate to the directory and install dependencies: `npm install` or `make`
 3. Start a local server: `npm run dev`  and open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 4. Make your changes
