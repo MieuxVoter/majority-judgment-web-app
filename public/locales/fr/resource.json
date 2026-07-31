@@ -255,5 +255,7 @@
     "vote.thanks": "Merci de votre participation !",
     "grades.mediocre": "Médiocre",
     "maintenance.title": "Maintenance en cours",
-    "maintenance.description": "Le site est temporairement indisponible pour cause de maintenance. Merci de revenir un peu plus tard."
+    "maintenance.description": "Le site est temporairement indisponible pour cause de maintenance. Merci de revenir un peu plus tard.",
+    "incidentBanner.title": "Fin juin 2026, Mieux Voter a été victime d'une attaque malveillante. ",
+    "incidentBanner.knowMore": "En savoir plus"
 }

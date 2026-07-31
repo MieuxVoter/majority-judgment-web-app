@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react';
-import {useRouter} from 'next/router';
 import {
   INCIDENT_PAGE_LINK,
   INCIDENT_BANNER_EXPIRY,
 } from '@services/constants';
+import { useTranslation } from 'next-i18next';
 
 const DISMISS_KEY = 'incident-2026-06-banner-dismissed';
 
@@ -11,7 +11,7 @@ const IncidentBanner = () => {
   // Rendu masqué au SSR : on n'affiche qu'après montage côté client pour
   // éviter tout décalage d'hydratation (date et localStorage sont client-only).
   const [visible, setVisible] = useState(false);
-  const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const expired = new Date() > new Date(INCIDENT_BANNER_EXPIRY);
@@ -31,19 +31,17 @@ const IncidentBanner = () => {
   };
 
   return (
-    <>
-    { router.locale === 'fr' && (
     <div className="incident-banner shadow" role="alert">
       <div className="d-flex align-items-start justify-content-between gap-3">
         <span>
-          Fin juin 2026, Mieux Voter a été victime d’une attaque malveillante.{' '}
+          {t("incidentBanner.title")}
           <a
             href={INCIDENT_PAGE_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="text-white fw-bold text-decoration-underline"
           >
-            En savoir plus
+            {t("incidentBanner.knowMore")}
           </a>
         </span>
         <button
@@ -54,8 +52,6 @@ const IncidentBanner = () => {
         />
       </div>
     </div>
-    )}
-    </>
   );
 };
 

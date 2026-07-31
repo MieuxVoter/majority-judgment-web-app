@@ -254,5 +254,7 @@
     "vote.error-generic-message": "Your vote could not be submitted. This may be due to an invalid link or a network issue.",
     "vote.thanks": "Thanks for your participation!",
     "maintenance.title": "Under maintenance",
-    "maintenance.description": "The site is temporarily unavailable for maintenance. Please come back a little later."
+    "maintenance.description": "The site is temporarily unavailable for maintenance. Please come back a little later.",
+    "incidentBanner.title": "In late June 2026, Mieux Voter was the victim of a malicious attack. ",
+    "incidentBanner.knowMore": "Learn more"
 }
