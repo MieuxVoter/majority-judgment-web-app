@@ -41,7 +41,7 @@ export const defaultCandidate: CandidateItem = {
   active: false,
 };
 
-const defaultElection: ElectionContextInterface = {
+export const defaultElection: ElectionContextInterface = {
   name: '',
   description: '',
   candidates: [{...defaultCandidate}, {...defaultCandidate}],

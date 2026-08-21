@@ -5,11 +5,16 @@ import ParamsField from '@components/admin/ParamsField';
 import ConfirmField from '@components/admin/ConfirmField';
 import WaitingElection from '@components/WaitingElection';
 import PatternedBackground from '@components/PatternedBackground';
-import { ElectionProvider } from '@services/ElectionContext';
+import {
+  defaultCandidate,
+  defaultElection,
+  ElectionProvider,
+} from '@services/ElectionContext';
 import { ProgressSteps, creationSteps } from '@components/CreationSteps';
 import Blur from '@components/Blur';
 import { GetStaticProps } from 'next';
 import { ElectionCreatedPayload, ErrorPayload } from '@services/api';
+import { popCopiedElectionParams } from '@services/electionCopy';
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
@@ -24,6 +29,10 @@ const CreateElectionForm = () => {
   const [wait, setWait] = useState(false);
   const [payload, setPayload] = useState<ElectionCreatedPayload | null>(null);
   const [error, setError] = useState<ErrorPayload | null>(null);
+  // Pre-fill the form when we land here from the "copy vote parameters"
+  // button on a results page. Read once, on mount, then forget: a page
+  // refresh should not keep re-injecting the same copied election.
+  const [copiedParams] = useState(() => popCopiedElectionParams());
 
   const handleSubmit = () => {
     if (stepId < creationSteps.length - 1) {
@@ -67,7 +76,19 @@ const CreateElectionForm = () => {
   }
 
   return (
-    <ElectionProvider>
+    <ElectionProvider
+      initialValue={
+        copiedParams
+          ? {
+              ...defaultElection,
+              ...copiedParams,
+              // Keep a trailing blank candidate, as the rest of the form
+              // expects one to offer an "add candidate" affordance.
+              candidates: [...copiedParams.candidates, {...defaultCandidate}],
+            }
+          : undefined
+      }
+    >
       <Blur />
       <ProgressSteps
         step={step}

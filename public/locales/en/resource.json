@@ -212,6 +212,7 @@
     "result.auth-required": "Results are not yet available. They will be available after the polls close.",
     "result.wrong-auth": "Results are not yet available. They will be available after the polls close.",
     "result.download": "Download results",
+    "result.copy-params": "Copy vote parameters",
     "result.end-date": "End of election:",
     "result.go-to-admin": "Manage the election",
     "result.go-to-vote": "Do you want to go to the voting page?",

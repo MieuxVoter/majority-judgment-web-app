@@ -131,6 +131,8 @@ export async function getServerSideProps({query, locale}) {
       hideResults: false,
       forceClose: false,
       restricted: false,
+      randomOrder: true,
+      authForResult: false,
       grades: grades,
       candidates,
       voteCount:maxVoteCount.toString(),

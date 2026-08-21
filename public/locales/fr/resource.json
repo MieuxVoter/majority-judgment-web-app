@@ -212,6 +212,7 @@
     "result.auth-required": "Les résultats ne sont pas accessibles pour le moment. Ils le seront après la clôture du scrutin.",
     "result.wrong-auth": "Les résultats ne sont pas accessibles pour le moment. Ils le seront après la clôture du scrutin.",
     "result.download": "Télécharger les résultats",
+    "result.copy-params": "Copier les paramètres du vote",
     "result.end-date": "Fin de l'élection :",
     "result.go-to-admin": "Administrer le vote",
     "result.go-to-vote": "Souhaitez-vous accéder au vote ?",

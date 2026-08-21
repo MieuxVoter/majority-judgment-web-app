@@ -11,6 +11,7 @@ import {
   faChevronDown,
   faChevronRight,
   faChevronUp,
+  faCopy,
   faGear,
 } from '@fortawesome/free-solid-svg-icons';
 import ErrorMessage from '@components/Error';
@@ -35,6 +36,10 @@ import {
 import {getUrl, RouteTypes} from '@services/routes';
 import {displayRef, getFormattedDatetime, getLocaleShort} from '@services/utils';
 import {getMajorityGrade} from '@services/majorityJudgment';
+import {
+  CopiedElectionParams,
+  saveElectionParamsForCopy,
+} from '@services/electionCopy';
 import avatarBlue from '../../../public/avatarBlue.svg';
 import calendar from '../../../public/calendar.svg';
 import arrowUpload from '../../../public/arrowUpload.svg';
@@ -76,15 +81,19 @@ export async function getServerSideProps({query, locale}) {
   const gradesByValue: {[key: number]: GradeResultInterface} = {};
   grades.forEach((g) => (gradesByValue[g.value] = g));
 
+  const description = JSON.parse(payload.description || '{}');
+
   const result: ResultInterface = {
     name: payload.name,
-    description: payload.description,
+    description: description.description || '',
     ref: payload.ref,
     dateStart: payload.date_start,
     dateEnd: payload.date_end,
     hideResults: payload.hide_results,
     forceClose: payload.force_close,
     restricted: payload.restricted,
+    randomOrder: description.randomOrder ?? true,
+    authForResult: payload.auth_for_result ?? false,
     grades: grades,
     candidates: payload.candidates.map((c) => {
       const profile = payload.merit_profile[c.id];
@@ -237,9 +246,65 @@ const ResultBanner = ({result}) => {
               <div className="text-muted">{t('result.share')}</div>
             </div>
           </a>
+          <CopyParamsButton result={result}>
+            <div className="d-flex align-items-center">
+              <FontAwesomeIcon icon={faCopy} className="me-2" />
+              <div className="text-muted">{t('result.copy-params')}</div>
+            </div>
+          </CopyParamsButton>
         </div>
       </div>
     </>
+  );
+};
+
+const buildCopiedElectionParams = (
+  result: ResultInterface
+): CopiedElectionParams => ({
+  name: result.name,
+  description: result.description,
+  hideResults: result.hideResults,
+  restricted: result.restricted,
+  randomOrder: result.randomOrder,
+  authForResult: result.authForResult,
+  candidates: result.candidates
+    .slice()
+    .sort((a, b) => a.rank - b.rank)
+    .map((c) => ({
+      name: c.name,
+      description: c.description,
+      image: c.image,
+      active: true,
+    })),
+  grades: result.grades
+    .slice()
+    .sort((a, b) => b.value - a.value)
+    .map((g) => ({
+      name: g.name,
+      description: g.description,
+      value: g.value,
+      active: true,
+    })),
+});
+
+interface CopyParamsButtonInterface {
+  result: ResultInterface;
+  children: React.ReactNode;
+}
+
+const CopyParamsButton = ({result, children}: CopyParamsButtonInterface) => {
+  const router = useRouter();
+  const locale = getLocaleShort(router);
+
+  const handleClick = () => {
+    saveElectionParamsForCopy(buildCopiedElectionParams(result));
+    router.push(getUrl(RouteTypes.CREATE_ELECTION, locale).toString());
+  };
+
+  return (
+    <div role="button" onClick={handleClick}>
+      {children}
+    </div>
   );
 };
 
@@ -302,6 +367,17 @@ const BottomButtonsMobile = ({result}) => {
           </Button>
         </a>
       </div>
+      <CopyParamsButton result={result}>
+        <Button
+          className="m-3 d-flex align-items-center justify-content-between"
+          role="button"
+          color="primary"
+          outline={false}
+        >
+          <FontAwesomeIcon icon={faCopy} />
+          <div className="ms-3">{t('result.copy-params')}</div>
+        </Button>
+      </CopyParamsButton>
     </div>
   );
 };

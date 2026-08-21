@@ -58,6 +58,8 @@ export interface ResultInterface {
   hideResults: boolean;
   forceClose: boolean;
   restricted: boolean;
+  randomOrder: boolean;
+  authForResult: boolean;
   voteCount?:string;
   grades: Array<GradeResultInterface>;
   candidates: Array<CandidateResultInterface>;
